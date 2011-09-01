@@ -54,8 +54,6 @@ protected:
     gboolean updateSpecialPhrases ();
     gboolean selectCandidate (guint i);
     gboolean selectCandidateInPage (guint i);
-    gboolean resetCandidate (guint i);
-    gboolean resetCandidateInPage(guint i);
 
     void commit (const gchar *str);
 
