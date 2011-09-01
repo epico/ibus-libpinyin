@@ -22,11 +22,16 @@
 #ifndef __PY_LIB_PINYIN_H_
 #define __PY_LIB_PINYIN_H_
 
+typedef struct _pinyin_context_t pinyin_context_t;
+
 namespace PY {
 class LibPinyinBackEnd{
 public:
     /* use static initializer in C++. */
     static LibPinyinBackEnd & instance (void) { return *m_instance; }
+
+private:
+    pinyin_context_t *m_pinyin_context; /* libpinyin context */
 
 private:
     static std::unique_ptr<LibPinyinBackEnd> m_instance;

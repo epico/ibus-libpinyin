@@ -18,8 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-#ifndef __PY_PINYIN_BASE_EDITOR_H_
-#define __PY_PINYIN_BASE_EDITOR_H_
+#ifndef __PY_LIB_PINYIN_BASE_EDITOR_H_
+#define __PY_LIB_PINYIN_BASE_EDITOR_H_
 
 #include <libpinyin.h>
 #include "PYLookupTable.h"
@@ -29,9 +29,9 @@
 
 namespace PY {
 
-class PinyinBaseEditor : public Editor {
+class LibPinyinBaseEditor : public Editor {
 public:
-    PinyinBaseEditor (PinyinProperties & props, Config & config);
+    LibPinyinBaseEditor (PinyinProperties & props, Config & config);
 
 public:
     /* virtual functions */
@@ -81,7 +81,8 @@ protected:
     PinyinArray                 m_pinyin;
     guint                       m_pinyin_len;
     LookupTable                 m_lookup_table;
-    /* libpinyin singleton here. */
+
+    /* use LibPinyinBackEnd here. */
     std::vector<std::string>    m_special_phrases;
     std::string                 m_selected_special_phrase;
 };
