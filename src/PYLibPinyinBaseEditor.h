@@ -21,7 +21,6 @@
 #ifndef __PY_LIB_PINYIN_BASE_EDITOR_H_
 #define __PY_LIB_PINYIN_BASE_EDITOR_H_
 
-#include <libpinyin.h>
 #include "PYLookupTable.h"
 #include "PYEditor.h"
 #include "PYPinyinParser.h"

@@ -163,7 +163,6 @@ LibPinyinBaseEditor::processKeyEvent (guint keyval, guint keycode, guint modifie
 gboolean
 LibPinyinBaseEditor::updateSpecialPhrases (void)
 {
-    guint size = m_special_phrases.size ();
     m_special_phrases.clear ();
 
     if (!m_config.specialPhrases ())

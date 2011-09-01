@@ -64,6 +64,7 @@ ibus_engine_pinyin_c_sources = \
 	PYDynamicSpecialPhrase.cc \
 	PYSpecialPhrase.cc \
 	PYSpecialPhraseTable.cc \
+	PYLibPinyinBaseEditor.cc \
 	$(NULL)
 ibus_engine_pinyin_h_sources = \
 	PYBopomofo.h \
@@ -106,6 +107,8 @@ ibus_engine_pinyin_h_sources = \
 	PYTypes.h \
 	PYUtil.h \
 	PYEnglishEditor.h \
+	PYLibPinyin.h \
+	PYLibPinyinBaseEditor.h \
 	$(NULL)
 
 if IBUS_BUILD_LUA_EXTENSION
