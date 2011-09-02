@@ -163,6 +163,7 @@ LibPinyinBaseEditor::processKeyEvent (guint keyval, guint keycode, guint modifie
 gboolean
 LibPinyinBaseEditor::updateSpecialPhrases (void)
 {
+    guint size = m_special_phrases.size();
     m_special_phrases.clear ();
 
     if (!m_config.specialPhrases ())
@@ -171,10 +172,13 @@ LibPinyinBaseEditor::updateSpecialPhrases (void)
     if (!m_selected_special_phrase.empty ())
         return FALSE;
 
-    /* TODO: change behavior to match the entire m_text,
-     *         instead of partial of m_text.
+    /* Note: change behavior to match the entire m_text,
+     *         instead of partial m_text.
      */
-    g_assert(FALSE);
+    SpecialPhraseTable::instance ().lookup
+        (m_text, m_special_phrases);
+
+    return size != m_special_phrases.size() || size != 0;
 }
 
 void
@@ -292,13 +296,24 @@ LibPinyinBaseEditor::commit (const gchar *str)
 gboolean
 LibPinyinBaseEditor::selectCandidate (guint i)
 {
-    g_assert(FALSE);
+
     if (i < m_special_phrases.size ()) {
         /* select a special phrase */
         m_selected_special_phrase = m_special_phrases[i];
-
-        /* refer to updateSpecialPhrases. */
+        if (m_cursor == m_text.size()) {
+            m_buffer = m_selected_special_phrase;
+            reset ();
+            commit ((const gchar *)m_buffer);
+        } else {
+            updateSpecialPhrases ();
+            update ();
+        }
+        return TRUE;
     }
+
+    i -= m_special_phrases.size ();
+    /* TODO: deal with normal candidates selection here by libpinyin. */
+    g_assert (FALSE);
 }
 
 gboolean

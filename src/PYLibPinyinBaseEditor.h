@@ -78,6 +78,7 @@ protected:
     PinyinArray                 m_pinyin;
     guint                       m_pinyin_len;
     LookupTable                 m_lookup_table;
+    String                      m_buffer;
 
     /* use LibPinyinBackEnd here. */
     std::vector<std::string>    m_special_phrases;
