@@ -18,15 +18,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-#include "PYLibPinyinBaseEditor.h"
+#include "PYPPhoneticEditor.h"
 #include "PYConfig.h"
 #include "PYPinyinProperties.h"
 #include "PYSimpTradConverter.h"
 
-namespace PY {
+using namespace PY;
+
 /* init static members */
-LibPinyinBaseEditor::LibPinyinBaseEditor (PinyinProperties &props,
-                                          Config &config):
+LibPinyinPhoneticEditor::LibPinyinPhoneticEditor (PinyinProperties &props,
+                                                  Config &config):
     Editor (props, config),
     m_pinyin (MAX_PHRASE_LEN),
     m_pinyin_len (0),
@@ -35,8 +36,8 @@ LibPinyinBaseEditor::LibPinyinBaseEditor (PinyinProperties &props,
 }
 
 gboolean
-LibPinyinBaseEditor::processSpace (guint keyval, guint keycode,
-                                   guint modifiers)
+LibPinyinPhoneticEditor::processSpace (guint keyval, guint keycode,
+                                       guint modifiers)
 {
     if (!m_text)
         return FALSE;
@@ -51,7 +52,7 @@ LibPinyinBaseEditor::processSpace (guint keyval, guint keycode,
 }
 
 gboolean
-LibPinyinBaseEditor::processFunctionKey (guint keyval, guint keycode, guint modifiers)
+LibPinyinPhoneticEditor::processFunctionKey (guint keyval, guint keycode, guint modifiers)
 {
     if (m_text.empty ())
         return FALSE;
@@ -155,13 +156,13 @@ LibPinyinBaseEditor::processFunctionKey (guint keyval, guint keycode, guint modi
 }
 
 gboolean
-LibPinyinBaseEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
+LibPinyinPhoneticEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 {
     return FALSE;
 }
 
 gboolean
-LibPinyinBaseEditor::updateSpecialPhrases (void)
+LibPinyinPhoneticEditor::updateSpecialPhrases (void)
 {
     guint size = m_special_phrases.size();
     m_special_phrases.clear ();
@@ -182,13 +183,13 @@ LibPinyinBaseEditor::updateSpecialPhrases (void)
 }
 
 void
-LibPinyinBaseEditor::updateLookupTableFast (void)
+LibPinyinPhoneticEditor::updateLookupTableFast (void)
 {
     Editor::updateLookupTableFast (m_lookup_table, TRUE);
 }
 
 void
-LibPinyinBaseEditor::updateLookupTable (void)
+LibPinyinPhoneticEditor::updateLookupTable (void)
 {
     m_lookup_table.clear ();
 
@@ -201,7 +202,7 @@ LibPinyinBaseEditor::updateLookupTable (void)
 }
 
 gboolean
-LibPinyinBaseEditor::fillLookupTableByPage (void)
+LibPinyinPhoneticEditor::fillLookupTableByPage (void)
 {
     if (!m_selected_special_phrase.empty ()) {
         return FALSE;
@@ -215,7 +216,7 @@ LibPinyinBaseEditor::fillLookupTableByPage (void)
 }
 
 void
-LibPinyinBaseEditor::pageUp (void)
+LibPinyinPhoneticEditor::pageUp (void)
 {
     if (G_LIKELY (m_lookup_table.pageUp ())) {
         updateLookupTableFast ();
@@ -225,7 +226,7 @@ LibPinyinBaseEditor::pageUp (void)
 }
 
 void
-LibPinyinBaseEditor::pageDown (void)
+LibPinyinPhoneticEditor::pageDown (void)
 {
     if (G_LIKELY((m_lookup_table.pageDown ()) ||
                  (fillLookupTableByPage () && m_lookup_table.pageDown()))) {
@@ -236,7 +237,7 @@ LibPinyinBaseEditor::pageDown (void)
 }
 
 void
-LibPinyinBaseEditor::cursorUp (void)
+LibPinyinPhoneticEditor::cursorUp (void)
 {
     if (G_LIKELY (m_lookup_table.cursorUp ())) {
         updateLookupTableFast ();
@@ -246,7 +247,7 @@ LibPinyinBaseEditor::cursorUp (void)
 }
 
 void
-LibPinyinBaseEditor::cursorDown (void)
+LibPinyinPhoneticEditor::cursorDown (void)
 {
     if (G_LIKELY ((m_lookup_table.cursorPos () == m_lookup_table.size() - 1) &&
                   (fillLookupTableByPage () == FALSE))) {
@@ -261,13 +262,13 @@ LibPinyinBaseEditor::cursorDown (void)
 }
 
 void
-LibPinyinBaseEditor::candidateClicked (guint index, guint button, guint state)
+LibPinyinPhoneticEditor::candidateClicked (guint index, guint button, guint state)
 {
     selectCandidateInPage (index);
 }
 
 void
-LibPinyinBaseEditor::reset (void)
+LibPinyinPhoneticEditor::reset (void)
 {
     m_pinyin.clear ();
     m_pinyin_len = 0;
@@ -279,7 +280,7 @@ LibPinyinBaseEditor::reset (void)
 }
 
 void
-LibPinyinBaseEditor::update (void)
+LibPinyinPhoneticEditor::update (void)
 {
     updateLookupTable ();
     updatePreeditText ();
@@ -287,14 +288,14 @@ LibPinyinBaseEditor::update (void)
 }
 
 void
-LibPinyinBaseEditor::commit (const gchar *str)
+LibPinyinPhoneticEditor::commit (const gchar *str)
 {
     StaticText text(str);
     commitText (text);
 }
 
 gboolean
-LibPinyinBaseEditor::selectCandidate (guint i)
+LibPinyinPhoneticEditor::selectCandidate (guint i)
 {
 
     if (i < m_special_phrases.size ()) {
@@ -317,7 +318,7 @@ LibPinyinBaseEditor::selectCandidate (guint i)
 }
 
 gboolean
-LibPinyinBaseEditor::selectCandidateInPage (guint i)
+LibPinyinPhoneticEditor::selectCandidateInPage (guint i)
 {
     guint page_size = m_lookup_table.pageSize ();
     guint cursor_pos = m_lookup_table.cursorPos ();
@@ -329,4 +330,4 @@ LibPinyinBaseEditor::selectCandidateInPage (guint i)
     return selectCandidate (i);
 }
 
-};
+

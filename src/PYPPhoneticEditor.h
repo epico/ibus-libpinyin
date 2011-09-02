@@ -28,9 +28,9 @@
 
 namespace PY {
 
-class LibPinyinBaseEditor : public Editor {
+class LibPinyinPhoneticEditor : public Editor {
 public:
-    LibPinyinBaseEditor (PinyinProperties & props, Config & config);
+    LibPinyinPhoneticEditor (PinyinProperties & props, Config & config);
 
 public:
     /* virtual functions */

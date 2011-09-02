@@ -21,11 +21,11 @@
 #ifndef __PY_LIB_PINYIN_FULL_PINYIN_EDITOR_H
 #define __PY_LIB_PINYIN_FULL_PINYIN_EDITOR_H
 
-#include "PYLibPinyinBaseEditor.h"
+#include "PYPPinyinEditor.h"
 
 namespace PY {
 
-class LibPinyinFullPinyinEditor : public PinyinEditor {
+class LibPinyinFullPinyinEditor : public LibPinyinPinyinEditor {
 
 public:
     LibPinyinFullPinyinEditor (PinyinProperties & props, Config & config);

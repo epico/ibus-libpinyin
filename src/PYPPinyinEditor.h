@@ -25,9 +25,9 @@
 
 namespace PY {
 
-class Config;
-
 #define MAX_PINYIN_LEN 64
+
+class Config;
 
 class SpecialPhraseTable;
 
