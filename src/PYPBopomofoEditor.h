@@ -46,12 +46,14 @@ protected:
     gboolean processBopomofo (guint keyval, guint keycode, guint modifiers);
     gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
 
+#if 0
     void updateAuxiliaryText ();
     void updateLookupTable ();
     void updatePreeditText ();
 
     void update ();
     void commit ();
+#endif
     void reset ();
 
     gboolean insert (gint ch);

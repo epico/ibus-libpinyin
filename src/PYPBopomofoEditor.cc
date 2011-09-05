@@ -274,7 +274,7 @@ LibPinyinBopomofoEditor::processSelectKey (guint keyval, guint keycode,
 
     const gchar * pos = NULL;
     const gchar * keys = bopomofo_select_keys[m_config.selectKeys ()];
-    for ( const gchar * p = keys; *p != NULL; ++p ) {
+    for ( const gchar * p = keys; *p; ++p ) {
         if ( *p == keyval )
             pos = p;
     }
@@ -362,12 +362,11 @@ gint
 LibPinyinBopomofoEditor::keyvalToBopomofo(gint ch)
 {
     const gint keyboard = m_config.bopomofoKeyboardMapping ();    
-    const guint8 & keys[41][2] = bopomofo_keyboard[keyboard];
     gint len = G_N_ELEMENTS (bopomofo_keyboard[keyboard]);
 
-    for ( size_t i = 0; i < len; ++i ) {
-        if ( keys[i][0] == ch )
-            return keys[i][1];
+    for ( gint i = 0; i < len; ++i ) {
+        if ( bopomofo_keyboard[keyboard][i][0] == ch )
+            return bopomofo_keyboard[keyboard][i][1];
     }
 
     return BOPOMOFO_ZERO;
