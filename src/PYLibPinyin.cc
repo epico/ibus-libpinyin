@@ -19,29 +19,21 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef __PY_LIB_PINYIN_H_
-#define __PY_LIB_PINYIN_H_
+#include "PYLibPinyin.h"
 
-#include <memory>
-#include <pinyin.h>
+using namespace PY;
 
-namespace PY {
+std::unique_ptr<LibPinyinBackEnd> LibPinyinBackEnd::m_instance;
 
-class LibPinyinBackEnd{
+static LibPinyinBackEnd libpinyin_backend;
 
-public:
-    LibPinyinBackEnd();
-    ~LibPinyinBackEnd();
+LibPinyinBackEnd::LibPinyinBackEnd(){
+    g_assert (NULL == m_instance.get ());
+    m_pinyin_context = pinyin_init("/usr/share/libpinyin/data", "../data");
+    m_instance.reset(this);
+}
 
-    /* use static initializer in C++. */
-    static LibPinyinBackEnd & instance (void) { return *m_instance; }
-
-private:
-    pinyin_context_t *m_pinyin_context; /* libpinyin context */
-
-private:
-    static std::unique_ptr<LibPinyinBackEnd> m_instance;
-};
-};
-
-#endif
+LibPinyinBackEnd::~LibPinyinBackEnd(){
+    pinyin_fini(m_pinyin_context);
+    m_instance = NULL;
+}

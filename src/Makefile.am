@@ -64,6 +64,7 @@ ibus_engine_pinyin_c_sources = \
 	PYDynamicSpecialPhrase.cc \
 	PYSpecialPhrase.cc \
 	PYSpecialPhraseTable.cc \
+	PYLibPinyin.cc \
 	PYPPhoneticEditor.cc \
 	PYPPinyinEditor.cc \
 	PYPBopomofoEditor.cc \
