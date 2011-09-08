@@ -62,6 +62,11 @@ PKG_CHECK_MODULES(SQLITE, [
 ])
 AC_PATH_PROG(SQLITE3, sqlite3)
 
+# check libpinyin
+PKG_CHECK_MODULES(LIBPINYIN, [
+    libpinyin >= 0.2.0
+])
+
 # check uuid
 AC_CHECK_FUNCS([uuid_create], [], [
     PKG_CHECK_MODULES(LIBUUID, uuid, [

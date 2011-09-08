@@ -21,6 +21,7 @@
 #ifndef __PY_LIB_PINYIN_BASE_EDITOR_H_
 #define __PY_LIB_PINYIN_BASE_EDITOR_H_
 
+#include <pinyin.h>
 #include "PYLookupTable.h"
 #include "PYEditor.h"
 #include "PYPinyinParser.h"
@@ -81,6 +82,9 @@ protected:
     String                      m_buffer;
 
     /* use LibPinyinBackEnd here. */
+    CandidateConstraints m_constraints;
+    MatchResults m_match_results;
+
     std::vector<std::string>    m_special_phrases;
     std::string                 m_selected_special_phrase;
 };

@@ -134,6 +134,7 @@ ibus_engine_pinyin_SOURCES = \
 ibus_engine_pinyin_CXXFLAGS = \
 	@IBUS_CFLAGS@ \
 	@SQLITE_CFLAGS@ \
+	@LIBPINYIN_CFLAGS@ \
 	@OPENCC_CFLAGS@ \
 	-DGETTEXT_PACKAGE=\"@GETTEXT_PACKAGE@\" \
 	-DPKGDATADIR=\"$(pkgdatadir)\" \
@@ -153,6 +154,7 @@ endif
 ibus_engine_pinyin_LDADD = \
 	@IBUS_LIBS@ \
 	@SQLITE_LIBS@ \
+	@LIBPINYIN_LIBS@ \
 	@OPENCC_LIBS@ \
 	$(NULL)
 
