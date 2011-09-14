@@ -27,11 +27,15 @@
 
 namespace PY {
 
+class Config;
+
 class LibPinyinBackEnd{
 
 public:
     LibPinyinBackEnd();
     ~LibPinyinBackEnd();
+
+    gboolean setPinyinOptions(Config *config);
 
     /* use static initializer in C++. */
     static LibPinyinBackEnd & instance (void) { return *m_instance; }
@@ -42,6 +46,7 @@ private:
 private:
     static std::unique_ptr<LibPinyinBackEnd> m_instance;
 };
+
 };
 
 #endif

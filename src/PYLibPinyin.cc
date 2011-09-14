@@ -20,6 +20,8 @@
  */
 
 #include "PYLibPinyin.h"
+#include "PYTypes.h"
+#include "PYConfig.h"
 
 using namespace PY;
 
@@ -36,4 +38,53 @@ LibPinyinBackEnd::LibPinyinBackEnd(){
 LibPinyinBackEnd::~LibPinyinBackEnd(){
     pinyin_fini(m_pinyin_context);
     m_instance = NULL;
+}
+
+/* Here are the fuzzy pinyin options conversion table. */
+static const struct {
+    guint ibus_pinyin_option;
+    PinyinAmbiguity libpinyin_option;    
+} fuzzy_options [] = {
+    /* fuzzy pinyin */
+    { PINYIN_FUZZY_C_CH,        PINYIN_AmbCiChi        },
+    { PINYIN_FUZZY_CH_C,        PINYIN_AmbChiCi        },
+    { PINYIN_FUZZY_Z_ZH,        PINYIN_AmbZiZhi        },
+    { PINYIN_FUZZY_ZH_Z,        PINYIN_AmbZhiZi        },
+    { PINYIN_FUZZY_S_SH,        PINYIN_AmbSiShi        },
+    { PINYIN_FUZZY_SH_S,        PINYIN_AmbShiSi        },
+    { PINYIN_FUZZY_L_N,         PINYIN_AmbLeNe         },
+    { PINYIN_FUZZY_N_L,         PINYIN_AmbNeLe         },
+    { PINYIN_FUZZY_F_H,         PINYIN_AmbFoHe         },
+    { PINYIN_FUZZY_H_F,         PINYIN_AmbHeFo         },
+    { PINYIN_FUZZY_L_R,         PINYIN_AmbLeRi         },
+    { PINYIN_FUZZY_R_L,         PINYIN_AmbRiLe         },
+    { PINYIN_FUZZY_K_G,         PINYIN_AmbKeGe         },
+    { PINYIN_FUZZY_G_K,         PINYIN_AmbGeKe         },
+    { PINYIN_FUZZY_AN_ANG,      PINYIN_AmbAnAng        },
+    { PINYIN_FUZZY_ANG_AN,      PINYIN_AmbAngAn        },
+    { PINYIN_FUZZY_EN_ENG,      PINYIN_AmbEnEng        },
+    { PINYIN_FUZZY_ENG_EN,      PINYIN_AmbEngEn        },
+    { PINYIN_FUZZY_IN_ING,      PINYIN_AmbInIng        },
+    { PINYIN_FUZZY_ING_IN,      PINYIN_AmbIngIn        }
+};
+
+gboolean
+LibPinyinBackEnd::setPinyinOptions (Config * config)
+{
+    guint option = config->option ();
+    PinyinCustomSettings custom;
+
+    custom.set_use_incomplete (option & PINYIN_INCOMPLETE_PINYIN);
+    custom.set_use_ambiguities (PINYIN_AmbAny, false);
+
+    /* copy values */
+    for (guint i = 0; i < G_N_ELEMENTS (fuzzy_options); i++) {
+        if ( option & fuzzy_options[i].ibus_pinyin_option )
+            custom.set_use_ambiguities
+                (fuzzy_options[i].libpinyin_option, true);
+    }
+
+    pinyin_set_options(m_pinyin_context, &custom);
+
+    return TRUE;
 }
