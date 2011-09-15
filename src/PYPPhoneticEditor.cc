@@ -161,27 +161,6 @@ LibPinyinPhoneticEditor::processKeyEvent (guint keyval, guint keycode, guint mod
     return FALSE;
 }
 
-gboolean
-LibPinyinPhoneticEditor::updateSpecialPhrases (void)
-{
-    guint size = m_special_phrases.size();
-    m_special_phrases.clear ();
-
-    if (!m_config.specialPhrases ())
-        return FALSE;
-
-    if (!m_selected_special_phrase.empty ())
-        return FALSE;
-
-    /* Note: change behavior to match the entire m_text,
-     *         instead of partial m_text.
-     */
-    SpecialPhraseTable::instance ().lookup
-        (m_text, m_special_phrases);
-
-    return size != m_special_phrases.size() || size != 0;
-}
-
 void
 LibPinyinPhoneticEditor::updateLookupTableFast (void)
 {
@@ -204,9 +183,6 @@ LibPinyinPhoneticEditor::updateLookupTable (void)
 gboolean
 LibPinyinPhoneticEditor::fillLookupTableByPage (void)
 {
-    if (!m_selected_special_phrase.empty ()) {
-        return FALSE;
-    }
 
     guint filled_nr = m_lookup_table.size ();
     guint page_size = m_lookup_table.pageSize ();
@@ -273,8 +249,6 @@ LibPinyinPhoneticEditor::reset (void)
     m_pinyin.clear ();
     m_pinyin_len = 0;
     m_lookup_table.clear ();
-    m_special_phrases.clear ();
-    m_selected_special_phrase.clear ();
 
     Editor::reset ();
 }
@@ -298,21 +272,6 @@ gboolean
 LibPinyinPhoneticEditor::selectCandidate (guint i)
 {
 
-    if (i < m_special_phrases.size ()) {
-        /* select a special phrase */
-        m_selected_special_phrase = m_special_phrases[i];
-        if (m_cursor == m_text.size()) {
-            m_buffer = m_selected_special_phrase;
-            reset ();
-            commit ((const gchar *)m_buffer);
-        } else {
-            updateSpecialPhrases ();
-            update ();
-        }
-        return TRUE;
-    }
-
-    i -= m_special_phrases.size ();
     /* TODO: deal with normal candidates selection here by libpinyin. */
     g_assert (FALSE);
 }

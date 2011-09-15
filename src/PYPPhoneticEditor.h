@@ -51,7 +51,6 @@ public:
 
 protected:
 
-    gboolean updateSpecialPhrases ();
     gboolean selectCandidate (guint i);
     gboolean selectCandidateInPage (guint i);
 
@@ -82,11 +81,7 @@ protected:
     String                      m_buffer;
 
     /* use LibPinyinBackEnd here. */
-    CandidateConstraints m_constraints;
-    MatchResults m_match_results;
-
-    std::vector<std::string>    m_special_phrases;
-    std::string                 m_selected_special_phrase;
+    pinyin_instance_t           *m_instance;
 };
 
 };
