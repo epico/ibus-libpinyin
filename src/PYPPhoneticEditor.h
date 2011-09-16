@@ -55,7 +55,7 @@ protected:
     gboolean selectCandidateInPage (guint i);
 
     void commit (const gchar *str);
-    void updatePinyinCursor ();
+    guint getPinyinCursor ();
 
     /* inline functions */
 
@@ -77,7 +77,7 @@ protected:
 
     /* varibles */
     PinyinArray                 m_pinyins;
-    guint                       m_pinyin_cursor;
+    guint                       m_pinyin_len;
     LookupTable                 m_lookup_table;
     String                      m_buffer;
 

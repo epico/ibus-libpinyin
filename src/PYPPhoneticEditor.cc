@@ -30,7 +30,7 @@ LibPinyinPhoneticEditor::LibPinyinPhoneticEditor (PinyinProperties &props,
                                                   Config &config):
     Editor (props, config),
     m_pinyins (MAX_PHRASE_LEN),
-    m_pinyin_cursor (0),
+    m_pinyin_len (0),
     m_lookup_table (m_config.pageSize ())
 {
 }
@@ -274,7 +274,7 @@ void
 LibPinyinPhoneticEditor::reset (void)
 {
     m_pinyins.clear ();
-    m_pinyin_cursor = 0;
+    m_pinyin_len = 0;
     m_lookup_table.clear ();
 
     Editor::reset ();
@@ -295,27 +295,29 @@ LibPinyinPhoneticEditor::commit (const gchar *str)
     commitText (text);
 }
 
-void
-LibPinyinPhoneticEditor::updatePinyinCursor ()
+guint
+LibPinyinPhoneticEditor::getPinyinCursor ()
 {
     /* Translate cursor position to pinyin position. */
-    m_pinyin_cursor = MIN (m_pinyin_cursor, m_pinyins.size ());
+    guint pinyin_cursor = m_pinyins.size ();
     PinyinArray::const_iterator iter = m_pinyins.begin ();
     for ( ; iter != m_pinyins.end (); ++iter) {
         guint end = iter->begin + iter->len;
         if ( iter->begin <= m_cursor && m_cursor < end )
-            m_pinyin_cursor = iter - m_pinyins.begin ();
+            pinyin_cursor = iter - m_pinyins.begin ();
     }
-    m_pinyin_cursor = MAX (m_pinyin_cursor, 0);
+    g_assert (pinyin_cursor >= 0);
+    return pinyin_cursor;
 }
 
 gboolean
 LibPinyinPhoneticEditor::selectCandidate (guint i)
 {
-    /* Prolog: assume updatePinyinCursor is called before. */
+    guint pinyin_cursor = getPinyinCursor ();
+
     /* NOTE: deal with normal candidates selection here by libpinyin. */
     phrase_token_t *token = &g_array_index (m_candidates, phrase_token_t, i);
-    pinyin_choose_candidate(m_instance, m_pinyin_cursor, *token);
+    pinyin_choose_candidate(m_instance, pinyin_cursor, *token);
     return TRUE;
 }
 
