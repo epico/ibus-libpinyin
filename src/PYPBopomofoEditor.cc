@@ -103,19 +103,8 @@ LibPinyinBopomofoEditor::removeWordBefore (void)
     if (G_UNLIKELY (m_cursor == 0))
         return FALSE;
 
-    guint cursor;
-    if (G_UNLIKELY (m_cursor > m_pinyin_len)) {
-        cursor = m_pinyin_len;
-    } else {
-        const Pinyin & p = *m_pinyin.back ();
-        cursor = m_cursor - p.len;
-        m_pinyin_len -= p.len;
-        m_pinyin.pop_back ();
-    }
-
-    m_text.erase (cursor, m_cursor - cursor);
-    m_cursor = cursor;
-    update();
+    /* TODO: to be implemented. */
+    g_assert(FALSE);
 
     return TRUE;
 }
@@ -127,8 +116,8 @@ LibPinyinBopomofoEditor::removeWordAfter (void)
         return FALSE;
 
     /* TODO: remove one word instead of the sentence. */
-    m_text.erase (m_cursor, -1);
-    update ();
+    g_assert(FALSE);
+
     return TRUE;
 }
 
@@ -162,16 +151,8 @@ LibPinyinBopomofoEditor::moveCursorLeftByWord (void)
     if (G_UNLIKELY (m_cursor == 0))
         return FALSE;
 
-    if (G_UNLIKELY (m_cursor > m_pinyin_len)) {
-        m_cursor = m_pinyin_len;
-        return TRUE;
-    }
-
-    const Pinyin & p = *m_pinyin.back ();
-    m_cursor -= p.len;
-    m_pinyin_len -= p.len;
-    m_pinyin.pop_back ();
-    update ();
+    /* TODO: to be implemented. */
+    g_assert(FALSE);
 
     return TRUE;
 }
@@ -179,7 +160,13 @@ LibPinyinBopomofoEditor::moveCursorLeftByWord (void)
 gboolean
 LibPinyinBopomofoEditor::moveCursorRightByWord (void)
 {
-    return moveCursorToEnd ();
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    /* TODO: to be implemented. */
+    g_assert(FALSE);
+
+    return TRUE;
 }
 
 gboolean
