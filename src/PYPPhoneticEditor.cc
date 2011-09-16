@@ -29,8 +29,8 @@ using namespace PY;
 LibPinyinPhoneticEditor::LibPinyinPhoneticEditor (PinyinProperties &props,
                                                   Config &config):
     Editor (props, config),
-    m_pinyin (MAX_PHRASE_LEN),
-    m_pinyin_len (0),
+    m_pinyins (MAX_PHRASE_LEN),
+    m_pinyin_cursor (0),
     m_lookup_table (m_config.pageSize ())
 {
 }
@@ -188,7 +188,34 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
     guint page_size = m_lookup_table.pageSize ();
 
     /* fill lookup table by libpinyin get candidates. */
-    g_assert(FALSE);
+    guint need_nr = MIN (page_size, m_candidates->len - filled_nr);
+    g_assert (need_nr >=0);
+    if (need_nr == 0)
+        return FALSE;
+
+    for (guint i = filled_nr; i < filled_nr + need_nr; i++) {
+        if (G_LIKELY (m_props.modeSimp ())) { /* Simplified Chinese */
+            phrase_token_t *token = &g_array_index
+                (m_candidates, phrase_token_t, i);
+            char *word = NULL;
+            pinyin_translate_token(m_instance, *token, &word);
+            Text text (word);
+            m_lookup_table.appendCandidate(text);
+            g_free(word);
+        } else { /* Traditional Chinese */
+            m_buffer.truncate (0);
+            phrase_token_t *token = &g_array_index
+                (m_candidates, phrase_token_t, i);
+            char *word = NULL;
+            pinyin_translate_token(m_instance, *token, &word);
+            SimpTradConverter::simpToTrad (word, m_buffer);
+            Text text (m_buffer);
+            m_lookup_table.appendCandidate (text);
+            g_free(word);
+        }
+    }
+
+    return TRUE;
 }
 
 void
@@ -246,8 +273,8 @@ LibPinyinPhoneticEditor::candidateClicked (guint index, guint button, guint stat
 void
 LibPinyinPhoneticEditor::reset (void)
 {
-    m_pinyin.clear ();
-    m_pinyin_len = 0;
+    m_pinyins.clear ();
+    m_pinyin_cursor = 0;
     m_lookup_table.clear ();
 
     Editor::reset ();
@@ -268,12 +295,28 @@ LibPinyinPhoneticEditor::commit (const gchar *str)
     commitText (text);
 }
 
+void
+LibPinyinPhoneticEditor::updatePinyinCursor ()
+{
+    /* Translate cursor position to pinyin position. */
+    m_pinyin_cursor = MIN (m_pinyin_cursor, m_pinyins.size ());
+    PinyinArray::const_iterator iter = m_pinyins.begin ();
+    for ( ; iter != m_pinyins.end (); ++iter) {
+        guint end = iter->begin + iter->len;
+        if ( iter->begin <= m_cursor && m_cursor < end )
+            m_pinyin_cursor = iter - m_pinyins.begin ();
+    }
+    m_pinyin_cursor = MAX (m_pinyin_cursor, 0);
+}
+
 gboolean
 LibPinyinPhoneticEditor::selectCandidate (guint i)
 {
-
-    /* TODO: deal with normal candidates selection here by libpinyin. */
-    g_assert (FALSE);
+    /* Prolog: assume updatePinyinCursor is called before. */
+    /* NOTE: deal with normal candidates selection here by libpinyin. */
+    phrase_token_t *token = &g_array_index (m_candidates, phrase_token_t, i);
+    pinyin_choose_candidate(m_instance, m_pinyin_cursor, *token);
+    return TRUE;
 }
 
 gboolean

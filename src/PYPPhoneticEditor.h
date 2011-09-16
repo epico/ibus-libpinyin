@@ -55,6 +55,7 @@ protected:
     gboolean selectCandidateInPage (guint i);
 
     void commit (const gchar *str);
+    void updatePinyinCursor ();
 
     /* inline functions */
 
@@ -75,13 +76,14 @@ protected:
     virtual void updatePreeditText (void) = 0;
 
     /* varibles */
-    PinyinArray                 m_pinyin;
-    guint                       m_pinyin_len;
+    PinyinArray                 m_pinyins;
+    guint                       m_pinyin_cursor;
     LookupTable                 m_lookup_table;
     String                      m_buffer;
 
     /* use LibPinyinBackEnd here. */
     pinyin_instance_t           *m_instance;
+    TokenVector                 m_candidates;
 };
 
 };
