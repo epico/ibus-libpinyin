@@ -67,6 +67,7 @@ ibus_engine_pinyin_c_sources = \
 	PYLibPinyin.cc \
 	PYPPhoneticEditor.cc \
 	PYPPinyinEditor.cc \
+	PYPFullPinyinEditor.cc \
 	PYPBopomofoEditor.cc \
 	$(NULL)
 ibus_engine_pinyin_h_sources = \
