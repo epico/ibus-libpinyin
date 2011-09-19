@@ -25,7 +25,7 @@
 #include "PYLookupTable.h"
 #include "PYEditor.h"
 #include "PYPinyinParser.h"
-#include "PYSpecialPhraseTable.h"
+
 
 namespace PY {
 

@@ -200,19 +200,92 @@ LibPinyinPinyinEditor::processKeyEvent (guint keyval, guint keycode,
 void
 LibPinyinPinyinEditor::commit ()
 {
-    g_assert (FALSE);
+
+    if (G_UNLIKELY (m_buffer.empty ()))
+        return;
+
+    m_buffer.clear ();
+
+    /* sentence candidate */
+    char *tmp = NULL;
+    pinyin_get_sentence(m_instance, &tmp);
+    m_buffer << tmp;
+    g_free (tmp);
+    tmp = NULL;
+
+    /* text after pinyin */
+    const gchar *p = m_text.c_str() + m_pinyin_len;
+    if (G_UNLIKELY (m_props.modeFull ())) {
+        while (*p != '\0') {
+            m_buffer.appendUnichar (HalfFullConverter::toFull (*p++));
+        }
+    } else {
+        m_buffer << p;
+    }
+
+    pinyin_train(m_instance);
+    LibPinyinPhoneticEditor::commit ((const gchar *)m_buffer);
+    reset();
 }
 
 void
 LibPinyinPinyinEditor::updatePreeditText ()
 {
-    g_assert (FALSE);
+    /* preedit text = guessed sentence + un-parsed pinyin text */
+    if (G_UNLIKELY (m_text.empty ())) {
+        hidePreeditText ();
+        return;
+    }
+
+    m_buffer.clear ();
+    char *tmp = NULL;
+    pinyin_get_sentence(m_instance, &tmp);
+    if (m_props.modeSimp ()) {
+        m_buffer<<tmp;
+    } else {
+        SimpTradConverter::simpToTrad (tmp, m_buffer);
+    }
+    g_free (tmp);
+    tmp = NULL;
+
+    /* append rest text */
+    const gchar *p = m_text.c_str () + m_pinyin_len;
+    m_buffer << p;
+
+    StaticText preedit_text (m_buffer);
+    /* underline */
+    preedit_text.appendAttribute (IBUS_ATTR_TYPE_UNDERLINE, IBUS_ATTR_UNDERLINE_SINGLE, 0, -1);
+
+    guint pinyin_cursor = getPinyinCursor ();
+    Editor::updatePreeditText (preedit_text, pinyin_cursor, TRUE);
 }
 
 void
 LibPinyinPinyinEditor::updateAuxiliaryText ()
 {
-    g_assert (FALSE);
+    if (G_UNLIKELY (m_text.empty ())) {
+        hideAuxiliaryText ();
+        return;
+    }
+
+    m_buffer.clear ();
+
+    /* Note: cursor handling is defered to full/double pinyin editors. */
+    guint pinyin_cursor = getPinyinCursor ();
+    for (guint i = 0; i < m_pinyins.size (); ++i) {
+        if (G_LIKELY (i))
+            m_buffer << ' ';
+        const Pinyin *pinyin = m_pinyins[i];
+        m_buffer << pinyin->sheng
+                 << pinyin->yun;
+    }
+
+    /* append rest text */
+    const gchar * p = m_text.c_str() + m_pinyin_len;
+    m_buffer << p;
+
+    StaticText aux_text (m_buffer);
+    Editor::updateAuxiliaryText (aux_text, TRUE);
 }
 
 void
