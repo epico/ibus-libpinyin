@@ -52,6 +52,8 @@ public:
 
 protected:
     /* TODO: to be implemented. */
+    void updatePinyin (void);
+
 };
 
 };

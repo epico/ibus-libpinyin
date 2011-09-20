@@ -62,3 +62,34 @@ LibPinyinFullPinyinEditor::processKeyEvent (guint keyval,
     return LibPinyinPinyinEditor::processKeyEvent (keyval, keycode, modifiers);
 }
 
+void
+LibPinyinFullPinyinEditor::updatePinyin (void)
+{
+    if (G_UNLIKELY (m_text.empty ())) {
+        m_pinyins.clear ();
+        m_pinyin_len = 0;
+        return;
+    }
+
+    m_pinyin_len = PinyinParser::parse (m_text,               // text
+                                        m_text.length (),     // text length
+                                        m_config.option (),   // option
+                                        m_pinyins,            // result
+                                        MAX_PHRASE_LEN);      // max result length
+
+    /* propagate to libpinyin */
+    g_array_set_size (m_instance->m_pinyin_keys, 0);
+    g_array_set_size (m_instance->m_pinyin_poses, 0);
+
+    PinyinKey key; PinyinKeyPos pos;
+    PinyinArray::const_iterator iter = m_pinyins.begin ();
+    for ( ; iter != m_pinyins.end (); ++iter ) {
+        PinyinSegment py = *iter;
+        pinyin_parse_full_pinyin (m_instance, py.pinyin->text, &key);
+        pos.set_pos (py.begin); pos.set_length (py.len);
+        g_array_append_val(m_instance->m_pinyin_keys, key);
+        g_array_append_val(m_instance->m_pinyin_poses, pos);
+    }
+
+    pinyin_guess_sentence(m_instance);
+}
