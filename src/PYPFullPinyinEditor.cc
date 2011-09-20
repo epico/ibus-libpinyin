@@ -55,6 +55,45 @@ LibPinyinFullPinyinEditor::insert (gint ch)
 }
 
 gboolean
+LibPinyinFullPinyinEditor::removeCharBefore (void)
+{
+    if (G_UNLIKELY (m_cursor == 0))
+        return FALSE;
+
+    m_cursor --;
+    m_text.erase (m_cursor, 1);
+
+    updatePinyin ();
+    update ();
+
+    return TRUE;
+}
+
+gboolean
+LibPinyinFullPinyinEditor::removeCharAfter (void)
+{
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    m_text.erase (m_cursor, 1);
+
+    updatePinyin ();
+    update ();
+
+    return TRUE;
+}
+
+gboolean
+LibPinyinFullPinyinEditor::removeWordBefore (void)
+{
+    if (G_UNLIKELY (m_cursor == 0))
+        return FALSE;
+
+    /* TODO: to be implemented. */
+    g_assert (FALSE);
+}
+
+gboolean
 LibPinyinFullPinyinEditor::processKeyEvent (guint keyval,
                                             guint keycode,
                                             guint modifiers)
