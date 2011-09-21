@@ -54,6 +54,9 @@ protected:
     /* TODO: to be implemented. */
     void updatePinyin (void);
 
+    guint getCursorLeftByWord (void);
+    guint getCursorRightByWord (void);
+
 };
 
 };
