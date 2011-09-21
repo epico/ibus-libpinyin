@@ -89,8 +89,135 @@ LibPinyinFullPinyinEditor::removeWordBefore (void)
     if (G_UNLIKELY (m_cursor == 0))
         return FALSE;
 
-    /* TODO: to be implemented. */
-    g_assert (FALSE);
+    guint cursor;
+
+    if (G_UNLIKELY (m_cursor > m_pinyin_len)) {
+        cursor = m_pinyin_len;
+    } else {
+        guint pinyin_cursor = getPinyinCursor ();
+        cursor = m_pinyins[pinyin_cursor].begin;
+        /* cursor at the begin of one pinyin */
+        g_return_val_if_fail (pinyin_cursor > 0, FALSE);
+        if ( cursor == m_cursor)
+            cursor = m_pinyins[pinyin_cursor - 1].begin;
+    }
+
+    m_text.erase (cursor, m_cursor - cursor);
+    m_cursor = cursor;
+    updatePinyin ();
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinFullPinyinEditor::removeWordAfter (void)
+{
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    guint cursor;
+
+    if (G_UNLIKELY (m_cursor > m_pinyin_len)) {
+        cursor = m_text.length ();
+    } else {
+        guint pinyin_cursor = getPinyinCursor ();
+        PinyinSegment py = m_pinyins[pinyin_cursor];
+        cursor = py.begin + py.len;
+    }
+
+    m_text.erase (m_cursor, cursor - m_cursor);
+    updatePinyin ();
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinFullPinyinEditor::moveCursorLeft (void)
+{
+    if (G_UNLIKELY (m_cursor == 0))
+        return FALSE;
+
+    m_cursor --;
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinFullPinyinEditor::moveCursorRight (void)
+{
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    m_cursor ++;
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinFullPinyinEditor::moveCursorLeftByWord (void)
+{
+    if (G_UNLIKELY (m_cursor == 0))
+        return FALSE;
+
+    guint cursor;
+
+    if (G_UNLIKELY (m_cursor > m_pinyin_len)) {
+        cursor = m_pinyin_len;
+    } else {
+        guint pinyin_cursor = getPinyinCursor ();
+        cursor = m_pinyins[pinyin_cursor].begin;
+        /* cursor at the begin of one pinyin */
+        g_return_val_if_fail (pinyin_cursor > 0, FALSE);
+        if ( cursor == m_cursor)
+            cursor = m_pinyins[pinyin_cursor - 1].begin;        
+    }
+
+    m_cursor = cursor;
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinFullPinyinEditor::moveCursorRightByWord (void)
+{
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    guint cursor;
+
+    if (G_UNLIKELY (m_cursor > m_pinyin_len)) {
+        cursor = m_text.length ();
+    } else {
+        guint pinyin_cursor = getPinyinCursor ();
+        PinyinSegment py = m_pinyins[pinyin_cursor];
+        cursor = py.begin + py.len;
+    }
+
+    m_cursor = cursor;
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinFullPinyinEditor::moveCursorToBegin (void)
+{
+    if (G_UNLIKELY (m_cursor == 0))
+        return TRUE;
+
+    m_cursor = 0;
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinFullPinyinEditor::moveCursorToEnd (void)
+{
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    m_cursor = m_text.length ();
+    update ();
+    return TRUE;
 }
 
 gboolean
