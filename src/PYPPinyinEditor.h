@@ -35,6 +35,20 @@ class LibPinyinPinyinEditor : public LibPinyinPhoneticEditor {
 public:
     LibPinyinPinyinEditor (PinyinProperties & props, Config & config);
 
+public:
+    gboolean removeCharBefore (void);
+    gboolean removeCharAfter (void);
+    gboolean removeWordBefore (void);
+    gboolean removeWordAfter (void);
+
+    gboolean moveCursorLeft (void);
+    gboolean moveCursorRight (void);
+    gboolean moveCursorLeftByWord (void);
+    gboolean moveCursorRightByWord (void);
+    gboolean moveCursorToBegin (void);
+    gboolean moveCursorToEnd (void);
+
+
 protected:
     gboolean processPinyin (guint keyval, guint keycode, guint modifiers);
     gboolean processNumber (guint keyval, guint keycode, guint modifiers);
@@ -49,6 +63,10 @@ protected:
 
     virtual gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
 
+    virtual void updatePinyin (void) = 0;
+
+    guint getCursorLeftByWord (void);
+    guint getCursorRightByWord (void);
 };
 
 };

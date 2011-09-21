@@ -295,3 +295,172 @@ LibPinyinPinyinEditor::updateLookupTable ()
     m_lookup_table.setOrientation (m_config.orientation ());
     LibPinyinPhoneticEditor::updateLookupTable ();
 }
+
+gboolean
+LibPinyinPinyinEditor::removeCharBefore (void)
+{
+    if (G_UNLIKELY (m_cursor == 0))
+        return FALSE;
+
+    m_cursor --;
+    m_text.erase (m_cursor, 1);
+
+    updatePinyin ();
+    update ();
+
+    return TRUE;
+}
+
+gboolean
+LibPinyinPinyinEditor::removeCharAfter (void)
+{
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    m_text.erase (m_cursor, 1);
+
+    updatePinyin ();
+    update ();
+
+    return TRUE;
+}
+
+guint
+LibPinyinPinyinEditor::getCursorLeftByWord (void)
+{
+    guint cursor;
+
+    if (G_UNLIKELY (m_cursor > m_pinyin_len)) {
+        cursor = m_pinyin_len;
+    } else {
+        PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_poses;
+        guint pinyin_cursor = getPinyinCursor ();
+        PinyinKeyPos *pos = &g_array_index
+            (pinyin_poses, PinyinKeyPos, pinyin_cursor);
+        cursor = pos->m_pos;
+
+        /* cursor at the begin of one pinyin */
+        g_return_val_if_fail (pinyin_cursor > 0, 0);
+        if ( cursor == m_cursor) {
+            pos = &g_array_index
+                (pinyin_poses, PinyinKeyPos, pinyin_cursor - 1);
+            cursor = pos->m_pos;
+        }
+    }
+
+    return cursor;
+}
+
+guint
+LibPinyinPinyinEditor::getCursorRightByWord (void)
+{
+    guint cursor;
+
+    if (G_UNLIKELY (m_cursor > m_pinyin_len)) {
+        cursor = m_text.length ();
+    } else {
+        guint pinyin_cursor = getPinyinCursor ();
+        PinyinKeyPos *pos = &g_array_index
+            (m_instance->m_pinyin_poses, PinyinKeyPos, pinyin_cursor);
+        cursor = pos->get_end_pos ();
+    }
+
+    return cursor;
+}
+
+gboolean
+LibPinyinPinyinEditor::removeWordBefore (void)
+{
+    if (G_UNLIKELY (m_cursor == 0))
+        return FALSE;
+
+    guint cursor = getCursorLeftByWord ();
+    m_text.erase (cursor, m_cursor - cursor);
+    m_cursor = cursor;
+    updatePinyin ();
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinPinyinEditor::removeWordAfter (void)
+{
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    guint cursor = getCursorRightByWord ();
+    m_text.erase (m_cursor, cursor - m_cursor);
+    updatePinyin ();
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinPinyinEditor::moveCursorLeft (void)
+{
+    if (G_UNLIKELY (m_cursor == 0))
+        return FALSE;
+
+    m_cursor --;
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinPinyinEditor::moveCursorRight (void)
+{
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    m_cursor ++;
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinPinyinEditor::moveCursorLeftByWord (void)
+{
+    if (G_UNLIKELY (m_cursor == 0))
+        return FALSE;
+
+    guint cursor = getCursorLeftByWord ();
+
+    m_cursor = cursor;
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinPinyinEditor::moveCursorRightByWord (void)
+{
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    guint cursor = getCursorRightByWord ();
+
+    m_cursor = cursor;
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinPinyinEditor::moveCursorToBegin (void)
+{
+    if (G_UNLIKELY (m_cursor == 0))
+        return TRUE;
+
+    m_cursor = 0;
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinPinyinEditor::moveCursorToEnd (void)
+{
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    m_cursor = m_text.length ();
+    update ();
+    return TRUE;
+}

@@ -34,18 +34,6 @@ public:
 public:
     gboolean insert (gint ch);
 
-    gboolean removeCharBefore (void);
-    gboolean removeCharAfter (void);
-    gboolean removeWordBefore (void);
-    gboolean removeWordAfter (void);
-
-    gboolean moveCursorLeft (void);
-    gboolean moveCursorRight (void);
-    gboolean moveCursorLeftByWord (void);
-    gboolean moveCursorRightByWord (void);
-    gboolean moveCursorToBegin (void);
-    gboolean moveCursorToEnd (void);
-
     /* virtual functions */
     virtual gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
     virtual void reset (void);
@@ -54,10 +42,7 @@ public:
 
 protected:
     /* TODO: to be implemented. */
-    void updatePinyin (void);
-
-    guint getCursorLeftByWord (void);
-    guint getCursorRightByWord (void);
+    virtual void updatePinyin (void);
 
 };
 
