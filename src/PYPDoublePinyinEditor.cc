@@ -38,3 +38,19 @@ LibPinyinDoublePinyinEditor::processKeyEvent (guint keyval, guint keycode,
 
     return LibPinyinPinyinEditor::processKeyEvent (keyval, keycode, modifiers);
 }
+
+void
+LibPinyinDoublePinyinEditor::updatePinyin (void)
+{
+    if (G_UNLIKELY (m_text.empty ())) {
+        m_pinyins.clear ();
+        m_pinyin_len = 0;
+        /* TODO: check whether to replace "" with NULL. */
+        pinyin_parse_more_double_pinyins (m_instance, "");
+        return;
+    }
+
+    m_pinyin_len =
+        pinyin_parse_more_double_pinyins (m_instance, m_text.c_str ());
+    pinyin_guess_sentence (m_instance);
+}

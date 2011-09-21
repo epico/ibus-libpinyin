@@ -69,6 +69,8 @@ LibPinyinFullPinyinEditor::updatePinyin (void)
     if (G_UNLIKELY (m_text.empty ())) {
         m_pinyins.clear ();
         m_pinyin_len = 0;
+        /* TODO: check whether to replace "" with NULL. */
+        pinyin_parse_more_full_pinyins (m_instance, "");
         return;
     }
 
@@ -88,11 +90,11 @@ LibPinyinFullPinyinEditor::updatePinyin (void)
         PinyinSegment py = *iter;
         pinyin_parse_full_pinyin (m_instance, py.pinyin->text, &key);
         pos.set_pos (py.begin); pos.set_length (py.len);
-        g_array_append_val(m_instance->m_pinyin_keys, key);
-        g_array_append_val(m_instance->m_pinyin_poses, pos);
+        g_array_append_val (m_instance->m_pinyin_keys, key);
+        g_array_append_val (m_instance->m_pinyin_poses, pos);
     }
 
-    pinyin_guess_sentence(m_instance);
+    pinyin_guess_sentence (m_instance);
 }
 
 void
