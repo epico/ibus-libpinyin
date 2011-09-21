@@ -276,12 +276,12 @@ LibPinyinPinyinEditor::updateAuxiliaryText ()
     for (guint i = 0; i < pinyin_keys->len; ++i) {
         if (G_LIKELY (i))
             m_buffer << ' ';
-        PinyinKey * key = &g_array_index (pinyin_keys, PinyinKey, i);
+        PinyinKey *key = &g_array_index (pinyin_keys, PinyinKey, i);
         m_buffer << key->get_key_string ();
     }
 
     /* append rest text */
-    const gchar * p = m_text.c_str() + m_pinyin_len;
+    const gchar *p = m_text.c_str() + m_pinyin_len;
     m_buffer << p;
 
     StaticText aux_text (m_buffer);

@@ -43,9 +43,9 @@ protected:
 
     void commit ();
 
-    void updateAuxiliaryText (void);
-    void updateLookupTable (void);
-    void updatePreeditText (void);
+    virtual void updateAuxiliaryText (void);
+    virtual void updateLookupTable (void);
+    virtual void updatePreeditText (void);
 
     virtual gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
 

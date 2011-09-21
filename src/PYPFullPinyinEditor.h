@@ -49,6 +49,8 @@ public:
     /* virtual functions */
     virtual gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
     virtual void reset (void);
+    virtual void updateAuxiliaryText (void);
+
 
 protected:
     /* TODO: to be implemented. */
