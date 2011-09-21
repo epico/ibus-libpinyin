@@ -95,11 +95,16 @@ LibPinyinFullPinyinEditor::removeWordBefore (void)
         cursor = m_pinyin_len;
     } else {
         guint pinyin_cursor = getPinyinCursor ();
-        cursor = m_pinyins[pinyin_cursor].begin;
+        PinyinKeyPos *pos = &g_array_index
+            (m_instance->m_pinyin_poses, PinyinKeyPos, pinyin_cursor);
+        cursor = pos->m_pos;
         /* cursor at the begin of one pinyin */
         g_return_val_if_fail (pinyin_cursor > 0, FALSE);
-        if ( cursor == m_cursor)
-            cursor = m_pinyins[pinyin_cursor - 1].begin;
+        if ( cursor == m_cursor) {
+            pos = &g_array_index
+                (m_instance->m_pinyin_poses, PinyinKeyPos, pinyin_cursor - 1);
+            cursor = pos->m_pos;
+        }
     }
 
     m_text.erase (cursor, m_cursor - cursor);
@@ -121,8 +126,9 @@ LibPinyinFullPinyinEditor::removeWordAfter (void)
         cursor = m_text.length ();
     } else {
         guint pinyin_cursor = getPinyinCursor ();
-        PinyinSegment py = m_pinyins[pinyin_cursor];
-        cursor = py.begin + py.len;
+        PinyinKeyPos *pos = &g_array_index
+            (m_instance->m_pinyin_poses, PinyinKeyPos, pinyin_cursor);
+        cursor = pos->m_pos + pos->m_len;
     }
 
     m_text.erase (m_cursor, cursor - m_cursor);
@@ -165,11 +171,16 @@ LibPinyinFullPinyinEditor::moveCursorLeftByWord (void)
         cursor = m_pinyin_len;
     } else {
         guint pinyin_cursor = getPinyinCursor ();
-        cursor = m_pinyins[pinyin_cursor].begin;
+        PinyinKeyPos *pos = &g_array_index
+            (m_instance->m_pinyin_poses, PinyinKeyPos, pinyin_cursor);
+        cursor = pos->m_pos;
         /* cursor at the begin of one pinyin */
         g_return_val_if_fail (pinyin_cursor > 0, FALSE);
-        if ( cursor == m_cursor)
-            cursor = m_pinyins[pinyin_cursor - 1].begin;        
+        if ( cursor == m_cursor) {
+            pos = &g_array_index
+                (m_instance->m_pinyin_poses, PinyinKeyPos, pinyin_cursor - 1);
+            cursor = pos->m_pos;
+        }
     }
 
     m_cursor = cursor;
@@ -189,8 +200,9 @@ LibPinyinFullPinyinEditor::moveCursorRightByWord (void)
         cursor = m_text.length ();
     } else {
         guint pinyin_cursor = getPinyinCursor ();
-        PinyinSegment py = m_pinyins[pinyin_cursor];
-        cursor = py.begin + py.len;
+        PinyinKeyPos *pos = &g_array_index
+            (m_instance->m_pinyin_poses, PinyinKeyPos, pinyin_cursor);
+        cursor = pos->m_pos + pos->m_len;
     }
 
     m_cursor = cursor;
