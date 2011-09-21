@@ -272,12 +272,12 @@ LibPinyinPinyinEditor::updateAuxiliaryText ()
 
     /* Note: cursor handling is defered to full/double pinyin editors. */
     guint pinyin_cursor = getPinyinCursor ();
-    for (guint i = 0; i < m_pinyins.size (); ++i) {
+    PinyinKeyVector & pinyin_keys = m_instance->m_pinyin_keys;
+    for (guint i = 0; i < pinyin_keys->len; ++i) {
         if (G_LIKELY (i))
             m_buffer << ' ';
-        const Pinyin *pinyin = m_pinyins[i];
-        m_buffer << pinyin->sheng
-                 << pinyin->yun;
+        PinyinKey * key = &g_array_index (pinyin_keys, PinyinKey, i);
+        m_buffer << key->get_key_string ();
     }
 
     /* append rest text */

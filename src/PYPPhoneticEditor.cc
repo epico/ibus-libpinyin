@@ -299,13 +299,15 @@ guint
 LibPinyinPhoneticEditor::getPinyinCursor ()
 {
     /* Translate cursor position to pinyin position. */
-    guint pinyin_cursor = m_pinyins.size ();
-    PinyinArray::const_iterator iter = m_pinyins.begin ();
-    for ( ; iter != m_pinyins.end (); ++iter) {
-        guint end = iter->begin + iter->len;
-        if ( iter->begin <= m_cursor && m_cursor < end )
-            pinyin_cursor = iter - m_pinyins.begin ();
+    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_poses;
+    guint pinyin_cursor = pinyin_poses->len;
+    for (size_t i = 0; i < pinyin_poses->len; ++i) {
+        PinyinKeyPos *pos = &g_array_index
+            (pinyin_poses, PinyinKeyPos, i);
+        if (pos->get_pos () <= m_cursor && m_cursor < pos->get_end_pos ())
+            pinyin_cursor = i;
     }
+
     g_assert (pinyin_cursor >= 0);
     return pinyin_cursor;
 }
