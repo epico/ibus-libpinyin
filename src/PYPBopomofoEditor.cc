@@ -226,6 +226,22 @@ LibPinyinBopomofoEditor::processKeyEvent (guint keyval, guint keycode,
     return FALSE;
 }
 
+void
+LibPinyinBopomofoEditor::updatePinyin (void)
+{
+    if (G_UNLIKELY (m_text.empty ())) {
+        m_pinyins.clear ();
+        m_pinyin_len = 0;
+        /* TODO: check whether to replace "" with NULL. */
+        pinyin_parse_more_chewings (m_instance, "");
+        return;
+    }
+
+    m_pinyin_len =
+        pinyin_parse_more_chewings (m_instance, m_text.c_str ());
+    pinyin_guess_sentence (m_instance);
+}
+
 gint
 LibPinyinBopomofoEditor::keyvalToBopomofo(gint ch)
 {
@@ -238,4 +254,56 @@ LibPinyinBopomofoEditor::keyvalToBopomofo(gint ch)
     }
 
     return BOPOMOFO_ZERO;
+}
+
+void
+LibPinyinBopomofoEditor::commit ()
+{
+    g_assert (FALSE);
+}
+
+void
+LibPinyinBopomofoEditor::updateAuxiliaryText (void)
+{
+    if (G_UNLIKELY (m_text.empty ())) {
+        hideAuxiliaryText ();
+        return;
+    }
+
+    m_buffer.clear ();
+
+    // guint pinyin_cursor = getPinyinCursor ();
+    PinyinKeyVector & pinyin_keys = m_instance->m_pinyin_keys;
+    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_poses;
+    for (guint i = 0; i < pinyin_keys->len; ++i) {
+        PinyinKey *key = &g_array_index (pinyin_keys, PinyinKey, i);
+        PinyinKeyPos *pos = &g_array_index (pinyin_poses, PinyinKeyPos, i);
+        guint cursor = pos->get_pos ();
+
+        if (G_UNLIKELY (cursor == m_cursor)) { /* at word boundary. */
+            m_buffer << '|' << key->get_key_zhuyin_string ();
+        } else { /* in word */
+            /* raw text */
+            String raw = m_text.substr (cursor, pos->get_length ());
+            guint offset = m_cursor - cursor;
+            m_buffer << ' ';
+            String before = raw.substr (0, offset);
+            String after = raw.substr (offset);
+            String::const_iterator iter;
+            for ( iter = before.begin (); iter != before.end (); ++iter) {
+                m_buffer << bopomofo_char[keyvalToBopomofo (*iter)];
+            }
+            m_buffer << '|';
+            for ( iter = after.begin (); iter != after.end (); ++iter) {
+                m_buffer << bopomofo_char[keyvalToBopomofo (*iter)];
+            }
+        }
+    }
+
+    /* append rest text */
+    const gchar * p = m_text.c_str() + m_pinyin_len;
+    m_buffer << p;
+
+    StaticText aux_text (m_buffer);
+    Editor::updateAuxiliaryText (aux_text, TRUE);
 }

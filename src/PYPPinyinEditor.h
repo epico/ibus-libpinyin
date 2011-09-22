@@ -63,7 +63,7 @@ protected:
 
     virtual gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
 
-    virtual void updatePinyin (void);
+    virtual void updatePinyin (void) = 0;
 
     guint getCursorLeftByWord (void);
     guint getCursorRightByWord (void);
