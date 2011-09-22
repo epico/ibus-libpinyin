@@ -22,6 +22,8 @@
 #include "PYConfig.h"
 #include "PYPinyinProperties.h"
 #include "PYSimpTradConverter.h"
+#include "PYHalfFullConverter.h"
+
 
 namespace PY {
 #include "PYBopomofoKeyboard.h"
@@ -259,7 +261,38 @@ LibPinyinBopomofoEditor::keyvalToBopomofo(gint ch)
 void
 LibPinyinBopomofoEditor::commit ()
 {
-    g_assert (FALSE);
+    if (G_UNLIKELY (m_text.empty ()))
+        return;
+
+    m_buffer.clear ();
+
+    /* sentence candidate */
+    char *tmp = NULL;
+    pinyin_get_sentence(m_instance, &tmp);
+    if (m_props.modeSimp ()) {
+        m_buffer << tmp;
+    } else {
+        SimpTradConverter::simpToTrad (tmp, m_buffer);
+    }
+    g_free (tmp);
+
+    /* text after pinyin */
+    const gchar *p = m_text.c_str() + m_pinyin_len;
+    while (*p != '\0') {
+        if (keyvalToBopomofo (*p)) {
+            m_buffer << keyvalToBopomofo (*p);
+        } else {
+            if (G_UNLIKELY (m_props.modeFull ())) {
+                m_buffer.appendUnichar (HalfFullConverter::toFull (*p++));
+            } else {
+                m_buffer << p;
+            }
+        }
+    }
+
+    pinyin_train(m_instance);
+    LibPinyinPhoneticEditor::commit ((const gchar *)m_buffer);
+    reset();
 }
 
 void

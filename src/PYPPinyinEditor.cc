@@ -200,8 +200,7 @@ LibPinyinPinyinEditor::processKeyEvent (guint keyval, guint keycode,
 void
 LibPinyinPinyinEditor::commit ()
 {
-
-    if (G_UNLIKELY (m_buffer.empty ()))
+    if (G_UNLIKELY (m_text.empty ()))
         return;
 
     m_buffer.clear ();
@@ -209,9 +208,12 @@ LibPinyinPinyinEditor::commit ()
     /* sentence candidate */
     char *tmp = NULL;
     pinyin_get_sentence(m_instance, &tmp);
-    m_buffer << tmp;
+    if (m_props.modeSimp ()) {
+        m_buffer << tmp;
+    } else {
+        SimpTradConverter::simpToTrad (tmp, m_buffer);
+    }
     g_free (tmp);
-    tmp = NULL;
 
     /* text after pinyin */
     const gchar *p = m_text.c_str() + m_pinyin_len;
