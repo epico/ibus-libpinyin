@@ -74,6 +74,8 @@ protected:
     virtual void commit (void) = 0;
     virtual void updateAuxiliaryText (void) = 0;
     virtual void updatePreeditText (void) = 0;
+    virtual void updatePinyin (void) = 0;
+
 
     /* varibles */
     PinyinArray                 m_pinyins;

@@ -46,30 +46,20 @@ protected:
     gboolean processBopomofo (guint keyval, guint keycode, guint modifiers);
     gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
 
+
+    virtual void updateAuxiliaryText ();
+    virtual void updatePinyin (void);
+
 #if 0
-    void updateAuxiliaryText ();
     void updateLookupTable ();
     void updatePreeditText ();
-
-    void update ();
-    void commit ();
 #endif
+
+    void commit ();
     void reset ();
 
     gboolean insert (gint ch);
     gint keyvalToBopomofo (gint ch);
-
-    gboolean removeCharBefore (void);
-    gboolean removeCharAfter (void);
-    gboolean removeWordBefore (void);
-    gboolean removeWordAfter (void);
-
-    gboolean moveCursorLeft (void);
-    gboolean moveCursorRight (void);
-    gboolean moveCursorLeftByWord (void);
-    gboolean moveCursorRightByWord (void);
-    gboolean moveCursorToBegin (void);
-    gboolean moveCursorToEnd (void);
 
 };
 
