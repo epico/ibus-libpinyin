@@ -29,7 +29,6 @@ using namespace PY;
 LibPinyinPhoneticEditor::LibPinyinPhoneticEditor (PinyinProperties &props,
                                                   Config &config):
     Editor (props, config),
-    m_pinyins (MAX_PHRASE_LEN),
     m_pinyin_len (0),
     m_lookup_table (m_config.pageSize ())
 {
@@ -273,7 +272,6 @@ LibPinyinPhoneticEditor::candidateClicked (guint index, guint button, guint stat
 void
 LibPinyinPhoneticEditor::reset (void)
 {
-    m_pinyins.clear ();
     m_pinyin_len = 0;
     m_lookup_table.clear ();
 

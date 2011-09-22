@@ -78,7 +78,9 @@ protected:
 
 
     /* varibles */
+#if 0
     PinyinArray                 m_pinyins;
+#endif
     guint                       m_pinyin_len;
     LookupTable                 m_lookup_table;
     String                      m_buffer;

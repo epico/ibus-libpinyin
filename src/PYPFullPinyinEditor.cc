@@ -67,17 +67,18 @@ void
 LibPinyinFullPinyinEditor::updatePinyin (void)
 {
     if (G_UNLIKELY (m_text.empty ())) {
-        m_pinyins.clear ();
         m_pinyin_len = 0;
         /* TODO: check whether to replace "" with NULL. */
         pinyin_parse_more_full_pinyins (m_instance, "");
         return;
     }
 
+    PinyinArray pinyins (MAX_PINYIN_LEN);
+
     m_pinyin_len = PinyinParser::parse (m_text,               // text
                                         m_text.length (),     // text length
                                         m_config.option (),   // option
-                                        m_pinyins,            // result
+                                        pinyins,              // result
                                         MAX_PHRASE_LEN);      // max result length
 
     /* propagate to libpinyin */
@@ -85,8 +86,8 @@ LibPinyinFullPinyinEditor::updatePinyin (void)
     g_array_set_size (m_instance->m_pinyin_poses, 0);
 
     PinyinKey key; PinyinKeyPos pos;
-    PinyinArray::const_iterator iter = m_pinyins.begin ();
-    for ( ; iter != m_pinyins.end (); ++iter ) {
+    PinyinArray::const_iterator iter = pinyins.begin ();
+    for ( ; iter != pinyins.end (); ++iter ) {
         PinyinSegment py = *iter;
         pinyin_parse_full_pinyin (m_instance, py.pinyin->text, &key);
         pos.set_pos (py.begin); pos.set_length (py.len);
