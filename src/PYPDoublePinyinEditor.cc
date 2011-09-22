@@ -20,9 +20,64 @@
  */
 
 #include "PYPDoublePinyinEditor.h"
+#include "PYConfig.h"
+
+#define DEFINE_DOUBLE_PINYIN_TABLES
+#include "PYDoublePinyinTable.h"
 
 using namespace PY;
 
+/*
+ * c in 'a' ... 'z' => id = c - 'a'
+ * c == ';'         => id = 26
+ * else             => id = -1
+ */
+#define ID(c) \
+    ((c >= IBUS_a && c <= IBUS_z) ? c - IBUS_a : (c == IBUS_semicolon ? 26 : -1))
+
+#define ID_TO_SHENG(id) \
+    (double_pinyin_map[m_config.doublePinyinSchema ()].sheng[id])
+#define ID_TO_YUNS(id) \
+    (double_pinyin_map[m_config.doublePinyinSchema ()].yun[id])
+
+#define IS_ALPHA(c) \
+        ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+
+
+LibPinyinDoublePinyinEditor::LibPinyinDoublePinyinEditor
+( PinyinProperties & props, Config & config)
+    : LibPinyinPinyinEditor (props, config)
+{
+}
+
+gboolean
+LibPinyinDoublePinyinEditor::insert (gint ch)
+{
+    /* is full */
+    if (G_UNLIKELY (m_text.length () >= MAX_PINYIN_LEN))
+        return TRUE;
+
+    gint id = ID (ch);
+    if (id == -1) {
+        /* it is not available ch */
+        return FALSE;
+    }
+
+    if (G_UNLIKELY (m_text.empty () && ID_TO_SHENG (id) == PINYIN_ID_VOID)) {
+        return FALSE;
+    }
+
+    m_text.insert (m_cursor++, ch);
+    updatePinyin ();
+    update ();
+
+    return TRUE;
+}
+
+void LibPinyinDoublePinyinEditor::reset (void)
+{
+    LibPinyinPinyinEditor::reset ();
+}
 
 gboolean
 LibPinyinDoublePinyinEditor::processKeyEvent (guint keyval, guint keycode,
@@ -53,4 +108,42 @@ LibPinyinDoublePinyinEditor::updatePinyin (void)
     m_pinyin_len =
         pinyin_parse_more_double_pinyins (m_instance, m_text.c_str ());
     pinyin_guess_sentence (m_instance);
+}
+
+
+void
+LibPinyinDoublePinyinEditor::updateAuxiliaryText (void)
+{
+    if (G_UNLIKELY (m_text.empty ())) {
+        hideAuxiliaryText ();
+        return;
+    }
+
+    m_buffer.clear ();
+
+    // guint pinyin_cursor = getPinyinCursor ();
+    PinyinKeyVector & pinyin_keys = m_instance->m_pinyin_keys;
+    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_poses;
+    for (guint i = 0; i < pinyin_keys->len; ++i) {
+        PinyinKey *key = &g_array_index (pinyin_keys, PinyinKey, i);
+        PinyinKeyPos *pos = &g_array_index (pinyin_poses, PinyinKeyPos, i);
+        guint cursor = pos->get_pos ();
+
+        if (G_UNLIKELY (cursor == m_cursor)) { /* at word boundary. */
+            m_buffer << '|' << key->get_key_string ();
+        } else { /* in word */
+            /* raw text */
+            String raw = m_text.substr (cursor, pos->get_length ());
+            guint offset = m_cursor - cursor;
+            m_buffer << ' ' << raw.substr (0, offset)
+                     << '|' << raw.substr (offset);
+        }
+    }
+
+    /* append rest text */
+    const gchar * p = m_text.c_str() + m_pinyin_len;
+    m_buffer << p;
+
+    StaticText aux_text (m_buffer);
+    Editor::updateAuxiliaryText (aux_text, TRUE);
 }

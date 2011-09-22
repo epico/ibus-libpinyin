@@ -271,7 +271,7 @@ LibPinyinPinyinEditor::updateAuxiliaryText ()
     m_buffer.clear ();
 
     /* Note: cursor handling is defered to full/double pinyin editors. */
-    guint pinyin_cursor = getPinyinCursor ();
+    // guint pinyin_cursor = getPinyinCursor ();
     PinyinKeyVector & pinyin_keys = m_instance->m_pinyin_keys;
     for (guint i = 0; i < pinyin_keys->len; ++i) {
         if (G_LIKELY (i))

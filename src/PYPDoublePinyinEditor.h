@@ -38,6 +38,7 @@ public:
 
 protected:
     /* TODO: to be implemented. */
+    virtual void updateAuxiliaryText (void);
     virtual void updatePinyin (void);
 
 };

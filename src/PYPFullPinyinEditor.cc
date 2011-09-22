@@ -107,7 +107,7 @@ LibPinyinFullPinyinEditor::updateAuxiliaryText ()
 
     m_buffer.clear ();
 
-    guint pinyin_cursor = getPinyinCursor ();
+    // guint pinyin_cursor = getPinyinCursor ();
     PinyinKeyVector & pinyin_keys = m_instance->m_pinyin_keys;
     PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_poses;
     for (guint i = 0; i < pinyin_keys->len; ++i) {
