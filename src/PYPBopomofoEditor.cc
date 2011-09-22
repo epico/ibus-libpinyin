@@ -69,6 +69,7 @@ LibPinyinBopomofoEditor::insert (gint ch)
         return TRUE;
 
     m_text.insert (m_cursor++, ch);
+    updatePinyin ();
     update ();
 
     return TRUE;

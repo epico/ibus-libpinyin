@@ -115,6 +115,8 @@ ibus_engine_pinyin_h_sources = \
 	PYLibPinyin.h \
 	PYPPhoneticEditor.h \
 	PYPPinyinEditor.h \
+	PYPFullPinyinEditor.h \
+	PYPDoublePinyinEditor.h \
 	PYPBopomofoEditor.h \
 	$(NULL)
 
