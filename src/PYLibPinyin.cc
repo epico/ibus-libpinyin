@@ -43,7 +43,7 @@ LibPinyinBackEnd::~LibPinyinBackEnd(){
 /* Here are the fuzzy pinyin options conversion table. */
 static const struct {
     guint ibus_pinyin_option;
-    PinyinAmbiguity libpinyin_option;    
+    PinyinAmbiguity libpinyin_option;
 } fuzzy_options [] = {
     /* fuzzy pinyin */
     { PINYIN_FUZZY_C_CH,        PINYIN_AmbCiChi        },
@@ -68,6 +68,7 @@ static const struct {
     { PINYIN_FUZZY_ING_IN,      PINYIN_AmbIngIn        }
 };
 
+
 gboolean
 LibPinyinBackEnd::setPinyinOptions (Config * config)
 {
@@ -86,5 +87,31 @@ LibPinyinBackEnd::setPinyinOptions (Config * config)
 
     pinyin_set_options(m_pinyin_context, &custom);
 
+    return TRUE;
+}
+
+/* Here are the chewing keyboard scheme mapping table. */
+static const struct {
+    guint bopomofo_keyboard;
+    PinyinZhuYinScheme chewing_keyboard;
+} chewing_options [] = {
+    {0, ZHUYIN_STANDARD},
+    {1, ZHUYIN_GIN_YIEH},
+    {2, ZHUYIN_ET26},
+    {3, ZHUYIN_IBM}
+};
+
+
+gboolean
+LibPinyinBackEnd::setChewingOptions (Config *config)
+{
+    const guint map = config->bopomofoKeyboardMapping ();
+    for (guint i = 0; i < G_N_ELEMENTS (chewing_options); i++) {
+        if (map == chewing_options[i].bopomofo_keyboard){
+            /* TODO: set chewing scheme. */
+            PinyinZhuYinScheme scheme = chewing_options[i].chewing_keyboard;
+            g_assert (FALSE);
+        }            
+    }
     return TRUE;
 }
