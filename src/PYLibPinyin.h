@@ -41,8 +41,13 @@ public:
     /* use static initializer in C++. */
     static LibPinyinBackEnd & instance (void) { return *m_instance; }
 
+protected:
+    gboolean setFuzzyOptions (Config *config, pinyin_context_t *context);
+
 private:
-    pinyin_context_t *m_pinyin_context; /* libpinyin context */
+    /* libpinyin context */
+    pinyin_context_t *m_pinyin_context;
+    pinyin_context_t *m_chewing_context;
 
 private:
     static std::unique_ptr<LibPinyinBackEnd> m_instance;

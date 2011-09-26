@@ -70,7 +70,7 @@ static const struct {
 
 
 gboolean
-LibPinyinBackEnd::setPinyinOptions (Config * config)
+LibPinyinBackEnd::setFuzzyOptions (Config *config, pinyin_context_t *context)
 {
     guint option = config->option ();
     PinyinCustomSettings custom;
@@ -85,14 +85,43 @@ LibPinyinBackEnd::setPinyinOptions (Config * config)
                 (fuzzy_options[i].libpinyin_option, true);
     }
 
-    pinyin_set_options(m_pinyin_context, &custom);
+    pinyin_set_options(context, &custom);
 
+    return TRUE;
+}
+
+/* Here are the double pinyin keyboard scheme mapping table. */
+static const struct{
+    gint double_pinyin_keyboard;
+    PinyinShuangPinScheme shuang_pin_keyboard;
+} shuang_pin_options [] = {
+    {0, SHUANG_PIN_MS},
+    {1, SHUANG_PIN_ZRM},
+    {2, SHUANG_PIN_ABC},
+    {3, SHUANG_PIN_ZIGUANG},
+    {4, SHUANG_PIN_PYJJ},
+    {5, SHUANG_PIN_XHE}
+};
+
+gboolean
+LibPinyinBackEnd::setPinyinOptions (Config *config)
+{
+    const gint map = config->doublePinyinSchema ();
+    for (guint i = 0; i < G_N_ELEMENTS (shuang_pin_options); i++) {
+        if (map == shuang_pin_options[i].double_pinyin_keyboard) {
+            /* TODO: set double pinyin scheme. */
+            PinyinShuangPinScheme scheme = shuang_pin_options[i].shuang_pin_keyboard;
+            pinyin_set_double_pinyin_scheme (m_pinyin_context, scheme);
+        }
+    }
+
+    setFuzzyOptions (config, m_pinyin_context);
     return TRUE;
 }
 
 /* Here are the chewing keyboard scheme mapping table. */
 static const struct {
-    guint bopomofo_keyboard;
+    gint bopomofo_keyboard;
     PinyinZhuYinScheme chewing_keyboard;
 } chewing_options [] = {
     {0, ZHUYIN_STANDARD},
@@ -105,13 +134,15 @@ static const struct {
 gboolean
 LibPinyinBackEnd::setChewingOptions (Config *config)
 {
-    const guint map = config->bopomofoKeyboardMapping ();
+    const gint map = config->bopomofoKeyboardMapping ();
     for (guint i = 0; i < G_N_ELEMENTS (chewing_options); i++) {
-        if (map == chewing_options[i].bopomofo_keyboard){
+        if (map == chewing_options[i].bopomofo_keyboard) {
             /* TODO: set chewing scheme. */
             PinyinZhuYinScheme scheme = chewing_options[i].chewing_keyboard;
-            g_assert (FALSE);
-        }            
+            pinyin_set_chewing_scheme (m_chewing_context, scheme);
+        }
     }
+
+    setFuzzyOptions (config, m_chewing_context);
     return TRUE;
 }
