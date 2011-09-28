@@ -36,17 +36,11 @@ public:
     LibPinyinPinyinEditor (PinyinProperties & props, Config & config);
 
 public:
-    gboolean removeCharBefore (void);
-    gboolean removeCharAfter (void);
     gboolean removeWordBefore (void);
     gboolean removeWordAfter (void);
 
-    gboolean moveCursorLeft (void);
-    gboolean moveCursorRight (void);
     gboolean moveCursorLeftByWord (void);
     gboolean moveCursorRightByWord (void);
-    gboolean moveCursorToBegin (void);
-    gboolean moveCursorToEnd (void);
 
 
 protected:

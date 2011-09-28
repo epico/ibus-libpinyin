@@ -298,34 +298,7 @@ LibPinyinPinyinEditor::updateLookupTable ()
     LibPinyinPhoneticEditor::updateLookupTable ();
 }
 
-gboolean
-LibPinyinPinyinEditor::removeCharBefore (void)
-{
-    if (G_UNLIKELY (m_cursor == 0))
-        return FALSE;
-
-    m_cursor --;
-    m_text.erase (m_cursor, 1);
-
-    updatePinyin ();
-    update ();
-
-    return TRUE;
-}
-
-gboolean
-LibPinyinPinyinEditor::removeCharAfter (void)
-{
-    if (G_UNLIKELY (m_cursor == m_text.length ()))
-        return FALSE;
-
-    m_text.erase (m_cursor, 1);
-
-    updatePinyin ();
-    update ();
-
-    return TRUE;
-}
+/* move cursor functions */
 
 guint
 LibPinyinPinyinEditor::getCursorLeftByWord (void)
@@ -398,28 +371,6 @@ LibPinyinPinyinEditor::removeWordAfter (void)
 }
 
 gboolean
-LibPinyinPinyinEditor::moveCursorLeft (void)
-{
-    if (G_UNLIKELY (m_cursor == 0))
-        return FALSE;
-
-    m_cursor --;
-    update ();
-    return TRUE;
-}
-
-gboolean
-LibPinyinPinyinEditor::moveCursorRight (void)
-{
-    if (G_UNLIKELY (m_cursor == m_text.length ()))
-        return FALSE;
-
-    m_cursor ++;
-    update ();
-    return TRUE;
-}
-
-gboolean
 LibPinyinPinyinEditor::moveCursorLeftByWord (void)
 {
     if (G_UNLIKELY (m_cursor == 0))
@@ -441,28 +392,6 @@ LibPinyinPinyinEditor::moveCursorRightByWord (void)
     guint cursor = getCursorRightByWord ();
 
     m_cursor = cursor;
-    update ();
-    return TRUE;
-}
-
-gboolean
-LibPinyinPinyinEditor::moveCursorToBegin (void)
-{
-    if (G_UNLIKELY (m_cursor == 0))
-        return TRUE;
-
-    m_cursor = 0;
-    update ();
-    return TRUE;
-}
-
-gboolean
-LibPinyinPinyinEditor::moveCursorToEnd (void)
-{
-    if (G_UNLIKELY (m_cursor == m_text.length ()))
-        return FALSE;
-
-    m_cursor = m_text.length ();
     update ();
     return TRUE;
 }
