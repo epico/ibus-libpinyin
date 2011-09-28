@@ -118,6 +118,7 @@ ibus_engine_pinyin_h_sources = \
 	PYPFullPinyinEditor.h \
 	PYPDoublePinyinEditor.h \
 	PYPBopomofoEditor.h \
+	PYPPinyinEngine.h \
 	$(NULL)
 
 if IBUS_BUILD_LUA_EXTENSION
