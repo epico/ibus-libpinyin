@@ -334,4 +334,75 @@ LibPinyinPhoneticEditor::selectCandidateInPage (guint i)
     return selectCandidate (i);
 }
 
+gboolean
+LibPinyinPhoneticEditor::removeCharBefore (void)
+{
+    if (G_UNLIKELY (m_cursor == 0))
+        return FALSE;
 
+    m_cursor --;
+    m_text.erase (m_cursor, 1);
+
+    updatePinyin ();
+    update ();
+
+    return TRUE;
+}
+
+gboolean
+LibPinyinPhoneticEditor::removeCharAfter (void)
+{
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    m_text.erase (m_cursor, 1);
+
+    updatePinyin ();
+    update ();
+
+    return TRUE;
+}
+
+gboolean
+LibPinyinPhoneticEditor::moveCursorLeft (void)
+{
+    if (G_UNLIKELY (m_cursor == 0))
+        return FALSE;
+
+    m_cursor --;
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinPhoneticEditor::moveCursorRight (void)
+{
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    m_cursor ++;
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinPhoneticEditor::moveCursorToBegin (void)
+{
+    if (G_UNLIKELY (m_cursor == 0))
+        return TRUE;
+
+    m_cursor = 0;
+    update ();
+    return TRUE;
+}
+
+gboolean
+LibPinyinPhoneticEditor::moveCursorToEnd (void)
+{
+    if (G_UNLIKELY (m_cursor == m_text.length ()))
+        return FALSE;
+
+    m_cursor = m_text.length ();
+    update ();
+    return TRUE;
+}

@@ -35,6 +35,13 @@ public:
     LibPinyinBopomofoEditor (PinyinProperties & props, Config & config);
     ~LibPinyinBopomofoEditor (void);
 
+public:
+    gboolean removeWordBefore (void);
+    gboolean removeWordAfter (void);
+
+    gboolean moveCursorLeftByWord (void);
+    gboolean moveCursorRightByWord (void);
+
 protected:
     String bopomofo;
     gboolean m_select_mode;
@@ -47,13 +54,12 @@ protected:
     gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
 
 
+    virtual void updatePreeditText ();
     virtual void updateAuxiliaryText ();
     virtual void updatePinyin (void);
 
-#if 0
-    void updateLookupTable ();
-    void updatePreeditText ();
-#endif
+    guint getCursorLeftByWord (void);
+    guint getCursorRightByWord (void);
 
     void commit ();
     void reset ();

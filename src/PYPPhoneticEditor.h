@@ -61,16 +61,16 @@ protected:
 
     /* pure virtual functions */
     virtual gboolean insert (gint ch) = 0;
-    virtual gboolean removeCharBefore (void) = 0;
-    virtual gboolean removeCharAfter (void) = 0;
+    virtual gboolean removeCharBefore (void);
+    virtual gboolean removeCharAfter (void);
     virtual gboolean removeWordBefore (void) = 0;
     virtual gboolean removeWordAfter (void) = 0;
-    virtual gboolean moveCursorLeft (void) = 0;
-    virtual gboolean moveCursorRight (void) = 0;
+    virtual gboolean moveCursorLeft (void);
+    virtual gboolean moveCursorRight (void);
     virtual gboolean moveCursorLeftByWord (void) = 0;
     virtual gboolean moveCursorRightByWord (void) = 0;
-    virtual gboolean moveCursorToBegin (void) = 0;
-    virtual gboolean moveCursorToEnd (void) = 0;
+    virtual gboolean moveCursorToBegin (void);
+    virtual gboolean moveCursorToEnd (void);
     virtual void commit (void) = 0;
     virtual void updateAuxiliaryText (void) = 0;
     virtual void updatePreeditText (void) = 0;
