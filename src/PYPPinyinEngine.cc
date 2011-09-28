@@ -46,7 +46,9 @@ LibPinyinPinyinEngine::LibPinyinPinyinEngine (IBusEngine *engine)
 {
     gint i;
 
-    if (PinyinConfig::instance ().doublePinyin ())
+    m_double_pinyin = PinyinConfig::instance ().doublePinyin ();
+
+    if (m_double_pinyin)
         m_editors[MODE_INIT].reset
             (new LibPinyinDoublePinyinEditor (m_props, PinyinConfig::instance ()));
     else
@@ -148,23 +150,7 @@ LibPinyinPinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modif
 #endif
                 }
             } else {
-                if (m_prev_pressed_key != IBUS_period) {
-                    if ((keyval == IBUS_at || keyval == IBUS_colon)) {
-                        m_input_mode = MODE_RAW;
-                        m_editors[MODE_RAW]->setText (text, text.length ());
-                        m_editors[MODE_INIT]->reset ();
-                    }
-                }
-                else {
-                    if ((keyval >= IBUS_a && keyval <= IBUS_z) ||
-                        (keyval >= IBUS_A && keyval <= IBUS_Z)) {
-                        String tmp = text;
-                        tmp += ".";
-                        m_input_mode = MODE_RAW;
-                        m_editors[MODE_RAW]->setText (tmp, tmp.length ());
-                        m_editors[MODE_INIT]->reset ();
-                    }
-                }
+                g_assert_not_reached ();
             }
         }
         retval = m_editors[m_input_mode]->processKeyEvent (keyval, keycode, modifiers);
@@ -189,17 +175,20 @@ LibPinyinPinyinEngine::focusIn (void)
     /* TODO: check memory leak here,
      *       or switch full/double pinyin when pinyin config is changed.*/
     if (PinyinConfig::instance ().doublePinyin ()) {
-        if (dynamic_cast <LibPinyinDoublePinyinEditor *> (m_editors[MODE_INIT].get ()) == NULL) {
+        if (!m_double_pinyin) {
             m_editors[MODE_INIT].reset (new LibPinyinDoublePinyinEditor (m_props, PinyinConfig::instance ()));
             connectEditorSignals (m_editors[MODE_INIT]);
         }
+        m_double_pinyin = TRUE;
     }
     else {
-        if (dynamic_cast <LibPinyinFullPinyinEditor *> (m_editors[MODE_INIT].get ()) == NULL) {
+        if (m_double_pinyin) {
             m_editors[MODE_INIT].reset (new LibPinyinFullPinyinEditor (m_props, PinyinConfig::instance ()));
             connectEditorSignals (m_editors[MODE_INIT]);
         }
+        m_double_pinyin = FALSE;
     }
+
     registerProperties (m_props.properties ());
 }
 
