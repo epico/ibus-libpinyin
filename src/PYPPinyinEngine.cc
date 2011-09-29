@@ -149,7 +149,7 @@ LibPinyinPinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modif
                     break;
 #endif
                 }
-            } else {
+            } else { /* Unknown */
                 g_assert_not_reached ();
             }
         }
@@ -277,10 +277,12 @@ LibPinyinPinyinEngine::commitText (Text & text)
     Engine::commitText (text);
     if (m_input_mode != MODE_INIT)
         m_input_mode = MODE_INIT;
+#if 0
     if (text.text ())
         static_cast<FallbackEditor*> (m_fallback_editor.get ())->setPrevCommittedChar (*text.text ());
     else
         static_cast<FallbackEditor*> (m_fallback_editor.get ())->setPrevCommittedChar (0);
+#endif
 }
 
 void
