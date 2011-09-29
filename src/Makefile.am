@@ -71,6 +71,7 @@ ibus_engine_pinyin_c_sources = \
 	PYPDoublePinyinEditor.cc \
 	PYPBopomofoEditor.cc \
 	PYPPinyinEngine.cc \
+	PYPBopomofoEngine.cc \
 	$(NULL)
 ibus_engine_pinyin_h_sources = \
 	PYBopomofo.h \
