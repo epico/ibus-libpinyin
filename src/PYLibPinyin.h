@@ -41,6 +41,9 @@ public:
     /* use static initializer in C++. */
     static LibPinyinBackEnd & instance (void) { return *m_instance; }
 
+    static void init (void);
+    static void finalize (void);
+
 protected:
     gboolean setFuzzyOptions (Config *config, pinyin_context_t *context);
 

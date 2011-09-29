@@ -30,6 +30,7 @@
 #include "PYBus.h"
 #include "PYConfig.h"
 #include "PYDatabase.h"
+#include "PYLibPinyin.h"
 
 using namespace PY;
 
@@ -88,6 +89,7 @@ start_component (void)
     Database::init ();
     PinyinConfig::init (bus);
     BopomofoConfig::init (bus);
+    LibPinyinBackEnd::init ();
 
     g_signal_connect ((IBusBus *)bus, "disconnected", G_CALLBACK (ibus_disconnected_cb), NULL);
 
@@ -148,6 +150,7 @@ sigterm_cb (int sig)
 static void
 atexit_cb (void)
 {
+    LibPinyinBackEnd::finalize ();
     PY::Database::finalize ();
 }
 

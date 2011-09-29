@@ -29,15 +29,25 @@ std::unique_ptr<LibPinyinBackEnd> LibPinyinBackEnd::m_instance;
 
 static LibPinyinBackEnd libpinyin_backend;
 
-LibPinyinBackEnd::LibPinyinBackEnd(){
-    g_assert (NULL == m_instance.get ());
-    m_pinyin_context = pinyin_init("/usr/share/libpinyin/data", "../data");
-    m_instance.reset(this);
+LibPinyinBackEnd::LibPinyinBackEnd () {
+    m_pinyin_context = pinyin_init ("/usr/share/libpinyin/data", NULL);
+    m_chewing_context = pinyin_init ("/usr/share/libpinyin/data", NULL);
 }
 
-LibPinyinBackEnd::~LibPinyinBackEnd(){
+LibPinyinBackEnd::~LibPinyinBackEnd () {
     pinyin_fini(m_pinyin_context);
-    m_instance = NULL;
+    pinyin_fini(m_chewing_context);
+}
+
+void
+LibPinyinBackEnd::init (void) {
+    g_assert (NULL == m_instance.get ());
+    LibPinyinBackEnd * backend = new LibPinyinBackEnd;
+    m_instance.reset(backend);
+}
+
+void
+LibPinyinBackEnd::finalize (void) {
 }
 
 /* Here are the fuzzy pinyin options conversion table. */
