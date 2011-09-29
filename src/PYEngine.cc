@@ -23,6 +23,8 @@
 #include "PYEngine.h"
 #include "PYPinyinEngine.h"
 #include "PYBopomofoEngine.h"
+#include "PYPPinyinEngine.h"
+#include "PYPBopomofoEngine.h"
 
 namespace PY {
 /* code of engine class of GObject */
@@ -155,11 +157,24 @@ ibus_pinyin_engine_constructor (GType                  type,
                                                            construct_params);
     name = ibus_engine_get_name ((IBusEngine *) engine);
 
-    if (name && 
-        (std::strcmp (name, "bopomofo") == 0 || std::strcmp (name, "bopomofo-debug") == 0)) {
-        engine->engine = new BopomofoEngine (IBUS_ENGINE (engine));
-    }
-    else {
+    if (name) {
+        if (std::strcmp (name, "pinyin") == 0 ||
+            std::strcmp (name, "pinyin-debug") == 0) {
+            engine->engine = new PinyinEngine (IBUS_ENGINE (engine));
+        }
+        if (std::strcmp (name, "bopomofo") == 0 ||
+            std::strcmp (name, "bopomofo-debug") == 0) {
+            engine->engine = new BopomofoEngine (IBUS_ENGINE (engine));
+        }
+        if (std::strcmp (name, "libpinyin") == 0 ||
+            std::strcmp (name, "libpinyin-debug") == 0) {
+            engine->engine = new LibPinyinPinyinEngine (IBUS_ENGINE (engine));
+        }
+        if (std::strcmp (name, "libbopomofo") == 0 ||
+            std::strcmp (name, "libbopomofo") == 0 ) {
+            engine->engine = new LibPinyinBopomofoEngine (IBUS_ENGINE (engine));
+        }
+    } else {
         engine->engine = new PinyinEngine (IBUS_ENGINE (engine));
     }
     return (GObject *) engine;
