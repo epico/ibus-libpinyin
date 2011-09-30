@@ -150,7 +150,7 @@ LibPinyinPinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modif
 #endif
                 }
             } else { /* Unknown */
-                g_assert_not_reached ();
+                g_warn_if_reached ();
             }
         }
         retval = m_editors[m_input_mode]->processKeyEvent (keyval, keycode, modifiers);
@@ -247,8 +247,8 @@ LibPinyinPinyinEngine::cursorDown (void)
 inline void
 LibPinyinPinyinEngine::showSetupDialog (void)
 {
-    /* TODO: to be implemented */
-    g_assert (FALSE);
+    g_spawn_command_line_async
+        (LIBEXECDIR"/ibus-setup-pinyin pinyin --libpinyin", NULL);
 }
 
 gboolean
