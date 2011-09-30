@@ -38,6 +38,11 @@ public:
     gboolean setPinyinOptions (Config *config);
     gboolean setChewingOptions (Config *config);
 
+    pinyin_instance_t *allocPinyinInstance ();
+    void freePinyinInstance (pinyin_instance_t *instance);
+    pinyin_instance_t *allocChewingInstance ();
+    void freeChewingInstance (pinyin_instance_t *instance);
+
     /* use static initializer in C++. */
     static LibPinyinBackEnd & instance (void) { return *m_instance; }
 

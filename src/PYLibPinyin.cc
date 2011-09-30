@@ -30,24 +30,59 @@ std::unique_ptr<LibPinyinBackEnd> LibPinyinBackEnd::m_instance;
 static LibPinyinBackEnd libpinyin_backend;
 
 LibPinyinBackEnd::LibPinyinBackEnd () {
-    m_pinyin_context = pinyin_init ("/usr/share/libpinyin/data", NULL);
-    m_chewing_context = pinyin_init ("/usr/share/libpinyin/data", NULL);
+    m_pinyin_context = NULL;
+    m_chewing_context = NULL;
 }
 
 LibPinyinBackEnd::~LibPinyinBackEnd () {
-    pinyin_fini(m_pinyin_context);
-    pinyin_fini(m_chewing_context);
+    if (m_pinyin_context)
+        pinyin_fini(m_pinyin_context);
+    m_pinyin_context = NULL;
+    if (m_chewing_context)
+        pinyin_fini(m_chewing_context);
+    m_chewing_context = NULL;
+}
+
+pinyin_instance_t *
+LibPinyinBackEnd::allocPinyinInstance ()
+{
+    if (NULL == m_pinyin_context) {
+        m_pinyin_context = pinyin_init ("/usr/share/libpinyin/data", NULL);
+    }
+    return pinyin_alloc_instance (m_pinyin_context);
+}
+
+void
+LibPinyinBackEnd::freePinyinInstance (pinyin_instance_t *instance)
+{
+    pinyin_free_instance (instance);
+}
+
+pinyin_instance_t *
+LibPinyinBackEnd::allocChewingInstance ()
+{
+    if (NULL == m_chewing_context) {
+        m_chewing_context = pinyin_init ("/usr/share/libpinyin/data", NULL);
+    }
+    return pinyin_alloc_instance (m_chewing_context);
+}
+
+void
+LibPinyinBackEnd::freeChewingInstance (pinyin_instance_t *instance)
+{
+    pinyin_free_instance (instance);
 }
 
 void
 LibPinyinBackEnd::init (void) {
     g_assert (NULL == m_instance.get ());
     LibPinyinBackEnd * backend = new LibPinyinBackEnd;
-    m_instance.reset(backend);
+    m_instance.reset (backend);
 }
 
 void
 LibPinyinBackEnd::finalize (void) {
+    m_instance.reset ();
 }
 
 /* Here are the fuzzy pinyin options conversion table. */
