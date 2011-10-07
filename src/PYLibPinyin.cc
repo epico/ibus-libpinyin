@@ -48,6 +48,7 @@ LibPinyinBackEnd::allocPinyinInstance ()
 {
     if (NULL == m_pinyin_context) {
         m_pinyin_context = pinyin_init ("/usr/share/libpinyin/data", NULL);
+        setPinyinOptions (&PinyinConfig::instance ());
     }
     return pinyin_alloc_instance (m_pinyin_context);
 }
@@ -63,6 +64,7 @@ LibPinyinBackEnd::allocChewingInstance ()
 {
     if (NULL == m_chewing_context) {
         m_chewing_context = pinyin_init ("/usr/share/libpinyin/data", NULL);
+        setChewingOptions (&BopomofoConfig::instance ());
     }
     return pinyin_alloc_instance (m_chewing_context);
 }
@@ -117,6 +119,8 @@ static const struct {
 gboolean
 LibPinyinBackEnd::setFuzzyOptions (Config *config, pinyin_context_t *context)
 {
+    g_assert (context);
+
     guint option = config->option ();
     PinyinCustomSettings custom;
 
@@ -151,6 +155,9 @@ static const struct{
 gboolean
 LibPinyinBackEnd::setPinyinOptions (Config *config)
 {
+    if (NULL == m_pinyin_context)
+        return FALSE;
+
     const gint map = config->doublePinyinSchema ();
     for (guint i = 0; i < G_N_ELEMENTS (shuang_pin_options); i++) {
         if (map == shuang_pin_options[i].double_pinyin_keyboard) {
@@ -179,6 +186,9 @@ static const struct {
 gboolean
 LibPinyinBackEnd::setChewingOptions (Config *config)
 {
+    if (NULL == m_chewing_context)
+        return FALSE;
+
     const gint map = config->bopomofoKeyboardMapping ();
     for (guint i = 0; i < G_N_ELEMENTS (chewing_options); i++) {
         if (map == chewing_options[i].bopomofo_keyboard) {
