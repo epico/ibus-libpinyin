@@ -351,7 +351,8 @@ LibPinyinBopomofoEditor::updateAuxiliaryText (void)
 
         if (G_UNLIKELY (cursor == m_cursor)) { /* at word boundary. */
             m_buffer << '|' << key->get_key_zhuyin_string ();
-        } else { /* in word */
+        } else if (G_LIKELY ( cursor < m_cursor &&
+                              m_cursor < pos->get_end_pos() )) { /* in word */
             /* raw text */
             String raw = m_text.substr (cursor, pos->get_length ());
             guint offset = m_cursor - cursor;
@@ -366,8 +367,13 @@ LibPinyinBopomofoEditor::updateAuxiliaryText (void)
             for ( iter = after.begin (); iter != after.end (); ++iter) {
                 m_buffer << bopomofo_char[keyvalToBopomofo (*iter)];
             }
+        } else { /* other words */
+            m_buffer << ' ' << key->get_key_zhuyin_string ();
         }
     }
+
+    if (m_cursor == m_pinyin_len)
+        m_buffer << '|';
 
     /* append rest text */
     const gchar * p = m_text.c_str() + m_pinyin_len;
