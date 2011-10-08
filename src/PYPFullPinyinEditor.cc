@@ -134,6 +134,9 @@ LibPinyinFullPinyinEditor::updateAuxiliaryText ()
         }
     }
 
+    if (m_cursor == m_pinyin_len)
+        m_buffer << '|';
+
     /* append rest text */
     const gchar * p = m_text.c_str() + m_pinyin_len;
     m_buffer << p;
