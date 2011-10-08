@@ -21,6 +21,7 @@
 
 #include "PYPFullPinyinEditor.h"
 #include "PYConfig.h"
+#include "PYLibPinyin.h"
 
 using namespace PY;
 
@@ -28,10 +29,13 @@ LibPinyinFullPinyinEditor::LibPinyinFullPinyinEditor
 (PinyinProperties & props, Config & config)
     : LibPinyinPinyinEditor (props, config)
 {
+    m_instance = LibPinyinBackEnd::instance ().allocPinyinInstance ();
 }
 
 LibPinyinFullPinyinEditor::~LibPinyinFullPinyinEditor (void)
 {
+    LibPinyinBackEnd::instance ().freePinyinInstance (m_instance);
+    m_instance = NULL;
 }
 
 void

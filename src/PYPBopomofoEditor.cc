@@ -20,6 +20,7 @@
  */
 #include "PYPBopomofoEditor.h"
 #include "PYConfig.h"
+#include "PYLibPinyin.h"
 #include "PYPinyinProperties.h"
 #include "PYSimpTradConverter.h"
 #include "PYHalfFullConverter.h"
@@ -48,10 +49,13 @@ LibPinyinBopomofoEditor::LibPinyinBopomofoEditor
     : LibPinyinPhoneticEditor (props, config),
       m_select_mode (FALSE)
 {
+    m_instance = LibPinyinBackEnd::instance ().allocChewingInstance ();
 }
 
 LibPinyinBopomofoEditor::~LibPinyinBopomofoEditor (void)
 {
+    LibPinyinBackEnd::instance ().freeChewingInstance (m_instance);
+    m_instance = NULL;
 }
 
 void

@@ -21,6 +21,7 @@
 
 #include "PYPDoublePinyinEditor.h"
 #include "PYConfig.h"
+#include "PYLibPinyin.h"
 
 #define DEFINE_DOUBLE_PINYIN_TABLES
 #include "PYDoublePinyinTable.h"
@@ -48,6 +49,13 @@ LibPinyinDoublePinyinEditor::LibPinyinDoublePinyinEditor
 ( PinyinProperties & props, Config & config)
     : LibPinyinPinyinEditor (props, config)
 {
+    m_instance = LibPinyinBackEnd::instance ().allocPinyinInstance ();
+}
+
+LibPinyinDoublePinyinEditor::~LibPinyinDoublePinyinEditor (void)
+{
+    LibPinyinBackEnd::instance ().freePinyinInstance (m_instance);
+    m_instance = NULL;
 }
 
 gboolean

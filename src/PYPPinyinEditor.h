@@ -29,8 +29,6 @@ namespace PY {
 
 class Config;
 
-class SpecialPhraseTable;
-
 class LibPinyinPinyinEditor : public LibPinyinPhoneticEditor {
 public:
     LibPinyinPinyinEditor (PinyinProperties & props, Config & config);

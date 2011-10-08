@@ -29,6 +29,7 @@ class LibPinyinDoublePinyinEditor : public LibPinyinPinyinEditor {
 
 public:
     LibPinyinDoublePinyinEditor (PinyinProperties & props, Config & config);
+    ~LibPinyinDoublePinyinEditor (void);
 
     gboolean insert (gint ch);
 
