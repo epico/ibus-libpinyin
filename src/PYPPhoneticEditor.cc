@@ -32,6 +32,7 @@ LibPinyinPhoneticEditor::LibPinyinPhoneticEditor (PinyinProperties &props,
     m_pinyin_len (0),
     m_lookup_table (m_config.pageSize ())
 {
+    m_candidates = g_array_new(FALSE, TRUE, sizeof(phrase_token_t));
 }
 
 gboolean
@@ -281,6 +282,8 @@ LibPinyinPhoneticEditor::reset (void)
 void
 LibPinyinPhoneticEditor::update (void)
 {
+    guint pinyin_cursor = getPinyinCursor ();
+    pinyin_get_candidates (m_instance, pinyin_cursor, m_candidates);
     updateLookupTable ();
     updatePreeditText ();
     updateAuxiliaryText ();

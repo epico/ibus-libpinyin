@@ -122,12 +122,15 @@ LibPinyinFullPinyinEditor::updateAuxiliaryText ()
 
         if (G_UNLIKELY (cursor == m_cursor)) { /* at word boundary. */
             m_buffer << '|' << key->get_key_string ();
-        } else { /* in word */
+        } else if (G_LIKELY ( cursor < m_cursor &&
+                              m_cursor < pos->get_end_pos() )) { /* in word */
             /* raw text */
             String raw = m_text.substr (cursor, pos->get_length ());
             guint offset = m_cursor - cursor;
             m_buffer << ' ' << raw.substr (0, offset)
                      << '|' << raw.substr (offset);
+        } else { /* other words */
+            m_buffer << ' ' << key->get_key_string ();
         }
     }
 

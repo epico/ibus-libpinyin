@@ -149,8 +149,8 @@ LibPinyinPinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modif
                     break;
 #endif
                 }
-            } else { /* Unknown */
-                g_warn_if_reached ();
+            } else {
+                /* TODO: Unknown */
             }
         }
         retval = m_editors[m_input_mode]->processKeyEvent (keyval, keycode, modifiers);
