@@ -311,13 +311,15 @@ LibPinyinBopomofoEditor::updatePreeditText ()
     m_buffer.clear ();
     char *tmp = NULL;
     pinyin_get_sentence(m_instance, &tmp);
-    if (m_props.modeSimp ()) {
-        m_buffer<<tmp;
-    } else {
-        SimpTradConverter::simpToTrad (tmp, m_buffer);
+    if (tmp) {
+        if (m_props.modeSimp ()) {
+            m_buffer<<tmp;
+        } else {
+            SimpTradConverter::simpToTrad (tmp, m_buffer);
+        }
+        g_free (tmp);
+        tmp = NULL;
     }
-    g_free (tmp);
-    tmp = NULL;
 
     /* append rest text */
     const gchar *p = m_text.c_str () + m_pinyin_len;
