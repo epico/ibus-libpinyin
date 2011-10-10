@@ -43,11 +43,8 @@ LibPinyinPhoneticEditor::processSpace (guint keyval, guint keycode,
         return FALSE;
     if (cmshm_filter (modifiers) != 0)
         return TRUE;
-    if (m_lookup_table.size () != 0) {
-        selectCandidate (m_lookup_table.cursorPos ());
-    } else {
-        commit ();
-    }
+
+    commit ();
     return TRUE;
 }
 
