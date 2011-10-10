@@ -275,6 +275,7 @@ LibPinyinPhoneticEditor::reset (void)
 {
     m_pinyin_len = 0;
     m_lookup_table.clear ();
+    pinyin_reset (m_instance);
 
     Editor::reset ();
 }
