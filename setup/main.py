@@ -31,12 +31,13 @@ from xdg import BaseDirectory
 _ = lambda a : gettext.dgettext("ibus-pinyin", a)
 
 class PreferencesDialog:
-    def __init__(self,engine):
+    def __init__(self,engine,libpinyin):
         locale.setlocale(locale.LC_ALL, "")
         localedir = os.getenv("IBUS_LOCALEDIR")
         gettext.bindtextdomain("ibus-pinyin", localedir)
         gettext.bind_textdomain_codeset("ibus-pinyin", "UTF-8")
 
+        self.__libpinyin = libpinyin
         self.__bus = ibus.Bus()
         self.__config = self.__bus.get_config()
         self.__builder = gtk.Builder()
@@ -50,14 +51,16 @@ class PreferencesDialog:
             self.__init_general()
             self.__init_pinyin()
             self.__init_fuzzy()
-            self.__init_dictionary()
+            if not self.__libpinyin:
+                self.__init_dictionary()
             self.__init_about()
         elif engine == "bopomofo":
             self.__config_namespace = "engine/Bopomofo"
             self.__init_general()
             self.__init_bopomofo()
             self.__init_fuzzy()
-            self.__init_dictionary()
+            if not self.__libpinyin:
+                self.__init_dictionary()
             self.__init_about()
             self.__convert_fuzzy_pinyin_to_bopomofo()
             
@@ -138,6 +141,8 @@ class PreferencesDialog:
         self.__double_pinyin_schema = self.__builder.get_object("DoublePinyinSchema")
         # self.__double_pinyin_schema_label = self.__builder.get_object("labelDoublePinyinSchema")
         self.__double_pinyin_show_raw = self.__builder.get_object("DoublePinyinShowRaw")
+        if self.__libpinyin:
+            self.__double_pinyin_show_raw.hide ()
 
         renderer = gtk.CellRendererText()
         self.__double_pinyin_schema.pack_start(renderer)
@@ -409,11 +414,15 @@ class PreferencesDialog:
 
 def main():
     name = "pinyin"
-    if len(sys.argv) == 2:
-        name = sys.argv[1]
+    libpinyin = False
+    for arg in sys.argv[1:]:
+        if arg == "--libpinyin":
+            libpinyin = True
+        else:
+            name = arg
     if name not in ("pinyin", "bopomofo"):
         name = "pinyin"
-    PreferencesDialog(name).run()
+    PreferencesDialog(name, libpinyin).run()
 
 
 if __name__ == "__main__":
