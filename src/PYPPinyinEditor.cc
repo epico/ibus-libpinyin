@@ -57,7 +57,7 @@ LibPinyinPinyinEditor::processNumber (guint keyval, guint keycode,
 {
     guint i;
 
-    if (!m_text)
+    if (m_text.empty ())
         return FALSE;
 
     switch (keyval) {
@@ -78,6 +78,7 @@ LibPinyinPinyinEditor::processNumber (guint keyval, guint keycode,
     if (modifiers == 0)
         selectCandidateInPage (i);
 
+    update ();
     return TRUE;
 }
 

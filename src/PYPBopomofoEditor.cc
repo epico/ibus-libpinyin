@@ -134,6 +134,7 @@ LibPinyinBopomofoEditor::processAuxiliarySelectKey
     m_select_mode = TRUE;
     selectCandidateInPage (i);
 
+    update ();
     return TRUE;
 }
 
@@ -162,6 +163,7 @@ LibPinyinBopomofoEditor::processSelectKey (guint keyval, guint keycode,
     guint i = pos - keys;
     selectCandidateInPage (i);
 
+    update ();
     return TRUE;
 }
 

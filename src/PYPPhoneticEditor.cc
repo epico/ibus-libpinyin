@@ -320,7 +320,8 @@ LibPinyinPhoneticEditor::selectCandidate (guint i)
 
     /* NOTE: deal with normal candidates selection here by libpinyin. */
     phrase_token_t *token = &g_array_index (m_candidates, phrase_token_t, i);
-    pinyin_choose_candidate(m_instance, pinyin_cursor, *token);
+    pinyin_choose_candidate (m_instance, pinyin_cursor, *token);
+    pinyin_guess_sentence (m_instance);
     return TRUE;
 }
 
