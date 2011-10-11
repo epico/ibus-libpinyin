@@ -318,8 +318,14 @@ LibPinyinPhoneticEditor::selectCandidate (guint i)
 
     /* NOTE: deal with normal candidates selection here by libpinyin. */
     phrase_token_t *token = &g_array_index (m_candidates, phrase_token_t, i);
-    pinyin_choose_candidate (m_instance, pinyin_cursor, *token);
+    guint8 len = pinyin_choose_candidate (m_instance, pinyin_cursor, *token);
     pinyin_guess_sentence (m_instance);
+
+    pinyin_cursor += len;
+    PinyinKeyPos *pos = &g_array_index
+        (m_instance->m_pinyin_poses, PinyinKeyPos, pinyin_cursor);
+    m_cursor = pos->get_pos();
+
     return TRUE;
 }
 
