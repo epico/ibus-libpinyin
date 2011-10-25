@@ -47,8 +47,15 @@ pinyin_instance_t *
 LibPinyinBackEnd::allocPinyinInstance ()
 {
     if (NULL == m_pinyin_context) {
-        m_pinyin_context = pinyin_init ("/usr/share/libpinyin/data", NULL);
+        gchar * userdir = g_build_filename (g_get_home_dir(), ".cache",
+                                            "ibus", "libpinyin", NULL);
+        int retval = g_mkdir_with_parents (userdir, 0700);
+        if (retval) {
+            g_free(userdir); userdir = NULL;
+        }
+        m_pinyin_context = pinyin_init ("/usr/share/libpinyin/data", userdir);
         setPinyinOptions (&PinyinConfig::instance ());
+        g_free(userdir);
     }
     return pinyin_alloc_instance (m_pinyin_context);
 }
@@ -63,8 +70,15 @@ pinyin_instance_t *
 LibPinyinBackEnd::allocChewingInstance ()
 {
     if (NULL == m_chewing_context) {
+        gchar * userdir = g_build_filename (g_get_home_dir(), ".cache",
+                                            "ibus", "libbopomofo", NULL);
+        int retval = g_mkdir_with_parents (userdir, 0700);
+        if (retval) {
+            g_free(userdir); userdir = NULL;
+        }
         m_chewing_context = pinyin_init ("/usr/share/libpinyin/data", NULL);
         setChewingOptions (&BopomofoConfig::instance ());
+        g_free(userdir);
     }
     return pinyin_alloc_instance (m_chewing_context);
 }
