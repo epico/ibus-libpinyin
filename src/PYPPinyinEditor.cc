@@ -24,6 +24,7 @@
 #include "PYPinyinProperties.h"
 #include "PYSimpTradConverter.h"
 #include "PYHalfFullConverter.h"
+#include "PYLibPinyin.h"
 
 using namespace PY;
 
@@ -229,6 +230,7 @@ LibPinyinPinyinEditor::commit ()
     }
 
     pinyin_train(m_instance);
+    LibPinyinBackEnd::instance ().modified ();
     LibPinyinPhoneticEditor::commit ((const gchar *)m_buffer);
     reset();
 }

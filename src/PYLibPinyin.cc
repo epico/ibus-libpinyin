@@ -23,6 +23,8 @@
 #include "PYTypes.h"
 #include "PYConfig.h"
 
+#define LIBPINYIN_SAVE_TIMEOUT   (5 * 60)
+
 using namespace PY;
 
 std::unique_ptr<LibPinyinBackEnd> LibPinyinBackEnd::m_instance;
@@ -30,11 +32,19 @@ std::unique_ptr<LibPinyinBackEnd> LibPinyinBackEnd::m_instance;
 static LibPinyinBackEnd libpinyin_backend;
 
 LibPinyinBackEnd::LibPinyinBackEnd () {
+    m_timeout_id = 0;
+    m_timer = g_timer_new();
     m_pinyin_context = NULL;
     m_chewing_context = NULL;
 }
 
 LibPinyinBackEnd::~LibPinyinBackEnd () {
+    g_timer_destroy (m_timer);
+    if (m_timeout_id != 0) {
+        saveUserDB ();
+        g_source_remove (m_timeout_id);
+    }
+
     if (m_pinyin_context)
         pinyin_fini(m_pinyin_context);
     m_pinyin_context = NULL;
@@ -213,5 +223,46 @@ LibPinyinBackEnd::setChewingOptions (Config *config)
     }
 
     setFuzzyOptions (config, m_chewing_context);
+    return TRUE;
+}
+
+void
+LibPinyinBackEnd::modified (void)
+{
+    /* Restart the timer */
+    g_timer_start (m_timer);
+
+    if (m_timeout_id != 0)
+        return;
+
+    m_timeout_id = g_timeout_add_seconds (LIBPINYIN_SAVE_TIMEOUT,
+                                          LibPinyinBackEnd::timeoutCallback,
+                                          static_cast<gpointer> (this));
+}
+
+gboolean
+LibPinyinBackEnd::timeoutCallback (gpointer data)
+{
+    LibPinyinBackEnd *self = static_cast<LibPinyinBackEnd *> (data);
+
+    /* Get the elapsed time since last modification of database. */
+    guint elapsed = (guint)g_timer_elapsed (self->m_timer, NULL);
+
+    if (elapsed >= LIBPINYIN_SAVE_TIMEOUT &&
+        self->saveUserDB ()) {
+        self->m_timeout_id = 0;
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+gboolean
+LibPinyinBackEnd::saveUserDB (void)
+{
+    if (m_pinyin_context)
+        pinyin_save (m_pinyin_context);
+    if (m_chewing_context)
+        pinyin_save (m_chewing_context);
     return TRUE;
 }

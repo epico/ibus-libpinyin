@@ -42,6 +42,7 @@ public:
     void freePinyinInstance (pinyin_instance_t *instance);
     pinyin_instance_t *allocChewingInstance ();
     void freeChewingInstance (pinyin_instance_t *instance);
+    void modified (void);
 
     /* use static initializer in C++. */
     static LibPinyinBackEnd & instance (void) { return *m_instance; }
@@ -53,9 +54,16 @@ protected:
     gboolean setFuzzyOptions (Config *config, pinyin_context_t *context);
 
 private:
+    gboolean saveUserDB (void);
+    static gboolean timeoutCallback (gpointer data);
+
+private:
     /* libpinyin context */
     pinyin_context_t *m_pinyin_context;
     pinyin_context_t *m_chewing_context;
+
+    guint m_timeout_id;
+    GTimer *m_timer;
 
 private:
     static std::unique_ptr<LibPinyinBackEnd> m_instance;

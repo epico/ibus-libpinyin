@@ -297,6 +297,7 @@ LibPinyinBopomofoEditor::commit ()
     }
 
     pinyin_train(m_instance);
+    LibPinyinBackEnd::instance ().modified();
     LibPinyinPhoneticEditor::commit ((const gchar *)m_buffer);
     reset();
 }
