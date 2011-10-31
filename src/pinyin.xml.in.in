@@ -13,7 +13,7 @@
 	<engines>
 		<engine>
 			<name>pinyin</name>
-			<language>zh</language>
+			<language>zh_CN</language>
 			<license>GPL</license>
 			<author>Peng Huang &lt;shawn.p.huang@gmail.com&gt;
 BYVoid &lt;byvoid1@gmail.com&gt;
@@ -28,7 +28,7 @@ Peng Wu &lt;alexepico@gmail.com&gt;</author>
 		</engine>
 		<engine>
 			<name>bopomofo</name>
-			<language>zh</language>
+			<language>zh_TW</language>
 			<license>GPL</license>
 			<author>BYVoid &lt;byvoid1@gmail.com&gt;
 Peng Huang &lt;shawn.p.huang@gmail.com&gt;
@@ -43,7 +43,7 @@ Peng Wu &lt;alexepico@gmail.com&gt;</author>
 		</engine>
 		<engine>
 			<name>libpinyin</name>
-			<language>zh</language>
+			<language>zh_CN</language>
 			<license>GPL</license>
 			<author>Peng Huang &lt;shawn.p.huang@gmail.com&gt;
                         Peng Wu &lt;alexepico@gmail.com&gt;
