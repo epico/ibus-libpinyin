@@ -63,9 +63,20 @@ PKG_CHECK_MODULES(SQLITE, [
 AC_PATH_PROG(SQLITE3, sqlite3)
 
 # check libpinyin
+# --disable-libpinyin
+AC_ARG_ENABLE(libpinyin,
+    AS_HELP_STRING([--disable-libpinyin],
+         [do not use libpinyin]),
+    [enable_libpinyin=$enableval],
+    [enable_libpinyin=yes]
+)
+
 PKG_CHECK_MODULES(LIBPINYIN, [
     libpinyin >= 0.2.0
-])
+], [],
+[enable_libpinyin=no])
+
+AM_CONDITIONAL(IBUS_BUILD_LIBPINYIN, [test x"$enable_libpinyin" = x"yes"])
 
 # check uuid
 AC_CHECK_FUNCS([uuid_create], [], [
@@ -226,6 +237,7 @@ Build options:
     Install prefix              $prefix
     Use boost                   $enable_boost
     Use opencc                  $enable_opencc
+    Use libpinyin               $enable_libpinyin
     Build database android      $enable_db_android
     Build database open-phrase  $enable_db_open_phrase
     Build lua extension         $enable_lua_extension

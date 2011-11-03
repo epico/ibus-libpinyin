@@ -30,7 +30,9 @@
 #include "PYBus.h"
 #include "PYConfig.h"
 #include "PYDatabase.h"
+#ifdef IBUS_BUILD_LIBPINYIN
 #include "PYLibPinyin.h"
+#endif
 
 using namespace PY;
 
@@ -87,7 +89,9 @@ start_component (void)
     }
 
     Database::init ();
+#ifdef IBUS_BUILD_LIBPINYIN
     LibPinyinBackEnd::init ();
+#endif
     PinyinConfig::init (bus);
     BopomofoConfig::init (bus);
 
@@ -124,6 +128,7 @@ start_component (void)
                                                      PKGDATADIR "/icons/ibus-bopomofo.svg",
                                                      "us"));
 
+#ifdef IBUS_BUILD_LIBPINYIN
     ibus_component_add_engine (component,
                                ibus_engine_desc_new ("libpinyin-debug",
                                                      N_("Intelligent Pinyin (debug)"),
@@ -146,22 +151,26 @@ start_component (void)
                                                      "Peng Huang <shawn.p.huang@gmail.com>",
                                                      PKGDATADIR "/icons/ibus-bopomofo.svg",
                                                      "us"));
-
+#endif
 
     factory = ibus_factory_new (ibus_bus_get_connection (bus));
 
     if (ibus) {
         ibus_factory_add_engine (factory, "pinyin", IBUS_TYPE_PINYIN_ENGINE);
         ibus_factory_add_engine (factory, "bopomofo", IBUS_TYPE_PINYIN_ENGINE);
+#ifdef IBUS_BUILD_LIBPINYIN
         ibus_factory_add_engine (factory, "libpinyin", IBUS_TYPE_PINYIN_ENGINE);
         ibus_factory_add_engine (factory, "libbopomofo", IBUS_TYPE_PINYIN_ENGINE);
+#endif
         ibus_bus_request_name (bus, "org.freedesktop.IBus.Pinyin", 0);
     }
     else {
         ibus_factory_add_engine (factory, "pinyin-debug", IBUS_TYPE_PINYIN_ENGINE);
         ibus_factory_add_engine (factory, "bopomofo-debug", IBUS_TYPE_PINYIN_ENGINE);
+#ifdef IBUS_BUILD_LIBPINYIN
         ibus_factory_add_engine (factory, "libpinyin-debug", IBUS_TYPE_PINYIN_ENGINE);
         ibus_factory_add_engine (factory, "libbopomofo-debug", IBUS_TYPE_PINYIN_ENGINE);
+#endif
         ibus_bus_register_component (bus, component);
     }
 
@@ -180,7 +189,9 @@ sigterm_cb (int sig)
 static void
 atexit_cb (void)
 {
+#ifdef IBUS_BUILD_LIBPINYIN
     LibPinyinBackEnd::finalize ();
+#endif
     PY::Database::finalize ();
 }
 

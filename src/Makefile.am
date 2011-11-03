@@ -64,14 +64,6 @@ ibus_engine_pinyin_c_sources = \
 	PYDynamicSpecialPhrase.cc \
 	PYSpecialPhrase.cc \
 	PYSpecialPhraseTable.cc \
-	PYLibPinyin.cc \
-	PYPPhoneticEditor.cc \
-	PYPPinyinEditor.cc \
-	PYPFullPinyinEditor.cc \
-	PYPDoublePinyinEditor.cc \
-	PYPBopomofoEditor.cc \
-	PYPPinyinEngine.cc \
-	PYPBopomofoEngine.cc \
 	$(NULL)
 ibus_engine_pinyin_h_sources = \
 	PYBopomofo.h \
@@ -124,6 +116,20 @@ ibus_engine_pinyin_h_sources = \
 	PYPBopomofoEngine.h \
 	$(NULL)
 
+if IBUS_BUILD_LIBPINYIN
+ibus_engine_pinyin_c_sources += \
+	PYLibPinyin.cc \
+	PYPPhoneticEditor.cc \
+	PYPPinyinEditor.cc \
+	PYPFullPinyinEditor.cc \
+	PYPDoublePinyinEditor.cc \
+	PYPBopomofoEditor.cc \
+	PYPPinyinEngine.cc \
+	PYPBopomofoEngine.cc \
+	$(NULL)
+endif
+
+
 if IBUS_BUILD_LUA_EXTENSION
 ibus_engine_pinyin_c_sources += PYExtEditor.cc
 endif
@@ -170,6 +176,10 @@ ibus_engine_pinyin_LDADD = \
 if HAVE_LIBUUID
 ibus_engine_pinyin_CXXFLAGS += $(LIBUUID_CFLAGS)
 ibus_engine_pinyin_LDADD += $(LIBUUID_LIBS)
+endif
+
+if IBUS_BUILD_LIBPINYIN
+   ibus_engine_pinyin_CXXFLAGS += -DIBUS_BUILD_LIBPINYIN
 endif
 
 if IBUS_BUILD_LUA_EXTENSION

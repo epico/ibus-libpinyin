@@ -166,6 +166,7 @@ ibus_pinyin_engine_constructor (GType                  type,
             std::strcmp (name, "bopomofo-debug") == 0) {
             engine->engine = new BopomofoEngine (IBUS_ENGINE (engine));
         }
+#ifdef IBUS_BUILD_LIBPINYIN
         if (std::strcmp (name, "libpinyin") == 0 ||
             std::strcmp (name, "libpinyin-debug") == 0) {
             engine->engine = new LibPinyinPinyinEngine (IBUS_ENGINE (engine));
@@ -174,6 +175,7 @@ ibus_pinyin_engine_constructor (GType                  type,
             std::strcmp (name, "libbopomofo-debug") == 0 ) {
             engine->engine = new LibPinyinBopomofoEngine (IBUS_ENGINE (engine));
         }
+#endif
     } else {
         engine->engine = new PinyinEngine (IBUS_ENGINE (engine));
     }
