@@ -314,6 +314,10 @@ LibPinyinPhoneticEditor::getPinyinCursor ()
 gboolean
 LibPinyinPhoneticEditor::selectCandidate (guint i)
 {
+
+    if (G_UNLIKELY (i >= m_candidates->len))
+        return FALSE;
+
     guint pinyin_cursor = getPinyinCursor ();
 
     /* NOTE: deal with normal candidates selection here by libpinyin. */
