@@ -343,16 +343,30 @@ LibPinyinPhoneticEditor::selectCandidate (guint i)
     if (G_UNLIKELY (i >= m_candidates->len))
         return FALSE;
 
+    PinyinKeyVector & pinyins = m_instance->m_pinyin_keys;
     guint pinyin_cursor = getPinyinCursor ();
+    /* show candidates when pinyin cursor is at end. */
+    if (pinyin_cursor == pinyins->len && m_pinyin_len == m_text.length())
+        pinyin_cursor = 0;
 
     /* NOTE: deal with normal candidates selection here by libpinyin. */
     phrase_token_t *token = &g_array_index (m_candidates, phrase_token_t, i);
+    if (null_token == *token) {
+        commit ();
+        return TRUE;
+    }
+
     guint8 len = pinyin_choose_candidate (m_instance, pinyin_cursor, *token);
     pinyin_guess_sentence (m_instance);
 
+    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_poses;
     pinyin_cursor += len;
+    if (pinyin_cursor == pinyin_poses->len) {
+        commit();
+        return TRUE;
+    }
     PinyinKeyPos *pos = &g_array_index
-        (m_instance->m_pinyin_poses, PinyinKeyPos, pinyin_cursor);
+        (pinyin_poses, PinyinKeyPos, pinyin_cursor);
     m_cursor = pos->get_pos();
 
     return TRUE;
