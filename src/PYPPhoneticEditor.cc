@@ -195,7 +195,7 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
             (m_candidates, phrase_token_t, i);
 
         if (null_token == *token) {
-            /* show guessed sentence. */
+            /* show the rest of guessed sentence after the cursor. */
             String buffer;
             char *tmp = NULL;
             pinyin_get_sentence(m_instance, &tmp);
@@ -206,8 +206,10 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
                     SimpTradConverter::simpToTrad (tmp, buffer);
                 }
             }
-            Text text(buffer);
-            m_lookup_table.appendCandidate(text);
+
+            guint lookup_cursor = getLookupCursor ();
+            gchar * rest = g_utf8_offset_to_pointer (buffer.c_str (), lookup_cursor);
+            m_lookup_table.appendCandidate (Text (rest));
             g_free (tmp);
             continue;
         }
