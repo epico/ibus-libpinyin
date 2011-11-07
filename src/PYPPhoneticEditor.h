@@ -54,7 +54,8 @@ protected:
     gboolean selectCandidateInPage (guint i);
 
     void commit (const gchar *str);
-    guint getPinyinCursor ();
+    guint getPinyinCursor (void);
+    guint getLookupCursor (void);
 
     /* inline functions */
 

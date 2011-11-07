@@ -298,15 +298,13 @@ LibPinyinPhoneticEditor::reset (void)
 void
 LibPinyinPhoneticEditor::update (void)
 {
-    PinyinKeyVector & pinyins = m_instance->m_pinyin_keys;
-    guint pinyin_cursor = getPinyinCursor ();
-    /* show candidates when pinyin cursor is at end. */
-    if (pinyin_cursor == pinyins->len && m_pinyin_len == m_text.length())
-        pinyin_cursor = 0;
-    pinyin_get_candidates (m_instance, pinyin_cursor, m_candidates);
+    guint lookup_cursor = getLookupCursor ();
+    pinyin_get_candidates (m_instance, lookup_cursor, m_candidates);
+
     /* show guessed sentence only when m_candidates are available. */
     if (m_candidates->len)
         g_array_insert_val(m_candidates, 0, null_token);
+
     updateLookupTable ();
     updatePreeditText ();
     updateAuxiliaryText ();
@@ -336,6 +334,17 @@ LibPinyinPhoneticEditor::getPinyinCursor ()
     return pinyin_cursor;
 }
 
+guint
+LibPinyinPhoneticEditor::getLookupCursor (void)
+{
+    PinyinKeyVector & pinyins = m_instance->m_pinyin_keys;
+    guint lookup_cursor = getPinyinCursor ();
+    /* show candidates when pinyin cursor is at end. */
+    if (lookup_cursor == pinyins->len && m_pinyin_len == m_text.length())
+        lookup_cursor = 0;
+    return lookup_cursor;
+}
+
 gboolean
 LibPinyinPhoneticEditor::selectCandidate (guint i)
 {
@@ -343,11 +352,7 @@ LibPinyinPhoneticEditor::selectCandidate (guint i)
     if (G_UNLIKELY (i >= m_candidates->len))
         return FALSE;
 
-    PinyinKeyVector & pinyins = m_instance->m_pinyin_keys;
-    guint pinyin_cursor = getPinyinCursor ();
-    /* show candidates when pinyin cursor is at end. */
-    if (pinyin_cursor == pinyins->len && m_pinyin_len == m_text.length())
-        pinyin_cursor = 0;
+    guint lookup_cursor = getLookupCursor ();
 
     /* NOTE: deal with normal candidates selection here by libpinyin. */
     phrase_token_t *token = &g_array_index (m_candidates, phrase_token_t, i);
@@ -356,17 +361,17 @@ LibPinyinPhoneticEditor::selectCandidate (guint i)
         return TRUE;
     }
 
-    guint8 len = pinyin_choose_candidate (m_instance, pinyin_cursor, *token);
+    guint8 len = pinyin_choose_candidate (m_instance, lookup_cursor, *token);
     pinyin_guess_sentence (m_instance);
 
     PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_poses;
-    pinyin_cursor += len;
-    if (pinyin_cursor == pinyin_poses->len) {
+    lookup_cursor += len;
+    if (lookup_cursor == pinyin_poses->len) {
         commit();
         return TRUE;
     }
     PinyinKeyPos *pos = &g_array_index
-        (pinyin_poses, PinyinKeyPos, pinyin_cursor);
+        (pinyin_poses, PinyinKeyPos, lookup_cursor);
     m_cursor = pos->get_pos();
 
     return TRUE;
