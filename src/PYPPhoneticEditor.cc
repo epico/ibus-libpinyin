@@ -184,16 +184,36 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
     guint filled_nr = m_lookup_table.size ();
     guint page_size = m_lookup_table.pageSize ();
 
-    /* fill lookup table by libpinyin get candidates. */
+    /* fill lookup table by libpinyin guessed sentence and get candidates. */
     guint need_nr = MIN (page_size, m_candidates->len - filled_nr);
     g_assert (need_nr >=0);
     if (need_nr == 0)
         return FALSE;
 
     for (guint i = filled_nr; i < filled_nr + need_nr; i++) {
+        phrase_token_t *token = &g_array_index
+            (m_candidates, phrase_token_t, i);
+
+        if (null_token == *token) {
+            /* show guessed sentence. */
+            String buffer;
+            char *tmp = NULL;
+            pinyin_get_sentence(m_instance, &tmp);
+            if (tmp) {
+                if (m_props.modeSimp ()) {
+                    buffer<<tmp;
+                } else {
+                    SimpTradConverter::simpToTrad (tmp, buffer);
+                }
+            }
+            Text text(buffer);
+            m_lookup_table.appendCandidate(text);
+            g_free (tmp);
+            continue;
+        }
+
+        /* show get candidates. */
         if (G_LIKELY (m_props.modeSimp ())) { /* Simplified Chinese */
-            phrase_token_t *token = &g_array_index
-                (m_candidates, phrase_token_t, i);
             char *word = NULL;
             pinyin_translate_token(m_instance, *token, &word);
             Text text (word);
@@ -201,8 +221,6 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
             g_free(word);
         } else { /* Traditional Chinese */
             m_buffer.truncate (0);
-            phrase_token_t *token = &g_array_index
-                (m_candidates, phrase_token_t, i);
             char *word = NULL;
             pinyin_translate_token(m_instance, *token, &word);
             SimpTradConverter::simpToTrad (word, m_buffer);
@@ -280,8 +298,15 @@ LibPinyinPhoneticEditor::reset (void)
 void
 LibPinyinPhoneticEditor::update (void)
 {
+    PinyinKeyVector & pinyins = m_instance->m_pinyin_keys;
     guint pinyin_cursor = getPinyinCursor ();
+    /* show candidates when pinyin cursor is at end. */
+    if (pinyin_cursor == pinyins->len && m_pinyin_len == m_text.length())
+        pinyin_cursor = 0;
     pinyin_get_candidates (m_instance, pinyin_cursor, m_candidates);
+    /* show guessed sentence only when m_candidates are available. */
+    if (m_candidates->len)
+        g_array_insert_val(m_candidates, 0, null_token);
     updateLookupTable ();
     updatePreeditText ();
     updateAuxiliaryText ();
