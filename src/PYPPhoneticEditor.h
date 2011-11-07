@@ -50,7 +50,6 @@ public:
     virtual gboolean fillLookupTableByPage ();
 
 protected:
-
     gboolean selectCandidate (guint i);
     gboolean selectCandidateInPage (guint i);
 
@@ -63,18 +62,21 @@ protected:
     virtual gboolean insert (gint ch) = 0;
     virtual gboolean removeCharBefore (void);
     virtual gboolean removeCharAfter (void);
-    virtual gboolean removeWordBefore (void) = 0;
-    virtual gboolean removeWordAfter (void) = 0;
+    virtual gboolean removeWordBefore (void);
+    virtual gboolean removeWordAfter (void);
     virtual gboolean moveCursorLeft (void);
     virtual gboolean moveCursorRight (void);
-    virtual gboolean moveCursorLeftByWord (void) = 0;
-    virtual gboolean moveCursorRightByWord (void) = 0;
+    virtual gboolean moveCursorLeftByWord (void);
+    virtual gboolean moveCursorRightByWord (void);
     virtual gboolean moveCursorToBegin (void);
     virtual gboolean moveCursorToEnd (void);
     virtual void commit (void) = 0;
     virtual void updateAuxiliaryText (void) = 0;
     virtual void updatePreeditText (void) = 0;
     virtual void updatePinyin (void) = 0;
+
+    guint getCursorLeftByWord (void);
+    guint getCursorRightByWord (void);
 
 
     /* varibles */
