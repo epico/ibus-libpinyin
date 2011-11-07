@@ -93,7 +93,9 @@ LibPinyinFullPinyinEditor::updatePinyin (void)
     PinyinArray::const_iterator iter = pinyins.begin ();
     for ( ; iter != pinyins.end (); ++iter ) {
         PinyinSegment py = *iter;
-        pinyin_parse_full_pinyin (m_instance, py.pinyin->text, &key);
+        String pinyin = py.pinyin->sheng;
+        pinyin += py.pinyin->yun;
+        pinyin_parse_full_pinyin (m_instance, (const char *)pinyin, &key);
         pos.set_pos (py.begin); pos.set_length (py.len);
         g_array_append_val (m_instance->m_pinyin_keys, key);
         g_array_append_val (m_instance->m_pinyin_poses, pos);
