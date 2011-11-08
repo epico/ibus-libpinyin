@@ -194,42 +194,36 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
         phrase_token_t *token = &g_array_index
             (m_candidates, phrase_token_t, i);
 
+        String first_candidate, candidate;
         if (null_token == *token) {
             /* show the rest of guessed sentence after the cursor. */
             String buffer;
             char *tmp = NULL;
             pinyin_get_sentence(m_instance, &tmp);
-            if (tmp) {
-                if (m_props.modeSimp ()) {
-                    buffer<<tmp;
-                } else {
-                    SimpTradConverter::simpToTrad (tmp, buffer);
-                }
-            }
+            if (tmp)
+                buffer = tmp;
 
             guint lookup_cursor = getLookupCursor ();
-            gchar * rest = g_utf8_offset_to_pointer (buffer.c_str (), lookup_cursor);
-            m_lookup_table.appendCandidate (Text (rest));
+            first_candidate = g_utf8_offset_to_pointer
+                (buffer.c_str (), lookup_cursor);
+            Text text (first_candidate);
+            m_lookup_table.appendCandidate (text);
             g_free (tmp);
             continue;
         }
 
+        char *word = NULL;
+        pinyin_translate_token(m_instance, *token, &word);
+        candidate = word;
+
         /* show get candidates. */
-        if (G_LIKELY (m_props.modeSimp ())) { /* Simplified Chinese */
-            char *word = NULL;
-            pinyin_translate_token(m_instance, *token, &word);
-            Text text (word);
-            m_lookup_table.appendCandidate(text);
-            g_free(word);
-        } else { /* Traditional Chinese */
-            m_buffer.truncate (0);
-            char *word = NULL;
-            pinyin_translate_token(m_instance, *token, &word);
-            SimpTradConverter::simpToTrad (word, m_buffer);
-            Text text (m_buffer);
-            m_lookup_table.appendCandidate (text);
-            g_free(word);
+        if (G_UNLIKELY (!m_props.modeSimp ())) { /* Traditional Chinese */
+            candidate.truncate (0);
+            SimpTradConverter::simpToTrad (word, candidate);
         }
+        Text text (candidate);
+        m_lookup_table.appendCandidate (text);
+        g_free(word);
     }
 
     return TRUE;
