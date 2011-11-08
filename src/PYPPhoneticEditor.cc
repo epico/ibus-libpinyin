@@ -204,9 +204,13 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
                 buffer = tmp;
 
             guint lookup_cursor = getLookupCursor ();
-            first_candidate = g_utf8_offset_to_pointer
+            candidate = first_candidate = g_utf8_offset_to_pointer
                 (buffer.c_str (), lookup_cursor);
-            Text text (first_candidate);
+            if (G_UNLIKELY (!m_props.modeSimp ())) { /* Traditional Chinese */
+                candidate.truncate (0);
+                SimpTradConverter::simpToTrad (first_candidate, candidate);
+            }
+            Text text (candidate);
             m_lookup_table.appendCandidate (text);
             g_free (tmp);
             continue;
