@@ -190,11 +190,11 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
     if (need_nr == 0)
         return FALSE;
 
+    String first_candidate, candidate;
     for (guint i = filled_nr; i < filled_nr + need_nr; i++) {
         phrase_token_t *token = &g_array_index
             (m_candidates, phrase_token_t, i);
 
-        String first_candidate, candidate;
         if (null_token == *token) {
             /* show the rest of guessed sentence after the cursor. */
             String buffer;
@@ -215,6 +215,13 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
         char *word = NULL;
         pinyin_translate_token(m_instance, *token, &word);
         candidate = word;
+
+        /* remove duplicated candidates */
+        if (candidate == first_candidate) {
+            g_array_remove_index (m_candidates, i);
+            --i;
+            continue;
+        }
 
         /* show get candidates. */
         if (G_UNLIKELY (!m_props.modeSimp ())) { /* Traditional Chinese */
