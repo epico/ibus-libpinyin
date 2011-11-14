@@ -192,6 +192,9 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
 
     String first_candidate, candidate;
     for (guint i = filled_nr; i < filled_nr + need_nr; i++) {
+        if (i >= m_candidates->len)  /* no more candidates */
+            break;
+
         phrase_token_t *token = &g_array_index
             (m_candidates, phrase_token_t, i);
 
