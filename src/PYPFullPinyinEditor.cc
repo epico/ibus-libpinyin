@@ -94,7 +94,18 @@ LibPinyinFullPinyinEditor::updatePinyin (void)
     for ( ; iter != pinyins.end (); ++iter ) {
         PinyinSegment py = *iter;
         String pinyin = py.pinyin->sheng;
-        pinyin += py.pinyin->yun;
+        gunichar yun_v = g_utf8_get_char("ü");
+        gchar buf[7];
+        for (const gchar * p = py.pinyin->yun; *p; p = g_utf8_next_char (p)){
+            gunichar cur_yun = g_utf8_get_char (p);
+            if (G_UNLIKELY(yun_v == cur_yun)) {
+                pinyin += "v";
+            } else {
+                gint len = g_unichar_to_utf8 (cur_yun, buf);
+                buf[len] = '\0';
+                pinyin += buf;
+            }
+        }
         pinyin_parse_full_pinyin (m_instance, (const char *)pinyin, &key);
         pos.set_pos (py.begin); pos.set_length (py.len);
         g_array_append_val (m_instance->m_pinyin_keys, key);
