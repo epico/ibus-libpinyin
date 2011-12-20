@@ -44,6 +44,7 @@ ibus_engine_pinyin_built_h_sources = \
 ibus_engine_pinyin_c_sources = \
 	PYBopomofoEditor.cc \
 	PYBopomofoEngine.cc \
+	PYPConfig.cc \
 	PYConfig.cc \
 	PYDatabase.cc \
 	PYDoublePinyinEditor.cc \
@@ -114,6 +115,7 @@ ibus_engine_pinyin_h_sources = \
 	PYPBopomofoEditor.h \
 	PYPPinyinEngine.h \
 	PYPBopomofoEngine.h \
+	PYPConfig.h \
 	$(NULL)
 
 if IBUS_BUILD_LIBPINYIN
