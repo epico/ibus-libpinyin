@@ -20,8 +20,8 @@
  */
 
 #include "PYLibPinyin.h"
-#include "PYTypes.h"
-#include "PYConfig.h"
+#include <pinyin.h>
+#include "PYPConfig.h"
 
 #define LIBPINYIN_SAVE_TIMEOUT   (5 * 60)
 
@@ -111,69 +111,17 @@ LibPinyinBackEnd::finalize (void) {
     m_instance.reset ();
 }
 
-/* Here are the fuzzy pinyin options conversion table. */
-static const struct {
-    guint ibus_pinyin_option;
-    PinyinAmbiguity libpinyin_option;
-} fuzzy_options [] = {
-    /* fuzzy pinyin */
-    { PINYIN_FUZZY_C_CH,        PINYIN_AmbCiChi        },
-    { PINYIN_FUZZY_CH_C,        PINYIN_AmbChiCi        },
-    { PINYIN_FUZZY_Z_ZH,        PINYIN_AmbZiZhi        },
-    { PINYIN_FUZZY_ZH_Z,        PINYIN_AmbZhiZi        },
-    { PINYIN_FUZZY_S_SH,        PINYIN_AmbSiShi        },
-    { PINYIN_FUZZY_SH_S,        PINYIN_AmbShiSi        },
-    { PINYIN_FUZZY_L_N,         PINYIN_AmbLeNe         },
-    { PINYIN_FUZZY_N_L,         PINYIN_AmbNeLe         },
-    { PINYIN_FUZZY_F_H,         PINYIN_AmbFoHe         },
-    { PINYIN_FUZZY_H_F,         PINYIN_AmbHeFo         },
-    { PINYIN_FUZZY_L_R,         PINYIN_AmbLeRi         },
-    { PINYIN_FUZZY_R_L,         PINYIN_AmbRiLe         },
-    { PINYIN_FUZZY_K_G,         PINYIN_AmbKeGe         },
-    { PINYIN_FUZZY_G_K,         PINYIN_AmbGeKe         },
-    { PINYIN_FUZZY_AN_ANG,      PINYIN_AmbAnAng        },
-    { PINYIN_FUZZY_ANG_AN,      PINYIN_AmbAngAn        },
-    { PINYIN_FUZZY_EN_ENG,      PINYIN_AmbEnEng        },
-    { PINYIN_FUZZY_ENG_EN,      PINYIN_AmbEngEn        },
-    { PINYIN_FUZZY_IN_ING,      PINYIN_AmbInIng        },
-    { PINYIN_FUZZY_ING_IN,      PINYIN_AmbIngIn        }
-};
-
-
-gboolean
-LibPinyinBackEnd::setFuzzyOptions (Config *config, pinyin_context_t *context)
-{
-    g_assert (context);
-
-    guint option = config->option ();
-    PinyinCustomSettings custom;
-
-    custom.set_use_incomplete (option & PINYIN_INCOMPLETE_PINYIN);
-    custom.set_use_ambiguities (PINYIN_AmbAny, false);
-
-    /* copy values */
-    for (guint i = 0; i < G_N_ELEMENTS (fuzzy_options); i++) {
-        if ( option & fuzzy_options[i].ibus_pinyin_option )
-            custom.set_use_ambiguities
-                (fuzzy_options[i].libpinyin_option, true);
-    }
-
-    pinyin_set_options(context, &custom);
-
-    return TRUE;
-}
-
 /* Here are the double pinyin keyboard scheme mapping table. */
 static const struct{
     gint double_pinyin_keyboard;
-    PinyinShuangPinScheme shuang_pin_keyboard;
-} shuang_pin_options [] = {
-    {0, SHUANG_PIN_MS},
-    {1, SHUANG_PIN_ZRM},
-    {2, SHUANG_PIN_ABC},
-    {3, SHUANG_PIN_ZIGUANG},
-    {4, SHUANG_PIN_PYJJ},
-    {5, SHUANG_PIN_XHE}
+    DoublePinyinScheme scheme;
+} double_pinyin_options [] = {
+    {0, DOUBLE_PINYIN_MS},
+    {1, DOUBLE_PINYIN_ZRM},
+    {2, DOUBLE_PINYIN_ABC},
+    {3, DOUBLE_PINYIN_ZIGUANG},
+    {4, DOUBLE_PINYIN_PYJJ},
+    {5, DOUBLE_PINYIN_XHE}
 };
 
 gboolean
@@ -183,27 +131,27 @@ LibPinyinBackEnd::setPinyinOptions (Config *config)
         return FALSE;
 
     const gint map = config->doublePinyinSchema ();
-    for (guint i = 0; i < G_N_ELEMENTS (shuang_pin_options); i++) {
-        if (map == shuang_pin_options[i].double_pinyin_keyboard) {
-            /* TODO: set double pinyin scheme. */
-            PinyinShuangPinScheme scheme = shuang_pin_options[i].shuang_pin_keyboard;
+    for (guint i = 0; i < G_N_ELEMENTS (double_pinyin_options); i++) {
+        if (map == double_pinyin_options[i].double_pinyin_keyboard) {
+            /* set double pinyin scheme. */
+            DoublePinyinScheme scheme = double_pinyin_options[i].scheme;
             pinyin_set_double_pinyin_scheme (m_pinyin_context, scheme);
         }
     }
 
-    setFuzzyOptions (config, m_pinyin_context);
+    pinyin_set_options (m_pinyin_context, config->option());
     return TRUE;
 }
 
 /* Here are the chewing keyboard scheme mapping table. */
 static const struct {
     gint bopomofo_keyboard;
-    PinyinZhuYinScheme chewing_keyboard;
+    ChewingScheme scheme;
 } chewing_options [] = {
-    {0, ZHUYIN_STANDARD},
-    {1, ZHUYIN_GIN_YIEH},
-    {2, ZHUYIN_ET26},
-    {3, ZHUYIN_IBM}
+    {0, CHEWING_STANDARD},
+    {1, CHEWING_GINYIEH},
+    {2, CHEWING_ETEN},
+    {3, CHEWING_IBM}
 };
 
 
@@ -217,12 +165,12 @@ LibPinyinBackEnd::setChewingOptions (Config *config)
     for (guint i = 0; i < G_N_ELEMENTS (chewing_options); i++) {
         if (map == chewing_options[i].bopomofo_keyboard) {
             /* TODO: set chewing scheme. */
-            PinyinZhuYinScheme scheme = chewing_options[i].chewing_keyboard;
+            ChewingScheme scheme = chewing_options[i].scheme;
             pinyin_set_chewing_scheme (m_chewing_context, scheme);
         }
     }
 
-    setFuzzyOptions (config, m_chewing_context);
+    pinyin_set_options(m_chewing_context, config->option());
     return TRUE;
 }
 

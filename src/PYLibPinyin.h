@@ -23,7 +23,10 @@
 #define __PY_LIB_PINYIN_H_
 
 #include <memory>
-#include <pinyin.h>
+#include <glib.h>
+
+typedef struct _pinyin_context_t pinyin_context_t;
+typedef struct _pinyin_instance_t pinyin_instance_t;
 
 namespace PY {
 
@@ -50,8 +53,6 @@ public:
     static void init (void);
     static void finalize (void);
 
-protected:
-    gboolean setFuzzyOptions (Config *config, pinyin_context_t *context);
 
 private:
     gboolean saveUserDB (void);
