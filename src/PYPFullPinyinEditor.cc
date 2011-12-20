@@ -73,45 +73,12 @@ LibPinyinFullPinyinEditor::updatePinyin (void)
     if (G_UNLIKELY (m_text.empty ())) {
         m_pinyin_len = 0;
         /* TODO: check whether to replace "" with NULL. */
-        pinyin_parse_more_full_pinyins (m_instance, "");
+        pinyin_parse_more_full_pinyins (m_instance, NULL);
         return;
     }
 
-    PinyinArray pinyins (MAX_PINYIN_LEN);
-
-    m_pinyin_len = PinyinParser::parse (m_text,               // text
-                                        m_text.length (),     // text length
-                                        m_config.option (),   // option
-                                        pinyins,              // result
-                                        MAX_PHRASE_LEN);      // max result length
-
-    /* propagate to libpinyin */
-    g_array_set_size (m_instance->m_pinyin_keys, 0);
-    g_array_set_size (m_instance->m_pinyin_poses, 0);
-
-    PinyinKey key; PinyinKeyPos pos;
-    PinyinArray::const_iterator iter = pinyins.begin ();
-    for ( ; iter != pinyins.end (); ++iter ) {
-        PinyinSegment py = *iter;
-        String pinyin = py.pinyin->sheng;
-        gunichar yun_v = g_utf8_get_char("ü");
-        gchar buf[7];
-        for (const gchar * p = py.pinyin->yun; *p; p = g_utf8_next_char (p)){
-            gunichar cur_yun = g_utf8_get_char (p);
-            if (G_UNLIKELY(yun_v == cur_yun)) {
-                pinyin += "v";
-            } else {
-                gint len = g_unichar_to_utf8 (cur_yun, buf);
-                buf[len] = '\0';
-                pinyin += buf;
-            }
-        }
-        pinyin_parse_full_pinyin (m_instance, (const char *)pinyin, &key);
-        pos.set_pos (py.begin); pos.set_length (py.len);
-        g_array_append_val (m_instance->m_pinyin_keys, key);
-        g_array_append_val (m_instance->m_pinyin_poses, pos);
-    }
-
+    m_pinyin_len =
+        pinyin_parse_more_full_pinyins (m_instance, m_text.c_str ());
     pinyin_guess_sentence (m_instance);
 }
 
@@ -127,23 +94,24 @@ LibPinyinFullPinyinEditor::updateAuxiliaryText ()
 
     // guint pinyin_cursor = getPinyinCursor ();
     PinyinKeyVector & pinyin_keys = m_instance->m_pinyin_keys;
-    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_poses;
+    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
     for (guint i = 0; i < pinyin_keys->len; ++i) {
         PinyinKey *key = &g_array_index (pinyin_keys, PinyinKey, i);
         PinyinKeyPos *pos = &g_array_index (pinyin_poses, PinyinKeyPos, i);
-        guint cursor = pos->get_pos ();
+        guint cursor = pos->m_raw_begin;
 
         if (G_UNLIKELY (cursor == m_cursor)) { /* at word boundary. */
-            m_buffer << '|' << key->get_key_string ();
+            m_buffer << '|' << key->get_pinyin_string ();
         } else if (G_LIKELY ( cursor < m_cursor &&
-                              m_cursor < pos->get_end_pos() )) { /* in word */
+                              m_cursor < pos->m_raw_end )) { /* in word */
             /* raw text */
-            String raw = m_text.substr (cursor, pos->get_length ());
+            String raw = m_text.substr (cursor,
+                                        pos->m_raw_end - pos->m_raw_begin);
             guint offset = m_cursor - cursor;
             m_buffer << ' ' << raw.substr (0, offset)
                      << '|' << raw.substr (offset);
         } else { /* other words */
-            m_buffer << ' ' << key->get_key_string ();
+            m_buffer << ' ' << key->get_pinyin_string ();
         }
     }
 

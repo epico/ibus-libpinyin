@@ -24,7 +24,6 @@
 #include <pinyin.h>
 #include "PYLookupTable.h"
 #include "PYEditor.h"
-#include "PYPinyinParser.h"
 
 
 namespace PY {

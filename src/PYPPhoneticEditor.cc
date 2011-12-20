@@ -338,12 +338,12 @@ guint
 LibPinyinPhoneticEditor::getPinyinCursor ()
 {
     /* Translate cursor position to pinyin position. */
-    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_poses;
+    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
     guint pinyin_cursor = pinyin_poses->len;
     for (size_t i = 0; i < pinyin_poses->len; ++i) {
         PinyinKeyPos *pos = &g_array_index
             (pinyin_poses, PinyinKeyPos, i);
-        if (pos->get_pos () <= m_cursor && m_cursor < pos->get_end_pos ())
+        if (pos->m_raw_begin <= m_cursor && m_cursor < pos->m_raw_end)
             pinyin_cursor = i;
     }
 
@@ -381,7 +381,7 @@ LibPinyinPhoneticEditor::selectCandidate (guint i)
     guint8 len = pinyin_choose_candidate (m_instance, lookup_cursor, *token);
     pinyin_guess_sentence (m_instance);
 
-    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_poses;
+    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
     lookup_cursor += len;
     if (lookup_cursor == pinyin_poses->len) {
         commit();
@@ -389,7 +389,7 @@ LibPinyinPhoneticEditor::selectCandidate (guint i)
     }
     PinyinKeyPos *pos = &g_array_index
         (pinyin_poses, PinyinKeyPos, lookup_cursor);
-    m_cursor = pos->get_pos();
+    m_cursor = pos->m_raw_begin;
 
     return TRUE;
 }
@@ -491,18 +491,18 @@ LibPinyinPhoneticEditor::getCursorLeftByWord (void)
     if (G_UNLIKELY (m_cursor > m_pinyin_len)) {
         cursor = m_pinyin_len;
     } else {
-        PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_poses;
+        PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
         guint pinyin_cursor = getPinyinCursor ();
         PinyinKeyPos *pos = &g_array_index
             (pinyin_poses, PinyinKeyPos, pinyin_cursor);
-        cursor = pos->m_pos;
+        cursor = pos->m_raw_begin;
 
         /* cursor at the begin of one pinyin */
         g_return_val_if_fail (pinyin_cursor > 0, 0);
         if ( cursor == m_cursor) {
             pos = &g_array_index
                 (pinyin_poses, PinyinKeyPos, pinyin_cursor - 1);
-            cursor = pos->m_pos;
+            cursor = pos->m_raw_begin;
         }
     }
 
@@ -519,8 +519,8 @@ LibPinyinPhoneticEditor::getCursorRightByWord (void)
     } else {
         guint pinyin_cursor = getPinyinCursor ();
         PinyinKeyPos *pos = &g_array_index
-            (m_instance->m_pinyin_poses, PinyinKeyPos, pinyin_cursor);
-        cursor = pos->get_end_pos ();
+            (m_instance->m_pinyin_key_rests, PinyinKeyPos, pinyin_cursor);
+        cursor = pos->m_raw_end;
     }
 
     return cursor;

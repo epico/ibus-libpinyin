@@ -286,7 +286,7 @@ LibPinyinPinyinEditor::updateAuxiliaryText ()
         if (G_LIKELY (i))
             m_buffer << ' ';
         PinyinKey *key = &g_array_index (pinyin_keys, PinyinKey, i);
-        m_buffer << key->get_key_string ();
+        m_buffer << key->get_pinyin_string ();
     }
 
     /* append rest text */

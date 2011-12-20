@@ -23,9 +23,6 @@
 #include "PYConfig.h"
 #include "PYLibPinyin.h"
 
-#define DEFINE_DOUBLE_PINYIN_TABLES
-#include "PYDoublePinyinTable.h"
-
 using namespace PY;
 
 /*
@@ -35,11 +32,6 @@ using namespace PY;
  */
 #define ID(c) \
     ((c >= IBUS_a && c <= IBUS_z) ? c - IBUS_a : (c == IBUS_semicolon ? 26 : -1))
-
-#define ID_TO_SHENG(id) \
-    (double_pinyin_map[m_config.doublePinyinSchema ()].sheng[id])
-#define ID_TO_YUNS(id) \
-    (double_pinyin_map[m_config.doublePinyinSchema ()].yun[id])
 
 #define IS_ALPHA(c) \
         ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
@@ -71,9 +63,11 @@ LibPinyinDoublePinyinEditor::insert (gint ch)
         return FALSE;
     }
 
+#if 0
     if (G_UNLIKELY (m_text.empty () && ID_TO_SHENG (id) == PINYIN_ID_VOID)) {
         return FALSE;
     }
+#endif
 
     m_text.insert (m_cursor++, ch);
     updatePinyin ();
@@ -130,23 +124,24 @@ LibPinyinDoublePinyinEditor::updateAuxiliaryText (void)
 
     // guint pinyin_cursor = getPinyinCursor ();
     PinyinKeyVector & pinyin_keys = m_instance->m_pinyin_keys;
-    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_poses;
+    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
     for (guint i = 0; i < pinyin_keys->len; ++i) {
         PinyinKey *key = &g_array_index (pinyin_keys, PinyinKey, i);
         PinyinKeyPos *pos = &g_array_index (pinyin_poses, PinyinKeyPos, i);
-        guint cursor = pos->get_pos ();
+        guint cursor = pos->m_raw_begin;
 
         if (G_UNLIKELY (cursor == m_cursor)) { /* at word boundary. */
-            m_buffer << '|' << key->get_key_string ();
+            m_buffer << '|' << key->get_pinyin_string ();
         } else if (G_LIKELY ( cursor < m_cursor &&
-                              m_cursor < pos->get_end_pos() )) { /* in word */
+                              m_cursor < pos->m_raw_end )) { /* in word */
             /* raw text */
-            String raw = m_text.substr (cursor, pos->get_length ());
+            String raw = m_text.substr (cursor,
+                                        pos->m_raw_end - pos->m_raw_begin);
             guint offset = m_cursor - cursor;
             m_buffer << ' ' << raw.substr (0, offset)
                      << '|' << raw.substr (offset);
         } else { /* other words */
-            m_buffer << ' ' << key->get_key_string ();
+            m_buffer << ' ' << key->get_pinyin_string ();
         }
     }
 

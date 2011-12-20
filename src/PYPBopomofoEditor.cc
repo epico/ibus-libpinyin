@@ -241,7 +241,7 @@ LibPinyinBopomofoEditor::updatePinyin (void)
     if (G_UNLIKELY (m_text.empty ())) {
         m_pinyin_len = 0;
         /* TODO: check whether to replace "" with NULL. */
-        pinyin_parse_more_chewings (m_instance, "");
+        pinyin_parse_more_chewings (m_instance, NULL);
         return;
     }
 
@@ -348,18 +348,19 @@ LibPinyinBopomofoEditor::updateAuxiliaryText (void)
 
     // guint pinyin_cursor = getPinyinCursor ();
     PinyinKeyVector & pinyin_keys = m_instance->m_pinyin_keys;
-    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_poses;
+    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
     for (guint i = 0; i < pinyin_keys->len; ++i) {
         PinyinKey *key = &g_array_index (pinyin_keys, PinyinKey, i);
         PinyinKeyPos *pos = &g_array_index (pinyin_poses, PinyinKeyPos, i);
-        guint cursor = pos->get_pos ();
+        guint cursor = pos->m_raw_begin;
 
         if (G_UNLIKELY (cursor == m_cursor)) { /* at word boundary. */
-            m_buffer << '|' << key->get_key_zhuyin_string ();
+            m_buffer << '|' << key->get_chewing_string ();
         } else if (G_LIKELY ( cursor < m_cursor &&
-                              m_cursor < pos->get_end_pos() )) { /* in word */
+                              m_cursor < pos->m_raw_end )) { /* in word */
             /* raw text */
-            String raw = m_text.substr (cursor, pos->get_length ());
+            String raw = m_text.substr (cursor,
+                                        pos->m_raw_end - pos->m_raw_begin);
             guint offset = m_cursor - cursor;
             m_buffer << ' ';
             String before = raw.substr (0, offset);
@@ -373,7 +374,7 @@ LibPinyinBopomofoEditor::updateAuxiliaryText (void)
                 m_buffer << bopomofo_char[keyvalToBopomofo (*iter)];
             }
         } else { /* other words */
-            m_buffer << ' ' << key->get_key_zhuyin_string ();
+            m_buffer << ' ' << key->get_chewing_string ();
         }
     }
 
