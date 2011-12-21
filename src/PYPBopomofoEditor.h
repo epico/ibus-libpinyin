@@ -55,7 +55,6 @@ protected:
     void reset ();
 
     gboolean insert (gint ch);
-    gint keyvalToBopomofo (gint ch);
 
 };
 

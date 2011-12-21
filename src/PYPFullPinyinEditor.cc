@@ -106,7 +106,7 @@ LibPinyinFullPinyinEditor::updateAuxiliaryText ()
                               m_cursor < pos->m_raw_end )) { /* in word */
             /* raw text */
             String raw = m_text.substr (cursor,
-                                        pos->m_raw_end - pos->m_raw_begin);
+                                        pos->length ());
             guint offset = m_cursor - cursor;
             m_buffer << ' ' << raw.substr (0, offset)
                      << '|' << raw.substr (offset);

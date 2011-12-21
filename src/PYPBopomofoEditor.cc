@@ -26,10 +26,6 @@
 #include "PYHalfFullConverter.h"
 
 
-namespace PY {
-#include "PYBopomofoKeyboard.h"
-};
-
 using namespace PY;
 
 const static gchar * bopomofo_select_keys[] = {
@@ -174,7 +170,7 @@ LibPinyinBopomofoEditor::processBopomofo (guint keyval, guint keycode,
     if (G_UNLIKELY (cmshm_filter (modifiers) != 0))
         return m_text ? TRUE : FALSE;
 
-    if (keyvalToBopomofo (keyval) == BOPOMOFO_ZERO)
+    if (!(pinyin_in_chewing_keyboard (m_instance, keyval, NULL)))
         return FALSE;
 
     m_select_mode = FALSE;
@@ -250,20 +246,6 @@ LibPinyinBopomofoEditor::updatePinyin (void)
     pinyin_guess_sentence (m_instance);
 }
 
-gint
-LibPinyinBopomofoEditor::keyvalToBopomofo(gint ch)
-{
-    const gint keyboard = m_config.bopomofoKeyboardMapping ();    
-    gint len = G_N_ELEMENTS (bopomofo_keyboard[keyboard]);
-
-    for ( gint i = 0; i < len; ++i ) {
-        if ( bopomofo_keyboard[keyboard][i][0] == ch )
-            return bopomofo_keyboard[keyboard][i][1];
-    }
-
-    return BOPOMOFO_ZERO;
-}
-
 void
 LibPinyinBopomofoEditor::commit ()
 {
@@ -285,15 +267,17 @@ LibPinyinBopomofoEditor::commit ()
     /* text after pinyin */
     const gchar *p = m_text.c_str() + m_pinyin_len;
     while (*p != '\0') {
-        if (keyvalToBopomofo (*p)) {
-            m_buffer << keyvalToBopomofo (*p);
+        const char * symbol = NULL;
+        if (pinyin_in_chewing_keyboard(m_instance, *p, &symbol)) {
+            m_buffer << symbol;
         } else {
             if (G_UNLIKELY (m_props.modeFull ())) {
-                m_buffer.appendUnichar (HalfFullConverter::toFull (*p++));
+                m_buffer.appendUnichar (HalfFullConverter::toFull (*p));
             } else {
-                m_buffer << p;
+                m_buffer << *p;
             }
         }
+        ++p;
     }
 
     pinyin_train(m_instance);
@@ -360,18 +344,25 @@ LibPinyinBopomofoEditor::updateAuxiliaryText (void)
                               m_cursor < pos->m_raw_end )) { /* in word */
             /* raw text */
             String raw = m_text.substr (cursor,
-                                        pos->m_raw_end - pos->m_raw_begin);
+                                        pos->length ());
             guint offset = m_cursor - cursor;
             m_buffer << ' ';
             String before = raw.substr (0, offset);
             String after = raw.substr (offset);
             String::const_iterator iter;
+            const char * symbol = NULL;
             for ( iter = before.begin (); iter != before.end (); ++iter) {
-                m_buffer << bopomofo_char[keyvalToBopomofo (*iter)];
+                if ( pinyin_in_chewing_keyboard(m_instance, *iter, &symbol))
+                    m_buffer << symbol;
+                else
+                    m_buffer << *iter;
             }
             m_buffer << '|';
             for ( iter = after.begin (); iter != after.end (); ++iter) {
-                m_buffer << bopomofo_char[keyvalToBopomofo (*iter)];
+                if ( pinyin_in_chewing_keyboard(m_instance, *iter, &symbol))
+                    m_buffer << symbol;
+                else
+                    m_buffer << *iter;
             }
         } else { /* other words */
             m_buffer << ' ' << key->get_chewing_string ();
