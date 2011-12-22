@@ -29,6 +29,7 @@
 #include "PYPointer.h"
 #include "PYBus.h"
 #include "PYConfig.h"
+#include "PYPConfig.h"
 #include "PYDatabase.h"
 #ifdef IBUS_BUILD_LIBPINYIN
 #include "PYLibPinyin.h"
@@ -94,6 +95,9 @@ start_component (void)
 #endif
     PinyinConfig::init (bus);
     BopomofoConfig::init (bus);
+    LibPinyinPinyinConfig::init (bus);
+    LibPinyinBopomofoConfig::init (bus);
+
 
     g_signal_connect ((IBusBus *)bus, "disconnected", G_CALLBACK (ibus_disconnected_cb), NULL);
 

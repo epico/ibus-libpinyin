@@ -22,6 +22,7 @@
 #include "PYPPinyinEngine.h"
 #include <string>
 #include "PYConfig.h"
+#include "PYPConfig.h"
 #include "PYPunctEditor.h"
 #include "PYRawEditor.h"
 #ifdef IBUS_BUILD_LUA_EXTENSION
@@ -39,36 +40,36 @@ using namespace PY;
 /* constructor */
 LibPinyinPinyinEngine::LibPinyinPinyinEngine (IBusEngine *engine)
     : Engine (engine),
-      m_props (PinyinConfig::instance ()),
+      m_props (LibPinyinPinyinConfig::instance ()),
       m_prev_pressed_key (IBUS_VoidSymbol),
       m_input_mode (MODE_INIT),
-      m_fallback_editor (new FallbackEditor (m_props, PinyinConfig::instance ()))
+      m_fallback_editor (new FallbackEditor (m_props, LibPinyinPinyinConfig::instance ()))
 {
     gint i;
 
-    m_double_pinyin = PinyinConfig::instance ().doublePinyin ();
+    m_double_pinyin = LibPinyinPinyinConfig::instance ().doublePinyin ();
 
     if (m_double_pinyin)
         m_editors[MODE_INIT].reset
-            (new LibPinyinDoublePinyinEditor (m_props, PinyinConfig::instance ()));
+            (new LibPinyinDoublePinyinEditor (m_props, LibPinyinPinyinConfig::instance ()));
     else
         m_editors[MODE_INIT].reset
-            (new LibPinyinFullPinyinEditor (m_props, PinyinConfig::instance ()));
+            (new LibPinyinFullPinyinEditor (m_props, LibPinyinPinyinConfig::instance ()));
 
     m_editors[MODE_PUNCT].reset
-        (new PunctEditor (m_props, PinyinConfig::instance ()));
+        (new PunctEditor (m_props, LibPinyinPinyinConfig::instance ()));
     m_editors[MODE_RAW].reset
-        (new RawEditor (m_props, PinyinConfig::instance ()));
+        (new RawEditor (m_props, LibPinyinPinyinConfig::instance ()));
 
 #ifdef IBUS_BUILD_LUA_EXTENSION
-    m_editors[MODE_EXTENSION].reset (new ExtEditor (m_props, PinyinConfig::instance ()));
+    m_editors[MODE_EXTENSION].reset (new ExtEditor (m_props, LibPinyinPinyinConfig::instance ()));
 #else
-    m_editors[MODE_EXTENSION].reset (new Editor (m_props, PinyinConfig::instance ()));
+    m_editors[MODE_EXTENSION].reset (new Editor (m_props, LibPinyinPinyinConfig::instance ()));
 #endif
 #ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
-    m_editors[MODE_ENGLISH].reset (new EnglishEditor (m_props, PinyinConfig::instance ()));
+    m_editors[MODE_ENGLISH].reset (new EnglishEditor (m_props, LibPinyinPinyinConfig::instance ()));
 #else
-    m_editors[MODE_ENGLISH].reset (new Editor (m_props, PinyinConfig::instance ()));
+    m_editors[MODE_ENGLISH].reset (new Editor (m_props, LibPinyinPinyinConfig::instance ()));
 #endif
 
     m_props.signalUpdateProperty ().connect
@@ -135,7 +136,7 @@ LibPinyinPinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modif
 #ifdef IBUS_BUILD_LUA_EXTENSION
                 case IBUS_i:
                     // do not enable lua extension when use double pinyin.
-                    if (PinyinConfig::instance ().doublePinyin ())
+                    if (LibPinyinPinyinConfig::instance ().doublePinyin ())
                         break;
                     m_input_mode = MODE_EXTENSION;
                     break;
@@ -143,7 +144,7 @@ LibPinyinPinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modif
 #ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
                 case IBUS_v:
                     // do not enable english mode when use double pinyin.
-                    if (PinyinConfig::instance ().doublePinyin ())
+                    if (LibPinyinPinyinConfig::instance ().doublePinyin ())
                         break;
                     m_input_mode = MODE_ENGLISH;
                     break;
@@ -174,16 +175,16 @@ LibPinyinPinyinEngine::focusIn (void)
 {
     /* TODO: check memory leak here,
      *       or switch full/double pinyin when pinyin config is changed.*/
-    if (PinyinConfig::instance ().doublePinyin ()) {
+    if (LibPinyinPinyinConfig::instance ().doublePinyin ()) {
         if (!m_double_pinyin) {
-            m_editors[MODE_INIT].reset (new LibPinyinDoublePinyinEditor (m_props, PinyinConfig::instance ()));
+            m_editors[MODE_INIT].reset (new LibPinyinDoublePinyinEditor (m_props, LibPinyinPinyinConfig::instance ()));
             connectEditorSignals (m_editors[MODE_INIT]);
         }
         m_double_pinyin = TRUE;
     }
     else {
         if (m_double_pinyin) {
-            m_editors[MODE_INIT].reset (new LibPinyinFullPinyinEditor (m_props, PinyinConfig::instance ()));
+            m_editors[MODE_INIT].reset (new LibPinyinFullPinyinEditor (m_props, LibPinyinPinyinConfig::instance ()));
             connectEditorSignals (m_editors[MODE_INIT]);
         }
         m_double_pinyin = FALSE;

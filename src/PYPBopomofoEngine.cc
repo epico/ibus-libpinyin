@@ -26,22 +26,23 @@
 #include "PYPBopomofoEditor.h"
 #include "PYFallbackEditor.h"
 #include "PYConfig.h"
+#include "PYPConfig.h"
 
 using namespace PY;
 
 /* constructor */
 LibPinyinBopomofoEngine::LibPinyinBopomofoEngine (IBusEngine *engine)
     : Engine (engine),
-      m_props (BopomofoConfig::instance ()),
+      m_props (LibPinyinBopomofoConfig::instance ()),
       m_prev_pressed_key (IBUS_VoidSymbol),
       m_input_mode (MODE_INIT),
-      m_fallback_editor (new FallbackEditor (m_props, BopomofoConfig::instance()))
+      m_fallback_editor (new FallbackEditor (m_props, LibPinyinBopomofoConfig::instance()))
 {
     gint i;
 
     /* create editors */
-    m_editors[MODE_INIT].reset (new LibPinyinBopomofoEditor (m_props, BopomofoConfig::instance ()));
-    m_editors[MODE_PUNCT].reset (new PunctEditor (m_props, BopomofoConfig::instance ()));
+    m_editors[MODE_INIT].reset (new LibPinyinBopomofoEditor (m_props, LibPinyinBopomofoConfig::instance ()));
+    m_editors[MODE_PUNCT].reset (new PunctEditor (m_props, LibPinyinBopomofoConfig::instance ()));
 
     m_props.signalUpdateProperty ().connect
         (std::bind (&LibPinyinBopomofoEngine::updateProperty, this, _1));

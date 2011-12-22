@@ -64,7 +64,7 @@ LibPinyinBackEnd::allocPinyinInstance ()
             g_free(userdir); userdir = NULL;
         }
         m_pinyin_context = pinyin_init ("/usr/share/libpinyin/data", userdir);
-        setPinyinOptions (&PinyinConfig::instance ());
+        setPinyinOptions (&LibPinyinPinyinConfig::instance ());
         g_free(userdir);
     }
     return pinyin_alloc_instance (m_pinyin_context);
@@ -87,7 +87,7 @@ LibPinyinBackEnd::allocChewingInstance ()
             g_free(userdir); userdir = NULL;
         }
         m_chewing_context = pinyin_init ("/usr/share/libpinyin/data", NULL);
-        setChewingOptions (&BopomofoConfig::instance ());
+        setChewingOptions (&LibPinyinBopomofoConfig::instance ());
         g_free(userdir);
     }
     return pinyin_alloc_instance (m_chewing_context);
