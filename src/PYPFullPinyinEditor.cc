@@ -73,7 +73,7 @@ LibPinyinFullPinyinEditor::updatePinyin (void)
     if (G_UNLIKELY (m_text.empty ())) {
         m_pinyin_len = 0;
         /* TODO: check whether to replace "" with NULL. */
-        pinyin_parse_more_full_pinyins (m_instance, NULL);
+        pinyin_parse_more_full_pinyins (m_instance, "");
         return;
     }
 
