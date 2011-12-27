@@ -47,9 +47,9 @@ protected:
     void initDefaultValues (void);
 
     virtual void readDefaultValues (void);
-    virtual gboolean valueChanged (const std::string  &section,
-                                   const std::string  &name,
-                                   GVariant           *value);
+    virtual gboolean valueChanged (const std::string &section,
+                                   const std::string &name,
+                                   GVariant          *value);
 private:
     static void valueChangedCallback (IBusConfig     *config,
                                       const gchar    *section,
