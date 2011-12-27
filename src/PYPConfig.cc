@@ -20,11 +20,9 @@
  */
 #include "PYPConfig.h"
 
-#include "PYBus.h"
-#ifdef IBUS_BUILD_LIBPINYIN
 #include <pinyin.h>
+#include "PYBus.h"
 #include "PYLibPinyin.h"
-#endif
 
 namespace PY {
 

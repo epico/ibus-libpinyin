@@ -23,9 +23,6 @@
 #include "PYTypes.h"
 #include "PYBus.h"
 #include "PYDoublePinyinTable.h"
-#ifdef IBUS_BUILD_LIBPINYIN
-#include "PYLibPinyin.h"
-#endif
 
 namespace PY {
 
@@ -341,12 +338,6 @@ Config::valueChangedCallback (IBusConfig  *config,
     self->valueChanged (section, name, value);
     if (self->m_section != section)
         return;
-#ifdef IBUS_BUILD_LIBPINYIN
-    if (self->m_section == "engine/Pinyin")
-        LibPinyinBackEnd::instance ().setPinyinOptions (self);
-    if (self->m_section == "engine/Bopomofo")
-        LibPinyinBackEnd::instance ().setChewingOptions (self);
-#endif
 }
 
 static const struct {
