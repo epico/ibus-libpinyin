@@ -212,12 +212,14 @@ LibPinyinPinyinEditor::commit ()
     /* sentence candidate */
     char *tmp = NULL;
     pinyin_get_sentence(m_instance, &tmp);
-    if (m_props.modeSimp ()) {
-        m_buffer << tmp;
-    } else {
-        SimpTradConverter::simpToTrad (tmp, m_buffer);
+    if (tmp) {
+        if (m_props.modeSimp ()) {
+            m_buffer << tmp;
+        } else {
+            SimpTradConverter::simpToTrad (tmp, m_buffer);
+        }
+        g_free (tmp);
     }
-    g_free (tmp);
 
     /* text after pinyin */
     const gchar *p = m_text.c_str() + m_pinyin_len;
