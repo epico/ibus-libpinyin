@@ -336,8 +336,6 @@ Config::valueChangedCallback (IBusConfig  *config,
                               Config      *self)
 {
     self->valueChanged (section, name, value);
-    if (self->m_section != section)
-        return;
 }
 
 static const struct {
