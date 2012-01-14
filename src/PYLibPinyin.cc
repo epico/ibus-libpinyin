@@ -141,7 +141,8 @@ LibPinyinBackEnd::setPinyinOptions (Config *config)
         }
     }
 
-    pinyin_set_options (m_pinyin_context, config->option());
+    pinyin_option_t options = config->option() | USE_RESPLIT_TABLE;
+    pinyin_set_options (m_pinyin_context, options);
     return TRUE;
 }
 
