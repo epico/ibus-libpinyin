@@ -20,9 +20,18 @@
  */
 #include "PYConfig.h"
 
+#include <strings.h>
 #include "PYTypes.h"
 #include "PYBus.h"
 #include "PYDoublePinyinTable.h"
+
+#ifdef HAVE_IBUS_CONFIG_GET_VALUES
+/* work around gsettings. */
+static bool operator == (const gchar *lhs, const std::string &rhs)
+{
+    return strcasecmp (lhs, rhs.c_str ()) == 0;
+}
+#endif
 
 namespace PY {
 
