@@ -57,5 +57,21 @@ Peng Wu &lt;alexepico@gmail.com&gt;</author>
                         @IBUS_HOTKEYS_XML@
                         @IBUS_SYMBOL_XML@
 		</engine>
+		<engine>
+			<name>libbopomofo</name>
+			<language>zh_CN</language>
+			<license>GPL</license>
+			<author>Peng Huang &lt;shawn.p.huang@gmail.com&gt;
+                        BYVoid &lt;byvoid1@gmail.com&gt;
+                        Peng Wu &lt;alexepico@gmail.com&gt;
+                        </author>
+			<icon>${pkgdatadir}/icons/ibus-pinyin.svg</icon>
+			<layout>us</layout>
+			<longname>Intelligent Bopomofo(Beta)</longname>
+			<description>Intelligent Bopomofo input method</description>
+			<rank>99</rank>
+                        @IBUS_HOTKEYS_XML@
+                        @IBUS_SYMBOL_XML@
+		</engine>
 	</engines>
 </component>
