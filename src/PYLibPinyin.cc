@@ -173,7 +173,8 @@ LibPinyinBackEnd::setChewingOptions (Config *config)
         }
     }
 
-    pinyin_set_options(m_chewing_context, config->option());
+    pinyin_option_t options = config->option() | USE_TONE;
+    pinyin_set_options(m_chewing_context, options);
     return TRUE;
 }
 
