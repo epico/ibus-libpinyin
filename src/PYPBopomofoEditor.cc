@@ -173,6 +173,9 @@ LibPinyinBopomofoEditor::processBopomofo (guint keyval, guint keycode,
     if (!(pinyin_in_chewing_keyboard (m_instance, keyval, NULL)))
         return FALSE;
 
+    if (keyval == IBUS_space)
+        return FALSE;
+
     m_select_mode = FALSE;
 
     return insert (keyval);
