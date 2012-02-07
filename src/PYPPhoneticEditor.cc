@@ -72,7 +72,8 @@ LibPinyinPhoneticEditor::processFunctionKey (guint keyval, guint keycode, guint 
         switch (keyval) {
         case IBUS_Return:
         case IBUS_KP_Enter:
-            commit ();
+            commit (m_text.c_str ());
+            reset ();
             return TRUE;
 
         case IBUS_BackSpace:
