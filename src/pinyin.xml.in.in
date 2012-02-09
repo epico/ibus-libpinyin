@@ -51,7 +51,7 @@ Peng Wu &lt;alexepico@gmail.com&gt;</author>
                         </author>
 			<icon>${pkgdatadir}/icons/ibus-pinyin.svg</icon>
 			<layout>us</layout>
-			<longname>Intelligent Pinyin(Beta)</longname>
+			<longname>Intelligent Pinyin</longname>
 			<description>Intelligent Pinyin input method</description>
 			<rank>99</rank>
                         @IBUS_HOTKEYS_XML@
@@ -67,7 +67,7 @@ Peng Wu &lt;alexepico@gmail.com&gt;</author>
                         </author>
 			<icon>${pkgdatadir}/icons/ibus-pinyin.svg</icon>
 			<layout>us</layout>
-			<longname>Intelligent Bopomofo(Beta)</longname>
+			<longname>Intelligent Bopomofo</longname>
 			<description>Intelligent Bopomofo input method</description>
 			<rank>99</rank>
                         @IBUS_HOTKEYS_XML@
