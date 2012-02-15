@@ -53,7 +53,7 @@ Peng Wu &lt;alexepico@gmail.com&gt;</author>
 		</engine>
 		<engine>
 			<name>libbopomofo</name>
-			<language>zh_CN</language>
+			<language>zh_TW</language>
 			<license>GPL</license>
 			<author>Peng Huang &lt;shawn.p.huang@gmail.com&gt;
                         BYVoid &lt;byvoid1@gmail.com&gt;
