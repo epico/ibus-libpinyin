@@ -1,0 +1,335 @@
+# French translations for PACKAGE package
+# Traductions françaises du paquet PACKAGE.
+# Copyright (C) 2012 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Ma Jiehong <ma.jiehong@gmail.com>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-03-19 21:21+0100\n"
+"PO-Revision-Date: 2012-03-19 22:13+0100\n"
+"Last-Translator: Ma Jiehong <ma.jiehong@gmail.com>\n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ../src/PYMain.cc:95
+msgid "Pinyin input method"
+msgstr "Méthode de saisie Pinyin"
+
+#: ../src/PYMain.cc:104
+msgid "Pinyin (debug)"
+msgstr "Pinyin (débug)"
+
+#: ../src/PYMain.cc:105
+msgid "Pinyin input method (debug)"
+msgstr "Méthode de saisie Pinyin (débug)"
+
+#: ../src/PYMain.cc:114
+msgid "Bopomofo (debug)"
+msgstr "Bopomofo (débug)"
+
+#: ../src/PYMain.cc:115
+msgid "Bopomofo input method (debug)"
+msgstr "Méthode de saisie Bopomofo (débug)"
+
+#: ../src/PYPinyinProperties.cc:42 ../setup/ibus-pinyin-preferences.ui.h:5
+msgid "Chinese"
+msgstr "Chinois"
+
+#: ../src/PYPinyinProperties.cc:49
+msgid "Full/Half width"
+msgstr "Chasse"
+
+#: ../src/PYPinyinProperties.cc:56
+msgid "Full/Half width punctuation"
+msgstr "Chasse de la ponctuation pleine/demie"
+
+#: ../src/PYPinyinProperties.cc:63
+msgid "Simplfied/Traditional Chinese"
+msgstr "Chinois simplifié/traditionnel"
+
+#: ../src/PYPinyinProperties.cc:66 ../src/PYPinyinProperties.cc:68
+#: ../setup/ibus-pinyin-preferences.ui.h:1
+msgid "Preferences"
+msgstr "Préférences"
+
+#: ../setup/main.py:382 ../setup/ibus-pinyin-preferences.ui.h:50
+#, no-c-format, python-format
+msgid "<big><b>IBus Pinyin %s</b></big>"
+msgstr "<big><b>Ibus Pinyin %s</b></big>"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:2
+msgid "Language:"
+msgstr "Langue :"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:3
+msgid "Half/full width:"
+msgstr "Chasse :"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:4
+msgid "Punctuations:"
+msgstr "Chasse de la ponctuation :"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:6
+msgid "English"
+msgstr "Anglais"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:7
+msgid "Full"
+msgstr "Pleine"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:8
+msgid "Half"
+msgstr "Demie"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:9
+msgid "Chinese:"
+msgstr "Chinois"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:10
+msgid "Simplified"
+msgstr "Simplifié"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:11
+msgid "Traditional"
+msgstr "Traditionnel"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:12
+msgid "<b>Initial state</b>"
+msgstr "<b>État initial</b>"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:13
+msgid "Orientation of candidates:"
+msgstr "Orientation des candidats :"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:14
+msgid "Number of candidates:"
+msgstr "Nombre de candidats :"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:15
+msgid "<b>UI</b>"
+msgstr "<b>UI<b/>"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:16
+msgid "General"
+msgstr "Général"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:17
+msgid "Full pinyin"
+msgstr "Pinyin complet"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:18
+msgid "Double pinyin"
+msgstr "Pinyin double"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:19
+msgid "Show raw input of Double Pinyin"
+msgstr "Montrer le pinyin non formaté du pinyin double"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:20
+msgid "Incomplete pinyin"
+msgstr "Pinyin incomplet"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:21
+msgid "<b>Pinyin mode</b>"
+msgstr "<b>Mode Pinyin</b>"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:22
+msgid "[Shift] select candidate"
+msgstr "[Shift] sélectionne le candidat"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:23
+msgid "[-] [=] flip page"
+msgstr "[-] [=] change de page"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:24
+msgid "[,] [.] flip page"
+msgstr "[,] [.] change de page"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:25
+msgid "Auto commit"
+msgstr "Validation automatique"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:26
+msgid "<b>Input Custom</b>"
+msgstr "Personalisation"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:27
+msgid "Enable correct pinyin"
+msgstr "Activer la correction automatique du pinyin"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:28
+msgid "<b>Correct pinyin</b>"
+msgstr "Correction automatique du pinyin"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:29
+msgid "Pinyin mode"
+msgstr "Mode Pinyin"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:30
+msgid "Incomplete Bopomofo"
+msgstr "Bopomofo incomplet"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:31
+msgid "Keyboard Mapping:"
+msgstr "Type de clavier :"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:32
+msgid "<b>Bopomofo mode</b>"
+msgstr "<b>Mode Bopomofo</b>"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:33
+msgid "Selection Keys:"
+msgstr "Touches de sélection :"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:34
+msgid "Enable Guidekey for Candidates Selection"
+msgstr "Activer le guide de sélection des candidats"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:35
+msgid "Enable Auxiliary Select Keys F1 .. F10"
+msgstr "Activer les touches auxiliaires (F1…F10)"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:36
+msgid "Enable Auxiliary Select Keys Numbers on Keypad"
+msgstr "Activer la sélection auxiliaire au pavé numérique"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:37
+msgid "<b>Selection mode</b>"
+msgstr "<b>Mode de sélection</b>"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:38
+msgid "Feature of Enter key:"
+msgstr "Action de la toucher Entrer :"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:39
+msgid "Commit first candidate"
+msgstr "Valider le premier candidat"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:40
+msgid "Commit original text"
+msgstr "Valider le texte brut"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:41
+msgid "<b>Other</b>"
+msgstr "Autre"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:42
+msgid "Bopomofo mode"
+msgstr "Mode Bopomofo"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:43
+msgid "Enable fuzzy syllable"
+msgstr "Activer les syllabes floues"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:44
+msgid "Fuzzy syllable"
+msgstr "Syllabes floues"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:45
+msgid "Use custom phrases"
+msgstr "Utiliser des phrases personnalisées"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:46
+msgid "Edit custom phrases"
+msgstr "Éditer les phrases perso…"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:47
+msgid "<b>Dictionary option</b>"
+msgstr "<b>Dictionnaire</b>"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:48
+msgid "Dictionary"
+msgstr "Dictionnaire"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:51
+msgid "Pinyin input method for IBus"
+msgstr "Méthode de saisie Pinyin pour IBus"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:52
+msgid "<small>Copyright (c) 2009-2010 Peng Huang</small>"
+msgstr "<small>Copyright (c) 2009-2010 Peng Huang</small>"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:53
+msgid "http://ibus.googlecode.com"
+msgstr "http://ibus.googlecode.com"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:54
+msgid ""
+"<small>\n"
+"<b>Authors:</b>\n"
+"Peng Huang\n"
+"BYVoid\n"
+"Peng Wu\n"
+"\n"
+"<b>Contributors:</b>\n"
+"koterpilla, Zerng07\n"
+"</small>"
+msgstr ""
+"<small>\n"
+"<b>Autheurs :</b>\n"
+"Peng Huang\n"
+"BYVoid\n"
+"Peng Wu\n"
+"\n"
+"<b>Contributeurs :</b>\n"
+"koterpilla, Zerng07\n"
+"</small>"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:63
+msgid "About"
+msgstr "À propos"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:64
+msgid "Standard"
+msgstr "Standard"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:65
+msgid "GinYieh"
+msgstr "GinYieh"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:66
+msgid "Eten"
+msgstr "Eten"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:67
+msgid "IBM"
+msgstr "IBM"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:68
+msgid "MSPY"
+msgstr "MSPY"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:69
+msgid "ZRM"
+msgstr "ZRM"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:70
+msgid "ABC"
+msgstr "ABC"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:71
+msgid "ZGPY"
+msgstr "ZGPY"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:72
+msgid "PYJJ"
+msgstr "PYJJ"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:73
+msgid "XHE"
+msgstr "XHE"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:74
+msgid "Horizontal"
+msgstr "Horizontal"
+
+#: ../setup/ibus-pinyin-preferences.ui.h:75
+msgid "Vertical"
+msgstr "Vertical"
