@@ -183,7 +183,7 @@ inline void
 LibPinyinBopomofoEngine::showSetupDialog (void)
 {
     g_spawn_command_line_async
-        (LIBEXECDIR"/ibus-setup-pinyin bopomofo --libpinyin", NULL);
+        (LIBEXECDIR"/ibus-setup-libpinyin bopomofo", NULL);
 }
 
 gboolean

@@ -20,12 +20,18 @@
 
 setup_pinyin_PYTHON = \
 	main.py \
+	main2.py \
 	version.py \
 	ibus-pinyin-preferences.ui \
+	ibus-libpinyin-preferences.ui \
 	$(NULL)
+
 setup_pinyindir = $(datadir)/ibus-pinyin/setup
 
-libexec_SCRIPTS = ibus-setup-pinyin
+libexec_SCRIPTS = \
+	ibus-setup-pinyin \
+	ibus-setup-libpinyin \
+	$(NULL)
 
 CLEANFILES = \
 	*.pyc \
@@ -34,6 +40,7 @@ CLEANFILES = \
 EXTRA_DIST = \
 	version.py.in \
 	ibus-setup-pinyin.in \
+	ibus-setup-libpinyin.in \
 	$(NULL)
 
 test-pinyin:
@@ -47,3 +54,15 @@ test-bopomofo:
 		   IBUS_LOCALEDIR=@localedir@ \
 		   PYTHONPATH=$(abs_top_srcdir):$(pyexecdir) \
 		   $(PYTHON) $(srcdir)/main.py bopomofo
+
+test-libpinyin:
+	$(ENV) DBUS_DEBUG=true \
+		   IBUS_LOCALEDIR=@localedir@ \
+		   PYTHONPATH=$(abs_top_srcdir):$(pyexecdir) \
+		   $(PYTHON) $(srcdir)/main2.py pinyin
+
+test-libbopomofo:
+	$(ENV) DBUS_DEBUG=true \
+		   IBUS_LOCALEDIR=@localedir@ \
+		   PYTHONPATH=$(abs_top_srcdir):$(pyexecdir) \
+		   $(PYTHON) $(srcdir)/main2.py bopomofo
