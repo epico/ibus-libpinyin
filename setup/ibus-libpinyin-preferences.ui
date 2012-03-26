@@ -1512,7 +1512,7 @@
                         <child>
                           <object class="GtkLabel" id="NameVersion">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">&lt;big&gt;&lt;b&gt;IBus Pinyin %s&lt;/b&gt;&lt;/big&gt;</property>
+                            <property name="label" translatable="yes">&lt;big&gt;&lt;b&gt;Intelligent Pinyin %s&lt;/b&gt;&lt;/big&gt;</property>
                             <property name="use_markup">True</property>
                             <property name="selectable">True</property>
                           </object>
@@ -1523,7 +1523,7 @@
                         <child>
                           <object class="GtkLabel" id="label14">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">Pinyin input method for IBus</property>
+                            <property name="label" translatable="yes">Intelligent Pinyin input method for IBus</property>
                             <property name="selectable">True</property>
                           </object>
                           <packing>
