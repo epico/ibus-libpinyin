@@ -283,27 +283,13 @@ class PreferencesDialog:
             ("FuzzyPinyin_C_CH", True),
             ("FuzzyPinyin_Z_ZH", True),
             ("FuzzyPinyin_S_SH", True),
-            ("FuzzyPinyin_CH_C", False),
-            ("FuzzyPinyin_ZH_Z", False),
-            ("FuzzyPinyin_SH_S", False),
             ("FuzzyPinyin_L_N", True),
             ("FuzzyPinyin_F_H", True),
             ("FuzzyPinyin_L_R", False),
-            ("FuzzyPinyin_K_G", True),
-            ("FuzzyPinyin_N_L", False),
-            ("FuzzyPinyin_H_F", False),
-            ("FuzzyPinyin_R_L", False),
             ("FuzzyPinyin_G_K", False),
             ("FuzzyPinyin_AN_ANG", True),
             ("FuzzyPinyin_EN_ENG", True),
             ("FuzzyPinyin_IN_ING", True),
-            ("FuzzyPinyin_ANG_AN", True),
-            ("FuzzyPinyin_ENG_EN", True),
-            ("FuzzyPinyin_ING_IN", True),
-            # ("FuzzyPinyin_IAN_IANG", True),
-            # ("FuzzyPinyin_UAN_UANG", True),
-            # ("FuzzyPinyin_IANG_IAN", True),
-            # ("FuzzyPinyin_UANG_UAN", True),
         ]
 
         def __fuzzy_pinyin_toggled_cb(widget):
@@ -325,30 +311,16 @@ class PreferencesDialog:
 
     def __convert_fuzzy_pinyin_to_bopomofo(self):
         options = [
-            ("FuzzyPinyin_C_CH",   "ㄘ => ㄔ"),
-            ("FuzzyPinyin_Z_ZH",   "ㄗ => ㄓ"),
-            ("FuzzyPinyin_S_SH",   "ㄙ => ㄕ"),
-            ("FuzzyPinyin_CH_C",   "ㄔ => ㄘ"),
-            ("FuzzyPinyin_ZH_Z",   "ㄓ => ㄗ"),
-            ("FuzzyPinyin_SH_S",   "ㄕ => ㄙ"),
-            ("FuzzyPinyin_L_N",    "ㄌ => ㄋ"),
-            ("FuzzyPinyin_F_H",    "ㄈ => ㄏ"),
-            ("FuzzyPinyin_L_R",    "ㄌ => ㄖ"),
-            ("FuzzyPinyin_K_G",    "ㄎ => ㄍ"),
-            ("FuzzyPinyin_N_L",    "ㄋ => ㄌ"),
-            ("FuzzyPinyin_H_F",    "ㄏ => ㄈ"),
-            ("FuzzyPinyin_R_L",    "ㄖ => ㄌ"),
-            ("FuzzyPinyin_G_K",    "ㄍ => ㄎ"),
-            ("FuzzyPinyin_AN_ANG", "ㄢ => ㄤ"),
-            ("FuzzyPinyin_EN_ENG", "ㄣ => ㄥ"),
-            ("FuzzyPinyin_IN_ING", "ㄧㄣ => ㄧㄥ"),
-            ("FuzzyPinyin_ANG_AN", "ㄤ => ㄢ"),
-            ("FuzzyPinyin_ENG_EN", "ㄥ => ㄣ"),
-            ("FuzzyPinyin_ING_IN", "ㄧㄥ => ㄧㄣ"),
-            # ("FuzzyPinyin_IAN_IANG", "ㄧㄢ => ㄧㄤ"),
-            # ("FuzzyPinyin_UAN_UANG", "ㄨㄢ => ㄨㄤ"),
-            # ("FuzzyPinyin_IANG_IAN", "ㄧㄤ => ㄧㄢ"),
-            # ("FuzzyPinyin_UANG_UAN", "ㄨㄤ => ㄨㄢ"),
+            ("FuzzyPinyin_C_CH",   "ㄘ <=> ㄔ"),
+            ("FuzzyPinyin_Z_ZH",   "ㄗ <=> ㄓ"),
+            ("FuzzyPinyin_S_SH",   "ㄙ <=> ㄕ"),
+            ("FuzzyPinyin_L_N",    "ㄌ <=> ㄋ"),
+            ("FuzzyPinyin_F_H",    "ㄈ <=> ㄏ"),
+            ("FuzzyPinyin_L_R",    "ㄌ <=> ㄖ"),
+            ("FuzzyPinyin_G_K",    "ㄍ <=> ㄎ"),
+            ("FuzzyPinyin_AN_ANG", "ㄢ <=> ㄤ"),
+            ("FuzzyPinyin_EN_ENG", "ㄣ <=> ㄥ"),
+            ("FuzzyPinyin_IN_ING", "ㄧㄣ <=> ㄧㄥ"),
         ]
 
         for name, label in options:
@@ -387,7 +359,7 @@ class PreferencesDialog:
         self.__page_about.show()
         
         self.__name_version = self.__builder.get_object("NameVersion")
-        self.__name_version.set_markup(_("<big><b>IBus Pinyin %s</b></big>") % version.get_version())
+        self.__name_version.set_markup(_("<big><b>Intelligent Pinyin %s</b></big>") % version.get_version())
 
     def __changed_cb(self, widget, name):
         self.__set_value(name, widget.get_active())

@@ -103,25 +103,15 @@ static const struct {
     { "IncompletePinyin",       PINYIN_INCOMPLETE|CHEWING_INCOMPLETE},
     /* fuzzy pinyin */
     { "FuzzyPinyin_C_CH",       PINYIN_AMB_C_CH      },
-    { "FuzzyPinyin_CH_C",       PINYIN_AMB_C_CH      },
     { "FuzzyPinyin_Z_ZH",       PINYIN_AMB_Z_ZH      },
-    { "FuzzyPinyin_ZH_Z",       PINYIN_AMB_Z_ZH      },
     { "FuzzyPinyin_S_SH",       PINYIN_AMB_S_SH      },
-    { "FuzzyPinyin_SH_S",       PINYIN_AMB_S_SH      },
     { "FuzzyPinyin_L_N",        PINYIN_AMB_L_N       },
-    { "FuzzyPinyin_N_L",        PINYIN_AMB_L_N       },
     { "FuzzyPinyin_F_H",        PINYIN_AMB_F_H       },
-    { "FuzzyPinyin_H_F",        PINYIN_AMB_F_H       },
     { "FuzzyPinyin_L_R",        PINYIN_AMB_L_R       },
-    { "FuzzyPinyin_R_L",        PINYIN_AMB_L_R       },
-    { "FuzzyPinyin_K_G",        PINYIN_AMB_G_K       },
     { "FuzzyPinyin_G_K",        PINYIN_AMB_G_K       },
     { "FuzzyPinyin_AN_ANG",     PINYIN_AMB_AN_ANG    },
-    { "FuzzyPinyin_ANG_AN",     PINYIN_AMB_AN_ANG    },
     { "FuzzyPinyin_EN_ENG",     PINYIN_AMB_EN_ENG    },
-    { "FuzzyPinyin_ENG_EN",     PINYIN_AMB_EN_ENG    },
     { "FuzzyPinyin_IN_ING",     PINYIN_AMB_IN_ING    },
-    { "FuzzyPinyin_ING_IN",     PINYIN_AMB_IN_ING    },
 };
 
 void
