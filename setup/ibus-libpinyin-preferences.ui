@@ -330,6 +330,12 @@
                                         <property name="can_focus">False</property>
                                         <property name="model">liststoreLookupTableOrientation</property>
                                         <property name="button_sensitivity">on</property>
+                                        <child>
+                                          <object class="GtkCellRendererText" id="renderer1"/>
+                                          <attributes>
+                                            <attribute name="text">0</attribute>
+                                          </attributes>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -498,6 +504,12 @@
                                             <property name="can_focus">False</property>
                                             <property name="model">liststoreDoublePinyin</property>
                                             <property name="button_sensitivity">on</property>
+                                            <child>
+                                              <object class="GtkCellRendererText" id="renderer2"/>
+                                              <attributes>
+                                                <attribute name="text">0</attribute>
+                                              </attributes>
+                                            </child>
                                           </object>
                                           <packing>
                                             <property name="expand">True</property>
@@ -947,6 +959,12 @@
                                         <property name="can_focus">False</property>
                                         <property name="model">liststoreBopomofoKeyboardMapping</property>
                                         <property name="button_sensitivity">on</property>
+                                        <child>
+                                          <object class="GtkCellRendererText" id="renderer3"/>
+                                          <attributes>
+                                            <attribute name="text">0</attribute>
+                                          </attributes>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -1020,6 +1038,12 @@
                                         <property name="can_focus">False</property>
                                         <property name="model">liststoreSelectionKeys</property>
                                         <property name="button_sensitivity">on</property>
+                                        <child>
+                                          <object class="GtkCellRendererText" id="renderer4"/>
+                                          <attributes>
+                                            <attribute name="text">0</attribute>
+                                          </attributes>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
