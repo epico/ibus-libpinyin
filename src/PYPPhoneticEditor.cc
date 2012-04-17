@@ -379,11 +379,10 @@ LibPinyinPhoneticEditor::selectCandidate (guint i)
         return TRUE;
     }
 
-    guint8 len = pinyin_choose_candidate (m_instance, lookup_cursor, *token);
+    lookup_cursor = pinyin_choose_candidate (m_instance, lookup_cursor, *token);
     pinyin_guess_sentence (m_instance);
 
     PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
-    lookup_cursor += len;
     if (lookup_cursor == pinyin_poses->len) {
         commit();
         return TRUE;
