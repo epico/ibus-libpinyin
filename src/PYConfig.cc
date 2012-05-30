@@ -22,7 +22,6 @@
 
 #include "PYTypes.h"
 #include "PYBus.h"
-#include "PYDoublePinyinTable.h"
 
 namespace PY {
 
