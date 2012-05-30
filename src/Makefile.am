@@ -208,16 +208,6 @@ CLEANFILES = \
 	ZhConversion.* \
 	$(NULL)
 
-PYBopomofoKeyboard.h:
-	$(AM_V_GEN) \
-	$(PYTHON) $(top_srcdir)/scripts/genbopomofokeyboard.py > $@ || \
-		( $(RM) $@; exit 1 )
-
-PYPinyinParserTable.h:
-	$(AM_V_GEN) \
-	$(PYTHON) $(top_srcdir)/scripts/genpytable.py > $@ || \
-		( $(RM) $@; exit 1 )
-
 PYPunctTable.h:
 	$(AM_V_GEN) \
 	$(PYTHON) $(top_srcdir)/scripts/genpuncttable.py > $@ || \
