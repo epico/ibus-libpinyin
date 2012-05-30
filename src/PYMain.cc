@@ -91,8 +91,7 @@ start_component (void)
 #ifdef IBUS_BUILD_LIBPINYIN
     LibPinyinBackEnd::init ();
 #endif
-    PinyinConfig::init (bus);
-    BopomofoConfig::init (bus);
+
 #ifdef IBUS_BUILD_LIBPINYIN
     LibPinyinPinyinConfig::init (bus);
     LibPinyinBopomofoConfig::init (bus);

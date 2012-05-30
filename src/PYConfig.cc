@@ -77,8 +77,6 @@ const guint PINYIN_DEFAULT_OPTION =
         // PINYIN_FUZZY_UANG_UAN |
         0;
 
-std::unique_ptr<PinyinConfig> PinyinConfig::m_instance;
-std::unique_ptr<BopomofoConfig> BopomofoConfig::m_instance;
 
 Config::Config (Bus & bus, const std::string & name)
     : Object (ibus_bus_get_config (bus)),
