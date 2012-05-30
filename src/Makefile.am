@@ -37,7 +37,6 @@ ibus_engine_pinyin_built_c_sources = \
 	$(NULL)
 ibus_engine_pinyin_built_h_sources = \
 	PYBopomofoKeyboard.h \
-	PYPinyinParserTable.h \
 	PYPunctTable.h \
 	PYSimpTradConverterTable.h \
 	$(NULL)
@@ -59,7 +58,6 @@ ibus_engine_pinyin_h_sources = \
 	PYBopomofo.h \
 	PYBus.h \
 	PYConfig.h \
-	PYDoublePinyinTable.h \
 	PYEditor.h \
 	PYEngine.h \
 	PYExtEditor.h \
