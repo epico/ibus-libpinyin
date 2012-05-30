@@ -30,7 +30,6 @@
 #include "PYBus.h"
 #include "PYConfig.h"
 #include "PYPConfig.h"
-#include "PYDatabase.h"
 #ifdef IBUS_BUILD_LIBPINYIN
 #include "PYLibPinyin.h"
 #endif
@@ -89,7 +88,6 @@ start_component (void)
         exit (0);
     }
 
-    Database::init ();
 #ifdef IBUS_BUILD_LIBPINYIN
     LibPinyinBackEnd::init ();
 #endif
@@ -187,7 +185,9 @@ start_component (void)
 static void
 sigterm_cb (int sig)
 {
-    PY::Database::finalize ();
+#ifdef IBUS_BUILD_LIBPINYIN
+    LibPinyinBackEnd::finalize ();
+#endif
     ::exit (EXIT_FAILURE);
 }
 
@@ -197,7 +197,6 @@ atexit_cb (void)
 #ifdef IBUS_BUILD_LIBPINYIN
     LibPinyinBackEnd::finalize ();
 #endif
-    PY::Database::finalize ();
 }
 
 int
