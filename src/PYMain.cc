@@ -108,29 +108,6 @@ start_component (void)
                                     "http://code.google.com/p/ibus/",
                                     "",
                                     "ibus-pinyin");
-    ibus_component_add_engine (component,
-                               ibus_engine_desc_new ("pinyin-debug",
-                                                     N_("Pinyin (debug)"),
-                                                     N_("Pinyin input method (debug)"),
-                                                     "zh_CN",
-                                                     "GPL",
-                                                     "Peng Huang <shawn.p.huang@gmail.com>\n"
-                                                     "BYVoid <byvoid1@gmail.com>\n"
-                                                     "Peng Wu <alexepico@gmail.com>",
-                                                     PKGDATADIR "/icons/ibus-pinyin.svg",
-                                                     "us"));
-    ibus_component_add_engine (component,
-                               ibus_engine_desc_new ("bopomofo-debug",
-                                                     N_("Bopomofo (debug)"),
-                                                     N_("Bopomofo input method (debug)"),
-                                                     "zh_CN",
-                                                     "GPL",
-                                                     "BYVoid <byvoid1@gmail.com>\n"
-                                                     "Peng Huang <shawn.p.huang@gmail.com>\n"
-                                                     "Peng Wu <alexepico@gmail.com>",
-                                                     PKGDATADIR "/icons/ibus-bopomofo.svg",
-                                                     "us"));
-
 #ifdef IBUS_BUILD_LIBPINYIN
     ibus_component_add_engine (component,
                                ibus_engine_desc_new ("libpinyin-debug",
@@ -159,8 +136,6 @@ start_component (void)
     factory = ibus_factory_new (ibus_bus_get_connection (bus));
 
     if (ibus) {
-        ibus_factory_add_engine (factory, "pinyin", IBUS_TYPE_PINYIN_ENGINE);
-        ibus_factory_add_engine (factory, "bopomofo", IBUS_TYPE_PINYIN_ENGINE);
 #ifdef IBUS_BUILD_LIBPINYIN
         ibus_factory_add_engine (factory, "libpinyin", IBUS_TYPE_PINYIN_ENGINE);
         ibus_factory_add_engine (factory, "libbopomofo", IBUS_TYPE_PINYIN_ENGINE);
@@ -168,8 +143,6 @@ start_component (void)
         ibus_bus_request_name (bus, "org.freedesktop.IBus.Pinyin", 0);
     }
     else {
-        ibus_factory_add_engine (factory, "pinyin-debug", IBUS_TYPE_PINYIN_ENGINE);
-        ibus_factory_add_engine (factory, "bopomofo-debug", IBUS_TYPE_PINYIN_ENGINE);
 #ifdef IBUS_BUILD_LIBPINYIN
         ibus_factory_add_engine (factory, "libpinyin-debug", IBUS_TYPE_PINYIN_ENGINE);
         ibus_factory_add_engine (factory, "libbopomofo-debug", IBUS_TYPE_PINYIN_ENGINE);
