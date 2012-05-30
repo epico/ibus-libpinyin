@@ -22,37 +22,17 @@ BuildRequires:  ibus-devel >= 1.3
 # Requires(post): sqlite
 
 Requires:   ibus >= 1.2.0
-Requires:   ibus-pinyin-db = %{version}-%{release}
+Requires:   libpinyin-data > 0.6.90
 
 %description
 The Chinese Pinyin and Bopomof input methods for IBus platform.
-
-%package    db-open-phrase
-Summary:    The open phrase database for ibus Pinyin
-Group:      System Environment/Libraries
-BuildArch:  noarch
-Provides:   ibus-pinyin-db
-Requires(post): sqlite
-
-%description db-open-phrase
-The phrase database for ibus Pinyin and Bopomofo from open-phrase project.
-
-%package    db-android
-Summary:    The android phrase database for ibus Pinyin and Bopomofo
-Group:      System Environment/Libraries
-BuildArch:  noarch
-Provides:   ibus-pinyin-db
-Requires(post): sqlite
-
-%description db-android
-The phrase database for ibus Pinyin and Bopomofo from android project.
 
 %prep
 %setup -q
 cp %{SOURCE1} data/db/open-phrase
 
 %build
-%configure --disable-static --enable-db-open-phrase
+%configure --disable-static
 # make -C po update-gmo
 make %{?_smp_mflags}
 
@@ -65,18 +45,6 @@ make DESTDIR=${RPM_BUILD_ROOT} install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%post
-# cd %{_datadir}/ibus-pinyin/db
-# sqlite3 android.db ".read create_index.sql"
-
-%post db-open-phrase
-# cd %{_datadir}/ibus-pinyin/db
-# sqlite3 open-phrase.db ".read create_index.sql"
-
-%post db-android
-# cd %{_datadir}/ibus-pinyin/db
-# sqlite3 android.db ".read create_index.sql"
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
@@ -91,12 +59,4 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/@PACKAGE@/db
 %{_datadir}/ibus/component/*
 
-%files db-open-phrase
-%{_datadir}/@PACKAGE@/db/open-phrase.db
-
-%files db-android
-%{_datadir}/@PACKAGE@/db/android.db
-
 %changelog
-* Fri Aug 08 2008 Peng Huang <shawn.p.huang@gmail.com> - @VERSION@-1
-- The first version.
