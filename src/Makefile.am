@@ -36,7 +36,6 @@ libexec_PROGRAMS = ibus-engine-pinyin
 ibus_engine_pinyin_built_c_sources = \
 	$(NULL)
 ibus_engine_pinyin_built_h_sources = \
-	PYBopomofoKeyboard.h \
 	PYPunctTable.h \
 	PYSimpTradConverterTable.h \
 	$(NULL)
