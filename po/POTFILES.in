@@ -14,7 +14,5 @@ src/PYPinyinProperties.cc
 src/PYSimpTradConverter.cc
 src/PYSpecialPhrase.cc
 src/PYSpecialPhraseTable.cc
-setup/main.py
 setup/main2.py
-[type: gettext/glade]setup/ibus-pinyin-preferences.ui
 [type: gettext/glade]setup/ibus-libpinyin-preferences.ui

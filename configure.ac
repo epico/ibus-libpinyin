@@ -201,7 +201,6 @@ lua/Makefile
 src/Makefile
 src/pinyin.xml.in
 setup/Makefile
-setup/ibus-setup-pinyin
 setup/ibus-setup-libpinyin
 setup/version.py
 data/Makefile
