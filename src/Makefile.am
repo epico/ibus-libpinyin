@@ -42,14 +42,10 @@ ibus_engine_pinyin_built_h_sources = \
 	PYSimpTradConverterTable.h \
 	$(NULL)
 ibus_engine_pinyin_c_sources = \
-	PYBopomofoEditor.cc \
-	PYBopomofoEngine.cc \
 	PYConfig.cc \
-	PYDoublePinyinEditor.cc \
 	PYEditor.cc \
 	PYEngine.cc \
 	PYFallbackEditor.cc \
-	PYFullPinyinEditor.cc \
 	PYHalfFullConverter.cc \
 	PYMain.cc \
 	PYPinyinProperties.cc \
@@ -61,17 +57,13 @@ ibus_engine_pinyin_c_sources = \
 	$(NULL)
 ibus_engine_pinyin_h_sources = \
 	PYBopomofo.h \
-	PYBopomofoEditor.h \
-	PYBopomofoEngine.h \
 	PYBus.h \
 	PYConfig.h \
-	PYDoublePinyinEditor.h \
 	PYDoublePinyinTable.h \
 	PYEditor.h \
 	PYEngine.h \
 	PYExtEditor.h \
 	PYFallbackEditor.h \
-	PYFullPinyinEditor.h \
 	PYHalfFullConverter.h \
 	PYLookupTable.h \
 	PYObject.h \
