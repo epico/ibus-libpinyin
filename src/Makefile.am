@@ -45,7 +45,6 @@ ibus_engine_pinyin_c_sources = \
 	PYBopomofoEditor.cc \
 	PYBopomofoEngine.cc \
 	PYConfig.cc \
-	PYDatabase.cc \
 	PYDoublePinyinEditor.cc \
 	PYEditor.cc \
 	PYEngine.cc \
@@ -53,11 +52,6 @@ ibus_engine_pinyin_c_sources = \
 	PYFullPinyinEditor.cc \
 	PYHalfFullConverter.cc \
 	PYMain.cc \
-	PYPhoneticEditor.cc \
-	PYPhraseEditor.cc \
-	PYPinyinEditor.cc \
-	PYPinyinEngine.cc \
-	PYPinyinParser.cc \
 	PYPinyinProperties.cc \
 	PYPunctEditor.cc \
 	PYSimpTradConverter.cc \
@@ -71,7 +65,6 @@ ibus_engine_pinyin_h_sources = \
 	PYBopomofoEngine.h \
 	PYBus.h \
 	PYConfig.h \
-	PYDatabase.h \
 	PYDoublePinyinEditor.h \
 	PYDoublePinyinTable.h \
 	PYEditor.h \
@@ -82,14 +75,9 @@ ibus_engine_pinyin_h_sources = \
 	PYHalfFullConverter.h \
 	PYLookupTable.h \
 	PYObject.h \
-	PYPhoneticEditor.h \
 	PYPhrase.h \
 	PYPhraseArray.h \
-	PYPhraseEditor.h \
 	PYPinyinArray.h \
-	PYPinyinEditor.h \
-	PYPinyinEngine.h \
-	PYPinyinParser.h \
 	PYPinyinProperties.h \
 	PYPointer.h \
 	PYProperty.h \
