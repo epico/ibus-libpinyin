@@ -110,41 +110,5 @@ protected:
     gboolean m_enter_key;
 };
 
-/* PinyinConfig */
-class PinyinConfig : public Config {
-public:
-    static void init (Bus & bus);
-    static PinyinConfig & instance (void) { return *m_instance; }
-
-protected:
-    PinyinConfig (Bus & bus);
-    virtual void readDefaultValues (void);
-
-    virtual gboolean valueChanged (const std::string &section,
-                                   const std::string &name,
-                                   GVariant          *value);
-
-private:
-    static std::unique_ptr<PinyinConfig> m_instance;
-};
-
-/* Bopomof Config */
-class BopomofoConfig : public Config {
-public:
-    static void init (Bus & bus);
-    static BopomofoConfig & instance (void) { return *m_instance; }
-
-protected:
-    BopomofoConfig (Bus & bus);
-    virtual void readDefaultValues (void);
-
-    virtual gboolean valueChanged (const std::string &section,
-                                   const std::string &name,
-                                   GVariant          *value);
-
-private:
-    static std::unique_ptr<BopomofoConfig> m_instance;
-};
-
 };
 #endif
