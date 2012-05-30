@@ -19,17 +19,14 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 setup_pinyin_PYTHON = \
-	main.py \
 	main2.py \
 	version.py \
-	ibus-pinyin-preferences.ui \
 	ibus-libpinyin-preferences.ui \
 	$(NULL)
 
 setup_pinyindir = $(datadir)/ibus-pinyin/setup
 
 libexec_SCRIPTS = \
-	ibus-setup-pinyin \
 	ibus-setup-libpinyin \
 	$(NULL)
 
@@ -39,21 +36,8 @@ CLEANFILES = \
 
 EXTRA_DIST = \
 	version.py.in \
-	ibus-setup-pinyin.in \
 	ibus-setup-libpinyin.in \
 	$(NULL)
-
-test-pinyin:
-	$(ENV) DBUS_DEBUG=true \
-		   IBUS_LOCALEDIR=@localedir@ \
-		   PYTHONPATH=$(abs_top_srcdir):$(pyexecdir) \
-		   $(PYTHON) $(srcdir)/main.py pinyin
-
-test-bopomofo:
-	$(ENV) DBUS_DEBUG=true \
-		   IBUS_LOCALEDIR=@localedir@ \
-		   PYTHONPATH=$(abs_top_srcdir):$(pyexecdir) \
-		   $(PYTHON) $(srcdir)/main.py bopomofo
 
 test-libpinyin:
 	$(ENV) DBUS_DEBUG=true \
