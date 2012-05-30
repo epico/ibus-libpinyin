@@ -23,7 +23,6 @@ ENGLISH_AWK = english.awk
 ENGLISH_DB = english.db
 
 SUBDIRS = \
-	db \
 	icons \
 	$(NULL)
 
