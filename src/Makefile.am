@@ -64,9 +64,6 @@ ibus_engine_pinyin_h_sources = \
 	PYHalfFullConverter.h \
 	PYLookupTable.h \
 	PYObject.h \
-	PYPhrase.h \
-	PYPhraseArray.h \
-	PYPinyinArray.h \
 	PYPinyinProperties.h \
 	PYPointer.h \
 	PYProperty.h \
