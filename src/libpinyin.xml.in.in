@@ -1,22 +1,23 @@
 <?xml version=\"1.0\" encoding=\"utf-8\"?>
 <!-- filename: pinyin.xml -->
 <component>
-	<name>org.freedesktop.IBus.Pinyin</name>
-	<description>Pinyin Component</description>
-	<exec>${libexecdir}/ibus-engine-pinyin --ibus</exec>
+	<name>org.freedesktop.IBus.Libpinyin</name>
+	<description>Libpinyin Component</description>
+	<exec>${libexecdir}/ibus-engine-libpinyin --ibus</exec>
 	<version>@VERSION@</version>
-	<author>Peng Huang &lt;shawn.p.huang@gmail.com&gt;</author>
+	<author>Peng Wu &lt;alexepico@gmail.com&gt;</author>
 	<license>GPL</license>
-	<homepage>http://code.google.com/p/ibus</homepage>
-	<textdomain>ibus-pinyin</textdomain>
+	<homepage>https://github.com/libpinyin/ibus-libpinyin</homepage>
+	<textdomain>ibus-libpinyin</textdomain>
 
 	<engines>
 		<engine>
 			<name>libpinyin</name>
 			<language>zh_CN</language>
 			<license>GPL</license>
-			<author>Peng Huang &lt;shawn.p.huang@gmail.com&gt;
+			<author>
                         Peng Wu &lt;alexepico@gmail.com&gt;
+                        Peng Huang &lt;shawn.p.huang@gmail.com&gt;
                         BYVoid &lt;byvoid1@gmail.com&gt;
                         </author>
 			<icon>${pkgdatadir}/icons/ibus-pinyin.svg</icon>
@@ -29,9 +30,10 @@
 			<name>libbopomofo</name>
 			<language>zh_TW</language>
 			<license>GPL</license>
-			<author>Peng Huang &lt;shawn.p.huang@gmail.com&gt;
-                        BYVoid &lt;byvoid1@gmail.com&gt;
+			<author>
                         Peng Wu &lt;alexepico@gmail.com&gt;
+                        Peng Huang &lt;shawn.p.huang@gmail.com&gt;
+                        BYVoid &lt;byvoid1@gmail.com&gt;
                         </author>
 			<icon>${pkgdatadir}/icons/ibus-pinyin.svg</icon>
 			<layout>us</layout>

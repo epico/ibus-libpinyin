@@ -99,14 +99,14 @@ start_component (void)
 
     g_signal_connect ((IBusBus *)bus, "disconnected", G_CALLBACK (ibus_disconnected_cb), NULL);
 
-    component = ibus_component_new ("org.freedesktop.IBus.Pinyin",
-                                    N_("Pinyin input method"),
+    component = ibus_component_new ("org.freedesktop.IBus.Libpinyin",
+                                    N_("Libpinyin input method"),
                                     VERSION,
                                     "GPL",
-                                    "Peng Huang <shawn.p.huang@gmail.com>",
-                                    "http://code.google.com/p/ibus/",
+                                    "Peng Wu <alexepico@gmail.com>",
+                                    "https://github.com/libpinyin/ibus-libpinyin",
                                     "",
-                                    "ibus-pinyin");
+                                    "ibus-libpinyin");
 #ifdef IBUS_BUILD_LIBPINYIN
     ibus_component_add_engine (component,
                                ibus_engine_desc_new ("libpinyin-debug",
@@ -139,7 +139,7 @@ start_component (void)
         ibus_factory_add_engine (factory, "libpinyin", IBUS_TYPE_PINYIN_ENGINE);
         ibus_factory_add_engine (factory, "libbopomofo", IBUS_TYPE_PINYIN_ENGINE);
 #endif
-        ibus_bus_request_name (bus, "org.freedesktop.IBus.Pinyin", 0);
+        ibus_bus_request_name (bus, "org.freedesktop.IBus.Libpinyin", 0);
     }
     else {
 #ifdef IBUS_BUILD_LIBPINYIN
