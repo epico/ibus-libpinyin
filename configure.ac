@@ -29,7 +29,7 @@ m4_define(ibus_maybe_datestamp,
 m4_define([ibus_version],
     ibus_major_version.ibus_minor_version.ibus_micro_version[]ibus_maybe_datestamp)
 
-AC_INIT([ibus-pinyin], [ibus_version], [http://code.google.com/p/ibus/issues/entry],[ibus-pinyin])
+AC_INIT([ibus-libpinyin], [ibus_version], [https://github.com/libpinyin/ibus-libpinyin/issues/new],[ibus-libpinyin])
 AM_INIT_AUTOMAKE([1.10])
 AC_GNU_SOURCE
 
@@ -72,7 +72,7 @@ AC_ARG_ENABLE(libpinyin,
 )
 
 PKG_CHECK_MODULES(LIBPINYIN, [
-    libpinyin >= 0.2.0
+    libpinyin >= 0.6.0
 ], [],
 [enable_libpinyin=no])
 
@@ -151,7 +151,7 @@ if test x"$enable_opencc" = x"yes"; then
 fi
 
 # define GETTEXT_* variables
-GETTEXT_PACKAGE=ibus-pinyin
+GETTEXT_PACKAGE=ibus-libpinyin
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package])
 
@@ -196,10 +196,10 @@ AM_CONDITIONAL(IBUS_BUILD_ENGLISH_INPUT_MODE, [test x"$enable_english_input_mode
 # OUTPUT files
 AC_CONFIG_FILES([ po/Makefile.in
 Makefile
-ibus-pinyin.spec
+ibus-libpinyin.spec
 lua/Makefile
 src/Makefile
-src/pinyin.xml.in
+src/libpinyin.xml.in
 setup/Makefile
 setup/ibus-setup-libpinyin
 setup/version.py
