@@ -117,13 +117,6 @@ dpkg: dist debian/changelog
 		debuild -b -uc -us; \
 	)
 
-upload: dist
-	./tools/googlecode_upload.py \
-		-s "ibus-pinyin（拼音）source code" \
-		-p ibus \
-		-l "Type-Source,OpSys-Linux,Chinese,Unstable" \
-		$(distdir).tar.gz
-
 clean-rpm:
 	$(RM) -r "`uname -i`"
 
