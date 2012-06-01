@@ -32,14 +32,14 @@
 # 	$(NULL)
 # 
 
-libexec_PROGRAMS = ibus-engine-pinyin
-ibus_engine_pinyin_built_c_sources = \
+libexec_PROGRAMS = ibus-engine-libpinyin
+ibus_engine_libpinyin_built_c_sources = \
 	$(NULL)
-ibus_engine_pinyin_built_h_sources = \
+ibus_engine_libpinyin_built_h_sources = \
 	PYPunctTable.h \
 	PYSimpTradConverterTable.h \
 	$(NULL)
-ibus_engine_pinyin_c_sources = \
+ibus_engine_libpinyin_c_sources = \
 	PYConfig.cc \
 	PYEditor.cc \
 	PYEngine.cc \
@@ -53,7 +53,7 @@ ibus_engine_pinyin_c_sources = \
 	PYSpecialPhrase.cc \
 	PYSpecialPhraseTable.cc \
 	$(NULL)
-ibus_engine_pinyin_h_sources = \
+ibus_engine_libpinyin_h_sources = \
 	PYBopomofo.h \
 	PYBus.h \
 	PYConfig.h \
@@ -92,7 +92,7 @@ ibus_engine_pinyin_h_sources = \
 	$(NULL)
 
 if IBUS_BUILD_LIBPINYIN
-ibus_engine_pinyin_c_sources += \
+ibus_engine_libpinyin_c_sources += \
 	PYPConfig.cc \
 	PYLibPinyin.cc \
 	PYPPhoneticEditor.cc \
@@ -107,22 +107,22 @@ endif
 
 
 if IBUS_BUILD_LUA_EXTENSION
-ibus_engine_pinyin_c_sources += PYExtEditor.cc
+ibus_engine_libpinyin_c_sources += PYExtEditor.cc
 endif
 
 if IBUS_BUILD_ENGLISH_INPUT_MODE
-ibus_engine_pinyin_c_sources += PYEnglishEditor.cc
+ibus_engine_libpinyin_c_sources += PYEnglishEditor.cc
 endif
 
-ibus_engine_pinyin_SOURCES = \
-	$(ibus_engine_pinyin_c_sources) \
-	$(ibus_engine_pinyin_h_sources) \
-	$(ibus_engine_pinyin_built_c_sources) \
-	$(ibus_engine_pinyin_built_h_sources) \
+ibus_engine_libpinyin_SOURCES = \
+	$(ibus_engine_libpinyin_c_sources) \
+	$(ibus_engine_libpinyin_h_sources) \
+	$(ibus_engine_libpinyin_built_c_sources) \
+	$(ibus_engine_libpinyin_built_h_sources) \
 	$(NULL)
 
 
-ibus_engine_pinyin_CXXFLAGS = \
+ibus_engine_libpinyin_CXXFLAGS = \
 	@IBUS_CFLAGS@ \
 	@SQLITE_CFLAGS@ \
 	@LIBPINYIN_CFLAGS@ \
@@ -133,16 +133,16 @@ ibus_engine_pinyin_CXXFLAGS = \
 	$(NULL)
 
 if HAVE_BOOST
-ibus_engine_pinyin_CXXFLAGS += \
+ibus_engine_libpinyin_CXXFLAGS += \
 	@BOOST_CPPFLAGS@ \
 	$(NULL)
 else
-ibus_engine_pinyin_CXXFLAGS += \
+ibus_engine_libpinyin_CXXFLAGS += \
 	-std=c++0x \
 	$(NULL)
 endif
 
-ibus_engine_pinyin_LDADD = \
+ibus_engine_libpinyin_LDADD = \
 	@IBUS_LIBS@ \
 	@SQLITE_LIBS@ \
 	@LIBPINYIN_LIBS@ \
@@ -150,16 +150,16 @@ ibus_engine_pinyin_LDADD = \
 	$(NULL)
 
 if HAVE_LIBUUID
-ibus_engine_pinyin_CXXFLAGS += $(LIBUUID_CFLAGS)
-ibus_engine_pinyin_LDADD += $(LIBUUID_LIBS)
+ibus_engine_libpinyin_CXXFLAGS += $(LIBUUID_CFLAGS)
+ibus_engine_libpinyin_LDADD += $(LIBUUID_LIBS)
 endif
 
 if IBUS_BUILD_LIBPINYIN
-   ibus_engine_pinyin_CXXFLAGS += -DIBUS_BUILD_LIBPINYIN
+   ibus_engine_libpinyin_CXXFLAGS += -DIBUS_BUILD_LIBPINYIN
 endif
 
 if IBUS_BUILD_LUA_EXTENSION
-    ibus_engine_pinyin_CXXFLAGS +=  \
+    ibus_engine_libpinyin_CXXFLAGS +=  \
 	@LUA_CFLAGS@ \
 	-DIBUS_BUILD_LUA_EXTENSION \
 	-I$(top_srcdir)/lua/ \
@@ -167,7 +167,7 @@ if IBUS_BUILD_LUA_EXTENSION
 endif
 
 if IBUS_BUILD_LUA_EXTENSION
-    ibus_engine_pinyin_LDADD += \
+    ibus_engine_libpinyin_LDADD += \
 	@LUA_LIBS@ \
 	-L../lua/ \
 	-lpylua \
@@ -175,7 +175,7 @@ if IBUS_BUILD_LUA_EXTENSION
 endif
 
 if IBUS_BUILD_ENGLISH_INPUT_MODE
-   ibus_engine_pinyin_CXXFLAGS += \
+   ibus_engine_libpinyin_CXXFLAGS += \
 	-DIBUS_BUILD_ENGLISH_INPUT_MODE \
 	$(NULL)
 endif
@@ -190,17 +190,17 @@ pkgdata_DATA = \
 	$(NULL)
 
 component_DATA = \
-	pinyin.xml \
+	libpinyin.xml \
 	$(NULL)
 componentdir = @datadir@/ibus/component
 
 EXTRA_DIST = \
-	pinyin.xml.in \
+	libpinyin.xml.in \
 	phrases.txt \
 	$(NULL)
 
 CLEANFILES = \
-	pinyin.xml \
+	libpinyin.xml \
 	ZhConversion.* \
 	$(NULL)
 
@@ -220,7 +220,7 @@ update-simptrad-table:
 	$(MAKE) ZhConversion.py
 	$(MAKE) PYSimpTradConverterTable.h
 
-pinyin.xml: pinyin.xml.in
+libpinyin.xml: libpinyin.xml.in
 	$(AM_V_GEN) \
 	( \
 		libexecdir=${libexecdir}; \
@@ -229,10 +229,10 @@ pinyin.xml: pinyin.xml.in
 		eval "echo \"$${s}\""; \
 	) > $@
 
-test: ibus-engine-pinyin
+test: ibus-engine-libpinyin
 	$(ENV) \
 		G_DEBUG=fatal_criticals \
-		$(builddir)/ibus-engine-pinyin
+		$(builddir)/ibus-engine-libpinyin
 
 # test: ibus-engine-pinyin
 # 	$(ENV) G_DEBUG=fatal_warnings \
