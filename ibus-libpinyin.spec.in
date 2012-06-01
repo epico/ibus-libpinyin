@@ -6,9 +6,6 @@ License:    GPLv2+
 Group:      System Environment/Libraries
 URL:        http://code.google.com/p/ibus
 Source0:    http://ibus.googlecode.com/files/%{name}-%{version}.tar.gz
-Source1:    pinyin-database-1.2.99.tar.bz2
-
-BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gettext-devel
 BuildRequires:  intltool
@@ -18,6 +15,7 @@ BuildRequires:  sqlite-devel
 BuildRequires:  libuuid-devel
 BuildRequires:  boost-devel >= 1.39
 BuildRequires:  ibus-devel >= 1.3
+BuildRequires:  libpinyin-devel >= 0.6.0
 
 # Requires(post): sqlite
 
@@ -29,7 +27,6 @@ The Chinese Pinyin and Bopomof input methods for IBus platform.
 
 %prep
 %setup -q
-cp %{SOURCE1} data/db/open-phrase
 
 %build
 %configure --disable-static
@@ -38,7 +35,6 @@ make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-# make DESTDIR=${RPM_BUILD_ROOT} NO_INDEX=true install
 make DESTDIR=${RPM_BUILD_ROOT} install
 
 %find_lang %{name}
@@ -49,14 +45,14 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING README
-%{_libexecdir}/ibus-engine-pinyin
-%{_libexecdir}/ibus-setup-pinyin
+%{_libexecdir}/ibus-engine-libpinyin
+%{_libexecdir}/ibus-setup-libpinyin
 %{_datadir}/@PACKAGE@/phrases.txt
 %{_datadir}/@PACKAGE@/icons
 %{_datadir}/@PACKAGE@/setup
-%{_datadir}/@PACKAGE@/db/create_index.sql
 %dir %{_datadir}/@PACKAGE@
-%dir %{_datadir}/@PACKAGE@/db
 %{_datadir}/ibus/component/*
 
 %changelog
+* Fri Jun 01 2012  Peng Wu <pwu@redhat.com> - @VERSION@-1
+- The first version.
