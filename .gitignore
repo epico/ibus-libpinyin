@@ -17,13 +17,12 @@ config.sub
 confinc
 confmf
 depcomp
-ibus-pinyin-*.tar.gz
-ibus-pinyin.spec
+ibus-libpinyin-*.tar.gz
+ibus-libpinyin.spec
 install-sh
 libtool
 ltmain.sh
 missing
-pinyin-database-*.tar.bz2
 rpm
 stamp-h1
 py-compile
