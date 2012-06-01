@@ -54,7 +54,6 @@ ibus_engine_libpinyin_c_sources = \
 	PYSpecialPhraseTable.cc \
 	$(NULL)
 ibus_engine_libpinyin_h_sources = \
-	PYBopomofo.h \
 	PYBus.h \
 	PYConfig.h \
 	PYEditor.h \
