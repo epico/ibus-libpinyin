@@ -13,7 +13,6 @@ BuildRequires:  libtool
 BuildRequires:  pkgconfig
 BuildRequires:  sqlite-devel
 BuildRequires:  libuuid-devel
-BuildRequires:  boost-devel >= 1.39
 BuildRequires:  ibus-devel >= 1.3
 BuildRequires:  libpinyin-devel >= 0.6.0
 
@@ -29,7 +28,10 @@ The Chinese Pinyin and Bopomof input methods for IBus platform.
 %setup -q
 
 %build
-%configure --disable-static
+%configure --disable-static \
+           --enable-opencc \
+           --disable-boost
+
 # make -C po update-gmo
 make %{?_smp_mflags}
 
@@ -50,7 +52,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/@PACKAGE@/phrases.txt
 %{_datadir}/@PACKAGE@/icons
 %{_datadir}/@PACKAGE@/setup
+%{_datadir}/@PACKAGE@/base.lua
+%{_datadir}/@PACKAGE@/db/english.db
 %dir %{_datadir}/@PACKAGE@
+%dir %{_datadir}/@PACKAGE@/db
 %{_datadir}/ibus/component/*
 
 %changelog

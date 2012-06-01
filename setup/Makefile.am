@@ -18,13 +18,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-setup_pinyin_PYTHON = \
+setup_libpinyin_PYTHON = \
 	main2.py \
 	version.py \
 	ibus-libpinyin-preferences.ui \
 	$(NULL)
 
-setup_pinyindir = $(datadir)/ibus-pinyin/setup
+setup_libpinyindir = $(datadir)/ibus-libpinyin/setup
 
 libexec_SCRIPTS = \
 	ibus-setup-libpinyin \
