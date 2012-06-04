@@ -33,19 +33,19 @@ from xdg import BaseDirectory
 
 import version
 
-_ = lambda a : gettext.dgettext("ibus-pinyin", a)
+_ = lambda a : gettext.dgettext("ibus-libpinyin", a)
 
 class PreferencesDialog:
     def __init__(self, engine):
         locale.setlocale(locale.LC_ALL, "")
         localedir = os.getenv("IBUS_LOCALEDIR")
-        gettext.bindtextdomain("ibus-pinyin", localedir)
-        gettext.bind_textdomain_codeset("ibus-pinyin", "UTF-8")
+        gettext.bindtextdomain("ibus-libpinyin", localedir)
+        gettext.bind_textdomain_codeset("ibus-libpinyin", "UTF-8")
 
         self.__bus = IBus.Bus()
         self.__config = self.__bus.get_config()
         self.__builder = Gtk.Builder()
-        self.__builder.set_translation_domain("ibus-pinyin")
+        self.__builder.set_translation_domain("ibus-libpinyin")
         self.__builder.add_from_file("ibus-libpinyin-preferences.ui")
         self.__dialog = self.__builder.get_object("dialog")
         self.__init_pages()
@@ -341,7 +341,7 @@ class PreferencesDialog:
             path = os.path.join(path, "phrases.txt")
             if not os.path.exists(path):
                 datadir = os.getenv("IBUS_DATAROOTDIR") or "/usr/share"
-                src = os.path.join(datadir, "ibus-pinyin", "phrases.txt")
+                src = os.path.join(datadir, "ibus-libpinyin", "phrases.txt")
                 shutil.copyfile(src, path)
             os.system("xdg-open %s" % path)
 
