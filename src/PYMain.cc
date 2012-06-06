@@ -181,7 +181,7 @@ main (gint argc, gchar **argv)
 
     context = g_option_context_new ("- ibus pinyin engine component");
 
-    g_option_context_add_main_entries (context, entries, "ibus-pinyin");
+    g_option_context_add_main_entries (context, entries, "ibus-libpinyin");
 
     if (!g_option_context_parse (context, &argc, &argv, &error)) {
         g_print ("Option parsing failed: %s\n", error->message);
