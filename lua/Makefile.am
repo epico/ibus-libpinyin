@@ -1,6 +1,6 @@
 # vim:set noet ts=4:
 #
-# ibus-pinyin - The Chinese PinYin engine for IBus
+# ibus-libpinyin - Intelligent Pinyin engine based on libpinyin for IBus
 #
 # Copyright (c) 2007-2008 Peng Huang <shawn.p.huang@gmail.com>
 #
