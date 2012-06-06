@@ -75,7 +75,7 @@ static int ime_get_last_commit(lua_State* L){
 
 static int ime_get_version(lua_State* L){
   /* TODO: replace this with C macros. */
-  lua_pushliteral(L, "ibus-pinyin 1.2.99");
+  lua_pushliteral(L, "ibus-libpinyin 1.4.0");
   return 1;
 }
 
@@ -334,7 +334,7 @@ static const luaL_Reg imelib[] = {
   {"join_string", ime_join_string},
   {"parse_mapping", ime_parse_mapping},
   {"register_command", ime_register_command},
-  /* Note: the register_trigger function is dropped for ibus-pinyin. */
+  /* Note: the register_trigger function is dropped for ibus-libpinyin. */
   {"register_trigger", ime_register_trigger},
   {"split_string", ime_split_string},
   {"trim_string_left", ime_trim_string_left},

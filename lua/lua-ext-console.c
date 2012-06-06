@@ -109,7 +109,7 @@ int main(int argc, char * argv[]){
     ibus_engine_plugin_load_lua_script(plugin, argv[i]);
   }
 
-  printf("Lua Plugin Console for ibus-pinyin.\n");
+  printf("Lua Plugin Console for ibus-libpinyin.\n");
   printf("Type ? for more information.\n");
   printf("> ");
 
