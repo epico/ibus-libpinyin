@@ -1,11 +1,11 @@
 Name:       @PACKAGE_NAME@
 Version:    @PACKAGE_VERSION@
 Release:    1%{?dist}
-Summary:    The Chinese Pinyin and Bopomofo engines for IBus input platform
+Summary:    Intelligent Pinyin engine based on libpinyin for IBus
 License:    GPLv2+
 Group:      System Environment/Libraries
-URL:        http://code.google.com/p/ibus
-Source0:    http://ibus.googlecode.com/files/%{name}-%{version}.tar.gz
+URL:        https://github.com/libpinyin
+Source0:    https://github.com/downloads/libpinyin/ibus-libpinyin/%{name}-%{version}.tar.gz
 
 BuildRequires:  gettext-devel
 BuildRequires:  intltool
@@ -22,7 +22,7 @@ Requires:   ibus >= 1.2.0
 Requires:   libpinyin-data > 0.6.90
 
 %description
-The Chinese Pinyin and Bopomof input methods for IBus platform.
+It includes a Chinese Pinyin input method and a Chinese ZhuYin (Bopomofo) input method based on libpinyin for IBus.
 
 %prep
 %setup -q
