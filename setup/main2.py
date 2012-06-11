@@ -33,7 +33,7 @@ from xdg import BaseDirectory
 
 import version
 
-_ = lambda a : gettext.dgettext("ibus-libpinyin", a)
+_ = lambda x : gettext.gettext(x)
 
 class PreferencesDialog:
     def __init__(self, engine):
