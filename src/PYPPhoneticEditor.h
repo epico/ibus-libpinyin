@@ -31,6 +31,7 @@ namespace PY {
 class LibPinyinPhoneticEditor : public Editor {
 public:
     LibPinyinPhoneticEditor (PinyinProperties & props, Config & config);
+    ~LibPinyinPhoneticEditor ();
 
 public:
     /* virtual functions */
@@ -80,16 +81,13 @@ protected:
 
 
     /* varibles */
-#if 0
-    PinyinArray                 m_pinyins;
-#endif
     guint                       m_pinyin_len;
     LookupTable                 m_lookup_table;
     String                      m_buffer;
 
     /* use LibPinyinBackEnd here. */
     pinyin_instance_t           *m_instance;
-    TokenVector                 m_candidates;
+    CandidateVector             m_candidates;
 };
 
 };

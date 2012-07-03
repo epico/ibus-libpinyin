@@ -32,7 +32,13 @@ LibPinyinPhoneticEditor::LibPinyinPhoneticEditor (PinyinProperties &props,
     m_pinyin_len (0),
     m_lookup_table (m_config.pageSize ())
 {
-    m_candidates = g_array_new(FALSE, TRUE, sizeof(phrase_token_t));
+    m_candidates = g_array_new(FALSE, TRUE, sizeof(lookup_candidate_t));
+}
+
+LibPinyinPhoneticEditor::~LibPinyinPhoneticEditor (){
+    pinyin_free_candidates(m_instance, m_candidates);
+    g_array_free(m_candidates, TRUE);
+    m_candidates = NULL;
 }
 
 gboolean
@@ -198,54 +204,24 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
     if (need_nr == 0)
         return FALSE;
 
-    String first_candidate, candidate;
+    String word;
     for (guint i = filled_nr; i < filled_nr + need_nr; i++) {
         if (i >= m_candidates->len)  /* no more candidates */
             break;
 
-        phrase_token_t *token = &g_array_index
-            (m_candidates, phrase_token_t, i);
-
-        if (null_token == *token) {
-            /* show the rest of guessed sentence after the cursor. */
-            String buffer;
-            char *tmp = NULL;
-            pinyin_get_sentence(m_instance, &tmp);
-            if (tmp)
-                buffer = tmp;
-
-            guint lookup_cursor = getLookupCursor ();
-            candidate = first_candidate = g_utf8_offset_to_pointer
-                (buffer.c_str (), lookup_cursor);
-            if (G_UNLIKELY (!m_props.modeSimp ())) { /* Traditional Chinese */
-                candidate.truncate (0);
-                SimpTradConverter::simpToTrad (first_candidate, candidate);
-            }
-            Text text (candidate);
-            m_lookup_table.appendCandidate (text);
-            g_free (tmp);
-            continue;
-        }
-
-        char *word = NULL;
-        pinyin_translate_token(m_instance, *token, &word);
-        candidate = word;
-
-        /* remove duplicated candidates */
-        if (candidate == first_candidate) {
-            g_array_remove_index (m_candidates, i);
-            --i;
-            continue;
-        }
+        lookup_candidate_t * candidate = &g_array_index
+            (m_candidates, lookup_candidate_t, i);
 
         /* show get candidates. */
-        if (G_UNLIKELY (!m_props.modeSimp ())) { /* Traditional Chinese */
-            candidate.truncate (0);
-            SimpTradConverter::simpToTrad (word, candidate);
+        if (G_LIKELY (m_props.modeSimp ())) {
+            word = candidate->m_phrase_string;
+        } else { /* Traditional Chinese */
+            word.truncate (0);
+            SimpTradConverter::simpToTrad (candidate->m_phrase_string, word);
         }
-        Text text (candidate);
+
+        Text text (word);
         m_lookup_table.appendCandidate (text);
-        g_free(word);
     }
 
     return TRUE;
@@ -319,10 +295,6 @@ LibPinyinPhoneticEditor::update (void)
     guint lookup_cursor = getLookupCursor ();
     pinyin_get_candidates (m_instance, lookup_cursor, m_candidates);
 
-    /* show guessed sentence only when m_candidates are available. */
-    if (m_candidates->len)
-        g_array_insert_val(m_candidates, 0, null_token);
-
     updateLookupTable ();
     updatePreeditText ();
     updateAuxiliaryText ();
@@ -372,14 +344,15 @@ LibPinyinPhoneticEditor::selectCandidate (guint i)
 
     guint lookup_cursor = getLookupCursor ();
 
-    /* NOTE: deal with normal candidates selection here by libpinyin. */
-    phrase_token_t *token = &g_array_index (m_candidates, phrase_token_t, i);
-    if (null_token == *token) {
+    lookup_candidate_t * candidate = &g_array_index
+        (m_candidates, lookup_candidate_t, i);
+    if (BEST_MATCH_CANDIDATE == candidate->m_candidate_type) {
         commit ();
         return TRUE;
     }
 
-    lookup_cursor = pinyin_choose_candidate (m_instance, lookup_cursor, *token);
+    lookup_cursor = pinyin_choose_candidate
+        (m_instance, lookup_cursor, candidate);
     pinyin_guess_sentence (m_instance);
 
     PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
