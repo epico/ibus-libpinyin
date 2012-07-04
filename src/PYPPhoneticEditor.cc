@@ -36,8 +36,8 @@ LibPinyinPhoneticEditor::LibPinyinPhoneticEditor (PinyinProperties &props,
 }
 
 LibPinyinPhoneticEditor::~LibPinyinPhoneticEditor (){
-    pinyin_free_candidates(m_instance, m_candidates);
-    g_array_free(m_candidates, TRUE);
+    pinyin_free_candidates (m_instance, m_candidates);
+    g_array_free (m_candidates, TRUE);
     m_candidates = NULL;
 }
 
@@ -293,6 +293,8 @@ LibPinyinPhoneticEditor::reset (void)
 {
     m_pinyin_len = 0;
     m_lookup_table.clear ();
+
+    pinyin_free_candidates (m_instance, m_candidates);
     pinyin_reset (m_instance);
 
     Editor::reset ();
