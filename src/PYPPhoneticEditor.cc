@@ -204,7 +204,7 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
     if (need_nr == 0)
         return FALSE;
 
-    String word, phrase_string;
+    String word;
     for (guint i = filled_nr; i < filled_nr + need_nr; i++) {
         if (i >= m_candidates->len)  /* no more candidates */
             break;
@@ -212,14 +212,7 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
         lookup_candidate_t * candidate = &g_array_index
             (m_candidates, lookup_candidate_t, i);
 
-        phrase_string = candidate->m_phrase_string;
-
-        if (BEST_MATCH_CANDIDATE == candidate->m_candidate_type) {
-            /* hide selected part */
-            guint cursor = getLookupCursor ();
-            phrase_string = g_utf8_offset_to_pointer
-                (candidate->m_phrase_string, cursor);
-        }
+        const gchar * phrase_string = candidate->m_phrase_string;
 
         /* show get candidates. */
         if (G_LIKELY (m_props.modeSimp ())) {
