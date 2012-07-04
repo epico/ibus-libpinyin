@@ -64,6 +64,7 @@ LibPinyinBackEnd::allocPinyinInstance ()
             g_free(userdir); userdir = NULL;
         }
         m_pinyin_context = pinyin_init ("/usr/share/libpinyin/data", userdir);
+        pinyin_load_phrase_library(m_pinyin_context, 2);
         g_free(userdir);
     }
 
@@ -87,7 +88,8 @@ LibPinyinBackEnd::allocChewingInstance ()
         if (retval) {
             g_free(userdir); userdir = NULL;
         }
-        m_chewing_context = pinyin_init ("/usr/share/libpinyin/data", NULL);
+        m_chewing_context = pinyin_init ("/usr/share/libpinyin/data", userdir);
+        pinyin_load_phrase_library(m_chewing_context, 2);
         g_free(userdir);
     }
 
