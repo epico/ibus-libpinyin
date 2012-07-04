@@ -198,7 +198,7 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
     guint filled_nr = m_lookup_table.size ();
     guint page_size = m_lookup_table.pageSize ();
 
-    /* fill lookup table by libpinyin guessed sentence and get candidates. */
+    /* fill lookup table by libpinyin get candidates. */
     guint need_nr = MIN (page_size, m_candidates->len - filled_nr);
     g_assert (need_nr >=0);
     if (need_nr == 0)
@@ -216,7 +216,7 @@ LibPinyinPhoneticEditor::fillLookupTableByPage (void)
 
         if (BEST_MATCH_CANDIDATE == candidate->m_candidate_type) {
             /* hide selected part */
-            guint cursor = getPinyinCursor ();
+            guint cursor = getLookupCursor ();
             phrase_string = g_utf8_offset_to_pointer
                 (candidate->m_phrase_string, cursor);
         }
