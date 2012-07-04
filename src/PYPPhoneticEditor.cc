@@ -313,11 +313,17 @@ LibPinyinPhoneticEditor::getPinyinCursor ()
     /* Translate cursor position to pinyin position. */
     PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
     guint pinyin_cursor = pinyin_poses->len;
+
+    guint16 prev_end = 0, cur_end;
     for (size_t i = 0; i < pinyin_poses->len; ++i) {
         PinyinKeyPos *pos = &g_array_index
             (pinyin_poses, PinyinKeyPos, i);
-        if (pos->m_raw_begin <= m_cursor && m_cursor < pos->m_raw_end)
+        cur_end = pos->m_raw_end;
+
+        if (prev_end <= m_cursor && m_cursor < cur_end)
             pinyin_cursor = i;
+
+        prev_end = cur_end;
     }
 
     g_assert (pinyin_cursor >= 0);
