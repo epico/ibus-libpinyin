@@ -363,10 +363,15 @@ LibPinyinPhoneticEditor::selectCandidate (guint i)
 
     lookup_cursor = pinyin_choose_candidate
         (m_instance, lookup_cursor, candidate);
+    if (DIVIDED_CANDIDATE == candidate->m_candidate_type ||
+        RESPLIT_CANDIDATE == candidate->m_candidate_type) {
+        m_text = m_instance->m_raw_full_pinyin;
+    }
     pinyin_guess_sentence (m_instance);
 
     PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
     if (lookup_cursor == pinyin_poses->len) {
+        pinyin_train(m_instance);
         commit();
         return TRUE;
     }
