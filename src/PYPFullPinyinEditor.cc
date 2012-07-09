@@ -125,3 +125,14 @@ LibPinyinFullPinyinEditor::updateAuxiliaryText ()
     StaticText aux_text (m_buffer);
     Editor::updateAuxiliaryText (aux_text, TRUE);
 }
+
+void
+LibPinyinFullPinyinEditor::update (void)
+{
+    guint lookup_cursor = getLookupCursor ();
+    pinyin_get_full_pinyin_candidates (m_instance, lookup_cursor, m_candidates);
+
+    updateLookupTable ();
+    updatePreeditText ();
+    updateAuxiliaryText ();
+}
