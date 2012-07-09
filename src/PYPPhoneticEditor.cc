@@ -339,6 +339,7 @@ LibPinyinPhoneticEditor::getLookupCursor (void)
 {
     PinyinKeyVector & pinyins = m_instance->m_pinyin_keys;
     guint lookup_cursor = getPinyinCursor ();
+
     /* show candidates when pinyin cursor is at end. */
     if (lookup_cursor == pinyins->len && m_pinyin_len == m_text.length())
         lookup_cursor = 0;

@@ -74,6 +74,7 @@ LibPinyinFullPinyinEditor::updatePinyin (void)
         m_pinyin_len = 0;
         /* TODO: check whether to replace "" with NULL. */
         pinyin_parse_more_full_pinyins (m_instance, "");
+        pinyin_guess_sentence(m_instance);
         return;
     }
 
