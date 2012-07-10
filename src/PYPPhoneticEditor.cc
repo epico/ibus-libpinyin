@@ -367,6 +367,7 @@ LibPinyinPhoneticEditor::selectCandidate (guint i)
     if (DIVIDED_CANDIDATE == candidate->m_candidate_type ||
         RESPLIT_CANDIDATE == candidate->m_candidate_type) {
         m_text = m_instance->m_raw_full_pinyin;
+        updatePinyin ();
     }
     pinyin_guess_sentence (m_instance);
 
