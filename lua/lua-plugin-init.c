@@ -79,6 +79,23 @@ static int ime_get_version(lua_State* L){
   return 1;
 }
 
+static int ime_int_to_hex_string(lua_State* L){
+    lua_Integer val = lua_checkinteger(L, 1);
+    lua_Integer width = lua_optinteger(L, 2, -1);
+
+    luaL_Buffer buf;
+    luaL_buffinit(L, &buf);
+
+    gchar * str = g_strdup_printf("%0*x", width, val);
+    luaL_addstring(&buf, str);
+    g_free(str);
+
+    luaL_pushresult(&buf);
+    lua_remove(L, 2);
+    lua_remove(L, 1);
+    return 1;
+}
+
 static int ime_join_string(lua_State* L){
   luaL_Buffer buf;
   size_t vec_len; size_t i;
@@ -369,6 +386,7 @@ static int ime_utf16_to_utf8(lua_State* L){
 static const luaL_Reg imelib[] = {
   {"get_last_commit", ime_get_last_commit},
   {"get_version", ime_get_version},
+  {"int_to_hex_string", ime_int_to_hex_string},
   {"join_string", ime_join_string},
   {"parse_mapping", ime_parse_mapping},
   {"register_command", ime_register_command},
