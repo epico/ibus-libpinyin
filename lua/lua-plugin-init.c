@@ -80,8 +80,8 @@ static int ime_get_version(lua_State* L){
 }
 
 static int ime_int_to_hex_string(lua_State* L){
-    lua_Integer val = lua_checkinteger(L, 1);
-    lua_Integer width = lua_optinteger(L, 2, -1);
+    lua_Integer val = luaL_checkinteger(L, 1);
+    lua_Integer width = luaL_optinteger(L, 2, -1);
 
     luaL_Buffer buf;
     luaL_buffinit(L, &buf);
@@ -258,6 +258,15 @@ static int ime_register_trigger(lua_State * L){
   return 0;
 }
 
+static int ime_register_converter(lua_State * L){
+    const char * lua_function_name = luaL_checklstring(L, 1, NULL);
+    const char * description = luaL_checklstring(L, 2, NULL);
+
+    fprintf(stderr, "TODO: ime_register_converter unimplemented when called with %s(%s).\n", lua_function_name, description);
+
+    return 0;
+}
+
 static int ime_split_string(lua_State * L){
   gchar ** str_vec;
   guint str_vec_len = 0; int i;
@@ -390,6 +399,8 @@ static const luaL_Reg imelib[] = {
   {"join_string", ime_join_string},
   {"parse_mapping", ime_parse_mapping},
   {"register_command", ime_register_command},
+  /* Note: the register_converter function is dropped for ibus-libpinyin. */
+  {"register_converter", ime_register_converter},
   /* Note: the register_trigger function is dropped for ibus-libpinyin. */
   {"register_trigger", ime_register_trigger},
   {"split_string", ime_split_string},
