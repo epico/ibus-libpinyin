@@ -1,5 +1,11 @@
 print(ime.get_version())
 
+print(ime.int_to_hex_string(100, 6))
+
+str = ime.utf8_to_utf16("你好")
+str = ime.utf16_to_utf8(str)
+print(str)
+
 print(ime.trim_string("   Hello World!   "))
 
 print(ime.trim_string_right("   Hello World!   "))
