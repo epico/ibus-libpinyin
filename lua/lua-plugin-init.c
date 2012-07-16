@@ -327,6 +327,44 @@ static int ime_trim_string(lua_State* L){
   return ime_push_string(L, s, start, end);
 }
 
+static int ime_utf8_to_utf16(lua_State* L){
+    size_t l;
+    const char * s = luaL_checklstring(L, 1, &l);
+
+    luaL_Buffer buf;
+    luaL_buffinit(L, &buf);
+
+    glong written = 0;
+    gunichar2 * str = g_utf8_to_utf16(s, l, NULL, &written, NULL);
+
+    /* not includes trailing-zero */
+    luaL_addlstring(&buf, str, written * sizeof(gunichar2));
+    luaL_pushresult(&buf);
+
+    g_free(str);
+    lua_remove(L, 1);
+    return 1;
+}
+
+static int ime_utf16_to_utf8(lua_State* L){
+    size_t l;
+    const gunichar2 * s = luaL_checklstring(L, 1, &l);
+
+    luaL_Buffer buf;
+    luaL_buffinit(L, &buf);
+
+    glong written = 0;
+    gchar * str = g_utf16_to_utf8(s, l / sizeof(gunichar2),
+                                  NULL, &written, NULL );
+
+    /* not includes trailing-zero */
+    luaL_addlstring(&buf, str, written * sizeof(gchar));
+    luaL_pushresult(&buf);
+
+    g_free(str);
+    lua_remove(L, 1);
+    return 1;
+}
 
 static const luaL_Reg imelib[] = {
   {"get_last_commit", ime_get_last_commit},
@@ -340,6 +378,8 @@ static const luaL_Reg imelib[] = {
   {"trim_string_left", ime_trim_string_left},
   {"trim_string_right", ime_trim_string_right},
   {"trim_string", ime_trim_string},
+  {"utf16_to_utf8", ime_utf16_to_utf8},
+  {"utf8_to_utf16", ime_utf8_to_utf16},
   {NULL, NULL}
 };
 
