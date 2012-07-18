@@ -6,7 +6,7 @@ BEGIN {
 
     # Create english table
     print "CREATE TABLE IF NOT EXISTS \"english\" ( "   \
-        "\"word\" TEXT NOT NULL PRIMARY KEY,"                       \
+        "\"word\" TEXT NOT NULL PRIMARY KEY,"           \
         "\"freq\" FLOAT NOT NULL DEFAULT(0)"            \
         ");";
 
@@ -16,7 +16,7 @@ BEGIN {
 }
 
     # Insert data into english table
-    {   printf "INSERT INTO english (word, freq) VALUES (\"%s\", \"%f\");\n", $1, $2}
+    {   printf "INSERT INTO english (word, freq) VALUES (\"%s\", %f);\n", $1, $2}
 
     #quit sqlite3
 END {
