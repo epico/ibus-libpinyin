@@ -76,16 +76,21 @@ public:
          const char *tail = NULL;
          m_sql = "SELECT value FROM desc WHERE name = 'version';";
          result = sqlite3_prepare_v2 (tmp_db, m_sql.c_str(), -1, &stmt, &tail);
-         g_assert (result == SQLITE_OK);
+         if (result != SQLITE_OK)
+             return FALSE;
+
          result = sqlite3_step (stmt);
          if (result != SQLITE_ROW)
              return FALSE;
+
          result = sqlite3_column_type (stmt, 0);
          if (result != SQLITE_TEXT)
              return FALSE;
+
          const char *version = (const char *) sqlite3_column_text (stmt, 0);
          if (strcmp("1.2.0", version ) != 0)
              return FALSE;
+
          result = sqlite3_finalize (stmt);
          g_assert (result == SQLITE_OK);
          sqlite3_close (tmp_db);
@@ -176,20 +181,24 @@ public:
         const char *SQL_DB_LIST = 
             "SELECT word FROM ( "
             "SELECT * FROM english UNION ALL SELECT * FROM userdb.english) "
-            " WHERE word LIKE '%s%%' GROUP BY word ORDER BY SUM(freq) DESC;";
+            " WHERE word LIKE '%s%' GROUP BY word ORDER BY SUM(freq) DESC;";
         m_sql.printf (SQL_DB_LIST, prefix);
         int result = sqlite3_prepare_v2 (m_sqlite, m_sql.c_str(), -1, &stmt, &tail);
-        g_assert(result == SQLITE_OK);
+        if (result != SQLITE_OK)
+            return FALSE;
+
         result = sqlite3_step (stmt);
         while (result == SQLITE_ROW){
             /* get the words. */
             result = sqlite3_column_type (stmt, 0);
             if (result != SQLITE_TEXT)
                 return FALSE;
+
             const char *word = (const char *)sqlite3_column_text (stmt, 0);
             words.push_back (word);
             result = sqlite3_step (stmt);
         }
+
         sqlite3_finalize (stmt);
         if (result != SQLITE_DONE)
             return FALSE;
