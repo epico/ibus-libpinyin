@@ -193,6 +193,16 @@ AC_ARG_ENABLE(english-input-mode,
 
 AM_CONDITIONAL(IBUS_BUILD_ENGLISH_INPUT_MODE, [test x"$enable_english_input_mode" = x"yes"])
 
+# --disable-stroke-input-mode
+AC_ARG_ENABLE(stroke-input-mode,
+        AS_HELP_STRING([--disable-stroke-input-mode],
+        [do not build stroke input mode]),
+        [enable_stroke_input_mode=$enableval],
+        [enable_stroke_input_mode=yes]
+)
+
+AM_CONDITIONAL(IBUS_BUILD_STROKE_INPUT_MODE, [test x"$enable_stroke_input_mode" = x"yes"])
+
 # OUTPUT files
 AC_CONFIG_FILES([ po/Makefile.in
 Makefile
@@ -218,6 +228,7 @@ Build options:
     Use opencc                  $enable_opencc
     Use libpinyin               $enable_libpinyin
     Build lua extension         $enable_lua_extension
+    Build stroke input mode     $enable_stroke_input_mode
     Build english input mode    $enable_english_input_mode
 ])
 
