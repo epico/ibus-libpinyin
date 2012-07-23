@@ -22,14 +22,19 @@ WORDLIST = wordlist
 ENGLISH_AWK = english.awk
 ENGLISH_DB = english.db
 
+STROKES = strokes
+STROKES_AWK = strokes.awk
+STROKES_DB = strokes.db
+
 SUBDIRS = \
 	icons \
 	$(NULL)
 
-english_db_DATA = \
+auxiliary_db_DATA = \
         $(ENGLISH_DB) \
+	$(STROKES_DB) \
         $(NULL)
-english_dbdir = $(pkgdatadir)/db
+auxiliary_dbdir = $(pkgdatadir)/db
 
 $(ENGLISH_DB): $(WORDLIST) $(ENGLISH_AWK)
 	$(AM_V_GEN) \
@@ -37,11 +42,20 @@ $(ENGLISH_DB): $(WORDLIST) $(ENGLISH_AWK)
 	$(AWK) -f $(srcdir)/$(ENGLISH_AWK) $(srcdir)/$(WORDLIST) | @SQLITE3@ $@ || \
 		( $(RM) $@ ; exit 1 )
 
+$(STROKES_DB): $(STROKES) $(STROKES_AWK)
+	$(AM_V_GEN) \
+	$(RM) $@; \
+	$(AWK) -f $(srcdir)/$(STROKES_AWK) $(srcdir)/$(STROKES) | @SQLITE3@ $@ || \
+		( $(RM) $@ ; exit 1 )
+
 EXTRA_DIST = \
 	$(WORDLIST) \
 	$(ENGLISH_AWK) \
+	$(STROKES) \
+	$(STROKES_AWK) \
 	$(NULL)
 
 CLEANFILES = \
 	$(ENGLISH_DB) \
+	$(STROKES_DB) \
 	$(NULL)
