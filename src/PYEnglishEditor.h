@@ -56,8 +56,8 @@ private:
     gboolean selectCandidateInPage (guint index);
     gboolean selectCandidate (guint index);
 
-    gboolean processSpace(guint keyval);
-    gboolean processEnter(guint keyval);
+    gboolean processSpace (guint keyval);
+    gboolean processEnter (guint keyval);
 
     gboolean removeCharBefore (void);
     gboolean removeCharAfter (void);
@@ -68,6 +68,7 @@ private:
 
     gboolean train(const char *word, float delta);
 
+private:
     /* variables */
     LookupTable m_lookup_table;
 
