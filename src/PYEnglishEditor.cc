@@ -419,13 +419,12 @@ EnglishEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
         g_return_val_if_fail ('v' == keyval, FALSE);
         m_text = "v";
         m_cursor ++;
-    }
-    else {
+    } else {
         g_return_val_if_fail ('v' == m_text[0], FALSE);
         if ((keyval >= 'a' && keyval <= 'z') ||
             (keyval >= 'A' && keyval <= 'Z')) {
             m_text.insert (m_cursor, keyval);
-            m_cursor++;
+            m_cursor ++;
         }
     }
 
@@ -524,7 +523,8 @@ EnglishEditor::processLabelKey (guint keyval)
 }
 
 gboolean
-EnglishEditor::processEnter (guint keyval){
+EnglishEditor::processEnter (guint keyval)
+{
     if (keyval != IBUS_Return)
         return FALSE;
 
