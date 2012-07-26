@@ -63,9 +63,7 @@ private:
         MODE_PUNCT,             // punct mode
         MODE_RAW,               // raw mode
         MODE_ENGLISH,           // press v into English input mode
-    #if 0
         MODE_STROKE,            // press u into stroke input mode
-    #endif
         MODE_EXTENSION,         // press i into extension input mode
         MODE_LAST,
     } m_input_mode;

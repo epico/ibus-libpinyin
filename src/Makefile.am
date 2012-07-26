@@ -184,6 +184,12 @@ if IBUS_BUILD_ENGLISH_INPUT_MODE
 	$(NULL)
 endif
 
+if IBUS_BUILD_STROKE_INPUT_MODE
+   ibus_engine_libpinyin_CXXFLAGS += \
+	-DIBUS_BUILD_STROKE_INPUT_MODE \
+	$(NULL)
+endif
+
 BUILT_SOURCES = \
 	$(ibus_engine_built_c_sources) \
 	$(ibus_engine_built_h_sources) \

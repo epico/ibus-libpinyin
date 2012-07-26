@@ -31,6 +31,9 @@
 #ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
 #include "PYEnglishEditor.h"
 #endif
+#ifdef IBUS_BUILD_STROKE_INPUT_MODE
+#include "PYStrokeEditor.h"
+#endif
 #include "PYPFullPinyinEditor.h"
 #include "PYPDoublePinyinEditor.h"
 #include "PYFallbackEditor.h"
@@ -70,6 +73,11 @@ LibPinyinPinyinEngine::LibPinyinPinyinEngine (IBusEngine *engine)
     m_editors[MODE_ENGLISH].reset (new EnglishEditor (m_props, LibPinyinPinyinConfig::instance ()));
 #else
     m_editors[MODE_ENGLISH].reset (new Editor (m_props, LibPinyinPinyinConfig::instance ()));
+#endif
+#ifdef IBUS_BUILD_STROKE_INPUT_MODE
+    m_editors[MODE_STROKE].reset (new StrokeEditor (m_props, LibPinyinPinyinConfig::instance ()));
+#else
+    m_editors[MODE_STROKE].reset (new Editor (m_props, LibPinyinPinyinConfig::instance ()));
 #endif
 
     m_props.signalUpdateProperty ().connect
@@ -147,6 +155,14 @@ LibPinyinPinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modif
                     if (LibPinyinPinyinConfig::instance ().doublePinyin ())
                         break;
                     m_input_mode = MODE_ENGLISH;
+                    break;
+#endif
+#ifdef IBUS_BUILD_STROKE_INPUT_MODE
+                case IBUS_u:
+                    // do not enable stroke mode when use double pinyin.
+                    if (LibPinyinPinyinConfig::instance ().doublePinyin ())
+                        break;
+                    m_input_mode = MODE_STROKE;
                     break;
 #endif
                 }
