@@ -691,8 +691,7 @@ EnglishEditor::updateLookupTable (void)
 {
     if (m_lookup_table.size ()) {
         Editor::updateLookupTableFast (m_lookup_table, TRUE);
-    }
-    else {
+    } else {
         hideLookupTable ();
     }
 }

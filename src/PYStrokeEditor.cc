@@ -26,6 +26,7 @@
 #include <glib.h>
 #include <sqlite3.h>
 #include "PYString.h"
+#include "PYConfig.h"
 
 namespace PY {
 class StrokeDatabase{
@@ -320,6 +321,214 @@ StrokeEditor::processSpace (guint keyval)
 
     guint cursor_pos = m_lookup_table.cursorPos ();
     return selectCandidate (cursor_pos);
+}
+
+void
+StrokeEditor::candidateClicked (guint index, guint button, guint state)
+{
+    selectCandidateInPage (index);
+}
+
+gboolean
+StrokeEditor::selectCandidateInPage (guint index)
+{
+    guint page_size = m_lookup_table.pageSize ();
+    guint cursor_pos = m_lookup_table.cursorPos ();
+
+    if (G_UNLIKELY (index >= page_size))
+        return FALSE;
+    index += (cursor_pos / page_size) * page_size;
+
+    return selectCandidate (index);
+}
+
+gboolean
+StrokeEditor::selectCandidate (guint index)
+{
+    if (index >= m_lookup_table.size ())
+        return FALSE;
+
+    IBusText *candidate = m_lookup_table.getCandidate (index);
+    Text text (candidate);
+    commitText (text);
+    reset ();
+    return TRUE;
+}
+
+gboolean
+StrokeEditor::updateStateFromInput (void)
+{
+    /* Do parse and candidates update here. */
+    /* prefix u double check here. */
+    if (m_text.empty ()) {
+        m_preedit_text = "";
+        m_auxiliary_text = "";
+        m_cursor = 0;
+        clearLookupTable ();
+        return FALSE;
+    }
+
+    if ('u' != m_text[0]) {
+        g_warning ("u is expected in m_text string.\n");
+        m_auxiliary_text = "";
+        clearLookupTable ();
+        return FALSE;
+    }
+
+    m_auxiliary_text = "u";
+    if (1 == m_text.length ()) {
+        clearLookupTable ();
+        return TRUE;
+    }
+
+    m_auxiliary_text += " ";
+
+    String prefix = m_text.substr (1);
+    m_auxiliary_text += prefix;
+
+    /* lookup table candidate fill here. */
+    std::vector<std::string> characters;
+    gboolean retval = m_stroke_database->listCharacters
+        (prefix.c_str (), characters);
+    if (!retval)
+        return FALSE;
+
+    clearLookupTable ();
+    std::vector<std::string>::iterator iter;
+    for (iter = characters.begin (); iter != characters.end (); ++iter){
+        Text text(*iter);
+        m_lookup_table.appendCandidate (text);
+    }
+    return TRUE;
+}
+
+/* Auxiliary Functions */
+
+void
+StrokeEditor::pageUp (void)
+{
+    if (G_LIKELY (m_lookup_table.pageUp ())) {
+        update ();
+    }
+}
+
+void
+StrokeEditor::pageDown (void)
+{
+    if (G_LIKELY (m_lookup_table.pageDown ())) {
+        update ();
+    }
+}
+
+void
+StrokeEditor::cursorUp (void)
+{
+    if (G_LIKELY (m_lookup_table.cursorUp ())) {
+        update ();
+    }
+}
+
+void
+StrokeEditor::cursorDown (void)
+{
+    if (G_LIKELY (m_lookup_table.cursorDown ())) {
+        update ();
+    }
+}
+
+void
+StrokeEditor::update (void)
+{
+    updateLookupTable ();
+    updatePreeditText ();
+    updateAuxiliaryText ();
+}
+
+void
+StrokeEditor::reset (void)
+{
+    m_text = "";
+    updateStateFromInput ();
+    update ();
+}
+
+void
+StrokeEditor::clearLookupTable (void)
+{
+    m_lookup_table.clear ();
+    m_lookup_table.setPageSize (m_config.pageSize ());
+    m_lookup_table.setOrientation (m_config.orientation ());
+}
+
+void
+StrokeEditor::updateLookupTable (void)
+{
+    if (m_lookup_table.size ()){
+        Editor::updateLookupTableFast (m_lookup_table, TRUE);
+    } else {
+        hideLookupTable ();
+    }
+}
+
+void
+StrokeEditor::updatePreeditText (void)
+{
+    if (G_UNLIKELY (m_preedit_text.empty ())) {
+        hidePreeditText ();
+        return;
+    }
+
+    StaticText preedit_text (m_preedit_text);
+    Editor::updatePreeditText (preedit_text, m_cursor, TRUE);
+}
+
+void
+StrokeEditor::updateAuxiliaryText (void)
+{
+    if (G_UNLIKELY (m_auxiliary_text.empty ())) {
+        hideAuxiliaryText ();
+        return;
+    }
+
+    StaticText aux_text (m_auxiliary_text);
+    Editor::updateAuxiliaryText (aux_text, TRUE);
+}
+
+gboolean
+StrokeEditor::removeCharBefore (void)
+{
+    if (G_UNLIKELY (m_cursor <= 0)) {
+        m_cursor = 0;
+        return FALSE;
+    }
+
+    if (G_UNLIKELY (m_cursor > m_text.length ())) {
+        m_cursor = m_text.length ();
+        return FALSE;
+    }
+
+    m_text.erase (m_cursor - 1, 1);
+    m_cursor = std::max (0, static_cast<int>(m_cursor) - 1);
+    return TRUE;
+}
+
+gboolean
+StrokeEditor::removeCharAfter (void)
+{
+    if (G_UNLIKELY (m_cursor < 0)) {
+        m_cursor = 0;
+        return FALSE;
+    }
+
+    if (G_UNLIKELY (m_cursor >= m_text.length ())) {
+        m_cursor = m_text.length ();
+        return FALSE;
+    }
+
+    m_text.erase (m_cursor, 1);
+    m_cursor = std::min (m_cursor, (guint) m_text.length ());
+    return TRUE;
+
 }
 
 #if 0
