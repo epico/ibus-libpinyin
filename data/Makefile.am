@@ -48,13 +48,6 @@ $(STROKES_DB): $(STROKES) $(STROKES_AWK)
 	$(AWK) -f $(srcdir)/$(STROKES_AWK) $(srcdir)/$(STROKES) | @SQLITE3@ $@ || \
 		( $(RM) $@ ; exit 1 )
 
-EXTRA_DIST = \
-	$(WORDLIST) \
-	$(ENGLISH_AWK) \
-	$(STROKES) \
-	$(STROKES_AWK) \
-	$(NULL)
-
 desktop_in_in_files = \
 	ibus-setup-libbopomofo.desktop.in.in \
 	ibus-setup-libpinyin.desktop.in.in \
@@ -73,8 +66,17 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
 
+EXTRA_DIST = \
+	$(desktop_in_in_files) \
+	$(WORDLIST) \
+	$(ENGLISH_AWK) \
+	$(STROKES) \
+	$(STROKES_AWK) \
+	$(NULL)
+
 CLEANFILES = \
 	$(ENGLISH_DB) \
 	$(STROKES_DB) \
+	$(desktop_in_files) \
 	$(desktop_DATA) \
 	$(NULL)

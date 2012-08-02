@@ -14,5 +14,9 @@ src/PYPinyinProperties.cc
 src/PYSimpTradConverter.cc
 src/PYSpecialPhrase.cc
 src/PYSpecialPhraseTable.cc
+src/PYEnglishEditor.cc
+src/PYStrokeEditor.cc
 setup/main2.py
 [type: gettext/glade]setup/ibus-libpinyin-preferences.ui
+data/ibus-setup-libpinyin.desktop.in.in
+data/ibus-setup-libbopomofo.desktop.in.in
