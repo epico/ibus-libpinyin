@@ -24,12 +24,14 @@
 #include <string>
 #include <vector>
 #include <stdio.h>
+#include <libintl.h>
 #include <sqlite3.h>
 #include <glib.h>
 #include <glib/gstdio.h>
 #include "PYConfig.h"
 #include "PYString.h"
 
+#define _(text) (gettext(text))
 
 namespace PY {
 
@@ -181,7 +183,7 @@ public:
         const char *SQL_DB_LIST = 
             "SELECT word FROM ( "
             "SELECT * FROM english UNION ALL SELECT * FROM userdb.english) "
-            " WHERE word LIKE '%s%' GROUP BY word ORDER BY SUM(freq) DESC;";
+            " WHERE word LIKE \"%s%\" GROUP BY word ORDER BY SUM(freq) DESC;";
         m_sql.printf (SQL_DB_LIST, prefix);
         int result = sqlite3_prepare_v2 (m_sqlite, m_sql.c_str(), -1, &stmt, &tail);
         if (result != SQLITE_OK)
@@ -605,6 +607,13 @@ EnglishEditor::updateStateFromInput (void)
     m_auxiliary_text = "v";
     if (1 == m_text.length ()) {
         clearLookupTable ();
+
+        const char * help_string = _("Please input the english word.");
+        int space_len = std::max ( 0, m_aux_text_len
+                                   - (int) g_utf8_strlen (help_string, -1));
+        m_auxiliary_text.append (space_len, ' ');
+        m_auxiliary_text += help_string;
+
         return TRUE;
     }
 

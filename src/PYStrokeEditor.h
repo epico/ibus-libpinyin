@@ -72,6 +72,8 @@ private:
     String m_auxiliary_text;
 
     StrokeDatabase *m_stroke_database;
+
+    const static int m_aux_text_len = 50;
 };
 
 };

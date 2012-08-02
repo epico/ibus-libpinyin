@@ -76,6 +76,8 @@ private:
     String m_auxiliary_text;
 
     EnglishDatabase *m_english_database;
+
+    const static int m_aux_text_len = 50;
 };
 
 };

@@ -23,12 +23,16 @@
 #include <string.h>
 #include <string>
 #include <vector>
+#include <libintl.h>
 #include <glib.h>
 #include <sqlite3.h>
 #include "PYString.h"
 #include "PYConfig.h"
 
+#define _(text) (gettext (text))
+
 namespace PY {
+
 class StrokeDatabase{
 public:
     StrokeDatabase(){
@@ -378,6 +382,14 @@ StrokeEditor::updateStateFromInput (void)
     m_auxiliary_text = "u";
     if (1 == m_text.length ()) {
         clearLookupTable ();
+
+        const char * help_string =
+            _("Please use \"hspnz\" to input.");
+        int space_len = std::max ( 0, m_aux_text_len
+                                   - (int) g_utf8_strlen (help_string, -1));
+        m_auxiliary_text.append(space_len, ' ');
+        m_auxiliary_text += help_string;
+
         return TRUE;
     }
 
