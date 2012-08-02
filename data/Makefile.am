@@ -32,7 +32,7 @@ SUBDIRS = \
 
 auxiliary_db_DATA = \
         $(ENGLISH_DB) \
-	$(STROKES_DB) \
+        $(STROKES_DB) \
         $(NULL)
 auxiliary_dbdir = $(pkgdatadir)/db
 
@@ -55,7 +55,26 @@ EXTRA_DIST = \
 	$(STROKES_AWK) \
 	$(NULL)
 
+desktop_in_in_files = \
+	ibus-setup-libbopomofo.desktop.in.in \
+	ibus-setup-libpinyin.desktop.in.in \
+	$(NULL)
+
+desktop_in_files = $(desktop_in_in_files:.in.in=.in)
+
+$(desktop_in_files): %.desktop.in: %.desktop.in.in Makefile
+	$(AM_V_GEN) sed \
+		-e "s|\@libexecdir\@|$(libexecdir)|" \
+		-e "s|\@pkgdatadir\@|$(pkgdatadir)|" \
+		$< > $@.tmp && mv $@.tmp $@
+
+desktopdir=$(datadir)/applications
+desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
+
+@INTLTOOL_DESKTOP_RULE@
+
 CLEANFILES = \
 	$(ENGLISH_DB) \
 	$(STROKES_DB) \
+	$(desktop_DATA) \
 	$(NULL)
