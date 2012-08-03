@@ -156,7 +156,7 @@ LibPinyinPhoneticEditor::processFunctionKey (guint keyval, guint keycode, guint 
 
         case IBUS_Right:
         case IBUS_KP_Right:
-            moveCursorToEnd ();
+            moveCursorRightByWord ();
             return TRUE;
 
         default:
