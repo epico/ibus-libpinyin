@@ -25,67 +25,6 @@
 
 namespace PY {
 
-#define PINYIN_ID_VOID  (-1)
-#define PINYIN_ID_ZERO  (0)
-#define PINYIN_ID_B     (1)
-#define PINYIN_ID_C     (2)
-#define PINYIN_ID_CH    (3)
-#define PINYIN_ID_D     (4)
-#define PINYIN_ID_F     (5)
-#define PINYIN_ID_G     (6)
-#define PINYIN_ID_H     (7)
-#define PINYIN_ID_J     (8)
-#define PINYIN_ID_K     (9)
-#define PINYIN_ID_L     (10)
-#define PINYIN_ID_M     (11)
-#define PINYIN_ID_N     (12)
-#define PINYIN_ID_P     (13)
-#define PINYIN_ID_Q     (14)
-#define PINYIN_ID_R     (15)
-#define PINYIN_ID_S     (16)
-#define PINYIN_ID_SH    (17)
-#define PINYIN_ID_T     (18)
-#define PINYIN_ID_W     (19)
-#define PINYIN_ID_X     (20)
-#define PINYIN_ID_Y     (21)
-#define PINYIN_ID_Z     (22)
-#define PINYIN_ID_ZH    (23)
-#define PINYIN_ID_A     (24)
-#define PINYIN_ID_AI    (25)
-#define PINYIN_ID_AN    (26)
-#define PINYIN_ID_ANG   (27)
-#define PINYIN_ID_AO    (28)
-#define PINYIN_ID_E     (29)
-#define PINYIN_ID_EI    (30)
-#define PINYIN_ID_EN    (31)
-#define PINYIN_ID_ENG   (32)
-#define PINYIN_ID_ER    (33)
-#define PINYIN_ID_I     (34)
-#define PINYIN_ID_IA    (35)
-#define PINYIN_ID_IAN   (36)
-#define PINYIN_ID_IANG  (37)
-#define PINYIN_ID_IAO   (38)
-#define PINYIN_ID_IE    (39)
-#define PINYIN_ID_IN    (40)
-#define PINYIN_ID_ING   (41)
-#define PINYIN_ID_IONG  (42)
-#define PINYIN_ID_IU    (43)
-#define PINYIN_ID_O     (44)
-#define PINYIN_ID_ONG   (45)
-#define PINYIN_ID_OU    (46)
-#define PINYIN_ID_U     (47)
-#define PINYIN_ID_UA    (48)
-#define PINYIN_ID_UAI   (49)
-#define PINYIN_ID_UAN   (50)
-#define PINYIN_ID_UANG  (51)
-#define PINYIN_ID_UE    (52)
-#define PINYIN_ID_VE    PINYIN_ID_UE
-#define PINYIN_ID_UI    (53)
-#define PINYIN_ID_UN    (54)
-#define PINYIN_ID_UO    (55)
-#define PINYIN_ID_V     (56)
-#define PINYIN_ID_NG    PINYIN_ID_VOID
-
 #define PINYIN_INCOMPLETE_PINYIN    (1U << 0)
 
 #define PINYIN_CORRECT_GN_TO_NG     (1U << 1)
@@ -124,19 +63,6 @@ namespace PY {
 #define PINYIN_FUZZY_UAN_UANG       PINYIN_FUZZY_AN_ANG
 #define PINYIN_FUZZY_UANG_UAN       PINYIN_FUZZY_ANG_AN
 #define PINYIN_FUZZY_ALL            (0x1ffffe00)
-
-struct Pinyin {
-    const gchar *text;
-    const wchar_t *bopomofo;
-    const gchar *sheng;
-    const gchar *yun;
-    struct {
-        guint8 sheng;
-        guint8 yun;
-    } pinyin_id[3];
-    const guint len;
-    const guint flags;
-};
 
 #define MAX_UTF8_LEN 6
 #define MAX_PHRASE_LEN 16
