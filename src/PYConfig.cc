@@ -48,33 +48,6 @@ const gchar * const CONFIG_AUXILIARY_SELECT_KEY_F    = "AuxiliarySelectKey_F";
 const gchar * const CONFIG_AUXILIARY_SELECT_KEY_KP   = "AuxiliarySelectKey_KP";
 const gchar * const CONFIG_ENTER_KEY                 = "EnterKey";
 
-const guint PINYIN_DEFAULT_OPTION =
-        PINYIN_INCOMPLETE_PINYIN |
-        PINYIN_FUZZY_C_CH |
-        // PINYIN_FUZZY_CH_C |
-        PINYIN_FUZZY_Z_ZH |
-        // PINYIN_FUZZY_ZH_Z |
-        PINYIN_FUZZY_S_SH |
-        // PINYIN_FUZZY_SH_S |
-        PINYIN_FUZZY_L_N |
-        // PINYIN_FUZZY_N_L |
-        PINYIN_FUZZY_F_H |
-        // PINYIN_FUZZY_H_F |
-        // PINYIN_FUZZY_L_R |
-        // PINYIN_FUZZY_R_L |
-        PINYIN_FUZZY_K_G |
-        PINYIN_FUZZY_G_K |
-        PINYIN_FUZZY_AN_ANG |
-        PINYIN_FUZZY_ANG_AN |
-        PINYIN_FUZZY_EN_ENG |
-        PINYIN_FUZZY_ENG_EN |
-        PINYIN_FUZZY_IN_ING |
-        PINYIN_FUZZY_ING_IN |
-        // PINYIN_FUZZY_IAN_IANG |
-        // PINYIN_FUZZY_IANG_IAN |
-        // PINYIN_FUZZY_UAN_UANG |
-        // PINYIN_FUZZY_UANG_UAN |
-        0;
 
 
 Config::Config (Bus & bus, const std::string & name)
@@ -95,9 +68,6 @@ Config::~Config (void)
 void
 Config::initDefaultValues (void)
 {
-    m_option = PINYIN_DEFAULT_OPTION;
-    m_option_mask = PINYIN_INCOMPLETE_PINYIN | PINYIN_CORRECT_ALL;
-
     m_orientation = IBUS_ORIENTATION_HORIZONTAL;
     m_page_size = 5;
     m_shift_select_candidate = FALSE;
@@ -116,39 +86,6 @@ Config::initDefaultValues (void)
     m_special_phrases = TRUE;
 }
 
-static const struct {
-    const gchar * const name;
-    guint option;
-} options [] = {
-    { "IncompletePinyin",       PINYIN_INCOMPLETE_PINYIN},
-    /* fuzzy pinyin */
-    { "FuzzyPinyin_C_CH",       PINYIN_FUZZY_C_CH      },
-    { "FuzzyPinyin_CH_C",       PINYIN_FUZZY_CH_C      },
-    { "FuzzyPinyin_Z_ZH",       PINYIN_FUZZY_Z_ZH      },
-    { "FuzzyPinyin_ZH_Z",       PINYIN_FUZZY_ZH_Z      },
-    { "FuzzyPinyin_S_SH",       PINYIN_FUZZY_S_SH      },
-    { "FuzzyPinyin_SH_S",       PINYIN_FUZZY_SH_S      },
-    { "FuzzyPinyin_L_N",        PINYIN_FUZZY_L_N       },
-    { "FuzzyPinyin_N_L",        PINYIN_FUZZY_N_L       },
-    { "FuzzyPinyin_F_H",        PINYIN_FUZZY_F_H       },
-    { "FuzzyPinyin_H_F",        PINYIN_FUZZY_H_F       },
-    { "FuzzyPinyin_L_R",        PINYIN_FUZZY_L_R       },
-    { "FuzzyPinyin_R_L",        PINYIN_FUZZY_R_L       },
-    { "FuzzyPinyin_K_G",        PINYIN_FUZZY_K_G       },
-    { "FuzzyPinyin_G_K",        PINYIN_FUZZY_G_K       },
-    { "FuzzyPinyin_AN_ANG",     PINYIN_FUZZY_AN_ANG    },
-    { "FuzzyPinyin_ANG_AN",     PINYIN_FUZZY_ANG_AN    },
-    { "FuzzyPinyin_EN_ENG",     PINYIN_FUZZY_EN_ENG    },
-    { "FuzzyPinyin_ENG_EN",     PINYIN_FUZZY_ENG_EN    },
-    { "FuzzyPinyin_IN_ING",     PINYIN_FUZZY_IN_ING    },
-    { "FuzzyPinyin_ING_IN",     PINYIN_FUZZY_ING_IN    },
-#if 0
-    { "FuzzyPinyin_IAN_IANG",   PINYIN_FUZZY_IAN_IANG  },
-    { "FuzzyPinyin_IANG_IAN",   PINYIN_FUZZY_IANG_IAN  },
-    { "FuzzyPinyin_UAN_UANG",   PINYIN_FUZZY_UAN_UANG  },
-    { "FuzzyPinyin_UANG_UAN",   PINYIN_FUZZY_UANG_UAN  },
-#endif
-};
 
 void
 Config::readDefaultValues (void)
@@ -184,22 +121,6 @@ Config::readDefaultValues (void)
         g_warn_if_reached ();
     }
 
-    /* fuzzy pinyin */
-    if (read (CONFIG_FUZZY_PINYIN, false))
-        m_option_mask |= PINYIN_FUZZY_ALL;
-    else
-        m_option_mask &= ~PINYIN_FUZZY_ALL;
-
-    /* read values */
-    for (guint i = 0; i < G_N_ELEMENTS (options); i++) {
-        if (read (options[i].name,
-                  (options[i].option & PINYIN_DEFAULT_OPTION) != 0)) {
-            m_option |= options[i].option;
-        }
-        else {
-            m_option &= ~options[i].option;
-        }
-    }
 #endif
 }
 
@@ -301,26 +222,6 @@ Config::valueChanged (const std::string &section,
             m_page_size = 5;
             g_warn_if_reached ();
         }
-    }
-    /* fuzzy pinyin */
-    else if (CONFIG_FUZZY_PINYIN == name) {
-        if (normalizeGVariant (value, false))
-            m_option_mask |= PINYIN_FUZZY_ALL;
-        else
-            m_option_mask &= ~PINYIN_FUZZY_ALL;
-    }
-    else {
-        for (guint i = 0; i < G_N_ELEMENTS (options); i++) {
-            if (G_LIKELY (options[i].name != name))
-                continue;
-            if (normalizeGVariant (value,
-                    (options[i].option & PINYIN_DEFAULT_OPTION) != 0))
-                m_option |= options[i].option;
-            else
-                m_option &= ~options[i].option;
-            return TRUE;
-        }
-        return FALSE;
     }
     return TRUE;
 }
