@@ -204,26 +204,7 @@ Config::valueChanged (const std::string &section,
                       const std::string &name,
                       GVariant          *value)
 {
-    if (m_section != section)
-        return FALSE;
-
-    /* lookup table page size */
-    if (CONFIG_ORIENTATION == name) {
-        m_orientation = normalizeGVariant (value, IBUS_ORIENTATION_HORIZONTAL);
-        if (m_orientation != IBUS_ORIENTATION_VERTICAL &&
-            m_orientation != IBUS_ORIENTATION_HORIZONTAL) {
-            m_orientation = IBUS_ORIENTATION_HORIZONTAL;
-            g_warn_if_reached ();
-        }
-    }
-    else if (CONFIG_PAGE_SIZE == name) {
-        m_page_size = normalizeGVariant (value, 5);
-        if (m_page_size > 10) {
-            m_page_size = 5;
-            g_warn_if_reached ();
-        }
-    }
-    return TRUE;
+    return FALSE;
 }
 
 void

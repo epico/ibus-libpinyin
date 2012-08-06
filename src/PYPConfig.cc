@@ -246,13 +246,15 @@ LibPinyinConfig::valueChangedCallback (IBusConfig  *config,
                                        GVariant    *value,
                                        LibPinyinConfig *self)
 {
-    self->valueChanged (section, name, value);
     if (self->m_section != section)
         return;
+
+    self->valueChanged (section, name, value);
+
 #ifdef IBUS_BUILD_LIBPINYIN
-    if (self->m_section == "engine/Pinyin")
+    if (self->m_section == "engine/pinyin")
         LibPinyinBackEnd::instance ().setPinyinOptions (self);
-    if (self->m_section == "engine/Bopomofo")
+    if (self->m_section == "engine/bopomofo")
         LibPinyinBackEnd::instance ().setChewingOptions (self);
 #endif
 }
@@ -275,7 +277,7 @@ static const struct {
 };
 
 LibPinyinPinyinConfig::LibPinyinPinyinConfig (Bus & bus)
-    : LibPinyinConfig (bus, "Pinyin")
+    : LibPinyinConfig (bus, "pinyin")
 {
 }
 
@@ -402,7 +404,7 @@ LibPinyinPinyinConfig::valueChanged (const std::string &section,
 }
 
 LibPinyinBopomofoConfig::LibPinyinBopomofoConfig (Bus & bus)
-    : LibPinyinConfig (bus, "Bopomofo")
+    : LibPinyinConfig (bus, "bopomofo")
 {
 }
 
