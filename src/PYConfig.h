@@ -40,6 +40,7 @@ protected:
     virtual ~Config (void);
 
 public:
+    std::string dictionaries (void) const       { return m_dictionaries; }
     guint option (void) const                   { return m_option & m_option_mask; }
     guint orientation (void) const              { return m_orientation; }
     guint pageSize (void) const                 { return m_page_size; }
@@ -81,6 +82,7 @@ private:
 
 protected:
     std::string m_section;
+    std::string m_dictionaries;
     guint m_option;
     guint m_option_mask;
 

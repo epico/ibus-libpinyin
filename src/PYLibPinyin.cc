@@ -65,13 +65,19 @@ LibPinyinBackEnd::initPinyinContext (Config *config)
         g_free(userdir); userdir = NULL;
     }
     context = pinyin_init ("/usr/share/libpinyin/data", userdir);
+    g_free (userdir);
 
-#if 0
-    pinyin_load_phrase_library(m_pinyin_context, 2);
-#endif
-    /* TODO: load phrase libraries here. */
+    const char *dicts = config->dictionaries ().c_str ();
+    gchar ** indices = g_strsplit_set (dicts, "", -1);
+    for (size_t i = 0; i < g_strv_length(indices); ++i) {
+        int index = atoi (indices [i]);
+        if (index <= 1)
+            continue;
 
-    g_free(userdir);
+        pinyin_load_phrase_library (context, index);
+    }
+    g_strfreev (indices);
+
     return context;
 }
 
@@ -105,13 +111,19 @@ LibPinyinBackEnd::initChewingContext (Config *config)
         g_free(userdir); userdir = NULL;
     }
     context = pinyin_init ("/usr/share/libpinyin/data", userdir);
-
-#if 0
-    pinyin_load_phrase_library(m_chewing_context, 2);
-#endif
-    /* TODO: load phrase libraries here. */
-
     g_free(userdir);
+
+    const char *dicts = config->dictionaries ().c_str ();
+    gchar ** indices = g_strsplit_set (dicts, "", -1);
+    for (size_t i = 0; i < g_strv_length(indices); ++i) {
+        int index = atoi (indices [i]);
+        if (index <= 1)
+            continue;
+
+        pinyin_load_phrase_library (context, index);
+    }
+    g_strfreev (indices);
+
     return context;
 }
 
