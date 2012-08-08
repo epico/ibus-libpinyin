@@ -41,8 +41,8 @@ public:
     gboolean setPinyinOptions (Config *config);
     gboolean setChewingOptions (Config *config);
 
-    pinyin_context_t * initPinyinContext ();
-    pinyin_context_t * initChewingContext ();
+    pinyin_context_t * initPinyinContext (Config *config);
+    pinyin_context_t * initChewingContext (Config *config);
 
     pinyin_instance_t *allocPinyinInstance ();
     void freePinyinInstance (pinyin_instance_t *instance);

@@ -54,7 +54,7 @@ LibPinyinBackEnd::~LibPinyinBackEnd () {
 }
 
 pinyin_context_t *
-LibPinyinBackEnd::initPinyinContext ()
+LibPinyinBackEnd::initPinyinContext (Config *config)
 {
     pinyin_context_t * context = NULL;
 
@@ -78,11 +78,12 @@ LibPinyinBackEnd::initPinyinContext ()
 pinyin_instance_t *
 LibPinyinBackEnd::allocPinyinInstance ()
 {
+    Config * config = &LibPinyinPinyinConfig::instance ();
     if (NULL == m_pinyin_context) {
-        m_pinyin_context = initPinyinContext ();
+        m_pinyin_context = initPinyinContext (config);
     }
 
-    setPinyinOptions (&LibPinyinPinyinConfig::instance ());
+    setPinyinOptions (config);
     return pinyin_alloc_instance (m_pinyin_context);
 }
 
@@ -93,7 +94,7 @@ LibPinyinBackEnd::freePinyinInstance (pinyin_instance_t *instance)
 }
 
 pinyin_context_t *
-LibPinyinBackEnd::initChewingContext ()
+LibPinyinBackEnd::initChewingContext (Config *config)
 {
     pinyin_context_t * context = NULL;
 
@@ -117,11 +118,12 @@ LibPinyinBackEnd::initChewingContext ()
 pinyin_instance_t *
 LibPinyinBackEnd::allocChewingInstance ()
 {
+    Config *config = &LibPinyinBopomofoConfig::instance ();
     if (NULL == m_chewing_context) {
-        m_chewing_context = initChewingContext ();
+        m_chewing_context = initChewingContext (config);
     }
 
-    setChewingOptions (&LibPinyinBopomofoConfig::instance ());
+    setChewingOptions (config);
     return pinyin_alloc_instance (m_chewing_context);
 }
 
