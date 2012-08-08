@@ -25,30 +25,6 @@
 
 namespace PY {
 
-const gchar * const CONFIG_CORRECT_PINYIN            = "CorrectPinyin";
-const gchar * const CONFIG_FUZZY_PINYIN              = "FuzzyPinyin";
-const gchar * const CONFIG_ORIENTATION               = "LookupTableOrientation";
-const gchar * const CONFIG_PAGE_SIZE                 = "LookupTablePageSize";
-const gchar * const CONFIG_SHIFT_SELECT_CANDIDATE    = "ShiftSelectCandidate";
-const gchar * const CONFIG_MINUS_EQUAL_PAGE          = "MinusEqualPage";
-const gchar * const CONFIG_COMMA_PERIOD_PAGE         = "CommaPeriodPage";
-const gchar * const CONFIG_AUTO_COMMIT               = "AutoCommit";
-const gchar * const CONFIG_DOUBLE_PINYIN             = "DoublePinyin";
-const gchar * const CONFIG_DOUBLE_PINYIN_SCHEMA      = "DoublePinyinSchema";
-const gchar * const CONFIG_DOUBLE_PINYIN_SHOW_RAW    = "DoublePinyinShowRaw";
-const gchar * const CONFIG_INIT_CHINESE              = "InitChinese";
-const gchar * const CONFIG_INIT_FULL                 = "InitFull";
-const gchar * const CONFIG_INIT_FULL_PUNCT           = "InitFullPunct";
-const gchar * const CONFIG_INIT_SIMP_CHINESE         = "InitSimplifiedChinese";
-const gchar * const CONFIG_SPECIAL_PHRASES           = "SpecialPhrases";
-const gchar * const CONFIG_BOPOMOFO_KEYBOARD_MAPPING = "BopomofoKeyboardMapping";
-const gchar * const CONFIG_SELECT_KEYS               = "SelectKeys";
-const gchar * const CONFIG_GUIDE_KEY                 = "GuideKey";
-const gchar * const CONFIG_AUXILIARY_SELECT_KEY_F    = "AuxiliarySelectKey_F";
-const gchar * const CONFIG_AUXILIARY_SELECT_KEY_KP   = "AuxiliarySelectKey_KP";
-const gchar * const CONFIG_ENTER_KEY                 = "EnterKey";
-
-
 
 Config::Config (Bus & bus, const std::string & name)
     : Object (ibus_bus_get_config (bus)),
@@ -83,6 +59,7 @@ Config::initDefaultValues (void)
     m_init_full = FALSE;
     m_init_full_punct = TRUE;
     m_init_simp_chinese = TRUE;
+    m_dynamic_adjust = TRUE;
     m_special_phrases = TRUE;
 }
 
@@ -108,19 +85,6 @@ Config::readDefaultValues (void)
     }
     g_variant_unref (values);
 #else
-    /* others */
-    m_orientation = read (CONFIG_ORIENTATION, 0);
-    if (m_orientation != IBUS_ORIENTATION_VERTICAL &&
-        m_orientation != IBUS_ORIENTATION_HORIZONTAL) {
-        m_orientation = IBUS_ORIENTATION_HORIZONTAL;
-        g_warn_if_reached ();
-    }
-    m_page_size = read (CONFIG_PAGE_SIZE, 5);
-    if (m_page_size > 10) {
-        m_page_size = 5;
-        g_warn_if_reached ();
-    }
-
 #endif
 }
 
