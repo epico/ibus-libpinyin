@@ -144,7 +144,7 @@ LibPinyinBackEnd::setPinyinOptions (Config *config)
     }
 
     pinyin_option_t options = config->option()
-        | USE_RESPLIT_TABLE | USE_DIVIDED_TABLE | DYNAMIC_ADJUST;
+        | USE_RESPLIT_TABLE | USE_DIVIDED_TABLE;
     pinyin_set_options (m_pinyin_context, options);
     return TRUE;
 }
@@ -176,7 +176,7 @@ LibPinyinBackEnd::setChewingOptions (Config *config)
         }
     }
 
-    pinyin_option_t options = config->option() | USE_TONE |DYNAMIC_ADJUST;
+    pinyin_option_t options = config->option() | USE_TONE;
     pinyin_set_options(m_chewing_context, options);
     return TRUE;
 }

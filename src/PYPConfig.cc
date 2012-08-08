@@ -112,6 +112,8 @@ static const struct {
     { "FuzzyPinyin_AN_ANG",     PINYIN_AMB_AN_ANG    },
     { "FuzzyPinyin_EN_ENG",     PINYIN_AMB_EN_ENG    },
     { "FuzzyPinyin_IN_ING",     PINYIN_AMB_IN_ING    },
+    /* dynamic adjust */
+    { "DynamicAdjust",          DYNAMIC_ADJUST       },
 };
 
 void
