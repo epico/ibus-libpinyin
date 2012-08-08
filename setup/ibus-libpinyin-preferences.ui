@@ -537,6 +537,7 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="halign">start</property>
                                         <property name="use_action_appearance">False</property>
                                         <property name="xalign">0.5</property>
                                         <property name="draw_indicator">True</property>
@@ -560,6 +561,7 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
+                                            <property name="halign">start</property>
                                             <property name="use_action_appearance">False</property>
                                             <property name="xalign">0.5</property>
                                             <property name="active">True</property>
@@ -612,6 +614,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="halign">start</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="draw_indicator">True</property>
@@ -629,6 +632,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="halign">start</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
@@ -931,6 +935,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="halign">start</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
@@ -1031,6 +1036,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="halign">start</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
@@ -1171,6 +1177,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="halign">start</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
@@ -1189,6 +1196,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="halign">start</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
@@ -1207,6 +1215,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="halign">start</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
@@ -1274,6 +1283,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="halign">start</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
@@ -1293,6 +1303,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="halign">start</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="draw_indicator">True</property>
@@ -1512,6 +1523,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
+                                <property name="halign">start</property>
                                 <property name="use_action_appearance">False</property>
                                 <property name="xalign">0.5</property>
                                 <property name="draw_indicator">True</property>
@@ -1796,7 +1808,7 @@
                           <object class="GtkLabel" id="label15">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">&lt;small&gt;Copyright (c) 2009-2010 Peng Huang&lt;/small&gt;</property>
+                            <property name="label" translatable="yes">&lt;small&gt;Copyright (c) 2011-2012 Peng Wu&lt;/small&gt;</property>
                             <property name="use_markup">True</property>
                             <property name="wrap">True</property>
                             <property name="selectable">True</property>
@@ -1809,14 +1821,14 @@
                         </child>
                         <child>
                           <object class="GtkLinkButton" id="linkbutton1">
-                            <property name="label" translatable="yes">http://ibus.googlecode.com</property>
+                            <property name="label" translatable="yes">https://github.com/libpinyin/ibus-libpinyin</property>
                             <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="use_action_appearance">False</property>
                             <property name="relief">none</property>
-                            <property name="uri">http://ibus.googlecode.com</property>
+                            <property name="uri">https://github.com/libpinyin/ibus-libpinyin</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1830,9 +1842,9 @@
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">&lt;small&gt;
 &lt;b&gt;Authors:&lt;/b&gt;
+Peng Wu
 Peng Huang
 BYVoid
-Peng Wu
 
 &lt;b&gt;Contributors:&lt;/b&gt;
 koterpilla, Zerng07
