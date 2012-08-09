@@ -310,8 +310,7 @@ StrokeEditor::processEnter (guint keyval)
     if (m_text.length () == 0)
         return FALSE;
 
-    String preedit = m_text.substr (1);
-    Text text (preedit);
+    Text text(m_text);
     commitText (text);
     reset ();
     return TRUE;

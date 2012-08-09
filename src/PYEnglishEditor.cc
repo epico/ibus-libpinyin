@@ -533,10 +533,9 @@ EnglishEditor::processEnter (guint keyval)
     if (m_text.length () == 0)
         return FALSE;
 
-    String preedit = m_text.substr (1);
-    Text text (preedit);
+    Text text(m_text);
     commitText (text);
-    train (preedit.c_str (), m_train_factor);
+    train (m_text.c_str (), m_train_factor);
     reset ();
     return TRUE;
 }
