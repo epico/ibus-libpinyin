@@ -60,6 +60,8 @@ Config::initDefaultValues (void)
     m_init_full_punct = TRUE;
     m_init_simp_chinese = TRUE;
     m_special_phrases = TRUE;
+
+    m_dictionaries = "2";
 }
 
 

@@ -42,6 +42,7 @@ const gchar * const CONFIG_INIT_FULL                 = "InitFull";
 const gchar * const CONFIG_INIT_FULL_PUNCT           = "InitFullPunct";
 const gchar * const CONFIG_INIT_SIMP_CHINESE         = "InitSimplifiedChinese";
 const gchar * const CONFIG_SPECIAL_PHRASES           = "SpecialPhrases";
+const gchar * const CONFIG_DICTIONARIES              = "Dictionaries";
 const gchar * const CONFIG_BOPOMOFO_KEYBOARD_MAPPING = "BopomofoKeyboardMapping";
 const gchar * const CONFIG_SELECT_KEYS               = "SelectKeys";
 const gchar * const CONFIG_GUIDE_KEY                 = "GuideKey";
@@ -94,6 +95,8 @@ LibPinyinConfig::initDefaultValues (void)
     m_init_full_punct = TRUE;
     m_init_simp_chinese = TRUE;
     m_special_phrases = TRUE;
+
+    m_dictionaries = "2";
 }
 
 static const struct {
@@ -149,6 +152,7 @@ LibPinyinConfig::readDefaultValues (void)
         m_page_size = 5;
         g_warn_if_reached ();
     }
+    m_dictionaries = read (CONFIG_DICTIONARIES, "2");
 
     /* fuzzy pinyin */
     if (read (CONFIG_FUZZY_PINYIN, false))
@@ -217,6 +221,9 @@ LibPinyinConfig::valueChanged (const std::string &section,
             m_page_size = 5;
             g_warn_if_reached ();
         }
+    }
+    else if (CONFIG_DICTIONARIES == name) {
+        m_dictionaries = normalizeGVariant (value, "2");
     }
     /* fuzzy pinyin */
     else if (CONFIG_FUZZY_PINYIN == name) {
