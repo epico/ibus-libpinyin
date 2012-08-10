@@ -152,7 +152,7 @@ LibPinyinConfig::readDefaultValues (void)
         m_page_size = 5;
         g_warn_if_reached ();
     }
-    m_dictionaries = read (CONFIG_DICTIONARIES, "2");
+    m_dictionaries = read (CONFIG_DICTIONARIES, std::string("2"));
 
     /* fuzzy pinyin */
     if (read (CONFIG_FUZZY_PINYIN, false))
@@ -223,7 +223,7 @@ LibPinyinConfig::valueChanged (const std::string &section,
         }
     }
     else if (CONFIG_DICTIONARIES == name) {
-        m_dictionaries = normalizeGVariant (value, "2");
+        m_dictionaries = normalizeGVariant (value, std::string("2"));
     }
     /* fuzzy pinyin */
     else if (CONFIG_FUZZY_PINYIN == name) {
