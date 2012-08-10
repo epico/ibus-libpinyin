@@ -100,8 +100,9 @@ class DictionaryTreeView(Gtk.TreeView):
         # save value
         model.set(iter, COLUMN_ACTIVE, active)
 
-        # mark changed
+        # notify changed
         self.__changed = True
+        self.__emit_changed()
 
     def __emit_changed(self, *args):
         if self.__changed:
@@ -114,7 +115,8 @@ class DictionaryTreeView(Gtk.TreeView):
             if (not row[COLUMN_SENSITIVE]):
                 continue;
             if (row[COLUMN_ACTIVE]):
-                dicts.append(row[COLUMN_PHRASE_INDEX])
+                dicts.append(str(row[COLUMN_PHRASE_INDEX]))
+
         return ';'.join(dicts)
 
     def set_dictionaries(self, dicts):

@@ -32,6 +32,7 @@ from gi.repository import IBus
 from xdg import BaseDirectory
 
 import version
+from dicttreeview import DictionaryTreeView
 
 _ = lambda x : gettext.gettext(x)
 
@@ -56,7 +57,7 @@ class PreferencesDialog:
             self.__init_general()
             self.__init_pinyin()
             self.__init_fuzzy()
-            #self.__init_dictionary()
+            self.__init_dictionary()
             self.__init_about()
         elif engine == "bopomofo":
             self.__config_namespace = "engine/Bopomofo"
@@ -329,28 +330,16 @@ class PreferencesDialog:
         # page Dictionary
         self.__page_dictionary.show()
 
-        # dictionary
-        self.__special_phrases = self.__builder.get_object("SpecialPhrases")
-        self.__edit_special_phrases = self.__builder.get_object("EditSpecialPhrases")
+        # dictionary tree view
+        self.__dict_treeview = self.__builder.get_object("Dictionaries")
+        self.__dict_treeview.show()
+        self.__dict_treeview.set_dictionaries(self.__get_value("Dictionaries", "2"))
 
-        # read values
-        self.__special_phrases.set_active(self.__get_value("SpecialPhrases", True))
+        def __notified_dicts_cb(self, param, dialog):
+            dialog.__set_value("Dictionaries", self.get_dictionaries())
 
-        def __edit_special_phrases_clicked_cb(widget):
-            from xdg import BaseDirectory
-            import shutil
-            path = os.path.join(BaseDirectory.xdg_config_home, "ibus", "pinyin")
-            os.path.exists(path) or os.makedirs(path)
-            path = os.path.join(path, "phrases.txt")
-            if not os.path.exists(path):
-                datadir = os.getenv("IBUS_DATAROOTDIR") or "/usr/share"
-                src = os.path.join(datadir, "ibus-libpinyin", "phrases.txt")
-                shutil.copyfile(src, path)
-            os.system("xdg-open %s" % path)
-
-        # connect signals
-        self.__special_phrases.connect("toggled", self.__toggled_cb, "SpecialPhrases")
-        self.__edit_special_phrases.connect("clicked", __edit_special_phrases_clicked_cb)
+        # connect notify signal
+        self.__dict_treeview.connect("notify::dictionaries", __notified_dicts_cb, self)
 
     def __init_about(self):
         # page About
