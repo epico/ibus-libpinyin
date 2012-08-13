@@ -21,6 +21,7 @@
 setup_libpinyin_PYTHON = \
 	main2.py \
 	version.py \
+	dicttreeview.py \
 	ibus-libpinyin-preferences.ui \
 	$(NULL)
 
