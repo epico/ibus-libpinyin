@@ -88,6 +88,10 @@ LibPinyinDoublePinyinEditor::processKeyEvent (guint keyval, guint keycode,
     /* handle ';' key */
     if (G_UNLIKELY (keyval == IBUS_semicolon)) {
         if (cmshm_filter (modifiers) == 0) {
+
+            if (m_text.empty ())
+                return FALSE;
+
             if (insert (keyval))
                 return TRUE;
         }
