@@ -64,7 +64,7 @@ LibPinyinBackEnd::initPinyinContext (Config *config)
     if (retval) {
         g_free(userdir); userdir = NULL;
     }
-    context = pinyin_init ("/usr/share/libpinyin/data", userdir);
+    context = pinyin_init (LIBPINYIN_DATADIR, userdir);
     g_free (userdir);
 
     const char *dicts = config->dictionaries ().c_str ();
@@ -110,7 +110,7 @@ LibPinyinBackEnd::initChewingContext (Config *config)
     if (retval) {
         g_free(userdir); userdir = NULL;
     }
-    context = pinyin_init ("/usr/share/libpinyin/data", userdir);
+    context = pinyin_init (LIBPINYIN_DATADIR, userdir);
     g_free(userdir);
 
     const char *dicts = config->dictionaries ().c_str ();

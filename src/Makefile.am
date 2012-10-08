@@ -159,7 +159,10 @@ ibus_engine_libpinyin_LDADD += $(LIBUUID_LIBS)
 endif
 
 if IBUS_BUILD_LIBPINYIN
-   ibus_engine_libpinyin_CXXFLAGS += -DIBUS_BUILD_LIBPINYIN
+   ibus_engine_libpinyin_CXXFLAGS += \
+	-DIBUS_BUILD_LIBPINYIN \
+	-DLIBPINYIN_DATADIR=\"@LIBPINYIN_DATADIR@\/data\" \
+	$(NULL)
 endif
 
 if IBUS_BUILD_LUA_EXTENSION

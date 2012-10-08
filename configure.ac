@@ -68,6 +68,10 @@ PKG_CHECK_MODULES(LIBPINYIN, [
 
 AM_CONDITIONAL(IBUS_BUILD_LIBPINYIN, [test x"$enable_libpinyin" = x"yes"])
 
+LIBPINYIN_DATADIR=`$PKG_CONFIG --variable=pkgdatadir libpinyin`
+
+AC_SUBST(LIBPINYIN_DATADIR)
+
 # check uuid
 AC_CHECK_FUNCS([uuid_create], [], [
     PKG_CHECK_MODULES(LIBUUID, uuid, [
