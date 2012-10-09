@@ -36,7 +36,7 @@
                         Peng Huang &lt;shawn.p.huang@gmail.com&gt;
                         BYVoid &lt;byvoid1@gmail.com&gt;
                         </author>
-			<icon>${pkgdatadir}/icons/ibus-pinyin.svg</icon>
+			<icon>${pkgdatadir}/icons/ibus-bopomofo.svg</icon>
 			<layout>default</layout>
 			<longname>Intelligent Bopomofo</longname>
 			<description>Intelligent Bopomofo input method</description>
