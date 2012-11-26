@@ -25,7 +25,7 @@
 			<longname>Intelligent Pinyin</longname>
 			<description>Intelligent Pinyin input method</description>
 			<rank>99</rank>
-			<symbol>&#x4E2D;</symbol>
+			<symbol>&#25340;</symbol>
 		</engine>
 		<engine>
 			<name>libbopomofo</name>
@@ -41,7 +41,7 @@
 			<longname>Intelligent Bopomofo</longname>
 			<description>Intelligent Bopomofo input method</description>
 			<rank>98</rank>
-			<symbol>&#x4E2D;</symbol>
+			<symbol>&#12553;</symbol>
 		</engine>
 	</engines>
 </component>
