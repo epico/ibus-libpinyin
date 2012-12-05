@@ -344,8 +344,11 @@ LibPinyinBopomofoEditor::updateAuxiliaryText (void)
         PinyinKeyPos *pos = &g_array_index (pinyin_poses, PinyinKeyPos, i);
         guint cursor = pos->m_raw_begin;
 
+        gchar * str = NULL;
         if (G_UNLIKELY (cursor == m_cursor)) { /* at word boundary. */
-            m_buffer << '|' << key->get_chewing_string ();
+            pinyin_get_chewing_string(m_instance, key, &str);
+            m_buffer << '|' << str;
+            g_free(str);
         } else if (G_LIKELY ( cursor < m_cursor &&
                               m_cursor < pos->m_raw_end )) { /* in word */
             /* raw text */
@@ -371,7 +374,9 @@ LibPinyinBopomofoEditor::updateAuxiliaryText (void)
                     m_buffer << *iter;
             }
         } else { /* other words */
-            m_buffer << ' ' << key->get_chewing_string ();
+            pinyin_get_chewing_string(m_instance, key, &str);
+            m_buffer << ' ' << str;
+            g_free(str);
         }
     }
 
