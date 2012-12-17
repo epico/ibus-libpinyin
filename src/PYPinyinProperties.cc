@@ -47,14 +47,14 @@ PinyinProperties::PinyinProperties (Config & config)
       m_prop_full ("mode.full",
                 PROP_TYPE_NORMAL,
                 StaticText (m_mode_full ?
-                            _("Full Width Letters") :
-                            _("Half Width Letters")),
+                            _("Full Width Letter") :
+                            _("Half Width Letter")),
                 m_mode_full ?
                     PKGDATADIR"/icons/full.svg" :
                     PKGDATADIR"/icons/half.svg",
                 StaticText (m_mode_full ?
-                            _("Switch to Half Width Letters Mode"):
-                            _("Switch to Full Width Letters Mode"))),
+                            _("Switch to Half Width Letter Mode"):
+                            _("Switch to Full Width Letter Mode"))),
       m_prop_full_punct ("mode.full_punct",
                 PROP_TYPE_NORMAL,
                 StaticText (m_mode_full_punct ?
@@ -115,14 +115,14 @@ PinyinProperties::toggleModeFull (void)
 {
     m_mode_full = !m_mode_full;
     m_prop_full.setLabel (m_mode_full ?
-                          _("Full Width Letters") :
-                          _("Half Width Letters"));
+                          _("Full Width Letter") :
+                          _("Half Width Letter"));
     m_prop_full.setIcon (m_mode_full ?
                          PKGDATADIR"/icons/full.svg" :
                          PKGDATADIR"/icons/half.svg");
     m_prop_full.setTooltip (m_mode_full ?
-                            _("Switch to Half Width Letters Mode"):
-                            _("Switch to Full Width Letters Mode"));
+                            _("Switch to Half Width Letter Mode"):
+                            _("Switch to Full Width Letter Mode"));
     updateProperty (m_prop_full);
 }
 
