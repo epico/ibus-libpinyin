@@ -35,32 +35,48 @@ PinyinProperties::PinyinProperties (Config & config)
       m_mode_simp (m_config.initSimpChinese ()),
       m_prop_chinese ("mode.chinese",
                 PROP_TYPE_NORMAL,
-                StaticText ("CN"),
+                StaticText (m_mode_chinese ?
+                            _("Chinese") :
+                            _("English")),
                 m_mode_chinese ?
                     PKGDATADIR"/icons/chinese.svg" :
                     PKGDATADIR"/icons/english.svg",
-                StaticText (_("Chinese"))),
+                StaticText (m_mode_chinese ?
+                            _("Switch to English Mode") :
+                            _("Switch to Chinese Mode"))),
       m_prop_full ("mode.full",
                 PROP_TYPE_NORMAL,
-                StaticText (m_mode_full ? "Ａａ" : "Aa"),
+                StaticText (m_mode_full ?
+                            _("Full Width Letters") :
+                            _("Half Width Letters")),
                 m_mode_full ?
                     PKGDATADIR"/icons/full.svg" :
                     PKGDATADIR"/icons/half.svg",
-                StaticText (_("Full/Half width"))),
+                StaticText (m_mode_full ?
+                            _("Switch to Half Width Letters Mode"):
+                            _("Switch to Full Width Letters Mode"))),
       m_prop_full_punct ("mode.full_punct",
                 PROP_TYPE_NORMAL,
-                StaticText (m_mode_full_punct ? "，。" : ",."),
+                StaticText (m_mode_full_punct ?
+                            _("Full Width Punct") :
+                            _("Half Width Punct")),
                 m_mode_full_punct ?
                     PKGDATADIR"/icons/full-punct.svg" :
                     PKGDATADIR"/icons/half-punct.svg",
-                StaticText (_("Full/Half width punctuation"))),
+                StaticText (m_mode_full_punct ?
+                            _("Switch to Half Width Punctuation Mode"):
+                            _("Switch to Full Width Punctuation Mode"))),
       m_prop_simp ( "mode.simp",
                 PROP_TYPE_NORMAL,
-                StaticText (m_mode_simp ? "简" : "繁"),
+                StaticText (m_mode_simp ?
+                            _("Simplified Chinese") :
+                            _("Traditional Chinese")),
                 m_mode_simp ?
                     PKGDATADIR"/icons/simp-chinese.svg" :
                     PKGDATADIR"/icons/trad-chinese.svg",
-                StaticText (_("Simplfied/Traditional Chinese"))),
+                StaticText (m_mode_simp ?
+                            _("Switch to Traditional Chinese Mode"):
+                            _("Switch to Simplfied Chinese Mode"))),
       m_prop_setup ("setup",
                 PROP_TYPE_NORMAL,
                 StaticText (_("Preferences")),
@@ -79,10 +95,15 @@ void
 PinyinProperties::toggleModeChinese (void)
 {
     m_mode_chinese = ! m_mode_chinese;
-    m_prop_chinese.setLabel (m_mode_chinese ? "CN" : "EN");
+    m_prop_chinese.setLabel (m_mode_chinese ?
+                             _("Chinese") :
+                             _("English"));
     m_prop_chinese.setIcon (m_mode_chinese ?
-                                PKGDATADIR"/icons/chinese.svg" :
-                                PKGDATADIR"/icons/english.svg");
+                            PKGDATADIR"/icons/chinese.svg" :
+                            PKGDATADIR"/icons/english.svg");
+    m_prop_chinese.setTooltip (m_mode_chinese ?
+                               _("Switch to English Mode") :
+                               _("Switch to Chinese Mode"));
     updateProperty (m_prop_chinese);
     
     m_prop_full_punct.setSensitive (m_mode_chinese);
@@ -93,10 +114,15 @@ void
 PinyinProperties::toggleModeFull (void)
 {
     m_mode_full = !m_mode_full;
-    m_prop_full.setLabel (m_mode_full ? "Ａａ" : "Aa");
+    m_prop_full.setLabel (m_mode_full ?
+                          _("Full Width Letters") :
+                          _("Half Width Letters"));
     m_prop_full.setIcon (m_mode_full ?
-                            PKGDATADIR"/icons/full.svg" :
-                            PKGDATADIR"/icons/half.svg");
+                         PKGDATADIR"/icons/full.svg" :
+                         PKGDATADIR"/icons/half.svg");
+    m_prop_full.setTooltip (m_mode_full ?
+                            _("Switch to Half Width Letters Mode"):
+                            _("Switch to Full Width Letters Mode"));
     updateProperty (m_prop_full);
 }
 
@@ -104,10 +130,15 @@ void
 PinyinProperties::toggleModeFullPunct (void)
 {
     m_mode_full_punct = !m_mode_full_punct;
-    m_prop_full_punct.setLabel (m_mode_full_punct ? "，。" : ",.");
+    m_prop_full_punct.setLabel (m_mode_full_punct ?
+                                _("Full Width Punct") :
+                                _("Half Width Punct"));
     m_prop_full_punct.setIcon (m_mode_full_punct ?
                                 PKGDATADIR"/icons/full-punct.svg" :
                                 PKGDATADIR"/icons/half-punct.svg");
+    m_prop_full_punct.setTooltip(m_mode_full_punct ?
+                                 _("Switch to Half Width Punctuation Mode"):
+                                 _("Switch to Full Width Punctuation Mode"));
     updateProperty (m_prop_full_punct);
 }
 
@@ -115,10 +146,15 @@ void
 PinyinProperties::toggleModeSimp (void)
 {
     m_mode_simp = ! m_mode_simp;
-    m_prop_simp.setLabel (m_mode_simp ? "简" : "繁");
+    m_prop_simp.setLabel (m_mode_simp ?
+                          _("Simplified Chinese") :
+                          _("Traditional Chinese"));
     m_prop_simp.setIcon (m_mode_simp ?
                             PKGDATADIR"/icons/simp-chinese.svg" :
                             PKGDATADIR"/icons/trad-chinese.svg");
+    m_prop_simp.setTooltip(m_mode_simp ?
+                           _("Switch to Traditional Chinese Mode"):
+                           _("Switch to Simplfied Chinese Mode"));
     updateProperty (m_prop_simp);
 }
 

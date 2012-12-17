@@ -60,6 +60,16 @@ public:
         ibus_property_set_sensitive (get<IBusProperty> (), sensitive);
     }
 
+    void setTooltip (IBusText *text)
+    {
+        ibus_property_set_tooltip (get<IBusProperty> (), text);
+    }
+
+    void setTooltip (const gchar *text)
+    {
+        setTooltip (Text (text));
+    }
+
     operator IBusProperty * (void) const
     {
         return get<IBusProperty> ();
