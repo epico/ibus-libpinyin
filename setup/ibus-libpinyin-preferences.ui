@@ -31,7 +31,6 @@
             <child>
               <object class="GtkButton" id="buttonClose">
                 <property name="label">gtk-close</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="has_focus">True</property>
@@ -39,7 +38,6 @@
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -129,11 +127,9 @@
                                 <child>
                                   <object class="GtkRadioButton" id="InitChinese">
                                     <property name="label" translatable="yes">Chinese</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="draw_indicator">True</property>
                                     <property name="group">InitEnglish</property>
@@ -146,11 +142,9 @@
                                 <child>
                                   <object class="GtkRadioButton" id="InitEnglish">
                                     <property name="label" translatable="yes">English</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -163,11 +157,9 @@
                                 <child>
                                   <object class="GtkRadioButton" id="InitFull">
                                     <property name="label" translatable="yes">Full</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="draw_indicator">True</property>
                                     <property name="group">InitHalf</property>
@@ -182,11 +174,9 @@
                                 <child>
                                   <object class="GtkRadioButton" id="InitHalf">
                                     <property name="label" translatable="yes">Half</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -201,11 +191,9 @@
                                 <child>
                                   <object class="GtkRadioButton" id="InitFullPunct">
                                     <property name="label" translatable="yes">Full</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="draw_indicator">True</property>
                                     <property name="group">InitHalfPunct</property>
@@ -220,11 +208,9 @@
                                 <child>
                                   <object class="GtkRadioButton" id="InitHalfPunct">
                                     <property name="label" translatable="yes">Half</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -251,11 +237,9 @@
                                 <child>
                                   <object class="GtkRadioButton" id="InitSimplifiedChinese">
                                     <property name="label" translatable="yes">Simplified</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="draw_indicator">True</property>
                                     <property name="group">InitTraditionalChinese</property>
@@ -270,11 +254,9 @@
                                 <child>
                                   <object class="GtkRadioButton" id="InitTraditionalChinese">
                                     <property name="label" translatable="yes">Traditional</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -429,6 +411,75 @@
                       </packing>
                     </child>
                     <child>
+                      <object class="GtkFrame" id="frame11">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">none</property>
+                        <child>
+                          <object class="GtkAlignment" id="alignment5">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="left_padding">12</property>
+                            <child>
+                              <object class="GtkBox" id="box1">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkRadioButton" id="ShiftSwitch">
+                                    <property name="label" translatable="yes">Shift</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="xalign">0.5</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">CtrlSwitch</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="CtrlSwitch">
+                                    <property name="label" translatable="yes">Control</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="xalign">0.5</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label">
+                          <object class="GtkLabel" id="label25">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Chinese/English Switch Shortcut&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
                       <object class="GtkFrame" id="frame2">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -447,11 +498,9 @@
                                 <child>
                                   <object class="GtkCheckButton" id="DynamicAdjust">
                                     <property name="label" translatable="yes">Dynamic adjust the candidates order.</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                   </object>
@@ -477,7 +526,7 @@
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
-                        <property name="position">2</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                   </object>
@@ -533,12 +582,10 @@
                                     <child>
                                       <object class="GtkRadioButton" id="FullPinyin">
                                         <property name="label" translatable="yes">Full pinyin</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="halign">start</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="xalign">0.5</property>
                                         <property name="draw_indicator">True</property>
                                         <property name="group">DoublePinyin</property>
@@ -557,12 +604,10 @@
                                         <child>
                                           <object class="GtkRadioButton" id="DoublePinyin">
                                             <property name="label" translatable="yes">Double pinyin</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
                                             <property name="halign">start</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="xalign">0.5</property>
                                             <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
@@ -610,12 +655,10 @@
                                 <child>
                                   <object class="GtkCheckButton" id="DoublePinyinShowRaw">
                                     <property name="label" translatable="yes">Show raw input of Double Pinyin</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="halign">start</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="draw_indicator">True</property>
                                   </object>
@@ -628,12 +671,10 @@
                                 <child>
                                   <object class="GtkCheckButton" id="IncompletePinyin">
                                     <property name="label" translatable="yes">Incomplete pinyin</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="halign">start</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -692,11 +733,9 @@
                                     <child>
                                       <object class="GtkCheckButton" id="ShiftSelectCandidate">
                                         <property name="label" translatable="yes">[Shift] select candidate</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="xalign">0.5</property>
                                         <property name="draw_indicator">True</property>
                                       </object>
@@ -704,11 +743,9 @@
                                     <child>
                                       <object class="GtkCheckButton" id="MinusEqualPage">
                                         <property name="label" translatable="yes">[-] [=] flip page</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="xalign">0.5</property>
                                         <property name="active">True</property>
                                         <property name="draw_indicator">True</property>
@@ -721,11 +758,9 @@
                                     <child>
                                       <object class="GtkCheckButton" id="CommaPeriodPage">
                                         <property name="label" translatable="yes">[,] [.] flip page</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="xalign">0.5</property>
                                         <property name="active">True</property>
                                         <property name="draw_indicator">True</property>
@@ -738,11 +773,9 @@
                                     <child>
                                       <object class="GtkCheckButton" id="AutoCommit">
                                         <property name="label" translatable="yes">Auto commit</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="xalign">0.5</property>
                                         <property name="draw_indicator">True</property>
                                       </object>
@@ -805,11 +838,9 @@
                                 <child>
                                   <object class="GtkCheckButton" id="CorrectPinyin_GN_NG">
                                     <property name="label">gn =&gt; ng</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -822,11 +853,9 @@
                                 <child>
                                   <object class="GtkCheckButton" id="CorrectPinyin_MG_NG">
                                     <property name="label">mg =&gt; ng</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -839,11 +868,9 @@
                                 <child>
                                   <object class="GtkCheckButton" id="CorrectPinyin_IOU_IU">
                                     <property name="label">iou =&gt; iu</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -856,11 +883,9 @@
                                 <child>
                                   <object class="GtkCheckButton" id="CorrectPinyin_UEI_UI">
                                     <property name="label">uei =&gt; ui</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -875,11 +900,9 @@
                                 <child>
                                   <object class="GtkCheckButton" id="CorrectPinyin_UEN_UN">
                                     <property name="label">uen =&gt; un</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -894,11 +917,9 @@
                                 <child>
                                   <object class="GtkCheckButton" id="CorrectPinyin_UE_VE">
                                     <property name="label">ue =&gt; ve</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -913,11 +934,9 @@
                                 <child>
                                   <object class="GtkCheckButton" id="CorrectPinyin_V_U">
                                     <property name="label">v =&gt;u, ve =&gt; ue, van =&gt; uan and etc</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -931,12 +950,10 @@
                                 <child>
                                   <object class="GtkCheckButton" id="CorrectPinyin">
                                     <property name="label" translatable="yes">Enable correct pinyin</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="halign">start</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -948,11 +965,9 @@
                                 <child>
                                   <object class="GtkCheckButton" id="CorrectPinyin_ON_ONG">
                                     <property name="label">on =&gt; ong</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -1032,12 +1047,10 @@
                                 <child>
                                   <object class="GtkCheckButton" id="IncompleteBopomofo">
                                     <property name="label" translatable="yes">Incomplete Bopomofo</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="halign">start</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -1173,12 +1186,10 @@
                                 <child>
                                   <object class="GtkCheckButton" id="GuideKey">
                                     <property name="label" translatable="yes">Enable Guidekey for Candidates Selection</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="halign">start</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -1192,12 +1203,10 @@
                                 <child>
                                   <object class="GtkCheckButton" id="AuxiliarySelectKey_F">
                                     <property name="label" translatable="yes">Enable Auxiliary Select Keys F1 .. F10</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="halign">start</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -1211,12 +1220,10 @@
                                 <child>
                                   <object class="GtkCheckButton" id="AuxiliarySelectKey_KP">
                                     <property name="label" translatable="yes">Enable Auxiliary Select Keys Numbers on Keypad</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="halign">start</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -1279,12 +1286,10 @@
                                 <child>
                                   <object class="GtkRadioButton" id="CommitFirstCandidate">
                                     <property name="label" translatable="yes">Commit first candidate</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="halign">start</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -1299,12 +1304,10 @@
                                 <child>
                                   <object class="GtkRadioButton" id="CommitOriginalText">
                                     <property name="label" translatable="yes">Commit original text</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="halign">start</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0.5</property>
                                     <property name="draw_indicator">True</property>
                                   </object>
@@ -1412,12 +1415,10 @@
                             <child>
                               <object class="GtkCheckButton" id="FuzzyPinyin_C_CH">
                                 <property name="label">c &lt;=&gt; ch</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="xalign">0.5</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
@@ -1430,12 +1431,10 @@
                             <child>
                               <object class="GtkCheckButton" id="FuzzyPinyin_Z_ZH">
                                 <property name="label">z &lt;=&gt; zh</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="xalign">0.5</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
@@ -1448,12 +1447,10 @@
                             <child>
                               <object class="GtkCheckButton" id="FuzzyPinyin_S_SH">
                                 <property name="label">s &lt;=&gt; sh</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="xalign">0.5</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
@@ -1466,12 +1463,10 @@
                             <child>
                               <object class="GtkCheckButton" id="FuzzyPinyin_L_N">
                                 <property name="label">l &lt;=&gt; n</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="xalign">0.5</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
@@ -1484,12 +1479,10 @@
                             <child>
                               <object class="GtkCheckButton" id="FuzzyPinyin_F_H">
                                 <property name="label">f &lt;=&gt; h</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="xalign">0.5</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
@@ -1502,12 +1495,10 @@
                             <child>
                               <object class="GtkCheckButton" id="FuzzyPinyin_L_R">
                                 <property name="label">l &lt;=&gt; r</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="xalign">0.5</property>
                                 <property name="draw_indicator">True</property>
                               </object>
@@ -1519,12 +1510,10 @@
                             <child>
                               <object class="GtkCheckButton" id="FuzzyPinyin">
                                 <property name="label" translatable="yes">Enable fuzzy syllable</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="halign">start</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="xalign">0.5</property>
                                 <property name="draw_indicator">True</property>
                               </object>
@@ -1535,12 +1524,10 @@
                             <child>
                               <object class="GtkCheckButton" id="FuzzyPinyin_G_K">
                                 <property name="label">g &lt;=&gt; k</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="xalign">0.5</property>
                                 <property name="draw_indicator">True</property>
                               </object>
@@ -1552,12 +1539,10 @@
                             <child>
                               <object class="GtkCheckButton" id="FuzzyPinyin_AN_ANG">
                                 <property name="label">an &lt;=&gt; ang</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="xalign">0.5</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
@@ -1572,12 +1557,10 @@
                             <child>
                               <object class="GtkCheckButton" id="FuzzyPinyin_EN_ENG">
                                 <property name="label">en &lt;=&gt; eng</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="xalign">0.5</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
@@ -1592,12 +1575,10 @@
                             <child>
                               <object class="GtkCheckButton" id="FuzzyPinyin_IN_ING">
                                 <property name="label">in &lt;=&gt; ing</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="xalign">0.5</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
@@ -1824,11 +1805,9 @@
                         <child>
                           <object class="GtkLinkButton" id="linkbutton1">
                             <property name="label" translatable="yes">https://github.com/libpinyin/ibus-libpinyin</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="relief">none</property>
                             <property name="uri">https://github.com/libpinyin/ibus-libpinyin</property>
                           </object>
