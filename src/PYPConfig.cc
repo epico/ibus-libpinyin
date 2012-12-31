@@ -154,7 +154,7 @@ LibPinyinConfig::readDefaultValues (void)
         m_page_size = 5;
         g_warn_if_reached ();
     }
-    m_ctrl_switch = read(CONFIG_CTRL_SWITCH, FALSE);
+    m_ctrl_switch = read(CONFIG_CTRL_SWITCH, false);
     m_dictionaries = read (CONFIG_DICTIONARIES, std::string("2"));
 
     /* fuzzy pinyin */
@@ -225,7 +225,7 @@ LibPinyinConfig::valueChanged (const std::string &section,
             g_warn_if_reached ();
         }
     } else if (CONFIG_CTRL_SWITCH == name) {
-        m_ctrl_switch = normalizeGVariant (value, FALSE);
+        m_ctrl_switch = normalizeGVariant (value, false);
     } else if (CONFIG_DICTIONARIES == name) {
         m_dictionaries = normalizeGVariant (value, std::string("2"));
     }
