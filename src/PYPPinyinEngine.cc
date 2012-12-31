@@ -100,18 +100,28 @@ LibPinyinPinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modif
 {
     gboolean retval = FALSE;
 
-    /* check Shift + Release hotkey,
+    /* check Shift or Ctrl + Release hotkey,
      * and then ignore other Release key event */
     if (modifiers & IBUS_RELEASE_MASK) {
         /* press and release keyval are same,
          * and no other key event between the press and release key event */
+        gboolean triggered = FALSE;
+
         if (m_prev_pressed_key == keyval){
-            if (keyval == IBUS_Shift_L || keyval == IBUS_Shift_R) {
-                if (!m_editors[MODE_INIT]->text ().empty ())
-                    m_editors[MODE_INIT]->reset ();
-                m_props.toggleModeChinese ();
-                return TRUE;
+            if (LibPinyinPinyinConfig::instance ().ctrlSwitch ()) {
+                if (keyval == IBUS_Control_L || keyval == IBUS_Control_R)
+                    triggered = TRUE;
+            } else {
+                if (keyval == IBUS_Shift_L || keyval == IBUS_Shift_R)
+                    triggered = TRUE;
             }
+        }
+
+        if (triggered) {
+            if (!m_editors[MODE_INIT]->text ().empty ())
+                m_editors[MODE_INIT]->reset ();
+            m_props.toggleModeChinese ();
+            return TRUE;
         }
 
         if (m_input_mode == MODE_INIT &&
