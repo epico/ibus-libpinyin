@@ -30,6 +30,7 @@ const gchar * const CONFIG_CORRECT_PINYIN            = "CorrectPinyin";
 const gchar * const CONFIG_FUZZY_PINYIN              = "FuzzyPinyin";
 const gchar * const CONFIG_ORIENTATION               = "LookupTableOrientation";
 const gchar * const CONFIG_PAGE_SIZE                 = "LookupTablePageSize";
+const gchar * const CONFIG_CTRL_SWITCH               = "CtrlSwitch";
 const gchar * const CONFIG_SHIFT_SELECT_CANDIDATE    = "ShiftSelectCandidate";
 const gchar * const CONFIG_MINUS_EQUAL_PAGE          = "MinusEqualPage";
 const gchar * const CONFIG_COMMA_PERIOD_PAGE         = "CommaPeriodPage";
@@ -81,6 +82,7 @@ LibPinyinConfig::initDefaultValues (void)
 
     m_orientation = IBUS_ORIENTATION_HORIZONTAL;
     m_page_size = 5;
+    m_ctrl_switch = FALSE;
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
     m_comma_period_page = TRUE;
@@ -152,6 +154,7 @@ LibPinyinConfig::readDefaultValues (void)
         m_page_size = 5;
         g_warn_if_reached ();
     }
+    m_ctrl_switch = read(CONFIG_CTRL_SWITCH, FALSE);
     m_dictionaries = read (CONFIG_DICTIONARIES, std::string("2"));
 
     /* fuzzy pinyin */
@@ -221,8 +224,9 @@ LibPinyinConfig::valueChanged (const std::string &section,
             m_page_size = 5;
             g_warn_if_reached ();
         }
-    }
-    else if (CONFIG_DICTIONARIES == name) {
+    } else if (CONFIG_CTRL_SWITCH == name) {
+        m_ctrl_switch = normalizeGVariant (value, FALSE);
+    } else if (CONFIG_DICTIONARIES == name) {
         m_dictionaries = normalizeGVariant (value, std::string("2"));
     }
     /* fuzzy pinyin */
