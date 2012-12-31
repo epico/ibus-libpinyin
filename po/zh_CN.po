@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ibus-libpinyin 1.2.99\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-12-18 12:06+0800\n"
-"PO-Revision-Date: 2012-12-18 17:09+0800\n"
+"PO-Revision-Date: 2012-12-31 17:16+0800\n"
 "Last-Translator: Peng Huang <shawn.p.huang@gmail.com>\n"
 "Language-Team: Peng Huang <shawn.p.huang@gmail.com>\n"
 "Language: \n"
@@ -17,27 +17,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../src/PYMain.cc:103
-#, fuzzy
 msgid "Libpinyin input method"
 msgstr "拼音输入法"
 
 #: ../src/PYMain.cc:113
-#, fuzzy
 msgid "Intelligent Pinyin (debug)"
 msgstr "智能拼音（调试）"
 
 #: ../src/PYMain.cc:114
-#, fuzzy
 msgid "Intelligent Pinyin input method (debug)"
 msgstr "智能拼音输入法（调试）"
 
 #: ../src/PYMain.cc:124
-#, fuzzy
 msgid "Intelligent Bopomofo (debug)"
 msgstr "智能注音（调试）"
 
 #: ../src/PYMain.cc:125
-#, fuzzy
 msgid "Intelligent Bopomofo input method (debug)"
 msgstr "智能注音输入法（调试）"
 
@@ -76,37 +71,30 @@ msgid "Switch to Full Width Letter Mode"
 msgstr "切换到全角字母模式"
 
 #: ../src/PYPinyinProperties.cc:61 ../src/PYPinyinProperties.cc:134
-#, fuzzy
 msgid "Full Width Punct"
-msgstr "半角符号"
+msgstr "全角符号"
 
 #: ../src/PYPinyinProperties.cc:62 ../src/PYPinyinProperties.cc:135
-#, fuzzy
 msgid "Half Width Punct"
 msgstr "半角符号"
 
 #: ../src/PYPinyinProperties.cc:67 ../src/PYPinyinProperties.cc:140
-#, fuzzy
 msgid "Switch to Half Width Punctuation Mode"
 msgstr "切换到半角符号模式"
 
 #: ../src/PYPinyinProperties.cc:68 ../src/PYPinyinProperties.cc:141
-#, fuzzy
 msgid "Switch to Full Width Punctuation Mode"
 msgstr "切换到全角符号模式"
 
 #: ../src/PYPinyinProperties.cc:72 ../src/PYPinyinProperties.cc:150
-#, fuzzy
 msgid "Simplified Chinese"
 msgstr "简体中文"
 
 #: ../src/PYPinyinProperties.cc:73 ../src/PYPinyinProperties.cc:151
-#, fuzzy
 msgid "Traditional Chinese"
 msgstr "繁体中文"
 
 #: ../src/PYPinyinProperties.cc:78 ../src/PYPinyinProperties.cc:156
-#, fuzzy
 msgid "Switch to Traditional Chinese Mode"
 msgstr "切换到繁体中文模式"
 
@@ -128,17 +116,15 @@ msgid "Please use \"hspnz\" to input."
 msgstr "请用\"hspnz\"笔画输入中文字符"
 
 #: ../setup/main2.py:349 ../setup/ibus-libpinyin-preferences.ui.h:51
-#, fuzzy, no-c-format, python-format
+#, no-c-format, python-format
 msgid "<big><b>Intelligent Pinyin %s</b></big>"
 msgstr "<big><b>IBus 智能拼音 %s</b></big>"
 
 #: ../setup/dicttreeview.py:37
-#, fuzzy
 msgid "GB Dictionary"
 msgstr "GB词典"
 
 #: ../setup/dicttreeview.py:38
-#, fuzzy
 msgid "GBK Dictionary"
 msgstr "GBK词典"
 
@@ -195,7 +181,6 @@ msgid "Dynamic adjust the candidates order."
 msgstr "动态调整候选词顺序"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:17
-#, fuzzy
 msgid "<b>Candidates</b>"
 msgstr "<b>候选词</b>"
 
@@ -328,12 +313,10 @@ msgid "Dictionary"
 msgstr "词典"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:52
-#, fuzzy
 msgid "Intelligent Pinyin input method for IBus"
 msgstr "IBus 智能拼音输入法"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:53
-#, fuzzy
 msgid "<small>Copyright (c) 2011-2012 Peng Wu</small>"
 msgstr "<small>版权所有 (c) 2011-2012 吴鹏</small>"
 
@@ -342,7 +325,6 @@ msgid "https://github.com/libpinyin/ibus-libpinyin"
 msgstr "https://github.com/libpinyin/ibus-libpinyin"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:55
-#, fuzzy
 msgid ""
 "<small>\n"
 "<b>Authors:</b>\n"
