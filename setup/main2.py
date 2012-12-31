@@ -5,6 +5,7 @@
 #
 # Copyright (c) 2008-2010 Peng Huang <shawn.p.huang@gmail.com>
 # Copyright (c) 2010 BYVoid <byvoid1@gmail.com>
+# Copyright (c) 2011-2012 Peng Wu <alexepico@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -103,27 +104,35 @@ class PreferencesDialog:
         self.__init_full_punct = self.__builder.get_object("InitFullPunct")
         self.__init_half_punct = self.__builder.get_object("InitHalfPunct")
         self.__init_simp = self.__builder.get_object("InitSimplifiedChinese")
-        #self.__init_trad = self.__builder.get_object("IniTraditionalChinese")
-        self.__dynamic_adjust = self.__builder.get_object("DynamicAdjust")
+        self.__init_trad = self.__builder.get_object("InitTraditionalChinese")
 
         # UI
         self.__lookup_table_page_size = self.__builder.get_object("LookupTablePageSize")
         self.__lookup_table_orientation = self.__builder.get_object("LookupTableOrientation")
+
+        self.__shift_switch = self.__builder.get_object("ShiftSwitch")
+        self.__ctrl_switch = self.__builder.get_object("CtrlSwitch")
+
+        self.__dynamic_adjust = self.__builder.get_object("DynamicAdjust")
 
         # read values
         self.__init_chinese.set_active(self.__get_value("InitChinese", True))
         self.__init_full.set_active(self.__get_value("InitFull", False))
         self.__init_full_punct.set_active(self.__get_value("InitFullPunct", True))
         self.__init_simp.set_active(self.__get_value("InitSimplifiedChinese", True))
-        self.__dynamic_adjust.set_active(self.__get_value("DynamicAdjust", True))
+
         self.__lookup_table_orientation.set_active(self.__get_value("LookupTableOrientation", 0))
         self.__lookup_table_page_size.set_value(self.__get_value("LookupTablePageSize", 5))
 
+        self.__shift_switch.set_active(not self.__get_value("CtrlSwitch", False))
+
+        self.__dynamic_adjust.set_active(self.__get_value("DynamicAdjust", True))
         # connect signals
         self.__init_chinese.connect("toggled", self.__toggled_cb, "InitChinese")
         self.__init_full.connect("toggled", self.__toggled_cb, "InitFull")
         self.__init_full_punct.connect("toggled", self.__toggled_cb, "InitFullPunct")
         self.__init_simp.connect("toggled", self.__toggled_cb, "InitSimplifiedChinese")
+        self.__ctrl_switch.connect("toggled", self.__toggled_cb, "CtrlSwitch")
         self.__dynamic_adjust.connect("toggled", self.__toggled_cb, "DynamicAdjust")
 
         def __lookup_table_page_size_changed_cb(adjustment):
