@@ -63,7 +63,7 @@ PKG_CHECK_MODULES(SQLITE, [
 AC_PATH_PROG(SQLITE3, sqlite3)
 
 PKG_CHECK_MODULES(LIBPINYIN, [
-    libpinyin >= 0.7.0
+    libpinyin >= 0.8.91
 ], [enable_libpinyin=yes])
 
 AM_CONDITIONAL(IBUS_BUILD_LIBPINYIN, [test x"$enable_libpinyin" = x"yes"])
