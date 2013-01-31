@@ -16,7 +16,7 @@ _CHINESE_DIGITS = {
 _DATE_PATTERN = "^(%d+)-(%d+)-(%d+)$"
 _TIME_PATTERN = "^(%d+):(%d+)$"
 
-function GetChineseMathNum(num)
+function get_chinese_math_num(num)
   local ret
   if num < 10 then
     ret = _CHINESE_DIGITS[num]
@@ -37,7 +37,7 @@ function GetChineseMathNum(num)
   return ret
 end
 
-function GetChineseNonMathNum(num)
+function get_chinese_non_math_num(num)
   local ret = ""
   for ch in tostring(num):gmatch(".") do
     if ch >= "0" and ch <= "9" then
@@ -48,20 +48,20 @@ function GetChineseNonMathNum(num)
   return ret
 end
 
-function _VerifyTime(hour, minute)
+function _verify_time(hour, minute)
   if hour < 0 or hour > 23 or minute < 0 or minute > 59 then
     error("Invalid time")
   end
 end
 
-function _VerifyDate(month, day)
+function _verify_date(month, day)
   if month < 1 or month > 12 or day < 1 or day > _MONTH_TABLE_LEAF[month] then
     error("Invalid date")
   end
 end
 
-function _VerifyDateWithYear(year, month, day)
-  _VerifyDate(month, day)
+function _verify_date_with_year(year, month, day)
+  _verify_date(month, day)
   if year < 1 or year > 9999 then
     error("Invalid year")
   end
@@ -75,21 +75,21 @@ function _VerifyDateWithYear(year, month, day)
   end
 end
 
-function GetChineseDate(y, m, d, full)
+function get_chinese_date(y, m, d, full)
   if full then
-    return GetChineseNonMathNum(y) .. "年" ..
-           GetChineseMathNum(m) .. "月" ..
-           GetChineseMathNum(d) .. "日"
+    return get_chinese_non_math_num(y) .. "年" ..
+           get_chinese_math_num(m) .. "月" ..
+           get_chinese_math_num(d) .. "日"
   else
     return y .. "年" .. m .. "月" .. d .. "日"
   end
 end
 
-function GetChineseTime(h, m, full)
+function get_chinese_time(h, m, full)
   if full then
-    local ret = GetChineseMathNum(h) .. "时"
+    local ret = get_chinese_math_num(h) .. "时"
     if m > 0 then
-      ret = ret .. GetChineseMathNum(m) .. "分"
+      ret = ret .. get_chinese_math_num(m) .. "分"
     end
     return ret
   else
@@ -97,15 +97,15 @@ function GetChineseTime(h, m, full)
   end
 end
 
-function NormalizeDate(y, m, d)
+function normalize_date(y, m, d)
   return string.format("%d-%02d-%02d", y, m, d)
 end
 
-function NormalizeTime(h, m)
+function normalize_time(h, m)
   return string.format("%02d:%02d", h, m)
 end
 
-function GetTime(input)
+function get_time(input)
   local now = input
   if #input == 0 then
     now = os.date("%H:%M")
@@ -115,15 +115,15 @@ function GetTime(input)
     hour = tonumber(h)
     minute = tonumber(m)
   end)
-  _VerifyTime(hour, minute)
+  _verify_time(hour, minute)
   return {
-    NormalizeTime(hour, minute),
-    GetChineseTime(hour, minute, false),
-    GetChineseTime(hour, minute, true),
+    normalize_time(hour, minute),
+    get_chinese_time(hour, minute, false),
+    get_chinese_time(hour, minute, true),
   }
 end
 
-function GetDate(input)
+function get_date(input)
   local now = input
   if #input == 0 then
     now = os.date("%Y-%m-%d")
@@ -134,11 +134,11 @@ function GetDate(input)
     month = tonumber(m)
     day = tonumber(d)
   end)
-  _VerifyDateWithYear(year, month, day)
+  _verify_date_with_year(year, month, day)
   return {
-    NormalizeDate(year, month, day),
-    GetChineseDate(year, month, day, false),
-    GetChineseDate(year, month, day, true),
+    normalize_date(year, month, day),
+    get_chinese_date(year, month, day, false),
+    get_chinese_date(year, month, day, true),
   }
 end
 
@@ -150,7 +150,7 @@ _MATH_KEYWORDS = {
   "pow", "rad", "random", "randomseed", "sin", "sinh", "sqrt", "tan", "tanh",
 }
 
-function _AddMathKeyword(input)
+function _add_math_keyword(input)
   local ret = input
   for _, keyword in pairs(_MATH_KEYWORDS) do
     ret = ret:gsub(string.format("([^%%a\.])(%s\(.-\))", keyword), "%1math\.%2")
@@ -159,8 +159,8 @@ function _AddMathKeyword(input)
   return ret
 end
 
-function Compute(input)
-  local expr = "return " .. _AddMathKeyword(input)
+function compute(input)
+  local expr = "return " .. _add_math_keyword(input)
   local func = loadstring(expr)
   if func == nil then
     return "-- 未完整表达式 --"
@@ -245,7 +245,7 @@ _ASCII_IMAGE_TABLE = {
 
 }
 
-function PrintAscii(input)
+function print_ascii(input)
   if #input <= 0 then
     local metatables = {}
     for k, v in pairs(_ASCII_IMAGE_TABLE) do
@@ -661,7 +661,7 @@ ZZZZZ
 }
 
 -- Converts input string to ascii image of large letters.
-function PrintLetter(input_string)
+function print_letter(input_string)
   if #input_string == 0 then
     return {}
   end
@@ -761,7 +761,7 @@ _DICE_BITMAPS = {
 math.randomseed(os.time())
 
 -- Plays and shows n dices.
-function PlayDice(n)
+function play_dice(n)
   n = math.min(n, 6)
   n = math.max(n, 1)
   local dice_height = 7
@@ -806,7 +806,7 @@ _ZODIAC_TABLE = {
 _MONTH_TABLE_NORMAL = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
 _MONTH_TABLE_LEAF = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
 
-function _CompareMonthAndDay(month1, day1, month2, day2)
+function _compute_month_and_day(month1, day1, month2, day2)
   if month1 < month2 then
     return -1
   elseif month1 > month2 then
@@ -821,7 +821,7 @@ function _CompareMonthAndDay(month1, day1, month2, day2)
 end
 
 -- birthday is a string in MM-DD format.
-function QueryZodiac(birthday)
+function query_zodiac(birthday)
   local month = 0
   local day = 0
   birthday:gsub("([0-9]+)-([0-9]+)$",
@@ -830,14 +830,14 @@ function QueryZodiac(birthday)
                   day = tonumber(d)
                 end
                )
-  _VerifyDate(month, day)
+  _verify_date(month, day)
   for range, name in pairs(_ZODIAC_TABLE) do
     local from_month = range[1]
     local from_day = range[2]
     local to_month = range[3]
     local to_day = range[4]
-    if _CompareMonthAndDay(month, day, from_month, from_day) >=0 and
-       _CompareMonthAndDay(month, day, to_month, to_day) <=0 then
+    if _compute_month_and_day(month, day, from_month, from_day) >=0 and
+       _compute_month_and_day(month, day, to_month, to_day) <=0 then
       return name
     end
   end
@@ -859,7 +859,7 @@ end
 -- ┃　┃　┃　┃　┃　┃
 -- ┣━┻━┻━┻━┻━┫
 -- ┗━━━━━━━━━┛
-function PrintGaozhi(width_and_height)
+function print_gaozhi(width_and_height)
   local width
   local height
   width_and_height:gsub("([0-9]+)[x%*]([0-9]+)$",
@@ -891,22 +891,15 @@ function PrintGaozhi(width_and_height)
   return result .. "\n"
 end
 
-function GetCurrentTime()
-  return GetTime("")
-end
-
-function GetToday()
-  return GetDate("")
-end
 
 ------------
-ime.register_command("sj", "GetTime", "输入时间", "alpha", "输入可选时间，例如12:34")
-ime.register_command("rq", "GetDate", "输入日期", "alpha", "输入可选日期，例如2008-08-08")
-ime.register_command("js", "Compute", "计算模式", "none", "输入表达式，例如3*log(4+2)")
-ime.register_command("gz", "PrintGaozhi", "打印稿纸", "none", "输入稿纸大小，例如2x3")
-ime.register_command("xz", "QueryZodiac", "查询星座", "none", "输入您的生日，例如12-14")
-ime.register_command("sz", "PlayDice", "掷骰子", "none", "输入骰子个数，例如3")
-ime.register_command("zf", "PrintLetter", "打印字符", "none", "请输入字母或数字序列，例如hello")
-ime.register_command("hh", "PrintAscii", "画画")
-ime.register_trigger("GetCurrentTime", "显示时间", {}, {'时间'})
-ime.register_trigger("GetToday", "显示日期", {}, {'日期'})
+ime.register_command("sj", "get_time", "输入时间", "alpha", "输入可选时间，例如12:34")
+ime.register_command("rq", "get_date", "输入日期", "alpha", "输入可选日期，例如2008-08-08")
+ime.register_command("js", "compute", "计算模式", "none", "输入表达式，例如3*log(4+2)")
+ime.register_command("gz", "print_gaozhi", "打印稿纸", "none", "输入稿纸大小，例如2x3")
+ime.register_command("xz", "query_zodiac", "查询星座", "none", "输入您的生日，例如12-14")
+ime.register_command("sz", "play_dice", "掷骰子", "none", "输入骰子个数，例如3")
+ime.register_command("zf", "print_letter", "打印字符", "none", "请输入字母或数字序列，例如hello")
+ime.register_command("hh", "print_ascii", "画画")
+
+print("lua script loaded.")
