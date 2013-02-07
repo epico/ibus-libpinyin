@@ -20,7 +20,7 @@
 
 setup_libpinyin_PYTHON = \
 	main2.py \
-	version.py \
+	config.py \
 	dicttreeview.py \
 	ibus-libpinyin-preferences.ui \
 	$(NULL)
@@ -36,7 +36,7 @@ CLEANFILES = \
 	$(NULL)
 
 EXTRA_DIST = \
-	version.py.in \
+	config.py.in \
 	ibus-setup-libpinyin.in \
 	$(NULL)
 
