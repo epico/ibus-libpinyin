@@ -32,7 +32,7 @@ from gi.repository import Gtk
 from gi.repository import IBus
 from xdg import BaseDirectory
 
-import version
+import config
 from dicttreeview import DictionaryTreeView
 
 _ = lambda x : gettext.gettext(x)
@@ -355,7 +355,7 @@ class PreferencesDialog:
         self.__page_about.show()
 
         self.__name_version = self.__builder.get_object("NameVersion")
-        self.__name_version.set_markup(_("<big><b>Intelligent Pinyin %s</b></big>") % version.get_version())
+        self.__name_version.set_markup(_("<big><b>Intelligent Pinyin %s</b></big>") % config.get_version())
 
     def __changed_cb(self, widget, name):
         self.__set_value(name, widget.get_active())
