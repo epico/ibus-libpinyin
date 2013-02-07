@@ -50,6 +50,7 @@ AC_ISC_POSIX
 AC_HEADER_STDC
 IT_PROG_INTLTOOL([0.35.0])
 AM_PROG_LIBTOOL
+AC_PROG_SED
 
 # check ibus
 PKG_CHECK_MODULES(IBUS, [
@@ -206,7 +207,6 @@ src/Makefile
 src/libpinyin.xml.in
 setup/Makefile
 setup/ibus-setup-libpinyin
-setup/config.py
 data/Makefile
 data/icons/Makefile
 m4/Makefile

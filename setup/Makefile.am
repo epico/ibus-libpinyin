@@ -40,6 +40,11 @@ EXTRA_DIST = \
 	ibus-setup-libpinyin.in \
 	$(NULL)
 
+
+config.py: config.py.in
+	$(SED) -e "s:[@]VERSION@:$(VERSION):" \
+	 -e "s:[@]datadir@:$(datadir)/$(PACKAGE):" $< > $@
+
 test-libpinyin:
 	$(ENV) DBUS_DEBUG=true \
 		   IBUS_LOCALEDIR=@localedir@ \
