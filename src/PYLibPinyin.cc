@@ -239,7 +239,51 @@ LibPinyinBackEnd::modified (void)
                                           static_cast<gpointer> (this));
 }
 
-bool
+gboolean
+LibPinyinBackEnd::importPinyinDictionary(const char * filename)
+{
+    /* user phrase library should be loaded here. */
+    FILE * dictfile = fopen(filename, "r");
+    if (NULL == dictfile)
+        return FALSE;
+
+    import_iterator_t * iter = pinyin_begin_add_phrases
+        (m_pinyin_context, 15);
+
+    if (NULL == iter)
+        return FALSE;
+
+    char* linebuf = NULL; size_t size = 0; ssize_t read;
+    while ((read = getline(&linebuf, &size, dictfile)) != -1) {
+        if (0 == strlen(linebuf))
+            continue;
+
+        if ( '\n' == linebuf[strlen(linebuf) - 1] ) {
+            linebuf[strlen(linebuf) - 1] = '\0';
+        }
+
+        gchar ** items = g_strsplit_set(linebuf, " \t", 3);
+        guint len = g_strv_length(items);
+
+        gchar * phrase = NULL, * pinyin = NULL;
+        gint count = -1;
+        if (2 == len || 3 == len) {
+            phrase = items[0];
+            pinyin = items[1];
+            if (3 == len)
+                count = atoi(items[2]);
+        } else
+            continue;
+
+        pinyin_iterator_add_phrase(iter, phrase, pinyin, count);
+    }
+
+    pinyin_end_add_phrases(iter);
+    fclose(dictfile);
+}
+
+
+gboolean
 LibPinyinBackEnd::clearPinyinUserData (const char * target)
 {
     if (0 == strcmp("all", target))
@@ -249,6 +293,8 @@ LibPinyinBackEnd::clearPinyinUserData (const char * target)
                         PHRASE_INDEX_MAKE_TOKEN(15, null_token));
     else
         g_warning("unknown clear target: %s.\n", target);
+
+    return TRUE;
 }
 
 gboolean

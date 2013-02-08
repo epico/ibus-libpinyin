@@ -51,8 +51,8 @@ const gchar * const CONFIG_GUIDE_KEY                 = "GuideKey";
 const gchar * const CONFIG_AUXILIARY_SELECT_KEY_F    = "AuxiliarySelectKey_F";
 const gchar * const CONFIG_AUXILIARY_SELECT_KEY_KP   = "AuxiliarySelectKey_KP";
 const gchar * const CONFIG_ENTER_KEY                 = "EnterKey";
-const gchar * const CONFIG_CLEAR_USER_DATA           = "ClearUserData";
 const gchar * const CONFIG_IMPORT_DICTIONARY         = "ImportDictionary";
+const gchar * const CONFIG_CLEAR_USER_DATA           = "ClearUserData";
 
 const guint PINYIN_DEFAULT_OPTION =
         PINYIN_INCOMPLETE |
@@ -403,6 +403,10 @@ LibPinyinPinyinConfig::valueChanged (const std::string &section,
         m_comma_period_page = normalizeGVariant (value, true);
     else if (CONFIG_AUTO_COMMIT == name)
         m_auto_commit = normalizeGVariant (value, false);
+    else if (CONFIG_IMPORT_DICTIONARY == name) {
+        std::string filename = normalizeGVariant (value, std::string(""));
+        LibPinyinBackEnd::instance ().importPinyinDictionary(filename.c_str ());
+    }
     else if (CONFIG_CLEAR_USER_DATA == name) {
         std::string target = normalizeGVariant (value, std::string(""));
         LibPinyinBackEnd::instance ().clearPinyinUserData(target.c_str ());
