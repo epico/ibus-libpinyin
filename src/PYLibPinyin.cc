@@ -58,7 +58,7 @@ LibPinyinBackEnd::initPinyinContext (Config *config)
 {
     pinyin_context_t * context = NULL;
 
-    gchar * userdir = g_build_filename (g_get_home_dir(), ".cache",
+    gchar * userdir = g_build_filename (g_get_user_cache_dir (),
                                         "ibus", "libpinyin", NULL);
     int retval = g_mkdir_with_parents (userdir, 0700);
     if (retval) {
@@ -104,7 +104,7 @@ LibPinyinBackEnd::initChewingContext (Config *config)
 {
     pinyin_context_t * context = NULL;
 
-    gchar * userdir = g_build_filename (g_get_home_dir(), ".cache",
+    gchar * userdir = g_build_filename (g_get_user_cache_dir (),
                                         "ibus", "libbopomofo", NULL);
     int retval = g_mkdir_with_parents (userdir, 0700);
     if (retval) {

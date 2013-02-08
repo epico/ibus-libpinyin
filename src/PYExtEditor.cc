@@ -57,6 +57,11 @@ ExtEditor::ExtEditor (PinyinProperties & props, Config & config)
         loadLuaScript (PKGDATADIR G_DIR_SEPARATOR_S "base.lua");
 
     g_free(path);
+
+    path = g_build_filename (g_get_user_config_dir (),
+                             "ibus", "libpinyin", "user.lua", NULL);
+    loadLuaScript(path);
+    g_free(path);
 }
 
 int

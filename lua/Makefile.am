@@ -20,6 +20,7 @@
 
 lua_script_DATA = \
 	base.lua \
+	user.lua \
 	$(NULL)
 
 lua_scriptdir = $(pkgdatadir)
@@ -83,4 +84,5 @@ lua_ext_console_LDADD = \
 
 EXTRA_DIST = \
 	base.lua \
+	user.lua \
 	$(NULL)
