@@ -140,10 +140,10 @@ LibPinyinConfig::readDefaultValues (void)
     g_variant_iter_init (&iter, values);
     while (g_variant_iter_next (&iter, "{sv}", &name, &value)) {
         /* skip signals here. */
-        if (0 == strcmp(CONFIG_CLEAR_USER_DATA, name))
+        if (0 == strcmp(CONFIG_IMPORT_DICTIONARY, name))
             continue;
 
-        if (0 == strcmp(CONFIG_IMPORT_DICTIONARY, name))
+        if (0 == strcmp(CONFIG_CLEAR_USER_DATA, name))
             continue;
 
         valueChanged (m_section, name, value);

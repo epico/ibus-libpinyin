@@ -242,7 +242,7 @@ LibPinyinBackEnd::modified (void)
 gboolean
 LibPinyinBackEnd::importPinyinDictionary(const char * filename)
 {
-    /* user phrase library should be loaded here. */
+    /* user phrase library should be already loaded here. */
     FILE * dictfile = fopen(filename, "r");
     if (NULL == dictfile)
         return FALSE;
@@ -281,7 +281,6 @@ LibPinyinBackEnd::importPinyinDictionary(const char * filename)
     pinyin_end_add_phrases(iter);
     fclose(dictfile);
 }
-
 
 gboolean
 LibPinyinBackEnd::clearPinyinUserData (const char * target)
