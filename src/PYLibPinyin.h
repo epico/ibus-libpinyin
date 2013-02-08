@@ -50,6 +50,9 @@ public:
     void freeChewingInstance (pinyin_instance_t *instance);
     void modified (void);
 
+    bool importPinyinDictionary(const char * filename);
+    bool clearPinyinUserData(const char * target);
+
     /* use static initializer in C++. */
     static LibPinyinBackEnd & instance (void) { return *m_instance; }
 

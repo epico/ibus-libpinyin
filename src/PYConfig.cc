@@ -69,25 +69,6 @@ Config::initDefaultValues (void)
 void
 Config::readDefaultValues (void)
 {
-#if defined(HAVE_IBUS_CONFIG_GET_VALUES)
-    /* read all values together */
-    initDefaultValues ();
-    GVariant *values =
-            ibus_config_get_values (get<IBusConfig> (), m_section.c_str ());
-    g_return_if_fail (values != NULL);
-
-    GVariantIter iter;
-    gchar *name;
-    GVariant *value;
-    g_variant_iter_init (&iter, values);
-    while (g_variant_iter_next (&iter, "{sv}", &name, &value)) {
-        valueChanged (m_section, name, value);
-        g_free (name);
-        g_variant_unref (value);
-    }
-    g_variant_unref (values);
-#else
-#endif
 }
 
 inline bool

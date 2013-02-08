@@ -20,6 +20,7 @@
  */
 #include "PYPConfig.h"
 
+#include <string.h>
 #include <pinyin.h>
 #include "PYBus.h"
 #include "PYLibPinyin.h"
@@ -50,6 +51,8 @@ const gchar * const CONFIG_GUIDE_KEY                 = "GuideKey";
 const gchar * const CONFIG_AUXILIARY_SELECT_KEY_F    = "AuxiliarySelectKey_F";
 const gchar * const CONFIG_AUXILIARY_SELECT_KEY_KP   = "AuxiliarySelectKey_KP";
 const gchar * const CONFIG_ENTER_KEY                 = "EnterKey";
+const gchar * const CONFIG_CLEAR_USER_DATA           = "ClearUserData";
+const gchar * const CONFIG_IMPORT_DICTIONARY         = "ImportDictionary";
 
 const guint PINYIN_DEFAULT_OPTION =
         PINYIN_INCOMPLETE |
@@ -136,6 +139,13 @@ LibPinyinConfig::readDefaultValues (void)
     GVariant *value;
     g_variant_iter_init (&iter, values);
     while (g_variant_iter_next (&iter, "{sv}", &name, &value)) {
+        /* skip signals here. */
+        if (0 == strcmp(CONFIG_CLEAR_USER_DATA, name))
+            continue;
+
+        if (0 == strcmp(CONFIG_IMPORT_DICTIONARY, name))
+            continue;
+
         valueChanged (m_section, name, value);
         g_free (name);
         g_variant_unref (value);
@@ -393,7 +403,10 @@ LibPinyinPinyinConfig::valueChanged (const std::string &section,
         m_comma_period_page = normalizeGVariant (value, true);
     else if (CONFIG_AUTO_COMMIT == name)
         m_auto_commit = normalizeGVariant (value, false);
-    /* correct pinyin */
+    else if (CONFIG_CLEAR_USER_DATA == name) {
+        std::string target = normalizeGVariant (value, std::string(""));
+        LibPinyinBackEnd::instance ().clearPinyinUserData(target.c_str ());
+    } /* correct pinyin */
     else if (CONFIG_CORRECT_PINYIN == name) {
         if (normalizeGVariant (value, true))
             m_option_mask |= PINYIN_CORRECT_ALL;

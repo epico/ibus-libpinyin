@@ -20,6 +20,8 @@
  */
 
 #include "PYLibPinyin.h"
+
+#include <string.h>
 #include <pinyin.h>
 #include "PYPConfig.h"
 
@@ -235,6 +237,18 @@ LibPinyinBackEnd::modified (void)
     m_timeout_id = g_timeout_add_seconds (LIBPINYIN_SAVE_TIMEOUT,
                                           LibPinyinBackEnd::timeoutCallback,
                                           static_cast<gpointer> (this));
+}
+
+bool
+LibPinyinBackEnd::clearPinyinUserData (const char * target)
+{
+    if (0 == strcmp("all", target))
+        pinyin_mask_out(m_pinyin_context, 0x0, 0x0);
+    else if (0 == strcmp("user", target))
+        pinyin_mask_out(m_pinyin_context, PHRASE_INDEX_LIBRARY_MASK,
+                        PHRASE_INDEX_MAKE_TOKEN(15, null_token));
+    else
+        g_warning("unknown clear target: %s.\n", target);
 }
 
 gboolean
