@@ -80,6 +80,9 @@ LibPinyinBackEnd::initPinyinContext (Config *config)
     }
     g_strfreev (indices);
 
+    /* load user phrase library. */
+    pinyin_load_phrase_library (context, 15);
+
     return context;
 }
 
