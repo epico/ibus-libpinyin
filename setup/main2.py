@@ -363,6 +363,9 @@ class PreferencesDialog:
         if not os.access(path, os.R_OK):
             self.__frame_lua_script.hide()
 
+        self.__edit_lua = self.__builder.get_object("EditLua")
+        self.__edit_lua.connect("clicked", self.__edit_lua_cb)
+
         self.__import_dictionary = self.__builder.get_object("ImportDictionary")
         self.__import_dictionary.connect("clicked", self.__import_dictionary_cb)
 
@@ -370,6 +373,16 @@ class PreferencesDialog:
         self.__clear_user_data.connect("clicked", self.__clear_user_data_cb, "user")
         self.__clear_all_data = self.__builder.get_object("ClearAllData")
         self.__clear_all_data.connect("clicked", self.__clear_user_data_cb, "all")
+
+    def __edit_lua_cb(self, widget):
+        import shutil
+        path = os.path.join(BaseDirectory.xdg_config_home, "ibus", "libpinyin")
+        os.path.exists(path) or os.makedirs(path)
+        path = os.path.join(path, "user.lua")
+        if not os.path.exists(path):
+            src = os.path.join(config.get_data_dir(), "user.lua")
+            shutil.copyfile(src, path)
+        os.system("xdg-open %s" % path)
 
     def __import_dictionary_cb(self, widget):
         dialog = Gtk.FileChooserDialog \
