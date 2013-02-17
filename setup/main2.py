@@ -59,6 +59,7 @@ class PreferencesDialog:
             self.__init_pinyin()
             self.__init_fuzzy()
             self.__init_dictionary()
+            self.__init_user_data()
             self.__init_about()
         elif engine == "bopomofo":
             self.__config_namespace = "engine/Bopomofo"
@@ -67,6 +68,7 @@ class PreferencesDialog:
             self.__init_bopomofo()
             self.__init_fuzzy()
             #self.__init_dictionary()
+            #self.__init_user_data()
             self.__init_about()
             self.__convert_fuzzy_pinyin_to_bopomofo()
 
@@ -83,6 +85,7 @@ class PreferencesDialog:
         self.__page_bopomofo_mode = self.__builder.get_object("pageBopomofoMode")
         self.__page_fuzzy = self.__builder.get_object("pageFuzzy")
         self.__page_dictionary = self.__builder.get_object("pageDictionary")
+        self.__page_user_data = self.__builder.get_object("pageUserData")
         self.__page_about = self.__builder.get_object("pageAbout")
 
         self.__page_general.hide()
@@ -90,6 +93,7 @@ class PreferencesDialog:
         self.__page_bopomofo_mode.hide()
         self.__page_fuzzy.hide()
         self.__page_dictionary.hide()
+        self.__page_user_data.hide()
         self.__page_about.hide()
 
     def __init_general(self):
@@ -349,6 +353,44 @@ class PreferencesDialog:
 
         # connect notify signal
         self.__dict_treeview.connect("notify::dictionaries", __notified_dicts_cb, self)
+
+    def __init_user_data(self):
+        #page User Data
+        self.__page_user_data.show()
+
+        self.__frame_lua_script = self.__builder.get_object("frameLuaScript")
+        path = os.path.join(config.get_data_dir(), 'user.lua')
+        if not os.access(path, os.R_OK):
+            self.__frame_lua_script.hide()
+
+        self.__import_dictionary = self.__builder.get_object("ImportDictionary")
+        self.__import_dictionary.connect("clicked", self.__import_dictionary_cb)
+
+        self.__clear_user_data = self.__builder.get_object("ClearUserData")
+        self.__clear_user_data.connect("clicked", self.__clear_user_data_cb, "user")
+        self.__clear_all_data = self.__builder.get_object("ClearAllData")
+        self.__clear_all_data.connect("clicked", self.__clear_user_data_cb, "all")
+
+    def __import_dictionary_cb(self, widget):
+        dialog = Gtk.FileChooserDialog \
+            (_("Please choose a file"), None,
+             Gtk.FileChooserAction.OPEN,
+             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+              Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+
+        filter_text = Gtk.FileFilter()
+        filter_text.set_name("Text files")
+        filter_text.add_mime_type("text/plain")
+        dialog.add_filter(filter_text)
+
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            self.__set_value("ImportDictionary", dialog.get_filename())
+
+        dialog.destroy()
+
+    def __clear_user_data_cb(self, widget, name):
+        self.__set_value("ClearUserData", name)
 
     def __init_about(self):
         # page About
