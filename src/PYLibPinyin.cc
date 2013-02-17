@@ -243,10 +243,10 @@ LibPinyinBackEnd::modified (void)
 }
 
 gboolean
-LibPinyinBackEnd::importPinyinDictionary(const char * filename)
+LibPinyinBackEnd::importPinyinDictionary (const char * filename)
 {
     /* user phrase library should be already loaded here. */
-    FILE * dictfile = fopen(filename, "r");
+    FILE * dictfile = fopen (filename, "r");
     if (NULL == dictfile)
         return FALSE;
 
@@ -257,16 +257,16 @@ LibPinyinBackEnd::importPinyinDictionary(const char * filename)
         return FALSE;
 
     char* linebuf = NULL; size_t size = 0; ssize_t read;
-    while ((read = getline(&linebuf, &size, dictfile)) != -1) {
-        if (0 == strlen(linebuf))
+    while ((read = getline (&linebuf, &size, dictfile)) != -1) {
+        if (0 == strlen (linebuf))
             continue;
 
-        if ( '\n' == linebuf[strlen(linebuf) - 1] ) {
-            linebuf[strlen(linebuf) - 1] = '\0';
+        if ( '\n' == linebuf[strlen (linebuf) - 1] ) {
+            linebuf[strlen (linebuf) - 1] = '\0';
         }
 
-        gchar ** items = g_strsplit_set(linebuf, " \t", 3);
-        guint len = g_strv_length(items);
+        gchar ** items = g_strsplit_set (linebuf, " \t", 3);
+        guint len = g_strv_length (items);
 
         gchar * phrase = NULL, * pinyin = NULL;
         gint count = -1;
@@ -274,28 +274,32 @@ LibPinyinBackEnd::importPinyinDictionary(const char * filename)
             phrase = items[0];
             pinyin = items[1];
             if (3 == len)
-                count = atoi(items[2]);
+                count = atoi (items[2]);
         } else
             continue;
 
-        pinyin_iterator_add_phrase(iter, phrase, pinyin, count);
+        pinyin_iterator_add_phrase (iter, phrase, pinyin, count);
     }
 
-    pinyin_end_add_phrases(iter);
-    fclose(dictfile);
+    pinyin_end_add_phrases (iter);
+    fclose (dictfile);
+
+    pinyin_save (m_pinyin_context);
+    return TRUE;
 }
 
 gboolean
 LibPinyinBackEnd::clearPinyinUserData (const char * target)
 {
-    if (0 == strcmp("all", target))
-        pinyin_mask_out(m_pinyin_context, 0x0, 0x0);
-    else if (0 == strcmp("user", target))
-        pinyin_mask_out(m_pinyin_context, PHRASE_INDEX_LIBRARY_MASK,
-                        PHRASE_INDEX_MAKE_TOKEN(15, null_token));
+    if (0 == strcmp ("all", target))
+        pinyin_mask_out (m_pinyin_context, 0x0, 0x0);
+    else if (0 == strcmp ("user", target))
+        pinyin_mask_out (m_pinyin_context, PHRASE_INDEX_LIBRARY_MASK,
+                        PHRASE_INDEX_MAKE_TOKEN (15, null_token));
     else
-        g_warning("unknown clear target: %s.\n", target);
+        g_warning ("unknown clear target: %s.\n", target);
 
+    pinyin_save (m_pinyin_context);
     return TRUE;
 }
 
