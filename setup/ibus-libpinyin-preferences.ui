@@ -1793,7 +1793,7 @@
                           <object class="GtkLabel" id="label28">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Use Lua Script to Customize IME&lt;/b&gt;</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Customize IME&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </object>
                         </child>
