@@ -207,6 +207,7 @@ src/Makefile
 src/libpinyin.xml.in
 setup/Makefile
 setup/ibus-setup-libpinyin
+setup/config.py
 data/Makefile
 data/icons/Makefile
 m4/Makefile

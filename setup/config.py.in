@@ -25,4 +25,4 @@ def get_version():
 
 
 def get_data_dir():
-    return "@datadir@"
+    return "@prefix@/share/@PACKAGE@/"
