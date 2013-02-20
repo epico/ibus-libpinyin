@@ -101,7 +101,7 @@ LibPinyinConfig::initDefaultValues (void)
     m_init_simp_chinese = TRUE;
     m_special_phrases = TRUE;
 
-    m_dictionaries = "2";
+    m_dictionaries = "2;4;5;6;7;8;9;10;11;12;13";
 }
 
 static const struct {
@@ -165,7 +165,7 @@ LibPinyinConfig::readDefaultValues (void)
         g_warn_if_reached ();
     }
     m_ctrl_switch = read(CONFIG_CTRL_SWITCH, false);
-    m_dictionaries = read (CONFIG_DICTIONARIES, std::string("2"));
+    m_dictionaries = read (CONFIG_DICTIONARIES, std::string("2;4;5;6;7;8;9;10;11;12;13"));
 
     /* fuzzy pinyin */
     if (read (CONFIG_FUZZY_PINYIN, false))
@@ -237,7 +237,7 @@ LibPinyinConfig::valueChanged (const std::string &section,
     } else if (CONFIG_CTRL_SWITCH == name) {
         m_ctrl_switch = normalizeGVariant (value, false);
     } else if (CONFIG_DICTIONARIES == name) {
-        m_dictionaries = normalizeGVariant (value, std::string("2"));
+        m_dictionaries = normalizeGVariant (value, std::string("2;4;5;6;7;8;9;10;11;12;13"));
     }
     /* fuzzy pinyin */
     else if (CONFIG_FUZZY_PINYIN == name) {

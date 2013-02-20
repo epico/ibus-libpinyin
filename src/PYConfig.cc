@@ -62,7 +62,7 @@ Config::initDefaultValues (void)
     m_init_simp_chinese = TRUE;
     m_special_phrases = TRUE;
 
-    m_dictionaries = "2";
+    m_dictionaries = "2;4;5;6;7;8;9;10;11;12;13";
 }
 
 
