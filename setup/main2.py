@@ -35,15 +35,12 @@ from xdg import BaseDirectory
 import config
 from dicttreeview import DictionaryTreeView
 
-_ = lambda x : gettext.gettext(x)
+locale.setlocale(locale.LC_ALL, "")
+localedir = os.getenv("IBUS_LOCALEDIR")
+gettext.install('ibus-libpinyin', localedir)
 
 class PreferencesDialog:
     def __init__(self, engine):
-        locale.setlocale(locale.LC_ALL, "")
-        localedir = os.getenv("IBUS_LOCALEDIR")
-        gettext.bindtextdomain("ibus-libpinyin", localedir)
-        gettext.bind_textdomain_codeset("ibus-libpinyin", "UTF-8")
-
         self.__bus = IBus.Bus()
         self.__config = self.__bus.get_config()
         self.__builder = Gtk.Builder()

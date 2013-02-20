@@ -23,7 +23,7 @@ import gettext
 from gi.repository import GObject
 from gi.repository import Gtk
 
-_ = lambda x : gettext.gettext(x)
+gettext.install('ibus-libpinyin')
 
 (
     RESERVED,
