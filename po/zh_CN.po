@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ibus-libpinyin 1.2.99\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-20 11:07+0800\n"
-"PO-Revision-Date: 2013-02-20 11:18+0800\n"
+"PO-Revision-Date: 2013-02-20 15:48+0800\n"
 "Last-Translator: Peng Huang <shawn.p.huang@gmail.com>\n"
 "Language-Team: Peng Huang <shawn.p.huang@gmail.com>\n"
 "Language: \n"
@@ -126,7 +126,7 @@ msgstr "<big><b>IBus 智能拼音 %s</b></big>"
 
 #: ../setup/dicttreeview.py:56
 msgid "Low Frequent Characters"
-msgstr "低频字"
+msgstr "生僻字"
 
 #: ../setup/dicttreeview.py:57
 msgid "Art"
