@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-04 12:07+0800\n"
+"POT-Creation-Date: 2013-02-20 11:07+0800\n"
 "PO-Revision-Date: 2012-03-19 22:13+0100\n"
 "Last-Translator: Ma Jiehong <ma.jiehong@gmail.com>\n"
 "Language-Team: French\n"
@@ -129,20 +129,66 @@ msgstr ""
 msgid "Please use \"hspnz\" to input."
 msgstr ""
 
-#: ../setup/main2.py:358 ../setup/ibus-libpinyin-preferences.ui.h:54
+#: ../setup/main2.py:389
+msgid "Please choose a file"
+msgstr ""
+
+#: ../setup/main2.py:413 ../setup/ibus-libpinyin-preferences.ui.h:63
 #, fuzzy, no-c-format, python-format
 msgid "<big><b>Intelligent Pinyin %s</b></big>"
 msgstr "<big><b>Ibus Pinyin %s</b></big>"
 
-#: ../setup/dicttreeview.py:37
-#, fuzzy
-msgid "GB Dictionary"
-msgstr "Dictionnaire"
+#: ../setup/dicttreeview.py:56
+msgid "Low Frequent Characters"
+msgstr ""
 
-#: ../setup/dicttreeview.py:38
-#, fuzzy
-msgid "GBK Dictionary"
-msgstr "Dictionnaire"
+#: ../setup/dicttreeview.py:57
+msgid "Art"
+msgstr ""
+
+#: ../setup/dicttreeview.py:58
+msgid "Culture"
+msgstr ""
+
+#: ../setup/dicttreeview.py:59
+msgid "Economy"
+msgstr ""
+
+#: ../setup/dicttreeview.py:60
+msgid "Geology"
+msgstr ""
+
+#: ../setup/dicttreeview.py:61
+msgid "History"
+msgstr ""
+
+#: ../setup/dicttreeview.py:62
+msgid "Life"
+msgstr ""
+
+#: ../setup/dicttreeview.py:63
+msgid "Nature"
+msgstr ""
+
+#: ../setup/dicttreeview.py:64
+msgid "SciTech"
+msgstr ""
+
+#: ../setup/dicttreeview.py:65
+msgid "Society"
+msgstr ""
+
+#: ../setup/dicttreeview.py:66
+msgid "Sport"
+msgstr ""
+
+#: ../setup/dicttreeview.py:113
+msgid "Active"
+msgstr ""
+
+#: ../setup/dicttreeview.py:118
+msgid "Description"
+msgstr ""
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:2
 msgid "Language:"
@@ -341,21 +387,60 @@ msgstr "<b>Dictionnaire</b>"
 msgid "Dictionary"
 msgstr "Dictionnaire"
 
+#: ../setup/ibus-libpinyin-preferences.ui.h:53
+msgid "User Lua Script"
+msgstr ""
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:54
+msgid "Edit"
+msgstr ""
+
 #: ../setup/ibus-libpinyin-preferences.ui.h:55
+#, fuzzy
+msgid "<b>Customize IME</b>"
+msgstr "Personalisation"
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:56
+#, fuzzy
+msgid "User Dictionary"
+msgstr "Dictionnaire"
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:57
+msgid "Clear"
+msgstr ""
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:58
+msgid "Import"
+msgstr ""
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:59
+msgid "Clear All Data"
+msgstr ""
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:60
+#, fuzzy
+msgid "<b>User Dictionary</b>"
+msgstr "<b>Dictionnaire</b>"
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:61
+msgid "User data"
+msgstr ""
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:64
 #, fuzzy
 msgid "Intelligent Pinyin input method for IBus"
 msgstr "Méthode de saisie Pinyin pour IBus"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:56
+#: ../setup/ibus-libpinyin-preferences.ui.h:65
 #, fuzzy
 msgid "<small>Copyright (c) 2011-2012 Peng Wu</small>"
 msgstr "<small>Copyright (c) 2009-2010 Peng Huang</small>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:57
+#: ../setup/ibus-libpinyin-preferences.ui.h:66
 msgid "https://github.com/libpinyin/ibus-libpinyin"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:58
+#: ../setup/ibus-libpinyin-preferences.ui.h:67
 #, fuzzy
 msgid ""
 "<small>\n"
@@ -378,57 +463,65 @@ msgstr ""
 "koterpilla, Zerng07\n"
 "</small>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:67
+#: ../setup/ibus-libpinyin-preferences.ui.h:76
 msgid "About"
 msgstr "À propos"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:68
+#: ../setup/ibus-libpinyin-preferences.ui.h:77
 msgid "Standard"
 msgstr "Standard"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:69
+#: ../setup/ibus-libpinyin-preferences.ui.h:78
 msgid "GinYieh"
 msgstr "GinYieh"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:70
+#: ../setup/ibus-libpinyin-preferences.ui.h:79
 msgid "Eten"
 msgstr "Eten"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:71
+#: ../setup/ibus-libpinyin-preferences.ui.h:80
 msgid "IBM"
 msgstr "IBM"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:72
+#: ../setup/ibus-libpinyin-preferences.ui.h:81
 msgid "MSPY"
 msgstr "MSPY"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:73
+#: ../setup/ibus-libpinyin-preferences.ui.h:82
 msgid "ZRM"
 msgstr "ZRM"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:74
+#: ../setup/ibus-libpinyin-preferences.ui.h:83
 msgid "ABC"
 msgstr "ABC"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:75
+#: ../setup/ibus-libpinyin-preferences.ui.h:84
 msgid "ZGPY"
 msgstr "ZGPY"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:76
+#: ../setup/ibus-libpinyin-preferences.ui.h:85
 msgid "PYJJ"
 msgstr "PYJJ"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:77
+#: ../setup/ibus-libpinyin-preferences.ui.h:86
 msgid "XHE"
 msgstr "XHE"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:78
+#: ../setup/ibus-libpinyin-preferences.ui.h:87
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:79
+#: ../setup/ibus-libpinyin-preferences.ui.h:88
 msgid "Vertical"
 msgstr "Vertical"
+
+#, fuzzy
+#~ msgid "GB Dictionary"
+#~ msgstr "Dictionnaire"
+
+#, fuzzy
+#~ msgid "GBK Dictionary"
+#~ msgstr "Dictionnaire"
 
 #~ msgid "Full/Half width"
 #~ msgstr "Chasse"

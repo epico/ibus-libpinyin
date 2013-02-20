@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-libpinyin 1.2.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-04 12:07+0800\n"
+"POT-Creation-Date: 2013-02-20 11:07+0800\n"
 "PO-Revision-Date: 2013-01-04 12:09+0800\n"
 "Last-Translator: Peng Huang <shawn.p.huang@gmail.com>\n"
 "Language-Team: Peng Huang <shawn.p.huang@gmail.com>\n"
@@ -115,18 +115,66 @@ msgstr "请输入英文单词"
 msgid "Please use \"hspnz\" to input."
 msgstr "请用\"hspnz\"笔画输入中文字符"
 
-#: ../setup/main2.py:358 ../setup/ibus-libpinyin-preferences.ui.h:54
+#: ../setup/main2.py:389
+msgid "Please choose a file"
+msgstr ""
+
+#: ../setup/main2.py:413 ../setup/ibus-libpinyin-preferences.ui.h:63
 #, no-c-format, python-format
 msgid "<big><b>Intelligent Pinyin %s</b></big>"
 msgstr "<big><b>IBus 智能拼音 %s</b></big>"
 
-#: ../setup/dicttreeview.py:37
-msgid "GB Dictionary"
-msgstr "GB词典"
+#: ../setup/dicttreeview.py:56
+msgid "Low Frequent Characters"
+msgstr ""
 
-#: ../setup/dicttreeview.py:38
-msgid "GBK Dictionary"
-msgstr "GBK词典"
+#: ../setup/dicttreeview.py:57
+msgid "Art"
+msgstr ""
+
+#: ../setup/dicttreeview.py:58
+msgid "Culture"
+msgstr ""
+
+#: ../setup/dicttreeview.py:59
+msgid "Economy"
+msgstr ""
+
+#: ../setup/dicttreeview.py:60
+msgid "Geology"
+msgstr ""
+
+#: ../setup/dicttreeview.py:61
+msgid "History"
+msgstr ""
+
+#: ../setup/dicttreeview.py:62
+msgid "Life"
+msgstr ""
+
+#: ../setup/dicttreeview.py:63
+msgid "Nature"
+msgstr ""
+
+#: ../setup/dicttreeview.py:64
+msgid "SciTech"
+msgstr ""
+
+#: ../setup/dicttreeview.py:65
+msgid "Society"
+msgstr ""
+
+#: ../setup/dicttreeview.py:66
+msgid "Sport"
+msgstr ""
+
+#: ../setup/dicttreeview.py:113
+msgid "Active"
+msgstr ""
+
+#: ../setup/dicttreeview.py:118
+msgid "Description"
+msgstr ""
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:2
 msgid "Language:"
@@ -324,19 +372,58 @@ msgstr "<b>词典选项</b>"
 msgid "Dictionary"
 msgstr "词典"
 
+#: ../setup/ibus-libpinyin-preferences.ui.h:53
+msgid "User Lua Script"
+msgstr ""
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:54
+msgid "Edit"
+msgstr ""
+
 #: ../setup/ibus-libpinyin-preferences.ui.h:55
+#, fuzzy
+msgid "<b>Customize IME</b>"
+msgstr "<b>输入</b>"
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:56
+#, fuzzy
+msgid "User Dictionary"
+msgstr "词典"
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:57
+msgid "Clear"
+msgstr ""
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:58
+msgid "Import"
+msgstr ""
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:59
+msgid "Clear All Data"
+msgstr ""
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:60
+#, fuzzy
+msgid "<b>User Dictionary</b>"
+msgstr "<b>词典选项</b>"
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:61
+msgid "User data"
+msgstr ""
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:64
 msgid "Intelligent Pinyin input method for IBus"
 msgstr "IBus 智能拼音输入法"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:56
+#: ../setup/ibus-libpinyin-preferences.ui.h:65
 msgid "<small>Copyright (c) 2011-2012 Peng Wu</small>"
 msgstr "<small>版权所有 (c) 2011-2012 吴鹏</small>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:57
+#: ../setup/ibus-libpinyin-preferences.ui.h:66
 msgid "https://github.com/libpinyin/ibus-libpinyin"
 msgstr "https://github.com/libpinyin/ibus-libpinyin"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:58
+#: ../setup/ibus-libpinyin-preferences.ui.h:67
 msgid ""
 "<small>\n"
 "<b>Authors:</b>\n"
@@ -358,57 +445,63 @@ msgstr ""
 "koterpilla, Zerng07\n"
 "</small>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:67
+#: ../setup/ibus-libpinyin-preferences.ui.h:76
 msgid "About"
 msgstr "关于"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:68
+#: ../setup/ibus-libpinyin-preferences.ui.h:77
 msgid "Standard"
 msgstr "标准"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:69
+#: ../setup/ibus-libpinyin-preferences.ui.h:78
 msgid "GinYieh"
 msgstr "精业"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:70
+#: ../setup/ibus-libpinyin-preferences.ui.h:79
 msgid "Eten"
 msgstr "倚天"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:71
+#: ../setup/ibus-libpinyin-preferences.ui.h:80
 msgid "IBM"
 msgstr "IBM"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:72
+#: ../setup/ibus-libpinyin-preferences.ui.h:81
 msgid "MSPY"
 msgstr "微软拼音"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:73
+#: ../setup/ibus-libpinyin-preferences.ui.h:82
 msgid "ZRM"
 msgstr "自然码"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:74
+#: ../setup/ibus-libpinyin-preferences.ui.h:83
 msgid "ABC"
 msgstr "智能ABC"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:75
+#: ../setup/ibus-libpinyin-preferences.ui.h:84
 msgid "ZGPY"
 msgstr "紫光拼音"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:76
+#: ../setup/ibus-libpinyin-preferences.ui.h:85
 msgid "PYJJ"
 msgstr "拼音加加"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:77
+#: ../setup/ibus-libpinyin-preferences.ui.h:86
 msgid "XHE"
 msgstr "小鹤"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:78
+#: ../setup/ibus-libpinyin-preferences.ui.h:87
 msgid "Horizontal"
 msgstr "水平"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:79
+#: ../setup/ibus-libpinyin-preferences.ui.h:88
 msgid "Vertical"
 msgstr "竖直"
+
+#~ msgid "GB Dictionary"
+#~ msgstr "GB词典"
+
+#~ msgid "GBK Dictionary"
+#~ msgstr "GBK词典"
 
 #~ msgid "Full/Half width"
 #~ msgstr "全角/半角"
