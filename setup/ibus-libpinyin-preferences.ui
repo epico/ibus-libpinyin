@@ -1909,6 +1909,37 @@
                                     <property name="position">1</property>
                                   </packing>
                                 </child>
+                                <child>
+                                  <object class="GtkExpander" id="expander1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label33">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="xalign">0.25</property>
+                                        <property name="label" translatable="yes">&lt;b&gt;Dictionary File Format:&lt;/b&gt;
+  Each line contains one of the following:
+    "phrase pinyin" or "phrase pinyin frequency"
+  like "你好 ni'hao" or "你好 ni'hao 100".</property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                    </child>
+                                    <child type="label">
+                                      <object class="GtkLabel" id="label32">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="ypad">1</property>
+                                        <property name="label" translatable="yes">Help</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
                               </object>
                             </child>
                           </object>
