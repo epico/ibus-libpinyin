@@ -70,7 +70,7 @@ LibPinyinBackEnd::initPinyinContext (Config *config)
     g_free (userdir);
 
     const char *dicts = config->dictionaries ().c_str ();
-    gchar ** indices = g_strsplit_set (dicts, "", -1);
+    gchar ** indices = g_strsplit_set (dicts, ";", -1);
     for (size_t i = 0; i < g_strv_length(indices); ++i) {
         int index = atoi (indices [i]);
         if (index <= 1)
@@ -119,7 +119,7 @@ LibPinyinBackEnd::initChewingContext (Config *config)
     g_free(userdir);
 
     const char *dicts = config->dictionaries ().c_str ();
-    gchar ** indices = g_strsplit_set (dicts, "", -1);
+    gchar ** indices = g_strsplit_set (dicts, ";", -1);
     for (size_t i = 0; i < g_strv_length(indices); ++i) {
         int index = atoi (indices [i]);
         if (index <= 1)

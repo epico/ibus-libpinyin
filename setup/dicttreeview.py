@@ -110,12 +110,12 @@ class DictionaryTreeView(Gtk.TreeView):
         # column for toggles
         renderer = Gtk.CellRendererToggle()
         renderer.connect('toggled', self.__active_toggled, self.__model)
-        column = Gtk.TreeViewColumn('Active', renderer, active=COLUMN_ACTIVE, sensitive=COLUMN_SENSITIVE)
+        column = Gtk.TreeViewColumn(_('Active'), renderer, active=COLUMN_ACTIVE, sensitive=COLUMN_SENSITIVE)
         self.append_column(column)
 
         # column for description
         render = Gtk.CellRendererText()
-        column = Gtk.TreeViewColumn('Description', render, text=COLUMN_DESCRIPTION)
+        column = Gtk.TreeViewColumn(_('Description'), render, text=COLUMN_DESCRIPTION)
         self.append_column(column)
 
     def __active_toggled(self, cell, path, model):
