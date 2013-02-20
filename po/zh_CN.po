@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ibus-libpinyin 1.2.99\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-20 11:07+0800\n"
-"PO-Revision-Date: 2013-01-04 12:09+0800\n"
+"PO-Revision-Date: 2013-02-20 11:18+0800\n"
 "Last-Translator: Peng Huang <shawn.p.huang@gmail.com>\n"
 "Language-Team: Peng Huang <shawn.p.huang@gmail.com>\n"
 "Language: \n"
@@ -117,7 +117,7 @@ msgstr "请用\"hspnz\"笔画输入中文字符"
 
 #: ../setup/main2.py:389
 msgid "Please choose a file"
-msgstr ""
+msgstr "请选择文件"
 
 #: ../setup/main2.py:413 ../setup/ibus-libpinyin-preferences.ui.h:63
 #, no-c-format, python-format
@@ -126,55 +126,55 @@ msgstr "<big><b>IBus 智能拼音 %s</b></big>"
 
 #: ../setup/dicttreeview.py:56
 msgid "Low Frequent Characters"
-msgstr ""
+msgstr "低频字"
 
 #: ../setup/dicttreeview.py:57
 msgid "Art"
-msgstr ""
+msgstr "艺术"
 
 #: ../setup/dicttreeview.py:58
 msgid "Culture"
-msgstr ""
+msgstr "文化"
 
 #: ../setup/dicttreeview.py:59
 msgid "Economy"
-msgstr ""
+msgstr "经济"
 
 #: ../setup/dicttreeview.py:60
 msgid "Geology"
-msgstr ""
+msgstr "地理"
 
 #: ../setup/dicttreeview.py:61
 msgid "History"
-msgstr ""
+msgstr "历史"
 
 #: ../setup/dicttreeview.py:62
 msgid "Life"
-msgstr ""
+msgstr "生活"
 
 #: ../setup/dicttreeview.py:63
 msgid "Nature"
-msgstr ""
+msgstr "自然"
 
 #: ../setup/dicttreeview.py:64
 msgid "SciTech"
-msgstr ""
+msgstr "科技"
 
 #: ../setup/dicttreeview.py:65
 msgid "Society"
-msgstr ""
+msgstr "社会"
 
 #: ../setup/dicttreeview.py:66
 msgid "Sport"
-msgstr ""
+msgstr "体育"
 
 #: ../setup/dicttreeview.py:113
 msgid "Active"
-msgstr ""
+msgstr "启用"
 
 #: ../setup/dicttreeview.py:118
 msgid "Description"
-msgstr ""
+msgstr "描述"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:2
 msgid "Language:"
@@ -374,42 +374,39 @@ msgstr "词典"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:53
 msgid "User Lua Script"
-msgstr ""
+msgstr "用户Lua脚本"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:54
 msgid "Edit"
-msgstr ""
+msgstr "编辑"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:55
-#, fuzzy
 msgid "<b>Customize IME</b>"
-msgstr "<b>输入</b>"
+msgstr "<b>定制输入法</b>"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:56
-#, fuzzy
 msgid "User Dictionary"
-msgstr "词典"
+msgstr "用户词典"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:57
 msgid "Clear"
-msgstr ""
+msgstr "清除"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:58
 msgid "Import"
-msgstr ""
+msgstr "导入"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:59
 msgid "Clear All Data"
-msgstr ""
+msgstr "清除所有数据"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:60
-#, fuzzy
 msgid "<b>User Dictionary</b>"
-msgstr "<b>词典选项</b>"
+msgstr "<b>用户词典</b>"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:61
 msgid "User data"
-msgstr ""
+msgstr "用户数据"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:64
 msgid "Intelligent Pinyin input method for IBus"
