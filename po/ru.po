@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-20 11:07+0800\n"
+"POT-Creation-Date: 2013-02-26 11:24+0800\n"
 "PO-Revision-Date: 2009-10-14 09:44+0300\n"
 "Last-Translator: Alexey Kotlyarov <koterpillar@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
@@ -129,11 +129,11 @@ msgstr ""
 msgid "Please use \"hspnz\" to input."
 msgstr ""
 
-#: ../setup/main2.py:389
+#: ../setup/main2.py:386
 msgid "Please choose a file"
 msgstr ""
 
-#: ../setup/main2.py:413 ../setup/ibus-libpinyin-preferences.ui.h:63
+#: ../setup/main2.py:410 ../setup/ibus-libpinyin-preferences.ui.h:68
 #, fuzzy, no-c-format, python-format
 msgid "<big><b>Intelligent Pinyin %s</b></big>"
 msgstr "<big><b>IBus Пиньинь %s</b></big>"
@@ -431,28 +431,40 @@ msgid "Clear All Data"
 msgstr ""
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:60
+msgid ""
+"<b>Dictionary File Format:</b>\n"
+"  Each line contains one of the following:\n"
+"    \"phrase pinyin\" or \"phrase pinyin frequency\"\n"
+"  like \"你好 ni'hao\" or \"你好 ni'hao 100\"."
+msgstr ""
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:64
+msgid "Help"
+msgstr ""
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:65
 #, fuzzy
 msgid "<b>User Dictionary</b>"
 msgstr "<b>Другие</b>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:61
+#: ../setup/ibus-libpinyin-preferences.ui.h:66
 msgid "User data"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:64
+#: ../setup/ibus-libpinyin-preferences.ui.h:69
 #, fuzzy
 msgid "Intelligent Pinyin input method for IBus"
 msgstr "Метод ввода пиньинь для IBus"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:65
+#: ../setup/ibus-libpinyin-preferences.ui.h:70
 msgid "<small>Copyright (c) 2011-2012 Peng Wu</small>"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:66
+#: ../setup/ibus-libpinyin-preferences.ui.h:71
 msgid "https://github.com/libpinyin/ibus-libpinyin"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:67
+#: ../setup/ibus-libpinyin-preferences.ui.h:72
 msgid ""
 "<small>\n"
 "<b>Authors:</b>\n"
@@ -465,55 +477,55 @@ msgid ""
 "</small>"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:76
+#: ../setup/ibus-libpinyin-preferences.ui.h:81
 msgid "About"
 msgstr "О программе"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:77
+#: ../setup/ibus-libpinyin-preferences.ui.h:82
 msgid "Standard"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:78
+#: ../setup/ibus-libpinyin-preferences.ui.h:83
 msgid "GinYieh"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:79
+#: ../setup/ibus-libpinyin-preferences.ui.h:84
 msgid "Eten"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:80
+#: ../setup/ibus-libpinyin-preferences.ui.h:85
 msgid "IBM"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:81
+#: ../setup/ibus-libpinyin-preferences.ui.h:86
 msgid "MSPY"
 msgstr "MSPY"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:82
+#: ../setup/ibus-libpinyin-preferences.ui.h:87
 msgid "ZRM"
 msgstr "ZRM"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:83
+#: ../setup/ibus-libpinyin-preferences.ui.h:88
 msgid "ABC"
 msgstr "ABC"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:84
+#: ../setup/ibus-libpinyin-preferences.ui.h:89
 msgid "ZGPY"
 msgstr "ZGPY"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:85
+#: ../setup/ibus-libpinyin-preferences.ui.h:90
 msgid "PYJJ"
 msgstr "PYJJ"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:86
+#: ../setup/ibus-libpinyin-preferences.ui.h:91
 msgid "XHE"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:87
+#: ../setup/ibus-libpinyin-preferences.ui.h:92
 msgid "Horizontal"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:88
+#: ../setup/ibus-libpinyin-preferences.ui.h:93
 msgid "Vertical"
 msgstr ""
 
