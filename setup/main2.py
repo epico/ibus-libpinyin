@@ -64,7 +64,7 @@ class PreferencesDialog:
             self.__init_general()
             self.__init_bopomofo()
             self.__init_fuzzy()
-            #self.__init_dictionary()
+            self.__init_dictionary()
             #self.__init_user_data()
             self.__init_about()
             self.__convert_fuzzy_pinyin_to_bopomofo()
