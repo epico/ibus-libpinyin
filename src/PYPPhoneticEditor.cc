@@ -341,7 +341,7 @@ LibPinyinPhoneticEditor::getLookupCursor (void)
     guint lookup_cursor = getPinyinCursor ();
 
     /* show candidates when pinyin cursor is at end. */
-    if (lookup_cursor == pinyins->len && m_pinyin_len == m_text.length())
+    if (lookup_cursor == pinyins->len)
         lookup_cursor = 0;
     return lookup_cursor;
 }
