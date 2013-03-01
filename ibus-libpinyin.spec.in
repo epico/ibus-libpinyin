@@ -5,7 +5,7 @@ Summary:    Intelligent Pinyin engine based on libpinyin for IBus
 License:    GPLv2+
 Group:      System Environment/Libraries
 URL:        https://github.com/libpinyin/ibus-libpinyin
-Source0:    https://github.com/downloads/libpinyin/ibus-libpinyin/%{name}-%{version}.tar.gz
+Source0:    http://downloads.sourceforge.net/libpinyin/ibus-libpinyin/%{name}-%{version}.tar.gz
 
 BuildRequires:  gettext-devel
 BuildRequires:  intltool
