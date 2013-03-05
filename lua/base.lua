@@ -229,20 +229,6 @@ _ASCII_IMAGE_TABLE = {
 ]],
 "生日蛋糕"},
 
-["search"] = { [[
-
-　　　　　　　　　　　--\--+--/--
-　　　　　　　　　　　 {　o_o　}
-┏━━━━━━━━━━oOo━(__)━oOo━┓
-　#TO_BE_REPLACED#
-┗━━━━━━━━━━━━━━━━━━┛
-　　　┏━━━━┓　　┏━━━━┓
-　　　┃　搜索　┃　　┃手气不错┃
-　　　┗━━━━┛　　┗━━━━┛
-
-]],
-"搜索"},
-
 }
 
 function print_ascii(input)
@@ -693,98 +679,6 @@ function print_letter(input_string)
   return result
 end
 
--- Dice images.
-_DICE_BITMAPS = {
-
-[[
-/---------\
-|         |
-|         |
-|   (O)   |
-|         |
-|         |
-\---------/
-]],
-
-[[
-/---------\
-|         |
-|    @    |
-|         |
-|    @    |
-|         |
-\---------/
-]],
-
-[[
-/---------\
-|         |
-|  @      |
-|    @    |
-|      @  |
-|         |
-\---------/
-]],
-
-[[
-/---------\
-|         |
-|  @   @  |
-|         |
-|  @   @  |
-|         |
-\---------/
-]],
-
-[[
-/---------\
-|         |
-|  @   @  |
-|    @    |
-|  @   @  |
-|         |
-\---------/
-]],
-
-[[
-/---------\
-|         |
-|  @   @  |
-|  @   @  |
-|  @   @  |
-|         |
-\---------/
-]],
-
-}
-
-math.randomseed(os.time())
-
--- Plays and shows n dices.
-function play_dice(n)
-  n = math.min(n, 6)
-  n = math.max(n, 1)
-  local dice_height = 7
-  local result_lines = {}
-  for i = 1, dice_height do result_lines[i] = "" end
-  for i = 1, n do
-    local index = math.random(1, 6)
-    local dice = _DICE_BITMAPS[index]
-    -- Splits the dice bitmap into lines and appends each line to the
-    -- corresponding line of the result.
-    local lines = ime.split_string(dice, "\n")
-    for i, line in ipairs(lines) do
-      if i > dice_height then break end
-      result_lines[i] = result_lines[i] .. line .. '   '
-    end
-  end
-  -- Merges result lines.
-  for i, line in ipairs(result_lines) do
-    result_lines[i] = ime.trim_string_right(result_lines[i])
-  end
-  local result = "\n" .. ime.join_string(result_lines, "\n") .. "\n"
-  return result
-end
 
 --------------------------
 _ZODIAC_TABLE = {
@@ -845,60 +739,11 @@ function query_zodiac(birthday)
 end
 
 
------
-
--- Print Chinese manuscript grids. width_and_height in "WxH" format.
--- ┏━━━━━━━━━┓
--- ┣━┳━┳━┳━┳━┫
--- ┃　┃　┃　┃　┃　┃
--- ┣━┻━┻━┻━┻━┫
--- ┣━┳━┳━┳━┳━┫
--- ┃　┃　┃　┃　┃　┃
--- ┣━┻━┻━┻━┻━┫
--- ┣━┳━┳━┳━┳━┫
--- ┃　┃　┃　┃　┃　┃
--- ┣━┻━┻━┻━┻━┫
--- ┗━━━━━━━━━┛
-function print_gaozhi(width_and_height)
-  local width
-  local height
-  width_and_height:gsub("([0-9]+)[x%*]([0-9]+)$",
-                        function(w, h)
-                          width = w
-                          height = h
-                        end
-                       )
-  width = math.min(width, 20)
-  width = math.max(width, 1)
-  height = math.min(height, 20)
-  height = math.max(height, 1)
-  local result = "\n"
-  local print_line = function(leading, middle, middle_repeat, ending)
-                       result = result .. leading
-                       for i = 1, middle_repeat do
-                         result = result .. middle
-                       end
-                       result = result .. ending
-                       result = result .. "\n"
-                     end
-  print_line("┏", "━", width * 2 - 1, "┓")
-  for i = 1, height do
-    print_line("┣", "━┳", width - 1, "━┫")
-    print_line("┃", "　┃", width, "")
-    print_line("┣", "━┻", width - 1, "━┫")
-  end
-  print_line("┗", "━", width * 2 - 1, "┛")
-  return result .. "\n"
-end
-
-
 ------------
 ime.register_command("sj", "get_time", "输入时间", "alpha", "输入可选时间，例如12:34")
-ime.register_command("rq", "get_date", "输入日期", "alpha", "输入可选日期，例如2008-08-08")
-ime.register_command("js", "compute", "计算模式", "none", "输入表达式，例如3*log(4+2)")
-ime.register_command("gz", "print_gaozhi", "打印稿纸", "none", "输入稿纸大小，例如2x3")
-ime.register_command("xz", "query_zodiac", "查询星座", "none", "输入您的生日，例如12-14")
-ime.register_command("sz", "play_dice", "掷骰子", "none", "输入骰子个数，例如3")
+ime.register_command("rq", "get_date", "输入日期", "alpha", "输入可选日期，例如2013-01-01")
+ime.register_command("js", "compute", "计算模式", "none", "输入表达式，例如log(2)")
+ime.register_command("xz", "query_zodiac", "查询星座", "none", "输入您的生日，例如12-3")
 ime.register_command("zf", "print_letter", "打印字符", "none", "请输入字母或数字序列，例如hello")
 ime.register_command("hh", "print_ascii", "画画")
 
