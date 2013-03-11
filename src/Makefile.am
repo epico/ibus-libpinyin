@@ -49,9 +49,6 @@ ibus_engine_libpinyin_c_sources = \
 	PYPinyinProperties.cc \
 	PYPunctEditor.cc \
 	PYSimpTradConverter.cc \
-	PYDynamicSpecialPhrase.cc \
-	PYSpecialPhrase.cc \
-	PYSpecialPhraseTable.cc \
 	$(NULL)
 ibus_engine_libpinyin_h_sources = \
 	PYBus.h \
@@ -71,9 +68,6 @@ ibus_engine_libpinyin_h_sources = \
 	PYRegex.h \
 	PYSignal.h \
 	PYSimpTradConverter.h \
-	PYSpecialPhrase.h \
-	PYDynamicSpecialPhrase.h \
-	PYSpecialPhraseTable.h \
 	PYString.h \
 	PYText.h \
 	PYTypes.h \
