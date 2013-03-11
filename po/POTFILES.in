@@ -1,6 +1,5 @@
 src/PYConfig.cc
 src/PYPDoublePinyinEditor.cc
-src/PYDynamicSpecialPhrase.cc
 src/PYEditor.cc
 src/PYEngine.cc
 src/PYExtEditor.cc
@@ -12,8 +11,6 @@ src/PYPPinyinEditor.cc
 src/PYPPinyinEngine.cc
 src/PYPinyinProperties.cc
 src/PYSimpTradConverter.cc
-src/PYSpecialPhrase.cc
-src/PYSpecialPhraseTable.cc
 src/PYEnglishEditor.cc
 src/PYStrokeEditor.cc
 setup/main2.py
