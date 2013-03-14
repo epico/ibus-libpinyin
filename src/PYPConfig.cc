@@ -25,6 +25,8 @@
 #include "PYBus.h"
 #include "PYLibPinyin.h"
 
+using namespace pinyin;
+
 namespace PY {
 
 const gchar * const CONFIG_CORRECT_PINYIN            = "CorrectPinyin";

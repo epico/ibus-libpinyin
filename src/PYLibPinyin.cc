@@ -27,6 +27,7 @@
 
 #define LIBPINYIN_SAVE_TIMEOUT   (5 * 60)
 
+using namespace pinyin;
 using namespace PY;
 
 std::unique_ptr<LibPinyinBackEnd> LibPinyinBackEnd::m_instance;
