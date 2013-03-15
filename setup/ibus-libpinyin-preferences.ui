@@ -1921,7 +1921,7 @@
                                         <property name="label" translatable="yes">&lt;b&gt;Dictionary File Format:&lt;/b&gt;
   Each line contains one of the following:
     "phrase pinyin" or "phrase pinyin frequency"
-  like "你好 ni'hao" or "你好 ni'hao 100".</property>
+  like "你好 ni'hao" or "你好 ni'hao 5".</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
