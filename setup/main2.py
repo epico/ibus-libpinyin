@@ -343,10 +343,10 @@ class PreferencesDialog:
         # dictionary tree view
         self.__dict_treeview = self.__builder.get_object("Dictionaries")
         self.__dict_treeview.show()
-        self.__dict_treeview.set_dictionaries(self.__get_value("Dictionaries", "2;4;5;6;7;8;9;10;11;12;13"))
+        self.__dict_treeview.set_dictionaries(self.__get_value("EnabledDictionaries", "2;4;5;6;7;8;9;10;11;12;13"))
 
         def __notified_dicts_cb(self, param, dialog):
-            dialog.__set_value("Dictionaries", self.get_dictionaries())
+            dialog.__set_value("EnabledDictionaries", self.get_dictionaries())
 
         # connect notify signal
         self.__dict_treeview.connect("notify::dictionaries", __notified_dicts_cb, self)
