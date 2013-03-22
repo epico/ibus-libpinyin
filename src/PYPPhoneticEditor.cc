@@ -32,13 +32,9 @@ LibPinyinPhoneticEditor::LibPinyinPhoneticEditor (PinyinProperties &props,
     m_pinyin_len (0),
     m_lookup_table (m_config.pageSize ())
 {
-    m_candidates = g_array_new(FALSE, TRUE, sizeof(lookup_candidate_t));
 }
 
 LibPinyinPhoneticEditor::~LibPinyinPhoneticEditor (){
-    pinyin_free_candidates (m_instance, m_candidates);
-    g_array_free (m_candidates, TRUE);
-    m_candidates = NULL;
 }
 
 gboolean
@@ -194,25 +190,28 @@ LibPinyinPhoneticEditor::updateLookupTable (void)
 gboolean
 LibPinyinPhoneticEditor::fillLookupTableByPage (void)
 {
+    guint len = 0;
+    pinyin_get_n_candidate (m_instance, &len);
 
     guint filled_nr = m_lookup_table.size ();
     guint page_size = m_lookup_table.pageSize ();
 
     /* fill lookup table by libpinyin get candidates. */
-    guint need_nr = MIN (page_size, m_candidates->len - filled_nr);
+    guint need_nr = MIN (page_size, len - filled_nr);
     g_assert (need_nr >=0);
     if (need_nr == 0)
         return FALSE;
 
     String word;
     for (guint i = filled_nr; i < filled_nr + need_nr; i++) {
-        if (i >= m_candidates->len)  /* no more candidates */
+        if (i >= len)  /* no more candidates */
             break;
 
-        lookup_candidate_t * candidate = &g_array_index
-            (m_candidates, lookup_candidate_t, i);
+        lookup_candidate_t * candidate = NULL;
+        pinyin_get_candidate (m_instance, i, &candidate);
 
-        const gchar * phrase_string = candidate->m_phrase_string;
+        const gchar * phrase_string = NULL;
+        pinyin_get_candidate_string (m_instance, candidate, &phrase_string);
 
         /* show get candidates. */
         if (G_LIKELY (m_props.modeSimp ())) {
@@ -287,7 +286,6 @@ LibPinyinPhoneticEditor::reset (void)
     m_pinyin_len = 0;
     m_lookup_table.clear ();
 
-    pinyin_free_candidates (m_instance, m_candidates);
     pinyin_reset (m_instance);
 
     Editor::reset ();
@@ -297,7 +295,7 @@ void
 LibPinyinPhoneticEditor::update (void)
 {
     guint lookup_cursor = getLookupCursor ();
-    pinyin_get_candidates (m_instance, lookup_cursor, m_candidates);
+    pinyin_guess_candidates (m_instance, lookup_cursor);
 
     updateLookupTable ();
     updatePreeditText ();
@@ -314,15 +312,17 @@ LibPinyinPhoneticEditor::commit (const gchar *str)
 guint
 LibPinyinPhoneticEditor::getPinyinCursor ()
 {
+    guint len = 0;
+    pinyin_get_n_pinyin (m_instance, &len);
+
     /* Translate cursor position to pinyin position. */
-    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
-    guint pinyin_cursor = pinyin_poses->len;
+    guint pinyin_cursor = len;
 
     guint16 prev_end = 0, cur_end;
-    for (size_t i = 0; i < pinyin_poses->len; ++i) {
-        PinyinKeyPos *pos = &g_array_index
-            (pinyin_poses, PinyinKeyPos, i);
-        cur_end = pos->m_raw_end;
+    for (size_t i = 0; i < len; ++i) {
+        PinyinKeyPos *pos = NULL;
+        pinyin_get_pinyin_key_rest (m_instance, i, &pos);
+        pinyin_get_key_rest_positions (m_instance, pos, NULL, &cur_end);
 
         if (prev_end <= m_cursor && m_cursor < cur_end)
             pinyin_cursor = i;
@@ -337,11 +337,12 @@ LibPinyinPhoneticEditor::getPinyinCursor ()
 guint
 LibPinyinPhoneticEditor::getLookupCursor (void)
 {
-    PinyinKeyVector & pinyins = m_instance->m_pinyin_keys;
+    guint len = 0;
+    pinyin_get_n_pinyin (m_instance, &len);
     guint lookup_cursor = getPinyinCursor ();
 
     /* show candidates when pinyin cursor is at end. */
-    if (lookup_cursor == pinyins->len)
+    if (lookup_cursor == len)
         lookup_cursor = 0;
     return lookup_cursor;
 }
@@ -349,37 +350,52 @@ LibPinyinPhoneticEditor::getLookupCursor (void)
 gboolean
 LibPinyinPhoneticEditor::selectCandidate (guint i)
 {
+    guint len = 0;
+    pinyin_get_n_candidate (m_instance, &len);
 
-    if (G_UNLIKELY (i >= m_candidates->len))
+    if (G_UNLIKELY (i >= len))
         return FALSE;
 
     guint lookup_cursor = getLookupCursor ();
 
-    lookup_candidate_t * candidate = &g_array_index
-        (m_candidates, lookup_candidate_t, i);
-    if (BEST_MATCH_CANDIDATE == candidate->m_candidate_type) {
+    lookup_candidate_t * candidate = NULL;
+    pinyin_get_candidate (m_instance, i, &candidate);
+
+    lookup_candidate_type_t type;
+    pinyin_get_candidate_type (m_instance, candidate, &type);
+
+    if (BEST_MATCH_CANDIDATE == type) {
         commit ();
         return TRUE;
     }
 
     lookup_cursor = pinyin_choose_candidate
         (m_instance, lookup_cursor, candidate);
-    if (DIVIDED_CANDIDATE == candidate->m_candidate_type ||
-        RESPLIT_CANDIDATE == candidate->m_candidate_type) {
-        m_text = m_instance->m_raw_full_pinyin;
+
+    if (DIVIDED_CANDIDATE == type ||
+        RESPLIT_CANDIDATE == type) {
+        const gchar * str = NULL;
+        pinyin_get_raw_full_pinyin (m_instance, &str);
+
+        m_text = str;
         updatePinyin ();
     }
     pinyin_guess_sentence (m_instance);
 
-    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
-    if (lookup_cursor == pinyin_poses->len) {
+    len = 0;
+    pinyin_get_n_pinyin (m_instance, &len);
+    if (lookup_cursor == len) {
         pinyin_train(m_instance);
         commit();
         return TRUE;
     }
-    PinyinKeyPos *pos = &g_array_index
-        (pinyin_poses, PinyinKeyPos, lookup_cursor);
-    m_cursor = pos->m_raw_begin;
+
+    PinyinKeyPos *pos = NULL;
+    pinyin_get_pinyin_key_rest (m_instance, lookup_cursor, &pos);
+
+    guint16 begin = 0;
+    pinyin_get_pinyin_key_rest_positions (m_instance, pos, &begin, NULL);
+    m_cursor = begin;
 
     return TRUE;
 }
@@ -476,20 +492,23 @@ LibPinyinPhoneticEditor::moveCursorToEnd (void)
 guint
 LibPinyinPhoneticEditor::getCursorLeftByWord (void)
 {
-    guint cursor;
+    guint16 cursor = 0;
 
     if (G_UNLIKELY (m_cursor > m_pinyin_len)) {
         cursor = m_pinyin_len;
     } else {
-        PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
+        guint len = 0;
+        pinyin_get_n_pinyin (m_instance, &len);
+
         guint pinyin_cursor = getPinyinCursor ();
 
         PinyinKeyPos *pos = NULL;
 
-        if (pinyin_cursor < pinyin_poses->len) {
-            pos = &g_array_index
-                (pinyin_poses, PinyinKeyPos, pinyin_cursor);
-            cursor = pos->m_raw_begin;
+        if (pinyin_cursor < len) {
+            pinyin_get_pinyin_key_rest (m_instance, pinyin_cursor, &pos);
+
+            pinyin_get_pinyin_key_rest_positions
+                (m_instance, pos, &cursor, NULL);
         } else {
             /* at the end of pinyin string. */
             cursor  = m_cursor;
@@ -498,9 +517,10 @@ LibPinyinPhoneticEditor::getCursorLeftByWord (void)
         /* cursor at the begin of one pinyin */
         g_return_val_if_fail (pinyin_cursor > 0, 0);
         if ( cursor == m_cursor) {
-            pos = &g_array_index
-                (pinyin_poses, PinyinKeyPos, pinyin_cursor - 1);
-            cursor = pos->m_raw_begin;
+            pinyin_get_pinyin_key_rest (m_instance, pinyin_cursor - 1, &pos);
+
+            pinyin_get_pinyin_key_rest_positions
+                (m_instance, pos, &cursor, NULL);
         }
     }
 
@@ -510,15 +530,15 @@ LibPinyinPhoneticEditor::getCursorLeftByWord (void)
 guint
 LibPinyinPhoneticEditor::getCursorRightByWord (void)
 {
-    guint cursor;
+    guint16 cursor = 0;
 
     if (G_UNLIKELY (m_cursor > m_pinyin_len)) {
         cursor = m_text.length ();
     } else {
         guint pinyin_cursor = getPinyinCursor ();
-        PinyinKeyPos *pos = &g_array_index
-            (m_instance->m_pinyin_key_rests, PinyinKeyPos, pinyin_cursor);
-        cursor = pos->m_raw_end;
+        PinyinKeyPos *pos = NULL;
+        pinyin_get_pinyin_key_rest (m_instance, pinyin_cursor, &pos);
+        pinyin_get_pinyin_key_rest_positions (m_instance, pos, NULL, &cursor);
     }
 
     return cursor;

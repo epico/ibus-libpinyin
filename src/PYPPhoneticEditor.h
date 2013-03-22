@@ -87,7 +87,6 @@ protected:
 
     /* use LibPinyinBackEnd here. */
     pinyin_instance_t           *m_instance;
-    CandidateVector             m_candidates;
 };
 
 };
