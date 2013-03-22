@@ -143,7 +143,7 @@ void
 LibPinyinFullPinyinEditor::update (void)
 {
     guint lookup_cursor = getLookupCursor ();
-    pinyin_guess_full_pinyin_candidates (m_instance, lookup_cursor, m_candidates);
+    pinyin_guess_full_pinyin_candidates (m_instance, lookup_cursor);
 
     updateLookupTable ();
     updatePreeditText ();

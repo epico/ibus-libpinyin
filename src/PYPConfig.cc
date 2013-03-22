@@ -25,7 +25,6 @@
 #include "PYBus.h"
 #include "PYLibPinyin.h"
 
-using namespace pinyin;
 
 namespace PY {
 

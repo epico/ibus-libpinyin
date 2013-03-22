@@ -358,7 +358,7 @@ LibPinyinBopomofoEditor::updateAuxiliaryText (void)
                              m_cursor < end)) { /* in word */
             /* raw text */
             guint16 length = 0;
-            pinyin_get_key_rest_length (m_instance, pos, &length);
+            pinyin_get_pinyin_key_rest_length (m_instance, pos, &length);
 
             String raw = m_text.substr (cursor, length);
             guint offset = m_cursor - cursor;

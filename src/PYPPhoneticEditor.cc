@@ -322,7 +322,7 @@ LibPinyinPhoneticEditor::getPinyinCursor ()
     for (size_t i = 0; i < len; ++i) {
         PinyinKeyPos *pos = NULL;
         pinyin_get_pinyin_key_rest (m_instance, i, &pos);
-        pinyin_get_key_rest_positions (m_instance, pos, NULL, &cur_end);
+        pinyin_get_pinyin_key_rest_positions (m_instance, pos, NULL, &cur_end);
 
         if (prev_end <= m_cursor && m_cursor < cur_end)
             pinyin_cursor = i;
