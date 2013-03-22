@@ -211,7 +211,7 @@ LibPinyinPinyinEditor::commit ()
 
     /* sentence candidate */
     char *tmp = NULL;
-    pinyin_get_sentence(m_instance, &tmp);
+    pinyin_get_sentence (m_instance, &tmp);
     if (tmp) {
         if (m_props.modeSimp ()) {
             m_buffer << tmp;
@@ -231,7 +231,7 @@ LibPinyinPinyinEditor::commit ()
         m_buffer << p;
     }
 
-    pinyin_train(m_instance);
+    pinyin_train (m_instance);
     LibPinyinBackEnd::instance ().modified ();
     LibPinyinPhoneticEditor::commit ((const gchar *)m_buffer);
     reset();
@@ -248,7 +248,7 @@ LibPinyinPinyinEditor::updatePreeditText ()
 
     m_buffer.clear ();
     char *tmp = NULL;
-    pinyin_get_sentence(m_instance, &tmp);
+    pinyin_get_sentence (m_instance, &tmp);
     if (tmp) {
         if (m_props.modeSimp ()) {
             m_buffer<<tmp;
@@ -282,17 +282,22 @@ LibPinyinPinyinEditor::updateAuxiliaryText ()
     m_buffer.clear ();
 
     /* Note: cursor handling is defered to full/double pinyin editors. */
-    // guint pinyin_cursor = getPinyinCursor ();
-    PinyinKeyVector & pinyin_keys = m_instance->m_pinyin_keys;
-    for (guint i = 0; i < pinyin_keys->len; ++i) {
+
+    guint len = 0;
+    pinyin_get_n_pinyin (m_instance, &len);
+
+    for (guint i = 0; i < len; ++i) {
         if (G_LIKELY (i))
             m_buffer << ' ';
 
-        PinyinKey *key = &g_array_index (pinyin_keys, PinyinKey, i);
+        PinyinKey *key = NULL;
+        pinyin_get_pinyin_key (m_instance, i, &key);
+
         gchar * str = NULL;
-        pinyin_get_pinyin_string(m_instance, key, &str);
+        pinyin_get_pinyin_string (m_instance, key, &str);
+
         m_buffer << str;
-        g_free(str);
+        g_free (str);
     }
 
     /* append rest text */
