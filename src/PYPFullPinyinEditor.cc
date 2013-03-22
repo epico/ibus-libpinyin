@@ -74,7 +74,7 @@ LibPinyinFullPinyinEditor::updatePinyin (void)
         m_pinyin_len = 0;
         /* TODO: check whether to replace "" with NULL. */
         pinyin_parse_more_full_pinyins (m_instance, "");
-        pinyin_guess_sentence(m_instance);
+        pinyin_guess_sentence (m_instance);
         return;
     }
 
@@ -93,31 +93,38 @@ LibPinyinFullPinyinEditor::updateAuxiliaryText ()
 
     m_buffer.clear ();
 
-    // guint pinyin_cursor = getPinyinCursor ();
-    PinyinKeyVector & pinyin_keys = m_instance->m_pinyin_keys;
-    PinyinKeyPosVector & pinyin_poses = m_instance->m_pinyin_key_rests;
-    for (guint i = 0; i < pinyin_keys->len; ++i) {
-        PinyinKey *key = &g_array_index (pinyin_keys, PinyinKey, i);
-        PinyinKeyPos *pos = &g_array_index (pinyin_poses, PinyinKeyPos, i);
-        guint cursor = pos->m_raw_begin;
+    guint len = 0;
+    pinyin_get_n_pinyin (m_instance, &len);
+
+    for (guint i = 0; i < len; ++i) {
+        PinyinKey *key = NULL;
+        pinyin_get_pinyin_key (m_instance, i, &key);
+
+        PinyinKeyPos *pos = NULL;
+        pinyin_get_pinyin_key_rest (m_instance, i, &pos);
+
+        guint16 cursor = 0, end = 0;
+        pinyin_get_pinyin_key_rest_positions (m_instance, pos, &cursor, &end);
 
         gchar * str = NULL;
         if (G_UNLIKELY (cursor == m_cursor)) { /* at word boundary. */
-            pinyin_get_pinyin_string(m_instance, key, &str);
+            pinyin_get_pinyin_string (m_instance, key, &str);
             m_buffer << '|' << str;
-            g_free(str);
-        } else if (G_LIKELY ( cursor < m_cursor &&
-                              m_cursor < pos->m_raw_end )) { /* in word */
+            g_free (str);
+        } else if (G_LIKELY (cursor < m_cursor &&
+                             m_cursor < end)) { /* in word */
+            guint16 length = 0;
+            pinyin_get_pinyin_key_rest_length (m_instance, pos, &length);
+
             /* raw text */
-            String raw = m_text.substr (cursor,
-                                        pos->length ());
+            String raw = m_text.substr (cursor, length);
             guint offset = m_cursor - cursor;
             m_buffer << ' ' << raw.substr (0, offset)
                      << '|' << raw.substr (offset);
         } else { /* other words */
-            pinyin_get_pinyin_string(m_instance, key, &str);
+            pinyin_get_pinyin_string (m_instance, key, &str);
             m_buffer << ' ' << str;
-            g_free(str);
+            g_free (str);
         }
     }
 
@@ -136,7 +143,7 @@ void
 LibPinyinFullPinyinEditor::update (void)
 {
     guint lookup_cursor = getLookupCursor ();
-    pinyin_get_full_pinyin_candidates (m_instance, lookup_cursor, m_candidates);
+    pinyin_guess_full_pinyin_candidates (m_instance, lookup_cursor, m_candidates);
 
     updateLookupTable ();
     updatePreeditText ();

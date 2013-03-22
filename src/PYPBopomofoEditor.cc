@@ -355,7 +355,7 @@ LibPinyinBopomofoEditor::updateAuxiliaryText (void)
             m_buffer << '|' << str;
             g_free (str);
         } else if (G_LIKELY (cursor < m_cursor &&
-                              m_cursor < end)) { /* in word */
+                             m_cursor < end)) { /* in word */
             /* raw text */
             guint16 length = 0;
             pinyin_get_key_rest_length (m_instance, pos, &length);
