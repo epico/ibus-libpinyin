@@ -55,6 +55,16 @@ public:
         ibus_property_set_icon (get<IBusProperty> (), icon);
     }
 
+    void setSymbol (IBusText *text)
+    {
+        ibus_property_set_symbol (get<IBusProperty> (), text);
+    }
+
+    void setSymbol (const gchar *text)
+    {
+        setSymbol (Text (text));
+    }
+
     void setSensitive (gboolean sensitive)
     {
         ibus_property_set_sensitive (get<IBusProperty> (), sensitive);

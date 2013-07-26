@@ -26,6 +26,7 @@
 namespace PY {
 
 #define _(text) (dgettext (GETTEXT_PACKAGE, text))
+#define N_(text) text
 
 PinyinProperties::PinyinProperties (Config & config)
     : m_config (config),
@@ -33,7 +34,7 @@ PinyinProperties::PinyinProperties (Config & config)
       m_mode_full (m_config.initFull ()),
       m_mode_full_punct (m_config.initFullPunct ()),
       m_mode_simp (m_config.initSimpChinese ()),
-      m_prop_chinese ("mode.chinese",
+      m_prop_chinese ("InputMode",
                 PROP_TYPE_NORMAL,
                 StaticText (m_mode_chinese ?
                             _("Chinese") :
@@ -83,6 +84,11 @@ PinyinProperties::PinyinProperties (Config & config)
                 "ibus-setup",
                 StaticText (_("Preferences")))
 {
+    if (m_mode_chinese)
+        m_prop_chinese.setSymbol(N_("中"));
+    else
+        m_prop_chinese.setSymbol(N_("英"));
+
     m_props.append (m_prop_chinese);
     m_props.append (m_prop_full);
     m_props.append (m_prop_full_punct);
@@ -98,6 +104,12 @@ PinyinProperties::toggleModeChinese (void)
     m_prop_chinese.setLabel (m_mode_chinese ?
                              _("Chinese") :
                              _("English"));
+
+    if (m_mode_chinese)
+        m_prop_chinese.setSymbol(N_("中"));
+    else
+        m_prop_chinese.setSymbol(N_("英"));
+
     m_prop_chinese.setIcon (m_mode_chinese ?
                             PKGDATADIR"/icons/chinese.svg" :
                             PKGDATADIR"/icons/english.svg");
