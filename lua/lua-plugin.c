@@ -25,6 +25,15 @@
 
 #include "lua-plugin.h"
 
+#if LUA_VERSION_NUM >= 502
+/* ugly hack for lua 5.2 */
+
+#define lua_open luaL_newstate
+
+#define lua_objlen lua_rawlen
+
+#endif
+
 #define IBUS_ENGINE_PLUGIN_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), IBUS_TYPE_ENGINE_PLUGIN, IBusEnginePluginPrivate))
 
 struct _IBusEnginePluginPrivate{

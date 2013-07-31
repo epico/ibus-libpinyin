@@ -26,6 +26,14 @@
 
 #include "lua-plugin.h"
 
+#if LUA_VERSION_NUM >= 502
+/* ugly hack for lua 5.2 */
+
+#define lua_objlen lua_rawlen
+
+#endif
+
+
 static const luaL_Reg lualibs[] = {
   {"", luaopen_base},
   {LUA_TABLIBNAME, luaopen_table},
