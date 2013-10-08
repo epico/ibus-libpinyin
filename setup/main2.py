@@ -30,7 +30,6 @@ import sys
 from gi.repository import GLib
 from gi.repository import Gtk
 from gi.repository import IBus
-from xdg import BaseDirectory
 
 import config
 from dicttreeview import DictionaryTreeView
@@ -373,7 +372,7 @@ class PreferencesDialog:
 
     def __edit_lua_cb(self, widget):
         import shutil
-        path = os.path.join(BaseDirectory.xdg_config_home, "ibus", "libpinyin")
+        path = os.path.join(GLib.get_user_config_dir(), "ibus", "libpinyin")
         os.path.exists(path) or os.makedirs(path)
         path = os.path.join(path, "user.lua")
         if not os.path.exists(path):
