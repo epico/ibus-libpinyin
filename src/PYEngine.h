@@ -44,6 +44,9 @@ public:
     virtual gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers) = 0;
     virtual void focusIn (void) = 0;
     virtual void focusOut (void) = 0;
+#if IBUS_CHECK_VERSION (1, 5, 4)
+    virtual void setContentType (guint purpose, guint hints) = 0;
+#endif
     virtual void reset (void) = 0;
     virtual void enable (void) = 0;
     virtual void disable (void) = 0;

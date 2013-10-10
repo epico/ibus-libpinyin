@@ -40,6 +40,10 @@ LibPinyinBopomofoEngine::LibPinyinBopomofoEngine (IBusEngine *engine)
 {
     gint i;
 
+#if IBUS_CHECK_VERSION (1, 5, 4)
+    m_input_purpose = IBUS_INPUT_PURPOSE_FREE_FORM;
+#endif
+
     /* create editors */
     m_editors[MODE_INIT].reset (new LibPinyinBopomofoEditor (m_props, LibPinyinBopomofoConfig::instance ()));
     m_editors[MODE_PUNCT].reset (new PunctEditor (m_props, LibPinyinBopomofoConfig::instance ()));
@@ -63,6 +67,11 @@ gboolean
 LibPinyinBopomofoEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 {
     gboolean retval = FALSE;
+
+#if IBUS_CHECK_VERSION (1, 5, 4)
+    if (IBUS_INPUT_PURPOSE_PASSWORD == m_input_purpose)
+        return retval;
+#endif
 
     /* check Shift or Ctrl + Release hotkey,
      * and then ignore other Release key event */
@@ -140,8 +149,21 @@ LibPinyinBopomofoEngine::focusIn (void)
 void
 LibPinyinBopomofoEngine::focusOut (void)
 {
+
+#if IBUS_CHECK_VERSION (1, 5, 4)
+    m_input_purpose = IBUS_INPUT_PURPOSE_FREE_FORM;
+#endif
+
     reset ();
 }
+
+#if IBUS_CHECK_VERSION(1, 5, 4)
+void
+LibPinyinBopomofoEngine::setContentType (guint purpose, guint hints)
+{
+    m_input_purpose = (IBusInputPurpose) purpose;
+}
+#endif
 
 void
 LibPinyinBopomofoEngine::reset (void)

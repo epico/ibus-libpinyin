@@ -37,6 +37,9 @@ public:
     gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
     void focusIn (void);
     void focusOut (void);
+#if IBUS_CHECK_VERSION (1, 5, 4)
+    void setContentType (guint purpose, guint hints);
+#endif
     void reset (void);
     void enable (void);
     void disable (void);
@@ -59,6 +62,10 @@ private:
 
 private:
     PinyinProperties m_props;
+
+#if IBUS_CHECK_VERSION (1, 5, 4)
+    IBusInputPurpose m_input_purpose;
+#endif
 
     guint m_prev_pressed_key;
 
