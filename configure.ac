@@ -54,7 +54,7 @@ AC_PROG_SED
 
 # check ibus
 PKG_CHECK_MODULES(IBUS, [
-    ibus-1.0 >= 1.3.99
+    ibus-1.0 >= 1.4.0
 ])
 
 # check sqlite
