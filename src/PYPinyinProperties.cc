@@ -189,7 +189,7 @@ PinyinProperties::reset (void)
 
 gboolean
 PinyinProperties::propertyActivate (const gchar *prop_name, guint prop_state) {
-    const static std::string mode_chinese ("mode.chinese");
+    const static std::string mode_chinese ("InputMode");
     const static std::string mode_full ("mode.full");
     const static std::string mode_full_punct ("mode.full_punct");
     const static std::string mode_simp ("mode.simp");
