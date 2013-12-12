@@ -85,7 +85,6 @@ ibus_engine_libpinyin_h_sources = \
 	PYPConfig.h \
 	$(NULL)
 
-if IBUS_BUILD_LIBPINYIN
 ibus_engine_libpinyin_c_sources += \
 	PYPConfig.cc \
 	PYLibPinyin.cc \
@@ -97,7 +96,6 @@ ibus_engine_libpinyin_c_sources += \
 	PYPPinyinEngine.cc \
 	PYPBopomofoEngine.cc \
 	$(NULL)
-endif
 
 
 if IBUS_BUILD_LUA_EXTENSION
@@ -152,15 +150,12 @@ ibus_engine_libpinyin_CXXFLAGS += $(LIBUUID_CFLAGS)
 ibus_engine_libpinyin_LDADD += $(LIBUUID_LIBS)
 endif
 
-if IBUS_BUILD_LIBPINYIN
-   ibus_engine_libpinyin_CXXFLAGS += \
-	-DIBUS_BUILD_LIBPINYIN \
+ibus_engine_libpinyin_CXXFLAGS += \
 	-DLIBPINYIN_DATADIR=\"@LIBPINYIN_DATADIR@\/data\" \
 	$(NULL)
-endif
 
 if IBUS_BUILD_LUA_EXTENSION
-    ibus_engine_libpinyin_CXXFLAGS +=  \
+ibus_engine_libpinyin_CXXFLAGS +=  \
 	@LUA_CFLAGS@ \
 	-DIBUS_BUILD_LUA_EXTENSION \
 	-I$(top_srcdir)/lua/ \

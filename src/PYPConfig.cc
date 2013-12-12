@@ -275,12 +275,10 @@ LibPinyinConfig::valueChangedCallback (IBusConfig  *config,
 
     self->valueChanged (section, name, value);
 
-#ifdef IBUS_BUILD_LIBPINYIN
     if (self->m_section == "engine/pinyin")
         LibPinyinBackEnd::instance ().setPinyinOptions (self);
     if (self->m_section == "engine/bopomofo")
         LibPinyinBackEnd::instance ().setChewingOptions (self);
-#endif
 }
 
 static const struct {

@@ -67,8 +67,6 @@ PKG_CHECK_MODULES(LIBPINYIN, [
     libpinyin >= 0.9.91
 ], [enable_libpinyin=yes])
 
-AM_CONDITIONAL(IBUS_BUILD_LIBPINYIN, [test x"$enable_libpinyin" = x"yes"])
-
 LIBPINYIN_DATADIR=`$PKG_CONFIG --variable=pkgdatadir libpinyin`
 
 AC_SUBST(LIBPINYIN_DATADIR)
