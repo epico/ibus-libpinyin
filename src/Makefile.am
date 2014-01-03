@@ -65,7 +65,6 @@ ibus_engine_libpinyin_h_sources = \
 	PYProperty.h \
 	PYPunctEditor.h \
 	PYRawEditor.h \
-	PYRegex.h \
 	PYSignal.h \
 	PYSimpTradConverter.h \
 	PYString.h \
