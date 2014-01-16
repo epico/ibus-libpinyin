@@ -36,6 +36,7 @@ from dicttreeview import DictionaryTreeView
 
 locale.setlocale(locale.LC_ALL, "")
 localedir = os.getenv("IBUS_LOCALEDIR")
+pkgdatadir = os.getenv("IBUS_PKGDATADIR")
 gettext.install('ibus-libpinyin', localedir)
 
 class PreferencesDialog:
@@ -355,7 +356,7 @@ class PreferencesDialog:
         self.__page_user_data.show()
 
         self.__frame_lua_script = self.__builder.get_object("frameLuaScript")
-        path = os.path.join(config.get_data_dir(), 'user.lua')
+        path = os.path.join(pkgdatadir, 'user.lua')
         if not os.access(path, os.R_OK):
             self.__frame_lua_script.hide()
 
@@ -376,7 +377,7 @@ class PreferencesDialog:
         os.path.exists(path) or os.makedirs(path)
         path = os.path.join(path, "user.lua")
         if not os.path.exists(path):
-            src = os.path.join(config.get_data_dir(), "user.lua")
+            src = os.path.join(pkgdatadir, "user.lua")
             shutil.copyfile(src, path)
         os.system("xdg-open %s" % path)
 

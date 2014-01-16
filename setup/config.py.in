@@ -22,7 +22,3 @@
 
 def get_version():
     return "@VERSION@"
-
-
-def get_data_dir():
-    return "@prefix@/share/@PACKAGE@/"

@@ -44,11 +44,13 @@ EXTRA_DIST = \
 test-libpinyin:
 	$(ENV) DBUS_DEBUG=true \
 		   IBUS_LOCALEDIR=@localedir@ \
+		   IBUS_PKGDATADIR=$(pkgdatadir) \
 		   PYTHONPATH=$(abs_top_srcdir):$(pyexecdir) \
 		   $(PYTHON) $(srcdir)/main2.py pinyin
 
 test-libbopomofo:
 	$(ENV) DBUS_DEBUG=true \
 		   IBUS_LOCALEDIR=@localedir@ \
+		   IBUS_PKGDATADIR=$(pkgdatadir) \
 		   PYTHONPATH=$(abs_top_srcdir):$(pyexecdir) \
 		   $(PYTHON) $(srcdir)/main2.py bopomofo
