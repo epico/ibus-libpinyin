@@ -36,7 +36,7 @@ from dicttreeview import DictionaryTreeView
 
 locale.setlocale(locale.LC_ALL, "")
 localedir = os.getenv("IBUS_LOCALEDIR")
-pkgdatadir = os.getenv("IBUS_PKGDATADIR")
+pkgdatadir = os.getenv("IBUS_PKGDATADIR") or "."
 gettext.install('ibus-libpinyin', localedir)
 
 class PreferencesDialog:
