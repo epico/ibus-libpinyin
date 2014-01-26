@@ -71,32 +71,6 @@ LIBPINYIN_DATADIR=`$PKG_CONFIG --variable=pkgdatadir libpinyin`
 
 AC_SUBST(LIBPINYIN_DATADIR)
 
-# check uuid
-AC_CHECK_FUNCS([uuid_create], [], [
-    PKG_CHECK_MODULES(LIBUUID, uuid, [
-        # uuid.pc exist
-        AC_DEFINE(HAVE_LIBUUID, 1, [Define if found libuuid])
-        HAVE_LIBUUID=yes
-    ], [
-        # uuid.pc does not exist
-        uuid_old_LIBS=$LIBS
-        AC_CHECK_HEADERS(uuid/uuid.h, [
-            AC_SEARCH_LIBS(uuid_generate, uuid, [
-                test x"$ac_cv_search_uuid_generate" != x"none required" && LIBUUID_LIBS=$ac_cv_search_uuid_generate
-                AC_DEFINE(HAVE_LIBUUID, 1, [Define if found libuuid])
-                HAVE_LIBUUID=yes
-            ], [
-                AC_MSG_ERROR([Can not find uuid_create and uuid_generate in libc or libuuid])
-            ])
-        ], [
-            AC_MSG_ERROR([Can not find uuid_create and uuid_generate in libc or libuuid])
-        ])
-        LIBS=$uuid_old_LIBS
-    ])
-])
-
-AM_CONDITIONAL(HAVE_LIBUUID, test x"$HAVE_LIBUUID" = x"yes")
-
 # check if ibus_config_get_values, which is available in ibus-1.3.99+ (git master)
 save_CFLAGS="$CFLAGS"
 save_LIBS="$LIBS"

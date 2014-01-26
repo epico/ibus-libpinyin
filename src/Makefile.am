@@ -18,19 +18,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-# @MAINTAINER_MODE_FALSE@skip_gentable=test -f $@ ||
-
-# AM_CFLAGS = \
-# 	@IBUS_CFLAGS@ \
-# 	@SQLITE_CFLAGS@ \
-# 	-DPKGDATADIR=\"$(pkgdatadir)\" \
-# 	$(NULL)
-# AM_CXXFLAGS = $(AM_CFLAGS)
-# AM_LDADD = \
-# 	@IBUS_LIBS@ \
-# 	@SQLITE_LIBS@ \
-# 	$(NULL)
-# 
 
 libexec_PROGRAMS = ibus-engine-libpinyin
 ibus_engine_libpinyin_built_c_sources = \
@@ -143,11 +130,6 @@ ibus_engine_libpinyin_LDADD = \
 	@LIBPINYIN_LIBS@ \
 	@OPENCC_LIBS@ \
 	$(NULL)
-
-if HAVE_LIBUUID
-ibus_engine_libpinyin_CXXFLAGS += $(LIBUUID_CFLAGS)
-ibus_engine_libpinyin_LDADD += $(LIBUUID_LIBS)
-endif
 
 ibus_engine_libpinyin_CXXFLAGS += \
 	-DLIBPINYIN_DATADIR=\"@LIBPINYIN_DATADIR@\/data\" \
