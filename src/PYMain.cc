@@ -115,8 +115,8 @@ start_component (void)
                                                      "us"));
     ibus_component_add_engine (component,
                                ibus_engine_desc_new ("libbopomofo-debug",
-                                                     N_("Intelligent Bopomofo (debug)"),
-                                                     N_("Intelligent Bopomofo input method (debug)"),
+                                                     N_("Bopomofo (debug)"),
+                                                     N_("Bopomofo input method (debug)"),
                                                      "zh_CN",
                                                      "GPL",
                                                      "BYVoid <byvoid1@gmail.com>\n"

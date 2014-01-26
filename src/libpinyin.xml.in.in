@@ -39,8 +39,8 @@
                         </author>
 			<icon>${pkgdatadir}/icons/ibus-bopomofo.svg</icon>
 			<layout>default</layout>
-			<longname>Intelligent Bopomofo</longname>
-			<description>Intelligent Bopomofo input method</description>
+			<longname>Bopomofo</longname>
+			<description>Bopomofo input method</description>
 			<rank>98</rank>
 			<symbol>&#x3109;</symbol>
 			<setup>${libexecdir}/ibus-setup-libpinyin bopomofo</setup>
