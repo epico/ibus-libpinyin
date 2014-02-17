@@ -37,15 +37,17 @@ GType   ibus_pinyin_engine_get_type    (void);
 
 class Engine {
 public:
-    Engine (IBusEngine *engine) : m_engine (engine) { }
+    Engine (IBusEngine *engine);
     virtual ~Engine (void);
+
+    gboolean contentIsPassword();
 
     // virtual functions
     virtual gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers) = 0;
     virtual void focusIn (void) = 0;
-    virtual void focusOut (void) = 0;
+    virtual void focusOut (void);
 #if IBUS_CHECK_VERSION (1, 5, 4)
-    virtual void setContentType (guint purpose, guint hints) = 0;
+    virtual void setContentType (guint purpose, guint hints);
 #endif
     virtual void reset (void) = 0;
     virtual void enable (void) = 0;
@@ -125,6 +127,11 @@ protected:
 
 protected:
     Pointer<IBusEngine>  m_engine;      // engine pointer
+
+#if IBUS_CHECK_VERSION (1, 5, 4)
+    IBusInputPurpose m_input_purpose;
+#endif
+
 };
 
 };

@@ -246,6 +246,39 @@ FUNCTION(cursor_up,   cursorUp)
 FUNCTION(cursor_down, cursorDown)
 #undef FUNCTION
 
+Engine::Engine (IBusEngine *engine) : m_engine (engine)
+{
+#if IBUS_CHECK_VERSION (1, 5, 4)
+    m_input_purpose = IBUS_INPUT_PURPOSE_FREE_FORM;
+#endif
+}
+
+gboolean
+Engine::contentIsPassword()
+{
+#if IBUS_CHECK_VERSION (1, 5, 4)
+   return IBUS_INPUT_PURPOSE_PASSWORD == m_input_purpose;
+#else
+   return FALSE;
+#endif
+}
+
+void
+Engine::focusOut (void)
+{
+#if IBUS_CHECK_VERSION (1, 5, 4)
+    m_input_purpose = IBUS_INPUT_PURPOSE_FREE_FORM;
+#endif
+}
+
+#if IBUS_CHECK_VERSION(1, 5, 4)
+void
+Engine::setContentType (guint purpose, guint hints)
+{
+    m_input_purpose = (IBusInputPurpose) purpose;
+}
+#endif
+
 Engine::~Engine (void)
 {
 }

@@ -50,10 +50,6 @@ LibPinyinPinyinEngine::LibPinyinPinyinEngine (IBusEngine *engine)
 {
     gint i;
 
-#if IBUS_CHECK_VERSION (1, 5, 4)
-    m_input_purpose = IBUS_INPUT_PURPOSE_FREE_FORM;
-#endif
-
     m_double_pinyin = LibPinyinPinyinConfig::instance ().doublePinyin ();
 
     if (m_double_pinyin)
@@ -104,10 +100,8 @@ LibPinyinPinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modif
 {
     gboolean retval = FALSE;
 
-#if IBUS_CHECK_VERSION (1, 5, 4)
-    if (IBUS_INPUT_PURPOSE_PASSWORD == m_input_purpose)
+    if (contentIsPassword ())
         return retval;
-#endif
 
     /* check Shift or Ctrl + Release hotkey,
      * and then ignore other Release key event */
@@ -231,21 +225,10 @@ LibPinyinPinyinEngine::focusIn (void)
 void
 LibPinyinPinyinEngine::focusOut (void)
 {
-
-#if IBUS_CHECK_VERSION (1, 5, 4)
-    m_input_purpose = IBUS_INPUT_PURPOSE_FREE_FORM;
-#endif
+    Engine::focusOut ();
 
     reset ();
 }
-
-#if IBUS_CHECK_VERSION(1, 5, 4)
-void
-LibPinyinPinyinEngine::setContentType (guint purpose, guint hints)
-{
-    m_input_purpose = (IBusInputPurpose) purpose;
-}
-#endif
 
 void
 LibPinyinPinyinEngine::reset (void)
