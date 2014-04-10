@@ -41,7 +41,7 @@ protected:
 
 public:
     std::string dictionaries (void) const       { return m_dictionaries; }
-    guint option (void) const                   { return m_option & m_option_mask; }
+    pinyin_option_t option (void) const         { return m_option & m_option_mask; }
     guint orientation (void) const              { return m_orientation; }
     guint pageSize (void) const                 { return m_page_size; }
     gboolean ctrlSwitch(void) const             { return m_ctrl_switch; }
@@ -84,8 +84,8 @@ private:
 protected:
     std::string m_section;
     std::string m_dictionaries;
-    guint m_option;
-    guint m_option_mask;
+    pinyin_option_t m_option;
+    pinyin_option_t m_option_mask;
 
     gint m_orientation;
     guint m_page_size;

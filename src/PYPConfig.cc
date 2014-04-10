@@ -55,7 +55,7 @@ const gchar * const CONFIG_ENTER_KEY                 = "EnterKey";
 const gchar * const CONFIG_IMPORT_DICTIONARY         = "ImportDictionary";
 const gchar * const CONFIG_CLEAR_USER_DATA           = "ClearUserData";
 
-const guint PINYIN_DEFAULT_OPTION =
+const pinyin_option_t PINYIN_DEFAULT_OPTION =
         PINYIN_INCOMPLETE |
         CHEWING_INCOMPLETE|
         PINYIN_CORRECT_ALL|
