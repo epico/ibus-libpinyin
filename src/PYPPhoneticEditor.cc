@@ -468,7 +468,7 @@ gboolean
 LibPinyinPhoneticEditor::moveCursorToBegin (void)
 {
     if (G_UNLIKELY (m_cursor == 0))
-        return TRUE;
+        return FALSE;
 
     m_cursor = 0;
     update ();
