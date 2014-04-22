@@ -33,7 +33,7 @@ class LibPinyinBopomofoEditor : public LibPinyinPhoneticEditor {
 
 public:
     LibPinyinBopomofoEditor (PinyinProperties & props, Config & config);
-    ~LibPinyinBopomofoEditor (void);
+    virtual ~LibPinyinBopomofoEditor (void);
 
 protected:
     String bopomofo;
