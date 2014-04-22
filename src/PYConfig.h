@@ -27,6 +27,7 @@
 
 #include <string>
 #include <ibus.h>
+#include <pinyin.h>
 #include "PYUtil.h"
 #include "PYObject.h"
 
