@@ -115,5 +115,30 @@ protected:
     gboolean m_enter_key;
 };
 
+
+static inline bool
+normalizeGVariant (GVariant *value, bool defval)
+{
+    if (value == NULL || g_variant_classify (value) != G_VARIANT_CLASS_BOOLEAN)
+        return defval;
+    return g_variant_get_boolean (value);
+}
+
+static inline gint
+normalizeGVariant (GVariant *value, gint defval)
+{
+    if (value == NULL || g_variant_classify (value) != G_VARIANT_CLASS_INT32)
+        return defval;
+    return g_variant_get_int32 (value);
+}
+
+static inline std::string
+normalizeGVariant (GVariant *value, const std::string &defval)
+{
+    if (value == NULL || g_variant_classify (value) != G_VARIANT_CLASS_STRING)
+        return defval;
+    return g_variant_get_string (value, NULL);
+}
+
 };
 #endif
