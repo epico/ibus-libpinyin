@@ -35,8 +35,8 @@ class Config;
 class LibPinyinBackEnd{
 
 public:
-    LibPinyinBackEnd();
-    ~LibPinyinBackEnd();
+    LibPinyinBackEnd ();
+    virtual ~LibPinyinBackEnd ();
 
     gboolean setPinyinOptions (Config *config);
     gboolean setChewingOptions (Config *config);
@@ -50,8 +50,8 @@ public:
     void freeChewingInstance (pinyin_instance_t *instance);
     void modified (void);
 
-    gboolean importPinyinDictionary(const char * filename);
-    gboolean clearPinyinUserData(const char * target);
+    gboolean importPinyinDictionary (const char * filename);
+    gboolean clearPinyinUserData (const char * target);
 
     /* use static initializer in C++. */
     static LibPinyinBackEnd & instance (void) { return *m_instance; }

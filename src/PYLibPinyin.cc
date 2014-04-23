@@ -35,7 +35,7 @@ static LibPinyinBackEnd libpinyin_backend;
 
 LibPinyinBackEnd::LibPinyinBackEnd () {
     m_timeout_id = 0;
-    m_timer = g_timer_new();
+    m_timer = g_timer_new ();
     m_pinyin_context = NULL;
     m_chewing_context = NULL;
 }
@@ -64,7 +64,7 @@ LibPinyinBackEnd::initPinyinContext (Config *config)
                                         "ibus", "libpinyin", NULL);
     int retval = g_mkdir_with_parents (userdir, 0700);
     if (retval) {
-        g_free(userdir); userdir = NULL;
+        g_free (userdir); userdir = NULL;
     }
     context = pinyin_init (LIBPINYIN_DATADIR, userdir);
     g_free (userdir);
