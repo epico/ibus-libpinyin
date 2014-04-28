@@ -84,7 +84,7 @@ LibPinyinFullPinyinEditor::updatePinyin (void)
 }
 
 void
-LibPinyinFullPinyinEditor::updateAuxiliaryText ()
+LibPinyinFullPinyinEditor::updateAuxiliaryText (void)
 {
     if (G_UNLIKELY (m_text.empty ())) {
         hideAuxiliaryText ();
