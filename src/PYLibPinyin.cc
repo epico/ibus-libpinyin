@@ -177,32 +177,14 @@ LibPinyinBackEnd::setPinyinOptions (Config *config)
     return TRUE;
 }
 
-/* Here are the chewing keyboard scheme mapping table. */
-static const struct {
-    gint bopomofo_keyboard;
-    ChewingScheme scheme;
-} chewing_options [] = {
-    {0, CHEWING_STANDARD},
-    {1, CHEWING_GINYIEH},
-    {2, CHEWING_ETEN},
-    {3, CHEWING_IBM}
-};
-
-
 gboolean
 LibPinyinBackEnd::setChewingOptions (Config *config)
 {
     if (NULL == m_chewing_context)
         return FALSE;
 
-    const gint map = config->bopomofoKeyboardMapping ();
-    for (guint i = 0; i < G_N_ELEMENTS (chewing_options); i++) {
-        if (map == chewing_options[i].bopomofo_keyboard) {
-            /* TODO: set chewing scheme. */
-            ChewingScheme scheme = chewing_options[i].scheme;
-            pinyin_set_chewing_scheme (m_chewing_context, scheme);
-        }
-    }
+    ChewingScheme scheme = config->bopomofoKeyboardMapping ();
+    pinyin_set_chewing_scheme (m_chewing_context, scheme);
 
     pinyin_option_t options = config->option() | USE_TONE;
     pinyin_set_options(m_chewing_context, options);

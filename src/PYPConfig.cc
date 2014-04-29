@@ -428,6 +428,17 @@ LibPinyinPinyinConfig::valueChanged (const std::string &section,
     return TRUE;
 }
 
+/* Here are the chewing keyboard scheme mapping table. */
+static const struct {
+    gint bopomofo_keyboard;
+    ChewingScheme scheme;
+} chewing_schemes [] = {
+    {0, CHEWING_STANDARD},
+    {1, CHEWING_GINYIEH},
+    {2, CHEWING_ETEN},
+    {3, CHEWING_IBM}
+};
+
 LibPinyinBopomofoConfig::LibPinyinBopomofoConfig (Bus & bus)
     : LibPinyinConfig (bus, "bopomofo")
 {
@@ -455,7 +466,15 @@ LibPinyinBopomofoConfig::readDefaultValues (void)
 
     m_special_phrases = read (CONFIG_SPECIAL_PHRASES, false);
 
-    m_bopomofo_keyboard_mapping = read (CONFIG_BOPOMOFO_KEYBOARD_MAPPING, 0);
+    const gint map = read (CONFIG_BOPOMOFO_KEYBOARD_MAPPING, 0);
+    m_bopomofo_keyboard_mapping = CHEWING_DEFAULT;
+
+    for (guint i = 0; i < G_N_ELEMENTS (chewing_schemes); i++) {
+        if (map == chewing_schemes[i].bopomofo_keyboard) {
+            /* set chewing scheme. */
+            m_bopomofo_keyboard_mapping = chewing_schemes[i].scheme;
+        }
+    }
 
     m_select_keys = read (CONFIG_SELECT_KEYS, 0);
     if (m_select_keys >= 9) m_select_keys = 0;
@@ -488,9 +507,17 @@ LibPinyinBopomofoConfig::valueChanged (const std::string &section,
         m_init_simp_chinese = normalizeGVariant (value, false);
     else if (CONFIG_SPECIAL_PHRASES == name)
         m_special_phrases = normalizeGVariant (value, false);
-    else if (CONFIG_BOPOMOFO_KEYBOARD_MAPPING == name)
-        m_bopomofo_keyboard_mapping = normalizeGVariant (value, 0);
-    else if (CONFIG_SELECT_KEYS == name) {
+    else if (CONFIG_BOPOMOFO_KEYBOARD_MAPPING == name) {
+        const gint map = normalizeGVariant (value, 0);
+        m_bopomofo_keyboard_mapping = CHEWING_DEFAULT;
+
+        for (guint i = 0; i < G_N_ELEMENTS (chewing_schemes); i++) {
+            if (map == chewing_schemes[i].bopomofo_keyboard) {
+                /* set chewing scheme. */
+                m_bopomofo_keyboard_mapping = chewing_schemes[i].scheme;
+            }
+        }
+    } else if (CONFIG_SELECT_KEYS == name) {
         m_select_keys = normalizeGVariant (value, 0);
         if (m_select_keys >= 9) m_select_keys = 0;
     }
