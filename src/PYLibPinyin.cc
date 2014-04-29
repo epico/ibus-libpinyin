@@ -162,33 +162,14 @@ LibPinyinBackEnd::finalize (void) {
     m_instance.reset ();
 }
 
-/* Here are the double pinyin keyboard scheme mapping table. */
-static const struct{
-    gint double_pinyin_keyboard;
-    DoublePinyinScheme scheme;
-} double_pinyin_options [] = {
-    {0, DOUBLE_PINYIN_MS},
-    {1, DOUBLE_PINYIN_ZRM},
-    {2, DOUBLE_PINYIN_ABC},
-    {3, DOUBLE_PINYIN_ZIGUANG},
-    {4, DOUBLE_PINYIN_PYJJ},
-    {5, DOUBLE_PINYIN_XHE}
-};
-
 gboolean
 LibPinyinBackEnd::setPinyinOptions (Config *config)
 {
     if (NULL == m_pinyin_context)
         return FALSE;
 
-    const gint map = config->doublePinyinSchema ();
-    for (guint i = 0; i < G_N_ELEMENTS (double_pinyin_options); i++) {
-        if (map == double_pinyin_options[i].double_pinyin_keyboard) {
-            /* set double pinyin scheme. */
-            DoublePinyinScheme scheme = double_pinyin_options[i].scheme;
-            pinyin_set_double_pinyin_scheme (m_pinyin_context, scheme);
-        }
-    }
+    DoublePinyinScheme scheme = config->doublePinyinSchema ();
+    pinyin_set_double_pinyin_scheme (m_pinyin_context, scheme);
 
     pinyin_option_t options = config->option()
         | USE_RESPLIT_TABLE | USE_DIVIDED_TABLE;

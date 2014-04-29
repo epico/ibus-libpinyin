@@ -53,7 +53,7 @@ Config::initDefaultValues (void)
     m_auto_commit = FALSE;
 
     m_double_pinyin = FALSE;
-    m_double_pinyin_schema = 0;
+    m_double_pinyin_schema = DOUBLE_PINYIN_DEFAULT;
     m_double_pinyin_show_raw = FALSE;
 
     m_init_chinese = TRUE;

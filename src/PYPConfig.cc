@@ -93,7 +93,7 @@ LibPinyinConfig::initDefaultValues (void)
     m_auto_commit = FALSE;
 
     m_double_pinyin = FALSE;
-    m_double_pinyin_schema = 0;
+    m_double_pinyin_schema = DOUBLE_PINYIN_DEFAULT;
     m_double_pinyin_show_raw = FALSE;
 
     m_init_chinese = TRUE;
@@ -273,6 +273,19 @@ static const struct {
     { "CorrectPinyin_ON_ONG",   PINYIN_CORRECT_ON_ONG   },
 };
 
+/* Here are the double pinyin keyboard scheme mapping table. */
+static const struct{
+    gint double_pinyin_keyboard;
+    DoublePinyinScheme scheme;
+} double_pinyin_schemes [] = {
+    {0, DOUBLE_PINYIN_MS},
+    {1, DOUBLE_PINYIN_ZRM},
+    {2, DOUBLE_PINYIN_ABC},
+    {3, DOUBLE_PINYIN_ZIGUANG},
+    {4, DOUBLE_PINYIN_PYJJ},
+    {5, DOUBLE_PINYIN_XHE}
+};
+
 LibPinyinPinyinConfig::LibPinyinPinyinConfig (Bus & bus)
     : LibPinyinConfig (bus, "pinyin")
 {
@@ -294,11 +307,17 @@ LibPinyinPinyinConfig::readDefaultValues (void)
 #if !defined(HAVE_IBUS_CONFIG_GET_VALUES)
     /* double pinyin */
     m_double_pinyin = read (CONFIG_DOUBLE_PINYIN, false);
-    m_double_pinyin_schema = read (CONFIG_DOUBLE_PINYIN_SCHEMA, 0);
-    if (m_double_pinyin_schema > DOUBLE_PINYIN_LAST) {
-        m_double_pinyin_schema = 0;
-        g_warn_if_reached ();
+
+    const gint map = read (CONFIG_DOUBLE_PINYIN_SCHEMA, 0);
+    m_double_pinyin_schema = DOUBLE_PINYIN_DEFAULT;
+
+    for (guint i = 0; i < G_N_ELEMENTS (double_pinyin_schemes); i++) {
+        if (map == double_pinyin_schemes[i].double_pinyin_keyboard) {
+            /* set double pinyin scheme. */
+            m_double_pinyin_schema = double_pinyin_schemes[i].scheme;
+        }
     }
+
     m_double_pinyin_show_raw = read (CONFIG_DOUBLE_PINYIN_SHOW_RAW, false);
 
     /* init states */
@@ -347,13 +366,15 @@ LibPinyinPinyinConfig::valueChanged (const std::string &section,
     if (CONFIG_DOUBLE_PINYIN == name)
         m_double_pinyin = normalizeGVariant (value, false);
     else if (CONFIG_DOUBLE_PINYIN_SCHEMA == name) {
-        m_double_pinyin_schema = normalizeGVariant (value, 0);
-#if 0
-        if (m_double_pinyin_schema > DOUBLE_PINYIN_LAST) {
-            m_double_pinyin_schema = 0;
-            g_warn_if_reached ();
+        const gint map = normalizeGVariant (value, 0);
+        m_double_pinyin_schema = DOUBLE_PINYIN_DEFAULT;
+
+        for (guint i = 0; i < G_N_ELEMENTS (double_pinyin_schemes); i++) {
+            if (map == double_pinyin_schemes[i].double_pinyin_keyboard) {
+                /* set double pinyin scheme. */
+                m_double_pinyin_schema = double_pinyin_schemes[i].scheme;
+            }
         }
-#endif
     }
     else if (CONFIG_DOUBLE_PINYIN_SHOW_RAW == name)
         m_double_pinyin_show_raw = normalizeGVariant (value, false);

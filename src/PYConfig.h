@@ -51,7 +51,7 @@ public:
     gboolean commaPeriodPage (void) const       { return m_comma_period_page; }
     gboolean autoCommit (void) const            { return m_auto_commit; }
     gboolean doublePinyin (void) const          { return m_double_pinyin; }
-    gint doublePinyinSchema (void) const        { return m_double_pinyin_schema; }
+    DoublePinyinScheme doublePinyinSchema (void) const { return m_double_pinyin_schema; }
     gboolean doublePinyinShowRaw (void) const   { return m_double_pinyin_show_raw; }
     gboolean initChinese (void) const           { return m_init_chinese; }
     gboolean initFull (void) const              { return m_init_full; }
@@ -97,7 +97,7 @@ protected:
     gboolean m_auto_commit;
 
     gboolean m_double_pinyin;
-    gint m_double_pinyin_schema;
+    DoublePinyinScheme m_double_pinyin_schema;
     gboolean m_double_pinyin_show_raw;
 
     gboolean m_init_chinese;
