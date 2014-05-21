@@ -26,10 +26,10 @@
 #include "PYPinyinProperties.h"
 
 namespace PY {
-class LibPinyinPinyinEngine : public Engine {
+class PinyinEngine : public Engine {
 public:
-    LibPinyinPinyinEngine (IBusEngine *engine);
-    ~LibPinyinPinyinEngine (void);
+    PinyinEngine (IBusEngine *engine);
+    ~PinyinEngine (void);
 
     //virtual functions
     gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);

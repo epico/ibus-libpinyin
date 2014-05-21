@@ -89,7 +89,7 @@ LibPinyinBackEnd::initPinyinContext (Config *config)
 pinyin_instance_t *
 LibPinyinBackEnd::allocPinyinInstance ()
 {
-    Config * config = &LibPinyinPinyinConfig::instance ();
+    Config * config = &PinyinConfig::instance ();
     if (NULL == m_pinyin_context) {
         m_pinyin_context = initPinyinContext (config);
     }
@@ -135,7 +135,7 @@ LibPinyinBackEnd::initChewingContext (Config *config)
 pinyin_instance_t *
 LibPinyinBackEnd::allocChewingInstance ()
 {
-    Config *config = &LibPinyinBopomofoConfig::instance ();
+    Config *config = &BopomofoConfig::instance ();
     if (NULL == m_chewing_context) {
         m_chewing_context = initChewingContext (config);
     }

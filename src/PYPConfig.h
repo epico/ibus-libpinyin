@@ -61,13 +61,13 @@ protected:
 };
 
 /* PinyinConfig */
-class LibPinyinPinyinConfig : public LibPinyinConfig {
+class PinyinConfig : public LibPinyinConfig {
 public:
     static void init (Bus & bus);
-    static LibPinyinPinyinConfig & instance (void) { return *m_instance; }
+    static PinyinConfig & instance (void) { return *m_instance; }
 
 protected:
-    LibPinyinPinyinConfig (Bus & bus);
+    PinyinConfig (Bus & bus);
     virtual void readDefaultValues (void);
 
     virtual gboolean valueChanged (const std::string &section,
@@ -75,17 +75,17 @@ protected:
                                    GVariant          *value);
 
 private:
-    static std::unique_ptr<LibPinyinPinyinConfig> m_instance;
+    static std::unique_ptr<PinyinConfig> m_instance;
 };
 
 /* Bopomof Config */
-class LibPinyinBopomofoConfig : public LibPinyinConfig {
+class BopomofoConfig : public LibPinyinConfig {
 public:
     static void init (Bus & bus);
-    static LibPinyinBopomofoConfig & instance (void) { return *m_instance; }
+    static BopomofoConfig & instance (void) { return *m_instance; }
 
 protected:
-    LibPinyinBopomofoConfig (Bus & bus);
+    BopomofoConfig (Bus & bus);
     virtual void readDefaultValues (void);
 
     virtual gboolean valueChanged (const std::string &section,
@@ -93,7 +93,7 @@ protected:
                                    GVariant          *value);
 
 private:
-    static std::unique_ptr<LibPinyinBopomofoConfig> m_instance;
+    static std::unique_ptr<BopomofoConfig> m_instance;
 };
 
 };

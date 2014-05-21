@@ -88,8 +88,8 @@ start_component (void)
 
     LibPinyinBackEnd::init ();
 
-    LibPinyinPinyinConfig::init (bus);
-    LibPinyinBopomofoConfig::init (bus);
+    PinyinConfig::init (bus);
+    BopomofoConfig::init (bus);
 
     g_signal_connect ((IBusBus *)bus, "disconnected", G_CALLBACK (ibus_disconnected_cb), NULL);
 

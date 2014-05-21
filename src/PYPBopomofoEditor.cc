@@ -40,29 +40,29 @@ const static gchar * bopomofo_select_keys[] = {
     "qweasdzxcr"
 };
 
-LibPinyinBopomofoEditor::LibPinyinBopomofoEditor
+BopomofoEditor::BopomofoEditor
 (PinyinProperties & props, Config & config)
-    : LibPinyinPhoneticEditor (props, config),
+    : PhoneticEditor (props, config),
       m_select_mode (FALSE)
 {
     m_instance = LibPinyinBackEnd::instance ().allocChewingInstance ();
 }
 
-LibPinyinBopomofoEditor::~LibPinyinBopomofoEditor (void)
+BopomofoEditor::~BopomofoEditor (void)
 {
     LibPinyinBackEnd::instance ().freeChewingInstance (m_instance);
     m_instance = NULL;
 }
 
 void
-LibPinyinBopomofoEditor::reset (void)
+BopomofoEditor::reset (void)
 {
     m_select_mode = FALSE;
-    LibPinyinPhoneticEditor::reset ();
+    PhoneticEditor::reset ();
 }
 
 gboolean
-LibPinyinBopomofoEditor::insert (gint ch)
+BopomofoEditor::insert (gint ch)
 {
     /* is full */
     if (G_UNLIKELY (m_text.length () >= MAX_PINYIN_LEN))
@@ -77,7 +77,7 @@ LibPinyinBopomofoEditor::insert (gint ch)
 
 
 gboolean
-LibPinyinBopomofoEditor::processGuideKey (guint keyval, guint keycode,
+BopomofoEditor::processGuideKey (guint keyval, guint keycode,
                                           guint modifiers)
 {
     if (!m_config.guideKey ())
@@ -99,7 +99,7 @@ LibPinyinBopomofoEditor::processGuideKey (guint keyval, guint keycode,
 }
 
 gboolean
-LibPinyinBopomofoEditor::processAuxiliarySelectKey
+BopomofoEditor::processAuxiliarySelectKey
 (guint keyval, guint keycode, guint modifiers)
 {
     if (G_UNLIKELY (cmshm_filter (modifiers) != 0))
@@ -135,7 +135,7 @@ LibPinyinBopomofoEditor::processAuxiliarySelectKey
 }
 
 gboolean
-LibPinyinBopomofoEditor::processSelectKey (guint keyval, guint keycode,
+BopomofoEditor::processSelectKey (guint keyval, guint keycode,
                                            guint modifiers)
 {
     if (G_UNLIKELY (!m_text))
@@ -164,7 +164,7 @@ LibPinyinBopomofoEditor::processSelectKey (guint keyval, guint keycode,
 }
 
 gboolean
-LibPinyinBopomofoEditor::processBopomofo (guint keyval, guint keycode,
+BopomofoEditor::processBopomofo (guint keyval, guint keycode,
                                           guint modifiers)
 {
     if (G_UNLIKELY (cmshm_filter (modifiers) != 0))
@@ -182,7 +182,7 @@ LibPinyinBopomofoEditor::processBopomofo (guint keyval, guint keycode,
 }
 
 gboolean
-LibPinyinBopomofoEditor::processKeyEvent (guint keyval, guint keycode,
+BopomofoEditor::processKeyEvent (guint keyval, guint keycode,
                                           guint modifiers)
 {
     modifiers &= (IBUS_SHIFT_MASK |
@@ -214,7 +214,7 @@ LibPinyinBopomofoEditor::processKeyEvent (guint keyval, guint keycode,
     case IBUS_Page_Down: case IBUS_KP_Page_Down:
     case IBUS_Tab:
         m_select_mode = TRUE;
-        return LibPinyinPhoneticEditor::processFunctionKey
+        return PhoneticEditor::processFunctionKey
             (keyval, keycode, modifiers);
 
     case IBUS_BackSpace:
@@ -224,18 +224,18 @@ LibPinyinBopomofoEditor::processKeyEvent (guint keyval, guint keycode,
     case IBUS_Home:      case IBUS_KP_Home:
     case IBUS_End:       case IBUS_KP_End:
         m_select_mode = FALSE;
-        return LibPinyinPhoneticEditor::processFunctionKey
+        return PhoneticEditor::processFunctionKey
             (keyval, keycode, modifiers);
 
     default:
-        return LibPinyinPhoneticEditor::processFunctionKey
+        return PhoneticEditor::processFunctionKey
             (keyval, keycode, modifiers);
     }
     return FALSE;
 }
 
 void
-LibPinyinBopomofoEditor::updatePinyin (void)
+BopomofoEditor::updatePinyin (void)
 {
     if (G_UNLIKELY (m_text.empty ())) {
         m_pinyin_len = 0;
@@ -251,7 +251,7 @@ LibPinyinBopomofoEditor::updatePinyin (void)
 }
 
 void
-LibPinyinBopomofoEditor::commit ()
+BopomofoEditor::commit ()
 {
     if (G_UNLIKELY (m_text.empty ()))
         return;
@@ -288,12 +288,12 @@ LibPinyinBopomofoEditor::commit ()
 
     pinyin_train(m_instance);
     LibPinyinBackEnd::instance ().modified();
-    LibPinyinPhoneticEditor::commit ((const gchar *)m_buffer);
+    PhoneticEditor::commit ((const gchar *)m_buffer);
     reset();
 }
 
 void
-LibPinyinBopomofoEditor::updatePreeditText ()
+BopomofoEditor::updatePreeditText ()
 {
     /* preedit text = guessed sentence + un-parsed pinyin text */
     if (G_UNLIKELY (m_text.empty ())) {
@@ -327,7 +327,7 @@ LibPinyinBopomofoEditor::updatePreeditText ()
 }
 
 void
-LibPinyinBopomofoEditor::updateAuxiliaryText (void)
+BopomofoEditor::updateAuxiliaryText (void)
 {
     if (G_UNLIKELY (m_text.empty ())) {
         hideAuxiliaryText ();

@@ -25,27 +25,27 @@
 
 using namespace PY;
 
-LibPinyinFullPinyinEditor::LibPinyinFullPinyinEditor
+FullPinyinEditor::FullPinyinEditor
 (PinyinProperties & props, Config & config)
-    : LibPinyinPinyinEditor (props, config)
+    : PinyinEditor (props, config)
 {
     m_instance = LibPinyinBackEnd::instance ().allocPinyinInstance ();
 }
 
-LibPinyinFullPinyinEditor::~LibPinyinFullPinyinEditor (void)
+FullPinyinEditor::~FullPinyinEditor (void)
 {
     LibPinyinBackEnd::instance ().freePinyinInstance (m_instance);
     m_instance = NULL;
 }
 
 void
-LibPinyinFullPinyinEditor::reset (void)
+FullPinyinEditor::reset (void)
 {
-    LibPinyinPinyinEditor::reset ();
+    PinyinEditor::reset ();
 }
 
 gboolean
-LibPinyinFullPinyinEditor::insert (gint ch)
+FullPinyinEditor::insert (gint ch)
 {
     /* is full */
     if (G_UNLIKELY (m_text.length () >= MAX_PINYIN_LEN))
@@ -60,15 +60,15 @@ LibPinyinFullPinyinEditor::insert (gint ch)
 
 
 gboolean
-LibPinyinFullPinyinEditor::processKeyEvent (guint keyval,
+FullPinyinEditor::processKeyEvent (guint keyval,
                                             guint keycode,
                                             guint modifiers)
 {
-    return LibPinyinPinyinEditor::processKeyEvent (keyval, keycode, modifiers);
+    return PinyinEditor::processKeyEvent (keyval, keycode, modifiers);
 }
 
 void
-LibPinyinFullPinyinEditor::updatePinyin (void)
+FullPinyinEditor::updatePinyin (void)
 {
     if (G_UNLIKELY (m_text.empty ())) {
         m_pinyin_len = 0;
@@ -84,7 +84,7 @@ LibPinyinFullPinyinEditor::updatePinyin (void)
 }
 
 void
-LibPinyinFullPinyinEditor::updateAuxiliaryText (void)
+FullPinyinEditor::updateAuxiliaryText (void)
 {
     if (G_UNLIKELY (m_text.empty ())) {
         hideAuxiliaryText ();
@@ -140,7 +140,7 @@ LibPinyinFullPinyinEditor::updateAuxiliaryText (void)
 }
 
 void
-LibPinyinFullPinyinEditor::update (void)
+FullPinyinEditor::update (void)
 {
     guint lookup_cursor = getLookupCursor ();
     pinyin_guess_full_pinyin_candidates (m_instance, lookup_cursor);

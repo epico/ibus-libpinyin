@@ -168,14 +168,14 @@ ibus_pinyin_engine_constructor (GType                  type,
     if (name) {
         if (std::strcmp (name, "libpinyin") == 0 ||
             std::strcmp (name, "libpinyin-debug") == 0) {
-            engine->engine = new LibPinyinPinyinEngine (IBUS_ENGINE (engine));
+            engine->engine = new PinyinEngine (IBUS_ENGINE (engine));
         }
         if (std::strcmp (name, "libbopomofo") == 0 ||
             std::strcmp (name, "libbopomofo-debug") == 0 ) {
-            engine->engine = new LibPinyinBopomofoEngine (IBUS_ENGINE (engine));
+            engine->engine = new BopomofoEngine (IBUS_ENGINE (engine));
         }
     } else {
-        engine->engine = new LibPinyinPinyinEngine (IBUS_ENGINE (engine));
+        engine->engine = new PinyinEngine (IBUS_ENGINE (engine));
     }
     return (GObject *) engine;
 }

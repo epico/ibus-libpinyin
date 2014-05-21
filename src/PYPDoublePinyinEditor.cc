@@ -37,21 +37,21 @@ using namespace PY;
         ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
 
 
-LibPinyinDoublePinyinEditor::LibPinyinDoublePinyinEditor
+DoublePinyinEditor::DoublePinyinEditor
 ( PinyinProperties & props, Config & config)
-    : LibPinyinPinyinEditor (props, config)
+    : PinyinEditor (props, config)
 {
     m_instance = LibPinyinBackEnd::instance ().allocPinyinInstance ();
 }
 
-LibPinyinDoublePinyinEditor::~LibPinyinDoublePinyinEditor (void)
+DoublePinyinEditor::~DoublePinyinEditor (void)
 {
     LibPinyinBackEnd::instance ().freePinyinInstance (m_instance);
     m_instance = NULL;
 }
 
 gboolean
-LibPinyinDoublePinyinEditor::insert (gint ch)
+DoublePinyinEditor::insert (gint ch)
 {
     /* is full */
     if (G_UNLIKELY (m_text.length () >= MAX_PINYIN_LEN))
@@ -76,13 +76,13 @@ LibPinyinDoublePinyinEditor::insert (gint ch)
     return TRUE;
 }
 
-void LibPinyinDoublePinyinEditor::reset (void)
+void DoublePinyinEditor::reset (void)
 {
-    LibPinyinPinyinEditor::reset ();
+    PinyinEditor::reset ();
 }
 
 gboolean
-LibPinyinDoublePinyinEditor::processKeyEvent (guint keyval, guint keycode,
+DoublePinyinEditor::processKeyEvent (guint keyval, guint keycode,
                                               guint modifiers)
 {
     /* handle ';' key */
@@ -97,11 +97,11 @@ LibPinyinDoublePinyinEditor::processKeyEvent (guint keyval, guint keycode,
         }
     }
 
-    return LibPinyinPinyinEditor::processKeyEvent (keyval, keycode, modifiers);
+    return PinyinEditor::processKeyEvent (keyval, keycode, modifiers);
 }
 
 void
-LibPinyinDoublePinyinEditor::updatePinyin (void)
+DoublePinyinEditor::updatePinyin (void)
 {
     if (G_UNLIKELY (m_text.empty ())) {
         m_pinyin_len = 0;
@@ -118,7 +118,7 @@ LibPinyinDoublePinyinEditor::updatePinyin (void)
 
 
 void
-LibPinyinDoublePinyinEditor::updateAuxiliaryText (void)
+DoublePinyinEditor::updateAuxiliaryText (void)
 {
     if (G_UNLIKELY (m_text.empty ())) {
         hideAuxiliaryText ();

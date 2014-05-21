@@ -29,9 +29,9 @@ namespace PY {
 
 class Config;
 
-class LibPinyinPinyinEditor : public LibPinyinPhoneticEditor {
+class PinyinEditor : public PhoneticEditor {
 public:
-    LibPinyinPinyinEditor (PinyinProperties & props, Config & config);
+    PinyinEditor (PinyinProperties & props, Config & config);
 
 
 protected:

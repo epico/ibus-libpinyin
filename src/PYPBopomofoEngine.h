@@ -28,10 +28,10 @@
 
 namespace PY {
 
-class LibPinyinBopomofoEngine : public Engine {
+class BopomofoEngine : public Engine {
 public:
-    LibPinyinBopomofoEngine (IBusEngine *engine);
-    ~LibPinyinBopomofoEngine (void);
+    BopomofoEngine (IBusEngine *engine);
+    ~BopomofoEngine (void);
 
     // virtual functions
     gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);

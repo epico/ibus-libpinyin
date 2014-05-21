@@ -29,11 +29,11 @@ class Config;
 
 #define MAX_PINYIN_LEN 64
 
-class LibPinyinBopomofoEditor : public LibPinyinPhoneticEditor {
+class BopomofoEditor : public PhoneticEditor {
 
 public:
-    LibPinyinBopomofoEditor (PinyinProperties & props, Config & config);
-    virtual ~LibPinyinBopomofoEditor (void);
+    BopomofoEditor (PinyinProperties & props, Config & config);
+    virtual ~BopomofoEditor (void);
 
 protected:
     String bopomofo;

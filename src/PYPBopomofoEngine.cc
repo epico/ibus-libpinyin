@@ -31,21 +31,21 @@
 using namespace PY;
 
 /* constructor */
-LibPinyinBopomofoEngine::LibPinyinBopomofoEngine (IBusEngine *engine)
+BopomofoEngine::BopomofoEngine (IBusEngine *engine)
     : Engine (engine),
-      m_props (LibPinyinBopomofoConfig::instance ()),
+      m_props (BopomofoConfig::instance ()),
       m_prev_pressed_key (IBUS_VoidSymbol),
       m_input_mode (MODE_INIT),
-      m_fallback_editor (new FallbackEditor (m_props, LibPinyinBopomofoConfig::instance()))
+      m_fallback_editor (new FallbackEditor (m_props, BopomofoConfig::instance()))
 {
     gint i;
 
     /* create editors */
-    m_editors[MODE_INIT].reset (new LibPinyinBopomofoEditor (m_props, LibPinyinBopomofoConfig::instance ()));
-    m_editors[MODE_PUNCT].reset (new PunctEditor (m_props, LibPinyinBopomofoConfig::instance ()));
+    m_editors[MODE_INIT].reset (new BopomofoEditor (m_props, BopomofoConfig::instance ()));
+    m_editors[MODE_PUNCT].reset (new PunctEditor (m_props, BopomofoConfig::instance ()));
 
     m_props.signalUpdateProperty ().connect
-        (std::bind (&LibPinyinBopomofoEngine::updateProperty, this, _1));
+        (std::bind (&BopomofoEngine::updateProperty, this, _1));
 
     for (i = MODE_INIT; i < MODE_LAST; i++) {
         connectEditorSignals (m_editors[i]);
@@ -55,12 +55,12 @@ LibPinyinBopomofoEngine::LibPinyinBopomofoEngine (IBusEngine *engine)
 }
 
 /* destructor */
-LibPinyinBopomofoEngine::~LibPinyinBopomofoEngine (void)
+BopomofoEngine::~BopomofoEngine (void)
 {
 }
 
 gboolean
-LibPinyinBopomofoEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
+BopomofoEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 {
     gboolean retval = FALSE;
 
@@ -75,7 +75,7 @@ LibPinyinBopomofoEngine::processKeyEvent (guint keyval, guint keycode, guint mod
         gboolean triggered = FALSE;
 
         if (m_prev_pressed_key == keyval) {
-            if (LibPinyinBopomofoConfig::instance ().ctrlSwitch ()) {
+            if (BopomofoConfig::instance ().ctrlSwitch ()) {
                 if (keyval == IBUS_Control_L || keyval == IBUS_Control_R)
                     triggered = TRUE;
             } else {
@@ -135,13 +135,13 @@ LibPinyinBopomofoEngine::processKeyEvent (guint keyval, guint keycode, guint mod
 }
 
 void
-LibPinyinBopomofoEngine::focusIn (void)
+BopomofoEngine::focusIn (void)
 {
     registerProperties (m_props.properties ());
 }
 
 void
-LibPinyinBopomofoEngine::focusOut (void)
+BopomofoEngine::focusOut (void)
 {
     Engine::focusOut ();
 
@@ -149,7 +149,7 @@ LibPinyinBopomofoEngine::focusOut (void)
 }
 
 void
-LibPinyinBopomofoEngine::reset (void)
+BopomofoEngine::reset (void)
 {
     m_prev_pressed_key = IBUS_VoidSymbol;
     m_input_mode = MODE_INIT;
@@ -160,49 +160,49 @@ LibPinyinBopomofoEngine::reset (void)
 }
 
 void
-LibPinyinBopomofoEngine::enable (void)
+BopomofoEngine::enable (void)
 {
     m_props.reset ();
 }
 
 void
-LibPinyinBopomofoEngine::disable (void)
+BopomofoEngine::disable (void)
 {
 }
 
 void
-LibPinyinBopomofoEngine::pageUp (void)
+BopomofoEngine::pageUp (void)
 {
     m_editors[m_input_mode]->pageUp ();
 }
 
 void
-LibPinyinBopomofoEngine::pageDown (void)
+BopomofoEngine::pageDown (void)
 {
     m_editors[m_input_mode]->pageDown ();
 }
 
 void
-LibPinyinBopomofoEngine::cursorUp (void)
+BopomofoEngine::cursorUp (void)
 {
     m_editors[m_input_mode]->cursorUp ();
 }
 
 void
-LibPinyinBopomofoEngine::cursorDown (void)
+BopomofoEngine::cursorDown (void)
 {
     m_editors[m_input_mode]->cursorDown ();
 }
 
 inline void
-LibPinyinBopomofoEngine::showSetupDialog (void)
+BopomofoEngine::showSetupDialog (void)
 {
     g_spawn_command_line_async
         (LIBEXECDIR"/ibus-setup-libpinyin bopomofo", NULL);
 }
 
 gboolean
-LibPinyinBopomofoEngine::propertyActivate (const gchar *prop_name,
+BopomofoEngine::propertyActivate (const gchar *prop_name,
                                            guint prop_state)
 {
     const static std::string setup ("setup");
@@ -217,7 +217,7 @@ LibPinyinBopomofoEngine::propertyActivate (const gchar *prop_name,
 }
 
 void
-LibPinyinBopomofoEngine::candidateClicked (guint index,
+BopomofoEngine::candidateClicked (guint index,
                                            guint button,
                                            guint state)
 {
@@ -225,7 +225,7 @@ LibPinyinBopomofoEngine::candidateClicked (guint index,
 }
 
 void
-LibPinyinBopomofoEngine::commitText (Text & text)
+BopomofoEngine::commitText (Text & text)
 {
     Engine::commitText (text);
     if (m_input_mode != MODE_INIT)
@@ -240,33 +240,33 @@ LibPinyinBopomofoEngine::commitText (Text & text)
 }
 
 void
-LibPinyinBopomofoEngine::connectEditorSignals (EditorPtr editor)
+BopomofoEngine::connectEditorSignals (EditorPtr editor)
 {
     editor->signalCommitText ().connect (
-        std::bind (&LibPinyinBopomofoEngine::commitText, this, _1));
+        std::bind (&BopomofoEngine::commitText, this, _1));
 
     editor->signalUpdatePreeditText ().connect (
-        std::bind (&LibPinyinBopomofoEngine::updatePreeditText, this, _1, _2, _3));
+        std::bind (&BopomofoEngine::updatePreeditText, this, _1, _2, _3));
     editor->signalShowPreeditText ().connect (
-        std::bind (&LibPinyinBopomofoEngine::showPreeditText, this));
+        std::bind (&BopomofoEngine::showPreeditText, this));
     editor->signalHidePreeditText ().connect (
-        std::bind (&LibPinyinBopomofoEngine::hidePreeditText, this));
+        std::bind (&BopomofoEngine::hidePreeditText, this));
 
     editor->signalUpdateAuxiliaryText ().connect (
-        std::bind (&LibPinyinBopomofoEngine::updateAuxiliaryText, this, _1, _2));
+        std::bind (&BopomofoEngine::updateAuxiliaryText, this, _1, _2));
     editor->signalShowAuxiliaryText ().connect (
-        std::bind (&LibPinyinBopomofoEngine::showAuxiliaryText, this));
+        std::bind (&BopomofoEngine::showAuxiliaryText, this));
     editor->signalHideAuxiliaryText ().connect (
-        std::bind (&LibPinyinBopomofoEngine::hideAuxiliaryText, this));
+        std::bind (&BopomofoEngine::hideAuxiliaryText, this));
 
     editor->signalUpdateLookupTable ().connect (
-        std::bind (&LibPinyinBopomofoEngine::updateLookupTable, this, _1, _2));
+        std::bind (&BopomofoEngine::updateLookupTable, this, _1, _2));
     editor->signalUpdateLookupTableFast ().connect (
-        std::bind (&LibPinyinBopomofoEngine::updateLookupTableFast, this, _1, _2));
+        std::bind (&BopomofoEngine::updateLookupTableFast, this, _1, _2));
     editor->signalShowLookupTable ().connect (
-        std::bind (&LibPinyinBopomofoEngine::showLookupTable, this));
+        std::bind (&BopomofoEngine::showLookupTable, this));
     editor->signalHideLookupTable ().connect (
-        std::bind (&LibPinyinBopomofoEngine::hideLookupTable, this));
+        std::bind (&BopomofoEngine::hideLookupTable, this));
 }
 
 

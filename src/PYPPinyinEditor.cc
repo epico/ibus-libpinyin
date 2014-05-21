@@ -29,9 +29,9 @@
 using namespace PY;
 
 /* init static members*/
-LibPinyinPinyinEditor::LibPinyinPinyinEditor (PinyinProperties & props,
+PinyinEditor::PinyinEditor (PinyinProperties & props,
                                               Config & config)
-    : LibPinyinPhoneticEditor (props, config)
+    : PhoneticEditor (props, config)
 {
 }
 
@@ -40,7 +40,7 @@ LibPinyinPinyinEditor::LibPinyinPinyinEditor (PinyinProperties & props,
  * process pinyin
  */
 inline gboolean
-LibPinyinPinyinEditor::processPinyin (guint keyval, guint keycode,
+PinyinEditor::processPinyin (guint keyval, guint keycode,
                                       guint modifiers)
 {
     if (G_UNLIKELY (cmshm_filter (modifiers) != 0))
@@ -53,7 +53,7 @@ LibPinyinPinyinEditor::processPinyin (guint keyval, guint keycode,
  * process numbers
  */
 inline gboolean
-LibPinyinPinyinEditor::processNumber (guint keyval, guint keycode,
+PinyinEditor::processNumber (guint keyval, guint keycode,
                                       guint modifiers)
 {
     guint i;
@@ -84,7 +84,7 @@ LibPinyinPinyinEditor::processNumber (guint keyval, guint keycode,
 }
 
 inline gboolean
-LibPinyinPinyinEditor::processPunct (guint keyval, guint keycode,
+PinyinEditor::processPunct (guint keyval, guint keycode,
                                      guint modifiers)
 {
     if (m_text.empty ())
@@ -137,7 +137,7 @@ LibPinyinPinyinEditor::processPunct (guint keyval, guint keycode,
 }
 
 inline gboolean
-LibPinyinPinyinEditor::processFunctionKey (guint keyval, guint keycode,
+PinyinEditor::processFunctionKey (guint keyval, guint keycode,
                                            guint modifiers)
 {
     if (m_text.empty ())
@@ -166,12 +166,12 @@ LibPinyinPinyinEditor::processFunctionKey (guint keyval, guint keycode,
         }
     }
 
-    return LibPinyinPhoneticEditor::processFunctionKey (keyval, keycode,
+    return PhoneticEditor::processFunctionKey (keyval, keycode,
                                                         modifiers);
 }
 
 gboolean
-LibPinyinPinyinEditor::processKeyEvent (guint keyval, guint keycode,
+PinyinEditor::processKeyEvent (guint keyval, guint keycode,
                                         guint modifiers)
 {
     modifiers &= (IBUS_SHIFT_MASK |
@@ -202,7 +202,7 @@ LibPinyinPinyinEditor::processKeyEvent (guint keyval, guint keycode,
 }
 
 void
-LibPinyinPinyinEditor::commit ()
+PinyinEditor::commit ()
 {
     if (G_UNLIKELY (m_text.empty ()))
         return;
@@ -233,12 +233,12 @@ LibPinyinPinyinEditor::commit ()
 
     pinyin_train (m_instance);
     LibPinyinBackEnd::instance ().modified ();
-    LibPinyinPhoneticEditor::commit ((const gchar *)m_buffer);
+    PhoneticEditor::commit ((const gchar *)m_buffer);
     reset();
 }
 
 void
-LibPinyinPinyinEditor::updatePreeditText ()
+PinyinEditor::updatePreeditText ()
 {
     /* preedit text = guessed sentence + un-parsed pinyin text */
     if (G_UNLIKELY (m_text.empty ())) {
@@ -272,7 +272,7 @@ LibPinyinPinyinEditor::updatePreeditText ()
 }
 
 void
-LibPinyinPinyinEditor::updateAuxiliaryText ()
+PinyinEditor::updateAuxiliaryText ()
 {
     if (G_UNLIKELY (m_text.empty ())) {
         hideAuxiliaryText ();
@@ -309,10 +309,10 @@ LibPinyinPinyinEditor::updateAuxiliaryText ()
 }
 
 void
-LibPinyinPinyinEditor::updateLookupTable ()
+PinyinEditor::updateLookupTable ()
 {
     m_lookup_table.setPageSize (m_config.pageSize ());
     m_lookup_table.setOrientation (m_config.orientation ());
-    LibPinyinPhoneticEditor::updateLookupTable ();
+    PhoneticEditor::updateLookupTable ();
 }
 

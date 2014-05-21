@@ -25,11 +25,11 @@
 
 namespace PY {
 
-class LibPinyinFullPinyinEditor : public LibPinyinPinyinEditor {
+class FullPinyinEditor : public PinyinEditor {
 
 public:
-    LibPinyinFullPinyinEditor (PinyinProperties & props, Config & config);
-    ~LibPinyinFullPinyinEditor (void);
+    FullPinyinEditor (PinyinProperties & props, Config & config);
+    ~FullPinyinEditor (void);
 
 public:
     gboolean insert (gint ch);

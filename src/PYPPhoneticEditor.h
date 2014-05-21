@@ -28,10 +28,10 @@
 
 namespace PY {
 
-class LibPinyinPhoneticEditor : public Editor {
+class PhoneticEditor : public Editor {
 public:
-    LibPinyinPhoneticEditor (PinyinProperties & props, Config & config);
-    virtual ~LibPinyinPhoneticEditor ();
+    PhoneticEditor (PinyinProperties & props, Config & config);
+    virtual ~PhoneticEditor ();
 
 public:
     /* virtual functions */

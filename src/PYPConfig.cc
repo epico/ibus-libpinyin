@@ -61,8 +61,8 @@ const pinyin_option_t PINYIN_DEFAULT_OPTION =
         PINYIN_CORRECT_ALL|
         0;
 
-std::unique_ptr<LibPinyinPinyinConfig> LibPinyinPinyinConfig::m_instance;
-std::unique_ptr<LibPinyinBopomofoConfig> LibPinyinBopomofoConfig::m_instance;
+std::unique_ptr<PinyinConfig> PinyinConfig::m_instance;
+std::unique_ptr<BopomofoConfig> BopomofoConfig::m_instance;
 
 LibPinyinConfig::LibPinyinConfig (Bus & bus, const std::string & name)
     : Config (bus, name)
@@ -286,22 +286,22 @@ static const struct{
     {5, DOUBLE_PINYIN_XHE}
 };
 
-LibPinyinPinyinConfig::LibPinyinPinyinConfig (Bus & bus)
+PinyinConfig::PinyinConfig (Bus & bus)
     : LibPinyinConfig (bus, "pinyin")
 {
 }
 
 void
-LibPinyinPinyinConfig::init (Bus & bus)
+PinyinConfig::init (Bus & bus)
 {
     if (m_instance.get () == NULL) {
-        m_instance.reset (new LibPinyinPinyinConfig (bus));
+        m_instance.reset (new PinyinConfig (bus));
         m_instance->readDefaultValues ();
     }
 }
 
 void
-LibPinyinPinyinConfig::readDefaultValues (void)
+PinyinConfig::readDefaultValues (void)
 {
     LibPinyinConfig::readDefaultValues ();
 #if !defined(HAVE_IBUS_CONFIG_GET_VALUES)
@@ -352,7 +352,7 @@ LibPinyinPinyinConfig::readDefaultValues (void)
 }
 
 gboolean
-LibPinyinPinyinConfig::valueChanged (const std::string &section,
+PinyinConfig::valueChanged (const std::string &section,
                                      const std::string &name,
                                      GVariant          *value)
 {
@@ -439,22 +439,22 @@ static const struct {
     {3, CHEWING_IBM}
 };
 
-LibPinyinBopomofoConfig::LibPinyinBopomofoConfig (Bus & bus)
+BopomofoConfig::BopomofoConfig (Bus & bus)
     : LibPinyinConfig (bus, "bopomofo")
 {
 }
 
 void
-LibPinyinBopomofoConfig::init (Bus & bus)
+BopomofoConfig::init (Bus & bus)
 {
     if (m_instance.get () == NULL) {
-        m_instance.reset (new LibPinyinBopomofoConfig (bus));
+        m_instance.reset (new BopomofoConfig (bus));
         m_instance->readDefaultValues ();
     }
 }
 
 void
-LibPinyinBopomofoConfig::readDefaultValues (void)
+BopomofoConfig::readDefaultValues (void)
 {
     LibPinyinConfig::readDefaultValues ();
 #if !defined(HAVE_IBUS_CONFIG_GET_VALUES)
@@ -486,7 +486,7 @@ LibPinyinBopomofoConfig::readDefaultValues (void)
 }
 
 gboolean
-LibPinyinBopomofoConfig::valueChanged (const std::string &section,
+BopomofoConfig::valueChanged (const std::string &section,
                                        const std::string &name,
                                        GVariant          *value)
 {
