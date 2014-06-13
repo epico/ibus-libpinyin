@@ -117,7 +117,7 @@ start_component (void)
                                ibus_engine_desc_new ("libbopomofo-debug",
                                                      N_("Bopomofo (debug)"),
                                                      N_("Bopomofo input method (debug)"),
-                                                     "zh_CN",
+                                                     "zh_TW",
                                                      "GPL",
                                                      "BYVoid <byvoid1@gmail.com>\n"
                                                      "Peng Wu <alexepico@gmail.com>\n"
