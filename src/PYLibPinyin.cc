@@ -242,6 +242,8 @@ LibPinyinBackEnd::importPinyinDictionary (const char * filename)
             continue;
 
         pinyin_iterator_add_phrase (iter, phrase, pinyin, count);
+
+        g_strfreev (items);
     }
 
     pinyin_end_add_phrases (iter);
