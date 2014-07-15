@@ -214,7 +214,7 @@ LibPinyinBackEnd::importPinyinDictionary (const char * filename)
         return FALSE;
 
     import_iterator_t * iter = pinyin_begin_add_phrases
-        (m_pinyin_context, 15);
+        (m_pinyin_context, USER_DICTIONARY);
 
     if (NULL == iter)
         return FALSE;
@@ -258,7 +258,7 @@ LibPinyinBackEnd::clearPinyinUserData (const char * target)
         pinyin_mask_out (m_pinyin_context, 0x0, 0x0);
     else if (0 == strcmp ("user", target))
         pinyin_mask_out (m_pinyin_context, PHRASE_INDEX_LIBRARY_MASK,
-                        PHRASE_INDEX_MAKE_TOKEN (15, null_token));
+                        PHRASE_INDEX_MAKE_TOKEN (USER_DICTIONARY, null_token));
     else
         g_warning ("unknown clear target: %s.\n", target);
 
