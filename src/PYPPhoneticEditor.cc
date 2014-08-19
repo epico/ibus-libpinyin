@@ -313,24 +313,11 @@ guint
 PhoneticEditor::getPinyinCursor ()
 {
     guint len = 0;
-    pinyin_get_n_pinyin (m_instance, &len);
 
     /* Translate cursor position to pinyin position. */
-    guint pinyin_cursor = len;
+    guint16 pinyin_cursor = 0;
+    pinyin_get_pinyin_key_rest_offset (m_instance, m_cursor, &pinyin_cursor);
 
-    guint16 prev_end = 0, cur_end;
-    for (size_t i = 0; i < len; ++i) {
-        PinyinKeyPos *pos = NULL;
-        pinyin_get_pinyin_key_rest (m_instance, i, &pos);
-        pinyin_get_pinyin_key_rest_positions (m_instance, pos, NULL, &cur_end);
-
-        if (prev_end <= m_cursor && m_cursor < cur_end)
-            pinyin_cursor = i;
-
-        prev_end = cur_end;
-    }
-
-    g_assert (pinyin_cursor >= 0);
     return pinyin_cursor;
 }
 
