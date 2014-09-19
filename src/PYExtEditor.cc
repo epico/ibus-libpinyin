@@ -159,15 +159,10 @@ ExtEditor::ExtEditor (PinyinProperties & props, Config & config)
 {
     m_lua_plugin = ibus_engine_plugin_new ();
 
-    gchar * path = g_build_filename (g_get_user_config_dir (),
-                                     ".ibus", "pinyin", "base.lua", NULL);
     loadLuaScript ( ".." G_DIR_SEPARATOR_S "lua" G_DIR_SEPARATOR_S "base.lua")||
-        loadLuaScript (path) ||
         loadLuaScript (PKGDATADIR G_DIR_SEPARATOR_S "base.lua");
 
-    g_free(path);
-
-    path = g_build_filename (g_get_user_config_dir (),
+    gchar * path = g_build_filename (g_get_user_config_dir (),
                              "ibus", "libpinyin", "user.lua", NULL);
     loadLuaScript(path);
     g_free(path);
