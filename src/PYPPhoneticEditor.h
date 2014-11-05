@@ -47,7 +47,7 @@ public:
     virtual gboolean processFunctionKey (guint keyval, guint keycode, guint modifiers);
     virtual void updateLookupTable ();
     virtual void updateLookupTableFast ();
-    virtual gboolean fillLookupTableByPage ();
+    virtual gboolean fillLookupTable ();
 
 protected:
     gboolean selectCandidate (guint i);

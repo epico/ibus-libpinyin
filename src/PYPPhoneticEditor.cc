@@ -179,7 +179,7 @@ PhoneticEditor::updateLookupTable (void)
 {
     m_lookup_table.clear ();
 
-    fillLookupTableByPage ();
+    fillLookupTable ();
     if (m_lookup_table.size()) {
         Editor::updateLookupTable (m_lookup_table, TRUE);
     } else {
@@ -187,6 +187,7 @@ PhoneticEditor::updateLookupTable (void)
     }
 }
 
+#if 0
 gboolean
 PhoneticEditor::fillLookupTableByPage (void)
 {
@@ -227,6 +228,36 @@ PhoneticEditor::fillLookupTableByPage (void)
 
     return TRUE;
 }
+#endif
+
+gboolean
+PhoneticEditor::fillLookupTable (void)
+{
+    guint len = 0;
+    pinyin_get_n_candidate (m_instance, &len);
+
+    String word;
+    for (guint i = 0; i < len; i++) {
+        lookup_candidate_t * candidate = NULL;
+        pinyin_get_candidate (m_instance, i, &candidate);
+
+        const gchar * phrase_string = NULL;
+        pinyin_get_candidate_string (m_instance, candidate, &phrase_string);
+
+        /* show get candidates. */
+        if (G_LIKELY (m_props.modeSimp ())) {
+            word = phrase_string;
+        } else { /* Traditional Chinese */
+            word.truncate (0);
+            SimpTradConverter::simpToTrad (phrase_string, word);
+        }
+
+        Text text (word);
+        m_lookup_table.appendCandidate (text);
+    }
+
+    return TRUE;
+}
 
 void
 PhoneticEditor::pageUp (void)
@@ -241,8 +272,7 @@ PhoneticEditor::pageUp (void)
 void
 PhoneticEditor::pageDown (void)
 {
-    if (G_LIKELY((m_lookup_table.pageDown ()) ||
-                 (fillLookupTableByPage () && m_lookup_table.pageDown()))) {
+    if (G_LIKELY(m_lookup_table.pageDown ())) {
         updateLookupTableFast ();
         updatePreeditText ();
         updateAuxiliaryText ();
@@ -262,11 +292,6 @@ PhoneticEditor::cursorUp (void)
 void
 PhoneticEditor::cursorDown (void)
 {
-    if (G_LIKELY ((m_lookup_table.cursorPos () == m_lookup_table.size() - 1) &&
-                  (fillLookupTableByPage () == FALSE))) {
-        return;
-    }
-
     if (G_LIKELY (m_lookup_table.cursorDown ())) {
         updateLookupTableFast ();
         updatePreeditText ();
