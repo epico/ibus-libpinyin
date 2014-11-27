@@ -120,9 +120,9 @@ class KeyboardShortcutSelection(Gtk.Box):
 
     def set_shortcut(self, shortcut = None):
         if shortcut == None:
-            self.__accel_label.set_label("")
-        else:
-            self.__accel_label.set_label(shortcut)
+            shortcut = ""
+        self.__accel_label.set_label(shortcut)
+        self.__set_shortcut_to_buttons(shortcut)
 
     def get_shortcut(self):
         return self.__accel_label.get_label()
