@@ -50,9 +50,7 @@ accelerators = \
     )
 
 class ShortcutTreeView(Gtk.TreeView):
-    __gtype_name__ = 'ShortcutTreeView'
-
-    def __init__(self, config=None):
+    def __init__(self, editor):
         super(ShortcutTreeView, self).__init__()
 
         self.set_headers_visible(True)
@@ -62,16 +60,18 @@ class ShortcutTreeView(Gtk.TreeView):
 
         self.__add_columns()
 
+        self.__editor = editor
+
     def __create_model(self):
         model = Gtk.ListStore(str, str, str)
 
-        for accel in accelerators:
+        for label, keyname, defvalue in accelerators:
             iter = model.append()
             # (accel_key, accel_mods) = Gtk.accelerator_parse(accel_str)
             model.set(iter,
-                      COLUMN_DESCRIPTION, accel[COLUMN_DESCRIPTION],
-                      COLUMN_CONFIG_KEYNAME, accel[COLUMN_CONFIG_KEYNAME],
-                      COLUMN_ACCELERATOR, accel[COLUMN_ACCELERATOR],
+                      COLUMN_DESCRIPTION, label,
+                      COLUMN_CONFIG_KEYNAME, keyname,
+                      COLUMN_ACCELERATOR, defvalue,
                       )
 
         return model
@@ -87,7 +87,7 @@ class ShortcutTreeView(Gtk.TreeView):
         column = Gtk.TreeViewColumn(_('Accelerator'), renderer, text=COLUMN_ACCELERATOR)
         self.append_column(column)
 
-    def __set_shortcut_value(self, key, value):
+    def set_shortcut_value(self, key, value):
         # check duplicate shortcut
         for row in self.__model:
             if row[COLUMN_CONFIG_KEYNAME] == key:
@@ -98,13 +98,13 @@ class ShortcutTreeView(Gtk.TreeView):
                                            _("This shortcut key is already used."))
                 dialog.run()
                 dialog.destroy()
-                return
+                return False
 
         # store the shortcut
         for row in self.__model:
             if row[COLUMN_CONFIG_KEYNAME] == key:
                 row[COLUMN_ACCELERATOR] = value
-                return
+                return True
 
     def set_default_shortcut(self):
         selection = self.get_selection()
@@ -114,33 +114,39 @@ class ShortcutTreeView(Gtk.TreeView):
             return
 
         key = model[iterator][COLUMN_CONFIG_KEYNAME]
-        for accel in accelerators:
-            (label, keyname, value) = accel
+        for label, keyname, defvalue in accelerators:
             if key == keyname:
-                self.__set_shortcut_value(key, value)
+                if self.set_shortcut_value(key, defvalue):
+                    self.__editor.emit_shortcut_changed(key, defvalue)
 
-    def set_shortcut(self, shortcut=""):
+    def set_shortcut(self, value=""):
         selection = self.get_selection()
         (model, iterator) = selection.get_selected()
 
         if not iterator:
             return
 
-        self.__set_shortcut_value(
-            model[iterator][COLUMN_CONFIG_KEYNAME],
-            shortcut
-        )
+        key = model[iterator][COLUMN_CONFIG_KEYNAME]
+        if self.set_shortcut_value(key, value):
+            self.__editor.emit_shortcut_changed(key, value)
 
 
 class ShortcutEditor(Gtk.Box):
-    def __init__(self, config=None):
+    __gtype_name__ = 'ShortcutEditor'
+
+    __gsignals__ = {
+        'shortcut-changed': (GObject.SIGNAL_RUN_FIRST, None,
+                             (str, str, ))
+    }
+
+    def __init__(self):
         super(ShortcutEditor, self).__init__(
             orientation=Gtk.Orientation.VERTICAL)
         self.__init_ui()
 
     def __init_ui(self):
         # shortcut tree view
-        self.__shortcut_treeview = ShortcutTreeView()
+        self.__shortcut_treeview = ShortcutTreeView(self)
         self.__shortcut_treeview.connect("cursor-changed", self.__shortcut_treeview_cursor_changed_cb)
         self.pack_start(self.__shortcut_treeview, False, True, 4)
 
@@ -159,6 +165,7 @@ class ShortcutEditor(Gtk.Box):
         self.__edit_button.connect("clicked", self.__edit_button_clicked_cb)
         hbox.pack_start(self.__edit_button, False, True, 0)
         self.pack_start(hbox, False, True, 4)
+        self.show_all()
 
     def __shortcut_treeview_cursor_changed_cb(self, treeview):
         selection = treeview.get_selection()
@@ -191,6 +198,14 @@ class ShortcutEditor(Gtk.Box):
             return
 
         self.__shortcut_treeview.set_shortcut(dlg.get_shortcut())
+
+    def emit_shortcut_changed(self, key, value):
+        self.emit("shortcut-changed", key, value)
+
+    def update_shortcuts(self, values):
+        for label, keyname, defvalue in accelerators:
+            value = values[keyname] if keyname in values else defvalue
+            self.__shortcut_treeview.set_shortcut_value(keyname, value)
 
 class ShortcutEditorDialog(Gtk.Dialog):
     def __init__(self, title = None, transient_for = None, flags = 0):

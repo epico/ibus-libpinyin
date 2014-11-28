@@ -33,6 +33,7 @@ from gi.repository import IBus
 
 import config
 from dicttreeview import DictionaryTreeView
+from shortcuteditor import ShortcutEditor
 
 locale.setlocale(locale.LC_ALL, "")
 localedir = os.getenv("IBUS_LOCALEDIR")
@@ -57,6 +58,7 @@ class PreferencesDialog:
             self.__init_fuzzy()
             self.__init_dictionary()
             self.__init_user_data()
+            self.__init_shortcut()
             self.__init_about()
         elif engine == "bopomofo":
             self.__config_namespace = "engine/Bopomofo"
@@ -66,6 +68,7 @@ class PreferencesDialog:
             self.__init_fuzzy()
             self.__init_dictionary()
             #self.__init_user_data()
+            self.__init_shortcut()
             self.__init_about()
             self.__convert_fuzzy_pinyin_to_bopomofo()
 
@@ -83,6 +86,7 @@ class PreferencesDialog:
         self.__page_fuzzy = self.__builder.get_object("pageFuzzy")
         self.__page_dictionary = self.__builder.get_object("pageDictionary")
         self.__page_user_data = self.__builder.get_object("pageUserData")
+        self.__page_shortcut = self.__builder.get_object("pageShortcut")
         self.__page_about = self.__builder.get_object("pageAbout")
 
         self.__page_general.hide()
@@ -401,6 +405,23 @@ class PreferencesDialog:
 
     def __clear_user_data_cb(self, widget, name):
         self.__set_value("ClearUserData", name)
+
+    def __init_shortcut(self):
+        # page Shortcut
+        self.__page_shortcut.show()
+
+        # shortcut tree view
+        self.__shortcut_editor = self.__builder.get_object("ShortcutsEditor")
+        self.__shortcut_editor.show()
+
+        # set shortcuts
+        self.__shortcut_editor.update_shortcuts(self.__values)
+
+        # connect "shortcut-changed" signal
+        self.__shortcut_editor.connect("shortcut-changed", self.__shortcut_changed_cb)
+
+    def __shortcut_changed_cb(self, editor, key, value):
+        self.__set_value(key, value)
 
     def __init_about(self):
         # page About
