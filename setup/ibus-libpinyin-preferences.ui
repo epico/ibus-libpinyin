@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.1 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="LookupTablePageSize">
     <property name="lower">1</property>
     <property name="upper">11</property>
@@ -8,6 +9,101 @@
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
     <property name="page_size">1</property>
+  </object>
+  <object class="GtkListStore" id="liststoreBopomofoKeyboardMapping">
+    <columns>
+      <!-- column-name keyboard_mapping -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Standard</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">GinYieh</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Eten</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">IBM</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="liststoreDoublePinyin">
+    <columns>
+      <!-- column-name schema -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">MSPY</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">ZRM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">ABC</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">ZGPY</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">PYJJ</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">XHE</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="liststoreLookupTableOrientation">
+    <columns>
+      <!-- column-name orientation -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Horizontal</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Vertical</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="liststoreSelectionKeys">
+    <columns>
+      <!-- column-name select_keys -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">1234567890</col>
+      </row>
+      <row>
+        <col id="0">asdfghjkl;</col>
+      </row>
+      <row>
+        <col id="0">1qaz2wsxed</col>
+      </row>
+      <row>
+        <col id="0">asdfzxcvgb</col>
+      </row>
+      <row>
+        <col id="0">1234qweras</col>
+      </row>
+      <row>
+        <col id="0">aoeu;qjkix</col>
+      </row>
+      <row>
+        <col id="0">aoeuhtnsid</col>
+      </row>
+      <row>
+        <col id="0">aoeuidhtns</col>
+      </row>
+      <row>
+        <col id="0">qweasdzxcr</col>
+      </row>
+    </data>
   </object>
   <object class="GtkDialog" id="dialog">
     <property name="width_request">400</property>
@@ -1981,6 +2077,36 @@
               </packing>
             </child>
             <child>
+              <object class="GtkAlignment" id="pageShortcut">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="top_padding">12</property>
+                <property name="bottom_padding">12</property>
+                <property name="left_padding">12</property>
+                <property name="right_padding">12</property>
+                <child>
+                  <object class="ShortcutEditor" id="ShortcutsEditor">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">6</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label34">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Shortcuts</property>
+              </object>
+              <packing>
+                <property name="position">6</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkAlignment" id="pageAbout">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -2102,7 +2228,7 @@ koterpilla, Zerng07
                 </child>
               </object>
               <packing>
-                <property name="position">6</property>
+                <property name="position">7</property>
               </packing>
             </child>
             <child type="tab">
@@ -2112,7 +2238,7 @@ koterpilla, Zerng07
                 <property name="label" translatable="yes">About</property>
               </object>
               <packing>
-                <property name="position">6</property>
+                <property name="position">7</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -2128,100 +2254,5 @@ koterpilla, Zerng07
     <action-widgets>
       <action-widget response="0">buttonClose</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkListStore" id="liststoreBopomofoKeyboardMapping">
-    <columns>
-      <!-- column-name keyboard_mapping -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Standard</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">GinYieh</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Eten</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">IBM</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="liststoreDoublePinyin">
-    <columns>
-      <!-- column-name schema -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">MSPY</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">ZRM</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">ABC</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">ZGPY</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">PYJJ</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">XHE</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="liststoreLookupTableOrientation">
-    <columns>
-      <!-- column-name orientation -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Horizontal</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Vertical</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="liststoreSelectionKeys">
-    <columns>
-      <!-- column-name select_keys -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">1234567890</col>
-      </row>
-      <row>
-        <col id="0">asdfghjkl;</col>
-      </row>
-      <row>
-        <col id="0">1qaz2wsxed</col>
-      </row>
-      <row>
-        <col id="0">asdfzxcvgb</col>
-      </row>
-      <row>
-        <col id="0">1234qweras</col>
-      </row>
-      <row>
-        <col id="0">aoeu;qjkix</col>
-      </row>
-      <row>
-        <col id="0">aoeuhtnsid</col>
-      </row>
-      <row>
-        <col id="0">aoeuidhtns</col>
-      </row>
-      <row>
-        <col id="0">qweasdzxcr</col>
-      </row>
-    </data>
   </object>
 </interface>
