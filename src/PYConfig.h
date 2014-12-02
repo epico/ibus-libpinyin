@@ -45,7 +45,11 @@ public:
     pinyin_option_t option (void) const         { return m_option & m_option_mask; }
     guint orientation (void) const              { return m_orientation; }
     guint pageSize (void) const                 { return m_page_size; }
-    gboolean ctrlSwitch(void) const             { return m_ctrl_switch; }
+    G_DEPRECATED gboolean ctrlSwitch (void) const{ return m_ctrl_switch; }
+    std::string mainSwitch (void) const         { return m_main_switch; }
+    std::string letterSwitch (void) const       { return m_letter_switch; }
+    std::string punctSwitch (void) const        { return m_punct_switch; }
+    std::string tradSwitch (void) const         { return m_trad_switch; }
     gboolean shiftSelectCandidate (void) const  { return m_shift_select_candidate; }
     gboolean minusEqualPage (void) const        { return m_minus_equal_page; }
     gboolean commaPeriodPage (void) const       { return m_comma_period_page; }
@@ -91,6 +95,10 @@ protected:
     gint m_orientation;
     guint m_page_size;
     gboolean m_ctrl_switch;
+    std::string m_main_switch;
+    std::string m_letter_switch;
+    std::string m_punct_switch;
+    std::string m_trad_switch;
     gboolean m_shift_select_candidate;
     gboolean m_minus_equal_page;
     gboolean m_comma_period_page;

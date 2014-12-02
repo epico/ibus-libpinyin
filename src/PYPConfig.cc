@@ -33,6 +33,10 @@ const gchar * const CONFIG_FUZZY_PINYIN              = "FuzzyPinyin";
 const gchar * const CONFIG_ORIENTATION               = "LookupTableOrientation";
 const gchar * const CONFIG_PAGE_SIZE                 = "LookupTablePageSize";
 const gchar * const CONFIG_CTRL_SWITCH               = "CtrlSwitch";
+const gchar * const CONFIG_MAIN_SWITCH               = "MainSwitch";
+const gchar * const CONFIG_LETTER_SWITCH             = "LetterSwitch";
+const gchar * const CONFIG_PUNCT_SWITCH              = "PunctSwitch";
+const gchar * const CONFIG_TRAD_SWITCH               = "TradSwitch";
 const gchar * const CONFIG_SHIFT_SELECT_CANDIDATE    = "ShiftSelectCandidate";
 const gchar * const CONFIG_MINUS_EQUAL_PAGE          = "MinusEqualPage";
 const gchar * const CONFIG_COMMA_PERIOD_PAGE         = "CommaPeriodPage";
@@ -166,7 +170,11 @@ LibPinyinConfig::readDefaultValues (void)
         g_warn_if_reached ();
     }
     m_ctrl_switch = read(CONFIG_CTRL_SWITCH, false);
-    m_dictionaries = read (CONFIG_DICTIONARIES, std::string("2"));
+    m_main_switch = read(CONFIG_MAIN_SWITCH, std::string ("<Shift>"));
+    m_letter_switch = read(CONFIG_LETTER_SWITCH, std::string (""));
+    m_punct_switch = read(CONFIG_PUNCT_SWITCH, std::string ("<Control>period"));
+    m_trad_switch = read(CONFIG_TRAD_SWITCH, std::string ("<Control><Shift>f"));
+    m_dictionaries = read (CONFIG_DICTIONARIES, std::string ("2"));
 
     /* fuzzy pinyin */
     if (read (CONFIG_FUZZY_PINYIN, false))
@@ -212,8 +220,16 @@ LibPinyinConfig::valueChanged (const std::string &section,
         }
     } else if (CONFIG_CTRL_SWITCH == name) {
         m_ctrl_switch = normalizeGVariant (value, false);
+    } else if (CONFIG_MAIN_SWITCH == name) {
+        m_main_switch = normalizeGVariant (value, std::string ("<Shift>"));
+    } else if (CONFIG_LETTER_SWITCH == name) {
+        m_letter_switch = normalizeGVariant (value, std::string (""));
+    } else if (CONFIG_PUNCT_SWITCH == name) {
+        m_punct_switch = normalizeGVariant (value, std::string ("<Control>period"));
+    } else if (CONFIG_TRAD_SWITCH == name) {
+        m_trad_switch = normalizeGVariant (value, std::string ("<Control><Shift>f"));
     } else if (CONFIG_DICTIONARIES == name) {
-        m_dictionaries = normalizeGVariant (value, std::string("2"));
+        m_dictionaries = normalizeGVariant (value, std::string ("2"));
     }
     /* fuzzy pinyin */
     else if (CONFIG_FUZZY_PINYIN == name) {
