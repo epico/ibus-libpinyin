@@ -46,7 +46,7 @@ accelerators = \
         (_("Switch Chinese/English"), "MainSwitch" , "<Shift>"),
         (_("Full/Half Width Letter"), "LetterSwitch", ""),
         (_("Full/Half Width Punct"), "PunctSwitch", "<Control>period"),
-        (_("Switch Traditional/Simplfied Chinese"), "TradSwitch", "<Control><Shift>F")
+        (_("Switch Traditional/Simplfied Chinese"), "TradSwitch", "<Control><Shift>f")
     )
 
 class ShortcutTreeView(Gtk.TreeView):
@@ -88,6 +88,13 @@ class ShortcutTreeView(Gtk.TreeView):
         self.append_column(column)
 
     def set_shortcut_value(self, key, value):
+        # just clean shortcut
+        if value == "":
+            for row in self.__model:
+                if row[COLUMN_CONFIG_KEYNAME] == key:
+                    row[COLUMN_ACCELERATOR] = value
+                    return True
+
         # check duplicate shortcut
         for row in self.__model:
             if row[COLUMN_CONFIG_KEYNAME] == key:
