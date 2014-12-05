@@ -19,8 +19,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include <cstring>
 #include "PYEngine.h"
+#include <cstring>
+#include <gdk/gdk.h>
 #include "PYPPinyinEngine.h"
 #include "PYPBopomofoEngine.h"
 
@@ -281,6 +282,68 @@ Engine::setContentType (guint purpose, guint hints)
 
 Engine::~Engine (void)
 {
+}
+
+gboolean
+pinyin_accelerator_name(guint keyval, guint modifiers, std::string & name) {
+    name = "";
+
+    /* Convert some key press to modifiers. */
+    switch (keyval) {
+    case IBUS_KEY_Control_L:
+    case IBUS_KEY_Control_R:
+        modifiers |= IBUS_CONTROL_MASK;
+        keyval = 0;
+        break;
+    case IBUS_KEY_Alt_L:
+    case IBUS_KEY_Alt_R:
+        modifiers |= IBUS_MOD1_MASK;
+        keyval = 0;
+        break;
+    case IBUS_KEY_Shift_L:
+    case IBUS_KEY_Shift_R:
+        modifiers |= IBUS_SHIFT_MASK;
+        keyval = 0;
+        break;
+    case IBUS_KEY_Meta_L:
+    case IBUS_KEY_Meta_R:
+        modifiers |= IBUS_META_MASK;
+        keyval = 0;
+        break;
+    case IBUS_KEY_Super_L:
+    case IBUS_KEY_Super_R:
+        modifiers |= IBUS_SUPER_MASK;
+        keyval = 0;
+        break;
+    case IBUS_KEY_Hyper_L:
+    case IBUS_KEY_Hyper_R:
+        modifiers |= IBUS_HYPER_MASK;
+        keyval = 0;
+        break;
+    }
+
+    /* Convert modifiers. */
+    if (modifiers & IBUS_CONTROL_MASK)
+        name += "<Control>";
+    if (modifiers & IBUS_MOD1_MASK)
+        name += "<Alt>";
+    if (modifiers & IBUS_SHIFT_MASK)
+        name += "<Shift>";
+    if (modifiers & IBUS_META_MASK)
+        name += "<Meta>";
+    if (modifiers & IBUS_SUPER_MASK)
+        name += "<Super>";
+    if (modifiers & IBUS_HYPER_MASK)
+        name += "<Hyper>";
+
+
+    /* Convert keyval. */
+    if (keyval) {
+        const gchar * symbol = gdk_keyval_name (gdk_keyval_to_lower (keyval));
+        name += symbol;
+    }
+
+    return TRUE;
 }
 
 };

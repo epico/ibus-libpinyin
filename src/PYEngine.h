@@ -134,5 +134,8 @@ protected:
 
 };
 
+gboolean pinyin_accelerator_name(guint keyval, guint modifiers,
+                                 std::string & name);
+
 };
 #endif

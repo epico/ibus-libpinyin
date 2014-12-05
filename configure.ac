@@ -124,6 +124,10 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package])
 
 AM_GLIB_GNU_GETTEXT
 
+PKG_CHECK_MODULES(GDK3, [
+    gdk-3.0
+])
+
 # --disable-lua-extension
 AC_ARG_ENABLE(lua-extension,
     AS_HELP_STRING([--disable-lua-extension],
