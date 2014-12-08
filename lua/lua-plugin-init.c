@@ -49,9 +49,13 @@ static const luaL_Reg lualibs[] = {
 void lua_plugin_openlibs (lua_State *L) {
   const luaL_Reg *lib = lualibs;
   for (; lib->func; lib++) {
+#if LUA_VERSION_NUM >= 502
+    luaL_requiref(L, lib->name, lib->func, TRUE);
+#else
     lua_pushcfunction(L, lib->func);
     lua_pushstring(L, lib->name);
     lua_call(L, 1, 0);
+#endif
   }
 }
 
