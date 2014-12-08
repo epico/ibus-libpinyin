@@ -153,8 +153,8 @@ _MATH_KEYWORDS = {
 function _add_math_keyword(input)
   local ret = input
   for _, keyword in pairs(_MATH_KEYWORDS) do
-    ret = ret:gsub(string.format("([^%%a\.])(%s\(.-\))", keyword), "%1math\.%2")
-    ret = ret:gsub(string.format("^(%s\(.-\))", keyword), "math\.%1")
+    ret = ret:gsub(string.format("([^%%a\\.])(%s((.-)))", keyword), "%1math.%2")
+    ret = ret:gsub(string.format("^(%s((.-)))", keyword), "math.%1")
   end
   return ret
 end
