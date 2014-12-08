@@ -101,7 +101,7 @@ PinyinEngine::processAccelKeyEvent (guint keyval, guint keycode,
                                     guint modifiers)
 {
     std::string accel;
-    pinyin_accelerator_name(keyval, modifiers, accel);
+    pinyin_accelerator_name (keyval, modifiers, accel);
 
     /* Safe Guard for empty key. */
     if ("" == accel)
@@ -114,7 +114,7 @@ PinyinEngine::processAccelKeyEvent (guint keyval, guint keycode,
          * and no other key event between the press and release key event */
         gboolean triggered = FALSE;
 
-        if (m_prev_pressed_key == keyval){
+        if (m_prev_pressed_key == keyval) {
             if (PinyinConfig::instance ().mainSwitch () == accel) {
                 triggered = TRUE;
             }
@@ -129,7 +129,7 @@ PinyinEngine::processAccelKeyEvent (guint keyval, guint keycode,
 
         if (m_input_mode == MODE_INIT &&
             m_editors[MODE_INIT]->text ().empty ()) {
-            /* If it is in init mode, and  no any previous input text,
+            /* If it is in init mode, and no any previous input text,
              * we will let client applications to handle release key event */
             return FALSE;
         } else {
