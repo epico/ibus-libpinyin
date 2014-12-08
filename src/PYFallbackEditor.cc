@@ -166,11 +166,6 @@ FallbackEditor::processPunct (guint keyval, guint keycode, guint modifiers)
 {
     guint cmshm_modifiers = cmshm_filter (modifiers);
 
-    if (G_UNLIKELY (keyval == IBUS_period && cmshm_modifiers == IBUS_CONTROL_MASK)) {
-        m_props.toggleModeFullPunct ();
-        return TRUE;
-    }
-
     /* check ctrl, alt, hyper, supper masks */
     if (cmshm_modifiers != 0)
         return FALSE;

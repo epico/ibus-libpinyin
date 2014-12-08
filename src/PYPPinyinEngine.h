@@ -32,6 +32,8 @@ public:
     ~PinyinEngine (void);
 
     //virtual functions
+    gboolean processAccelKeyEvent (guint keyval, guint keycode,
+                                   guint modifiers);
     gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
     void focusIn (void);
     void focusOut (void);

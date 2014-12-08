@@ -95,13 +95,17 @@ PinyinEngine::~PinyinEngine (void)
 {
 }
 
+/* keep synced with bopomofo engine. */
 gboolean
-PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
+PinyinEngine::processAccelKeyEvent (guint keyval, guint keycode,
+                                    guint modifiers)
 {
-    gboolean retval = FALSE;
+    std::string accel;
+    pinyin_accelerator_name(keyval, modifiers, accel);
 
-    if (contentIsPassword ())
-        return retval;
+    /* Safe Guard for empty key. */
+    if ("" == accel)
+        return FALSE;
 
     /* check Shift or Ctrl + Release hotkey,
      * and then ignore other Release key event */
@@ -111,12 +115,8 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
         gboolean triggered = FALSE;
 
         if (m_prev_pressed_key == keyval){
-            if (PinyinConfig::instance ().ctrlSwitch ()) {
-                if (keyval == IBUS_Control_L || keyval == IBUS_Control_R)
-                    triggered = TRUE;
-            } else {
-                if (keyval == IBUS_Shift_L || keyval == IBUS_Shift_R)
-                    triggered = TRUE;
+            if (PinyinConfig::instance ().mainSwitch () == accel) {
+                triggered = TRUE;
             }
         }
 
@@ -132,18 +132,45 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
             /* If it is in init mode, and  no any previous input text,
              * we will let client applications to handle release key event */
             return FALSE;
-        }
-        else {
+        } else {
             return TRUE;
         }
     }
 
-    /* Toggle simp/trad Chinese Mode when hotkey Ctrl + Shift + F pressed */
-    if (keyval == IBUS_F && scmshm_test (modifiers, (IBUS_SHIFT_MASK | IBUS_CONTROL_MASK))) {
-        m_props.toggleModeSimp ();
-        m_prev_pressed_key = IBUS_F;
+    /* Toggle full/half Letter Mode */
+    if (PinyinConfig::instance (). letterSwitch () == accel) {
+        m_props.toggleModeFull ();
+        m_prev_pressed_key = keyval;
         return TRUE;
     }
+
+    /* Toggle full/half Punct Mode */
+    if (PinyinConfig::instance (). punctSwitch () == accel) {
+        m_props.toggleModeFullPunct ();
+        m_prev_pressed_key = keyval;
+        return TRUE;
+    }
+
+    /* Toggle simp/trad Chinese Mode */
+    if (PinyinConfig::instance ().tradSwitch () == accel) {
+        m_props.toggleModeSimp ();
+        m_prev_pressed_key = keyval;
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+gboolean
+PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
+{
+    gboolean retval = FALSE;
+
+    if (contentIsPassword ())
+        return retval;
+
+    if (processAccelKeyEvent (keyval, keycode, modifiers))
+        return TRUE;
 
     if (m_props.modeChinese ()) {
         if (m_input_mode == MODE_INIT &&
