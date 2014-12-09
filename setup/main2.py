@@ -115,9 +115,6 @@ class PreferencesDialog:
         self.__lookup_table_page_size = self.__builder.get_object("LookupTablePageSize")
         self.__lookup_table_orientation = self.__builder.get_object("LookupTableOrientation")
 
-        self.__shift_switch = self.__builder.get_object("ShiftSwitch")
-        self.__ctrl_switch = self.__builder.get_object("CtrlSwitch")
-
         self.__dynamic_adjust = self.__builder.get_object("DynamicAdjust")
 
         # read values
@@ -129,15 +126,12 @@ class PreferencesDialog:
         self.__lookup_table_orientation.set_active(self.__get_value("LookupTableOrientation", 0))
         self.__lookup_table_page_size.set_value(self.__get_value("LookupTablePageSize", 5))
 
-        self.__shift_switch.set_active(not self.__get_value("CtrlSwitch", False))
-
         self.__dynamic_adjust.set_active(self.__get_value("DynamicAdjust", True))
         # connect signals
         self.__init_chinese.connect("toggled", self.__toggled_cb, "InitChinese")
         self.__init_full.connect("toggled", self.__toggled_cb, "InitFull")
         self.__init_full_punct.connect("toggled", self.__toggled_cb, "InitFullPunct")
         self.__init_simp.connect("toggled", self.__toggled_cb, "InitSimplifiedChinese")
-        self.__ctrl_switch.connect("toggled", self.__toggled_cb, "CtrlSwitch")
         self.__dynamic_adjust.connect("toggled", self.__toggled_cb, "DynamicAdjust")
 
         def __lookup_table_page_size_changed_cb(adjustment):
