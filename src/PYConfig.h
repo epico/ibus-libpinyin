@@ -45,7 +45,6 @@ public:
     pinyin_option_t option (void) const         { return m_option & m_option_mask; }
     guint orientation (void) const              { return m_orientation; }
     guint pageSize (void) const                 { return m_page_size; }
-    G_DEPRECATED gboolean ctrlSwitch (void) const{ return m_ctrl_switch; }
     std::string mainSwitch (void) const         { return m_main_switch; }
     std::string letterSwitch (void) const       { return m_letter_switch; }
     std::string punctSwitch (void) const        { return m_punct_switch; }
@@ -94,7 +93,6 @@ protected:
 
     gint m_orientation;
     guint m_page_size;
-    gboolean m_ctrl_switch;
     std::string m_main_switch;
     std::string m_letter_switch;
     std::string m_punct_switch;

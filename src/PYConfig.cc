@@ -46,7 +46,6 @@ Config::initDefaultValues (void)
 {
     m_orientation = IBUS_ORIENTATION_HORIZONTAL;
     m_page_size = 5;
-    m_ctrl_switch = FALSE;
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
     m_comma_period_page = TRUE;
