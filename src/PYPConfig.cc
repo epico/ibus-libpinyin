@@ -32,6 +32,7 @@ const gchar * const CONFIG_CORRECT_PINYIN            = "CorrectPinyin";
 const gchar * const CONFIG_FUZZY_PINYIN              = "FuzzyPinyin";
 const gchar * const CONFIG_ORIENTATION               = "LookupTableOrientation";
 const gchar * const CONFIG_PAGE_SIZE                 = "LookupTablePageSize";
+const gchar * const CONFIG_REMEMBER_EVERY_INPUT      = "RememberEveryInput";
 /* const gchar * const CONFIG_CTRL_SWITCH               = "CtrlSwitch"; */
 const gchar * const CONFIG_MAIN_SWITCH               = "MainSwitch";
 const gchar * const CONFIG_LETTER_SWITCH             = "LetterSwitch";
@@ -90,6 +91,8 @@ LibPinyinConfig::initDefaultValues (void)
 
     m_orientation = IBUS_ORIENTATION_HORIZONTAL;
     m_page_size = 5;
+    m_remember_every_input = FALSE;
+
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
     m_comma_period_page = TRUE;
@@ -168,6 +171,8 @@ LibPinyinConfig::readDefaultValues (void)
         m_page_size = 5;
         g_warn_if_reached ();
     }
+    m_remember_every_input = read (CONFIG_REMEMBER_EVERY_INPUT, false);
+
     m_main_switch = read(CONFIG_MAIN_SWITCH, std::string ("<Shift>"));
     m_letter_switch = read(CONFIG_LETTER_SWITCH, std::string (""));
     m_punct_switch = read(CONFIG_PUNCT_SWITCH, std::string ("<Control>period"));
@@ -216,6 +221,8 @@ LibPinyinConfig::valueChanged (const std::string &section,
             m_page_size = 5;
             g_warn_if_reached ();
         }
+    } else if (CONFIG_REMEMBER_EVERY_INPUT == name) {
+        m_remember_every_input = normalizeGVariant (value, false);
     } else if (CONFIG_MAIN_SWITCH == name) {
         m_main_switch = normalizeGVariant (value, std::string ("<Shift>"));
     } else if (CONFIG_LETTER_SWITCH == name) {
