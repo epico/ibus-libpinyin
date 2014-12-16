@@ -46,10 +46,6 @@ public:
     guint orientation (void) const              { return m_orientation; }
     guint pageSize (void) const                 { return m_page_size; }
     gboolean rememberEveryInput (void) const    { return m_remember_every_input; }
-    std::string mainSwitch (void) const         { return m_main_switch; }
-    std::string letterSwitch (void) const       { return m_letter_switch; }
-    std::string punctSwitch (void) const        { return m_punct_switch; }
-    std::string tradSwitch (void) const         { return m_trad_switch; }
     gboolean shiftSelectCandidate (void) const  { return m_shift_select_candidate; }
     gboolean minusEqualPage (void) const        { return m_minus_equal_page; }
     gboolean commaPeriodPage (void) const       { return m_comma_period_page; }
@@ -68,6 +64,11 @@ public:
     gboolean auxiliarySelectKeyF (void) const   { return m_auxiliary_select_key_f; }
     gboolean auxiliarySelectKeyKP (void) const  { return m_auxiliary_select_key_kp; }
     gboolean enterKey (void) const  { return m_enter_key; }
+
+    std::string mainSwitch (void) const         { return m_main_switch; }
+    std::string letterSwitch (void) const       { return m_letter_switch; }
+    std::string punctSwitch (void) const        { return m_punct_switch; }
+    std::string tradSwitch (void) const         { return m_trad_switch; }
 
 protected:
     bool read (const gchar * name, bool defval);
@@ -96,10 +97,6 @@ protected:
     guint m_page_size;
     gboolean m_remember_every_input;
 
-    std::string m_main_switch;
-    std::string m_letter_switch;
-    std::string m_punct_switch;
-    std::string m_trad_switch;
     gboolean m_shift_select_candidate;
     gboolean m_minus_equal_page;
     gboolean m_comma_period_page;
@@ -122,6 +119,12 @@ protected:
     gboolean m_auxiliary_select_key_kp;
 
     gboolean m_enter_key;
+
+    std::string m_main_switch;
+    std::string m_letter_switch;
+    std::string m_punct_switch;
+    std::string m_trad_switch;
+
 };
 
 
