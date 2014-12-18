@@ -287,6 +287,8 @@ BopomofoEditor::commit ()
     }
 
     pinyin_train(m_instance);
+    if (m_config.rememberEveryInput ())
+        LibPinyinBackEnd::instance ().rememberUserInput (m_instance);
     LibPinyinBackEnd::instance ().modified();
     PhoneticEditor::commit ((const gchar *)m_buffer);
     reset();

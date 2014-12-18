@@ -269,6 +269,51 @@ LibPinyinBackEnd::clearPinyinUserData (const char * target)
 }
 
 gboolean
+LibPinyinBackEnd::rememberUserInput (pinyin_instance_t * instance)
+{
+    /* pre-check the incomplete pinyin keys. */
+    guint len = 0;
+    g_assert (pinyin_get_n_pinyin (instance, &len));
+    size_t i = 0;
+    for ( ; i < len; ++i) {
+        PinyinKey *key = NULL;
+        g_assert (pinyin_get_pinyin_key (instance, i, &key));
+        if (pinyin_get_pinyin_is_incomplete (instance, key))
+            return FALSE;
+    }
+
+    /* prepare pinyin string. */
+    GPtrArray *array = g_ptr_array_new ();
+    for (i = 0; i < len; ++i) {
+        PinyinKey *key = NULL;
+        g_assert (pinyin_get_pinyin_key (instance, i, &key));
+        gchar * pinyin = NULL;
+        g_assert (pinyin_get_pinyin_string (instance, key, &pinyin));
+        g_ptr_array_add (array, pinyin);
+    }
+    g_ptr_array_add (array, NULL);
+
+    gchar **strings = (gchar **) g_ptr_array_free (array, FALSE);
+    gchar *pinyins = g_strjoinv ("'", strings);
+    g_strfreev (strings);
+
+    /* remember user input. */
+    import_iterator_t * iter = NULL;
+    pinyin_context_t * context = pinyin_get_context (instance);
+    iter = pinyin_begin_add_phrases (context, USER_DICTIONARY);
+    char * phrase = NULL;
+    g_assert (pinyin_get_sentence (instance, &phrase));
+    g_assert (pinyin_iterator_add_phrase (iter, phrase, pinyins, -1));
+    pinyin_end_add_phrases (iter);
+    g_free (phrase);
+    g_free (pinyins);
+
+    /* save later,
+       will mark modified from pinyin/bopomofo editor. */
+    return TRUE;
+}
+
+gboolean
 LibPinyinBackEnd::timeoutCallback (gpointer data)
 {
     LibPinyinBackEnd *self = static_cast<LibPinyinBackEnd *> (data);
