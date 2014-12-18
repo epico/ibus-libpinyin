@@ -136,6 +136,10 @@ BopomofoEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
     if (processAccelKeyEvent (keyval, keycode, modifiers))
         return TRUE;
 
+    /* assume release key event is handled in processAccelKeyEvent. */
+    if (modifiers & IBUS_RELEASE_MASK)
+        return FALSE;
+
     if (m_props.modeChinese ()) {
         if (G_UNLIKELY (m_input_mode == MODE_INIT &&
                         m_editors[MODE_INIT]->text ().empty () &&
