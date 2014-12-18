@@ -22,6 +22,8 @@ setup_libpinyin_PYTHON = \
 	main2.py \
 	config.py \
 	dicttreeview.py \
+	shortcuteditor.py \
+	keyboardshortcut.py \
 	ibus-libpinyin-preferences.ui \
 	$(NULL)
 

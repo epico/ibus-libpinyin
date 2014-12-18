@@ -15,6 +15,8 @@ src/PYEnglishEditor.cc
 src/PYStrokeEditor.cc
 setup/main2.py
 setup/dicttreeview.py
+setup/keyboardshortcut.py
+setup/shortcuteditor.py
 [type: gettext/glade]setup/ibus-libpinyin-preferences.ui
 data/ibus-setup-libpinyin.desktop.in.in
 data/ibus-setup-libbopomofo.desktop.in.in
