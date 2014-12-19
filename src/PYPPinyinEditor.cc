@@ -122,16 +122,13 @@ PinyinEditor::processPunct (guint keyval, guint keycode,
         break;
     }
 
-#if 0
     if (m_config.autoCommit ()) {
         if (m_lookup_table.size ()) {
-            /* TODO: check here. */
             selectCandidate (m_lookup_table.cursorPos ());
         }
         commit ();
         return FALSE;
     }
-#endif
 
     return TRUE;
 }
