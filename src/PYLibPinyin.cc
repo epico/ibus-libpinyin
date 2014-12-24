@@ -274,6 +274,10 @@ LibPinyinBackEnd::rememberUserInput (pinyin_instance_t * instance)
     /* pre-check the incomplete pinyin keys. */
     guint len = 0;
     g_assert (pinyin_get_n_pinyin (instance, &len));
+
+    if (0 == len || len >= MAX_PHRASE_LENGTH)
+        return FALSE;
+
     size_t i = 0;
     for ( ; i < len; ++i) {
         PinyinKey *key = NULL;
