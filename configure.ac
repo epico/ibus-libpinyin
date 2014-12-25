@@ -112,7 +112,7 @@ AC_ARG_ENABLE(opencc,
 )
 if test x"$enable_opencc" = x"yes"; then
     # check opencc
-    PKG_CHECK_MODULES(OPENCC, [opencc], [
+    PKG_CHECK_MODULES(OPENCC, [opencc >= 1.0.0], [
         AC_DEFINE(HAVE_OPENCC, 1, [Define if found opencc])
     ])
 fi
