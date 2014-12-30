@@ -55,6 +55,7 @@ public:
     void convert (const gchar *in, String &out)
     {
         char * converted = opencc_convert_utf8 (m_cc, in, -1);
+        g_assert (converted != NULL);
         out = converted;
         opencc_convert_utf8_free (converted);
     }
