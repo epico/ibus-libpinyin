@@ -409,6 +409,8 @@ class PreferencesDialog:
 
         # shortcut tree view
         self.__shortcut_editor = self.__builder.get_object("ShortcutsEditor")
+        # work around for fedora 21
+        self.__shortcut_editor.set_orientation(Gtk.Orientation.VERTICAL)
         self.__shortcut_editor.show()
 
         # set shortcuts
