@@ -254,6 +254,39 @@ LibPinyinBackEnd::importPinyinDictionary (const char * filename)
 }
 
 gboolean
+LibPinyinBackEnd::exportPinyinDictionary (const char * filename)
+{
+    /* user phrase library should be already loaded here. */
+    FILE * dictfile = fopen (filename, "w");
+    if (NULL == dictfile)
+        return FALSE;
+
+    export_iterator_t * iter = pinyin_begin_get_phrases
+        (m_pinyin_context, USER_DICTIONARY);
+
+    if (NULL == iter)
+        return FALSE;
+
+    /* use " " as the separator. */
+    while (pinyin_iterator_has_next_phrase (iter)) {
+        gchar * phrase = NULL; gchar * pinyin = NULL;
+        gint count = -1;
+
+        g_assert (pinyin_iterator_get_next_phrase (iter, &phrase, &pinyin, &count));
+
+        if (-1 == count) /* skip output the default count. */
+            fprintf (dictfile, "%s %s\n", phrase, pinyin);
+        else /* output the count. */
+            fprintf (dictfile, "%s %s %d\n", phrase, pinyin, count);
+
+        g_free (phrase); g_free (pinyin);
+    }
+
+    fclose (dictfile);
+    return TRUE;
+}
+
+gboolean
 LibPinyinBackEnd::clearPinyinUserData (const char * target)
 {
     if (0 == strcmp ("all", target))

@@ -51,6 +51,7 @@ public:
     void modified (void);
 
     gboolean importPinyinDictionary (const char * filename);
+    gboolean exportPinyinDictionary (const char * filename);
     gboolean clearPinyinUserData (const char * target);
 
     gboolean rememberUserInput (pinyin_instance_t * instance);
