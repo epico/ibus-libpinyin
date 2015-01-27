@@ -53,6 +53,7 @@ const gchar * const CONFIG_AUXILIARY_SELECT_KEY_F    = "AuxiliarySelectKey_F";
 const gchar * const CONFIG_AUXILIARY_SELECT_KEY_KP   = "AuxiliarySelectKey_KP";
 const gchar * const CONFIG_ENTER_KEY                 = "EnterKey";
 const gchar * const CONFIG_IMPORT_DICTIONARY         = "ImportDictionary";
+const gchar * const CONFIG_EXPORT_DICTIONARY         = "ExportDictionary";
 const gchar * const CONFIG_CLEAR_USER_DATA           = "ClearUserData";
 /* const gchar * const CONFIG_CTRL_SWITCH               = "CtrlSwitch"; */
 const gchar * const CONFIG_MAIN_SWITCH               = "MainSwitch";
@@ -148,6 +149,9 @@ LibPinyinConfig::readDefaultValues (void)
     while (g_variant_iter_next (&iter, "{sv}", &name, &value)) {
         /* skip signals here. */
         if (0 == strcmp(CONFIG_IMPORT_DICTIONARY, name))
+            continue;
+
+        if (0 == strcmp(CONFIG_EXPORT_DICTIONARY, name))
             continue;
 
         if (0 == strcmp(CONFIG_CLEAR_USER_DATA, name))
@@ -420,7 +424,11 @@ PinyinConfig::valueChanged (const std::string &section,
         m_auto_commit = normalizeGVariant (value, false);
     else if (CONFIG_IMPORT_DICTIONARY == name) {
         std::string filename = normalizeGVariant (value, std::string(""));
-        LibPinyinBackEnd::instance ().importPinyinDictionary(filename.c_str ());
+        LibPinyinBackEnd::instance ().importPinyinDictionary (filename.c_str ());
+    }
+    else if (CONFIG_EXPORT_DICTIONARY == name) {
+        std::string filename = normalizeGVariant (value, std::string(""));
+        LibPinyinBackEnd::instance ().exportPinyinDictionary (filename.c_str ());
     }
     else if (CONFIG_CLEAR_USER_DATA == name) {
         std::string target = normalizeGVariant (value, std::string(""));
