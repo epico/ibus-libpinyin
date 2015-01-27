@@ -367,6 +367,9 @@ class PreferencesDialog:
         self.__import_dictionary = self.__builder.get_object("ImportDictionary")
         self.__import_dictionary.connect("clicked", self.__import_dictionary_cb)
 
+        self.__export_dictionary = self.__builder.get_object("ExportDictionary")
+        self.__export_dictionary.connect("clicked", self.__export_dictionary_cb)
+
         self.__clear_user_data = self.__builder.get_object("ClearUserData")
         self.__clear_user_data.connect("clicked", self.__clear_user_data_cb, "user")
         self.__clear_all_data = self.__builder.get_object("ClearAllData")
@@ -384,7 +387,7 @@ class PreferencesDialog:
 
     def __import_dictionary_cb(self, widget):
         dialog = Gtk.FileChooserDialog \
-            (_("Please choose a file"), None,
+            (_("Please choose a file"), self.__dialog,
              Gtk.FileChooserAction.OPEN,
              (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
               Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
@@ -397,6 +400,24 @@ class PreferencesDialog:
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
             self.__set_value("ImportDictionary", dialog.get_filename())
+
+        dialog.destroy()
+
+    def __export_dictionary_cb(self, widget):
+        dialog = Gtk.FileChooserDialog \
+                 (_("Please save a file"), self.__dialog,
+                  Gtk.FileChooserAction.SAVE,
+                  (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                   Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
+
+        filter_text = Gtk.FileFilter()
+        filter_text.set_name("Text files")
+        filter_text.add_mime_type("text/plain")
+        dialog.add_filter(filter_text)
+
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            self.__set_value("ExportDictionary", dialog.get_filename())
 
         dialog.destroy()
 
