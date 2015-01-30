@@ -409,6 +409,7 @@ class PreferencesDialog:
                   Gtk.FileChooserAction.SAVE,
                   (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
                    Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
+        dialog.set_do_overwrite_confirmation(True)
 
         filter_text = Gtk.FileFilter()
         filter_text.set_name("Text files")
