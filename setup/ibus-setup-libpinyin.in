@@ -28,5 +28,5 @@ export IBUS_DATAROOTDIR=@datarootdir@
 export IBUS_LOCALEDIR=@localedir@
 export IBUS_PKGDATADIR=@prefix@/share/@PACKAGE@
 cd @prefix@/share/@PACKAGE@/setup/
-exec python main2.py $@
+exec @PYTHON@ main2.py $@
 

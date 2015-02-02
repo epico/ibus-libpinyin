@@ -172,13 +172,13 @@ class DictionaryTreeView(Gtk.TreeView):
         if prop.name == 'dictionaries':
             return self.get_dictionaries()
         else:
-            raise AttributeError, 'unknown property %s' % prop.name
+            raise AttributeError('unknown property %s' % prop.name)
 
     def do_set_property(self, prop, value):
         if prop.name == "dictionaries":
             self.set_dictionaries(value)
         else:
-            raise AttributeError, 'unknown property %s' % prop.name
+            raise AttributeError('unknown property %s' % prop.name)
 
 
 GObject.type_register(DictionaryTreeView)
