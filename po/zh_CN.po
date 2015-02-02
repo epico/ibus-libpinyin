@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ibus-libpinyin 1.2.99\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-02 14:38+0800\n"
-"PO-Revision-Date: 2013-03-15 15:14+0800\n"
+"PO-Revision-Date: 2015-02-02 15:58+0800\n"
 "Last-Translator: Peng Huang <shawn.p.huang@gmail.com>\n"
 "Language-Team: Peng Huang <shawn.p.huang@gmail.com>\n"
 "Language: \n"
@@ -29,14 +29,12 @@ msgid "Intelligent Pinyin input method (debug)"
 msgstr "智能拼音输入法（调试）"
 
 #: ../src/PYMain.cc:118
-#, fuzzy
 msgid "Bopomofo (debug)"
-msgstr "注音模式"
+msgstr "注音（调试）"
 
 #: ../src/PYMain.cc:119
-#, fuzzy
 msgid "Bopomofo input method (debug)"
-msgstr "智能注音输入法（调试）"
+msgstr "注音输入法（调试）"
 
 #: ../src/PYPinyinProperties.cc:40 ../src/PYPinyinProperties.cc:105
 #: ../setup/ibus-libpinyin-preferences.ui.h:17
@@ -111,11 +109,11 @@ msgstr "首选项"
 
 #: ../src/PYPinyinProperties.cc:88 ../src/PYPinyinProperties.cc:109
 msgid "中"
-msgstr ""
+msgstr "中"
 
 #: ../src/PYPinyinProperties.cc:90 ../src/PYPinyinProperties.cc:111
 msgid "英"
-msgstr ""
+msgstr "英"
 
 #: ../src/PYEnglishEditor.cc:610
 msgid "Please input the english word."
@@ -130,9 +128,8 @@ msgid "Please choose a file"
 msgstr "请选择文件"
 
 #: ../setup/main2.py:408
-#, fuzzy
 msgid "Please save a file"
-msgstr "请选择文件"
+msgstr "请保存文件"
 
 #: ../setup/main2.py:452 ../setup/ibus-libpinyin-preferences.ui.h:80
 #, no-c-format, python-format
@@ -193,83 +190,79 @@ msgstr "描述"
 
 #: ../setup/keyboardshortcut.py:54
 msgid "Shortcut:"
-msgstr ""
+msgstr "快捷键："
 
 #: ../setup/keyboardshortcut.py:67
 msgid "Key code:"
-msgstr ""
+msgstr "键："
 
 #: ../setup/keyboardshortcut.py:82
 msgid "Modifiers:"
-msgstr ""
+msgstr "修饰符："
 
 #: ../setup/keyboardshortcut.py:171
 msgid ""
 "Please press a key (or a key combination).\n"
 "The dialog will be closed when the key is released."
 msgstr ""
+"请按快捷键。\n"
+"此对话窗将自动关闭。"
 
 #: ../setup/keyboardshortcut.py:174
 msgid "Please press a key (or a key combination)"
-msgstr ""
+msgstr "请按快捷键"
 
 #: ../setup/keyboardshortcut.py:186
 msgid "Shorcut Editor"
-msgstr ""
+msgstr "快捷键编辑器"
 
 #: ../setup/keyboardshortcut.py:239 ../setup/shortcuteditor.py:193
 #: ../setup/shortcuteditor.py:228
 msgid "_Cancel"
-msgstr ""
+msgstr "取消"
 
 #: ../setup/keyboardshortcut.py:240 ../setup/shortcuteditor.py:194
 #: ../setup/shortcuteditor.py:229
 msgid "_OK"
-msgstr ""
+msgstr "确定"
 
 #: ../setup/shortcuteditor.py:46
-#, fuzzy
 msgid "Switch Chinese/English"
-msgstr "切换到中文模式"
+msgstr "切换中文/英文模式"
 
 #: ../setup/shortcuteditor.py:47
-#, fuzzy
 msgid "Full/Half Width Letter"
-msgstr "半角字母"
+msgstr "全角/半角字母"
 
 #: ../setup/shortcuteditor.py:48
-#, fuzzy
 msgid "Full/Half Width Punct"
-msgstr "半角符号"
+msgstr "全角/半角符号"
 
 #: ../setup/shortcuteditor.py:49
-#, fuzzy
 msgid "Switch Traditional/Simplfied Chinese"
-msgstr "切换到简体中文模式"
+msgstr "切换繁体/简体中文模式"
 
 #: ../setup/shortcuteditor.py:87
 msgid "Accelerator"
-msgstr ""
+msgstr "快捷键"
 
 #: ../setup/shortcuteditor.py:105
 msgid "This shortcut key is already used."
-msgstr ""
+msgstr "此快捷键已使用。"
 
 #. set default button
 #: ../setup/shortcuteditor.py:163
 msgid "_Default"
-msgstr ""
+msgstr "缺省值"
 
 #. edit button
 #: ../setup/shortcuteditor.py:169
-#, fuzzy
 msgid "_Edit"
 msgstr "编辑"
 
 #: ../setup/shortcuteditor.py:192
-#, fuzzy
 msgid "Select Switching Key"
-msgstr "选词键："
+msgstr "选择切换键"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:1
 msgid "Standard"
@@ -373,7 +366,7 @@ msgstr "动态调整候选词顺序"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:29
 msgid "Remember every input as a phrase."
-msgstr ""
+msgstr "将每个输入记录为新的词汇"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:30
 msgid "<b>Candidates</b>"
@@ -520,9 +513,8 @@ msgid "<b>Customize IME</b>"
 msgstr "<b>定制输入法</b>"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:66
-#, fuzzy
 msgid "Export"
-msgstr "体育"
+msgstr "导出"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:67
 msgid "Import"
@@ -566,7 +558,7 @@ msgstr "用户数据"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:78
 msgid "Shortcuts"
-msgstr ""
+msgstr "快捷键"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:81
 msgid "Intelligent Pinyin input method for IBus"
