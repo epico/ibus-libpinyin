@@ -64,7 +64,7 @@ PKG_CHECK_MODULES(SQLITE, [
 AC_PATH_PROG(SQLITE3, sqlite3)
 
 PKG_CHECK_MODULES(LIBPINYIN, [
-    libpinyin >= 0.9.91
+    libpinyin >= 1.0.99
 ], [enable_libpinyin=yes])
 
 LIBPINYIN_DATADIR=`$PKG_CONFIG --variable=pkgdatadir libpinyin`
