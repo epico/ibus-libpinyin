@@ -162,16 +162,18 @@ class ShortcutEditor(Gtk.Box):
         # set default button
         self.__set_default_button = Gtk.Button(label = _("_Default"),
                                                use_underline = True)
-        self.__set_default_button.set_sensitive(False)
         self.__set_default_button.connect("clicked", self.__set_default_button_clicked_cb)
         hbox.pack_start(self.__set_default_button, False, True, 0)
         # edit button
         self.__edit_button = Gtk.Button(label= _("_Edit"),
                                         use_underline = True)
-        self.__edit_button.set_sensitive(False)
         self.__edit_button.connect("clicked", self.__edit_button_clicked_cb)
         hbox.pack_start(self.__edit_button, False, True, 0)
         self.pack_start(hbox, False, True, 4)
+        # select the first row
+        selection = self.__shortcut_treeview.get_selection()
+        selection.set_mode(Gtk.SelectionMode.SINGLE)
+        selection.select_path(Gtk.TreePath(0))
         self.show_all()
 
     def __shortcut_treeview_cursor_changed_cb(self, treeview):
