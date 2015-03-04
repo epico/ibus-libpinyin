@@ -1,0 +1,6 @@
+version 1.7.0
+* python 3.x migration
+* use opencc 1.0
+* remember every user input as new phrase
+* customize shortcut keys
+* support to export user phrases
