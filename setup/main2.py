@@ -437,11 +437,11 @@ class PreferencesDialog:
         self.__shortcut_editor.set_orientation(Gtk.Orientation.VERTICAL)
         self.__shortcut_editor.show()
 
-        # set shortcuts
-        self.__shortcut_editor.update_shortcuts(self.__values)
-
         # connect "shortcut-changed" signal
         self.__shortcut_editor.connect("shortcut-changed", self.__shortcut_changed_cb)
+
+        # set shortcuts
+        self.__shortcut_editor.update_shortcuts(self.__values)
 
     def __shortcut_changed_cb(self, editor, key, value):
         self.__set_value(key, value)

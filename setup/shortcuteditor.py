@@ -215,6 +215,8 @@ class ShortcutEditor(Gtk.Box):
         for label, keyname, defvalue in accelerators:
             value = values[keyname] if keyname in values else defvalue
             self.__shortcut_treeview.set_shortcut_value(keyname, value)
+            # store the default value
+            self.emit_shortcut_changed(keyname, value)
 
 class ShortcutEditorDialog(Gtk.Dialog):
     def __init__(self, title = None, transient_for = None, flags = 0):
