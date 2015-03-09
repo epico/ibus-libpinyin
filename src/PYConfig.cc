@@ -64,6 +64,11 @@ Config::initDefaultValues (void)
     m_special_phrases = TRUE;
 
     m_dictionaries = "2";
+
+    m_main_switch = "<Shift>";
+    m_letter_switch = "";
+    m_punct_switch = "<Control>period";
+    m_trad_switch = "<Control><Shift>f";
 }
 
 
