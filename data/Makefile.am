@@ -26,6 +26,8 @@ STROKES = strokes
 STROKES_AWK = strokes.awk
 STROKES_DB = strokes.db
 
+APPDATA_XML = libpinyin.appdata.xml
+
 SUBDIRS = \
 	icons \
 	$(NULL)
@@ -47,6 +49,10 @@ $(STROKES_DB): $(STROKES) $(STROKES_AWK)
 	$(RM) $@; \
 	$(AWK) -f $(srcdir)/$(STROKES_AWK) $(srcdir)/$(STROKES) | @SQLITE3@ $@ || \
 		( $(RM) $@ ; exit 1 )
+
+appdatadir = @datadir@/appdata
+
+appdata_DATA = $(APPDATA_XML)
 
 desktop_in_in_files = \
 	ibus-setup-libbopomofo.desktop.in.in \
@@ -72,6 +78,7 @@ EXTRA_DIST = \
 	$(ENGLISH_AWK) \
 	$(STROKES) \
 	$(STROKES_AWK) \
+	$(APPDATA_XML)
 	$(NULL)
 
 CLEANFILES = \
