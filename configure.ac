@@ -22,7 +22,7 @@
 m4_define([ibus_released], [1])
 m4_define([ibus_major_version], [1])
 m4_define([ibus_minor_version], [7])
-m4_define([ibus_micro_version], [1])
+m4_define([ibus_micro_version], [2])
 m4_define(ibus_maybe_datestamp,
     m4_esyscmd([if test x]ibus_released[ != x1; then date +.%Y%m%d | tr -d '\n\r'; fi]))
 
@@ -64,7 +64,7 @@ PKG_CHECK_MODULES(SQLITE, [
 AC_PATH_PROG(SQLITE3, sqlite3)
 
 PKG_CHECK_MODULES(LIBPINYIN, [
-    libpinyin >= 1.1.0
+    libpinyin >= 1.1.91
 ], [enable_libpinyin=yes])
 
 LIBPINYIN_DATADIR=`$PKG_CONFIG --variable=pkgdatadir libpinyin`
