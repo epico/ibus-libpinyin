@@ -76,12 +76,9 @@ LibPinyinBackEnd::initPinyinContext (Config *config)
         if (index <= 1)
             continue;
 
-        pinyin_load_phrase_library (context, index);
+        pinyin_load_addon_phrase_library (context, index);
     }
     g_strfreev (indices);
-
-    /* load user phrase library. */
-    pinyin_load_phrase_library (context, USER_DICTIONARY);
 
     return context;
 }
@@ -125,7 +122,7 @@ LibPinyinBackEnd::initChewingContext (Config *config)
         if (index <= 1)
             continue;
 
-        pinyin_load_phrase_library (context, index);
+        pinyin_load_addon_phrase_library (context, index);
     }
     g_strfreev (indices);
 
