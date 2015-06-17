@@ -109,7 +109,7 @@ LibPinyinConfig::initDefaultValues (void)
     m_init_simp_chinese = TRUE;
     m_special_phrases = TRUE;
 
-    m_dictionaries = "2";
+    m_dictionaries = "";
 
     m_main_switch = "<Shift>";
     m_letter_switch = "";
@@ -182,7 +182,7 @@ LibPinyinConfig::readDefaultValues (void)
     }
     m_remember_every_input = read (CONFIG_REMEMBER_EVERY_INPUT, false);
 
-    m_dictionaries = read (CONFIG_DICTIONARIES, std::string ("2"));
+    m_dictionaries = read (CONFIG_DICTIONARIES, std::string (""));
 
     m_main_switch = read (CONFIG_MAIN_SWITCH, std::string ("<Shift>"));
     m_letter_switch = read (CONFIG_LETTER_SWITCH, std::string (""));
@@ -234,7 +234,7 @@ LibPinyinConfig::valueChanged (const std::string &section,
     } else if (CONFIG_REMEMBER_EVERY_INPUT == name) {
         m_remember_every_input = normalizeGVariant (value, false);
     } else if (CONFIG_DICTIONARIES == name) {
-        m_dictionaries = normalizeGVariant (value, std::string ("2"));
+        m_dictionaries = normalizeGVariant (value, std::string (""));
     } else if (CONFIG_MAIN_SWITCH == name) {
         m_main_switch = normalizeGVariant (value, std::string ("<Shift>"));
     } else if (CONFIG_LETTER_SWITCH == name) {

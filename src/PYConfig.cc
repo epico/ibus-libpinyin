@@ -63,7 +63,7 @@ Config::initDefaultValues (void)
     m_init_simp_chinese = TRUE;
     m_special_phrases = TRUE;
 
-    m_dictionaries = "2";
+    m_dictionaries = "";
 
     m_main_switch = "<Shift>";
     m_letter_switch = "";
