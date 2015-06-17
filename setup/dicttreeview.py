@@ -26,10 +26,6 @@ from gi.repository import Gtk
 gettext.install('ibus-libpinyin')
 
 (
-    RESERVED,
-    GB_DICTIONARY,
-    GBK_DICTIONARY,
-    MERGED_DICTIONARY,
     ART_DICTIONARY,
     CULTURE_DICTIONARY,
     ECONOMY_DICTIONARY,
@@ -37,12 +33,12 @@ gettext.install('ibus-libpinyin')
     HISTORY_DICTIONARY,
     LIFE_DICTIONARY,
     NATURE_DICTIONARY,
-    SCITECH_DICTIONARY,
+    PEOPLE_DICTIONARY,
+    SCIENCE_DICTIONARY,
     SOCIETY_DICTIONARY,
     SPORT_DICTIONARY,
-    RESERVED1,
-    USER_DICTIONARY
-) = range(16)
+    TECHNOLOGY_DICTIONARY,
+) = range(4, 16)
 
 (
 COLUMN_SENSITIVE,
@@ -53,7 +49,6 @@ COLUMN_ACTIVE
 
 dictionaries = \
     (
-    (True, GBK_DICTIONARY, _("Low Frequent Characters"), True),
     (True, ART_DICTIONARY, _("Art"), True),
     (True, CULTURE_DICTIONARY, _("Culture"), True),
     (True, ECONOMY_DICTIONARY, _("Economy"), True),
@@ -61,9 +56,11 @@ dictionaries = \
     (True, HISTORY_DICTIONARY, _("History"), True),
     (True, LIFE_DICTIONARY, _("Life"), True),
     (True, NATURE_DICTIONARY, _("Nature"), True),
-    (True, SCITECH_DICTIONARY, _("SciTech"), True),
+    (True, PEOPLE_DICTIONARY, _("People"), True),
+    (True, SCIENCE_DICTIONARY, _("Science"), True),
     (True, SOCIETY_DICTIONARY, _("Society"), True),
-    (True, SPORT_DICTIONARY, _("Sport"), True)
+    (True, SPORT_DICTIONARY, _("Sport"), True),
+    (True, TECHNOLOGY_DICTIONARY, _("Technology"), True),
     )
 
 
