@@ -286,13 +286,18 @@ LibPinyinBackEnd::exportPinyinDictionary (const char * filename)
 gboolean
 LibPinyinBackEnd::clearPinyinUserData (const char * target)
 {
-    if (0 == strcmp ("all", target))
+    if (0 == strcmp ("all", target)) {
         pinyin_mask_out (m_pinyin_context, 0x0, 0x0);
-    else if (0 == strcmp ("user", target))
+    } else if (0 == strcmp ("user", target)) {
+        /* clear addon dictionary. */
+        pinyin_mask_out (m_pinyin_context, PHRASE_INDEX_LIBRARY_MASK,
+                         PHRASE_INDEX_MAKE_TOKEN (ADDON_DICTIONARY, null_token));
+        /* clear user dictionary. */
         pinyin_mask_out (m_pinyin_context, PHRASE_INDEX_LIBRARY_MASK,
                         PHRASE_INDEX_MAKE_TOKEN (USER_DICTIONARY, null_token));
-    else
+    } else {
         g_warning ("unknown clear target: %s.\n", target);
+    }
 
     pinyin_save (m_pinyin_context);
     return TRUE;
