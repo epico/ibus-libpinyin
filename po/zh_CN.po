@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ibus-libpinyin 1.2.99\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-06 16:33+0800\n"
-"PO-Revision-Date: 2015-02-02 15:58+0800\n"
+"PO-Revision-Date: 2015-07-06 16:37+0800\n"
 "Last-Translator: Peng Huang <shawn.p.huang@gmail.com>\n"
 "Language-Team: Peng Huang <shawn.p.huang@gmail.com>\n"
 "Language: \n"
@@ -166,11 +166,11 @@ msgstr "自然"
 
 #: ../setup/dicttreeview.py:59
 msgid "People"
-msgstr ""
+msgstr "人物"
 
 #: ../setup/dicttreeview.py:60
 msgid "Science"
-msgstr ""
+msgstr "科学"
 
 #: ../setup/dicttreeview.py:61
 msgid "Society"
@@ -181,9 +181,8 @@ msgid "Sport"
 msgstr "体育"
 
 #: ../setup/dicttreeview.py:63
-#, fuzzy
 msgid "Technology"
-msgstr "地理"
+msgstr "技术"
 
 #: ../setup/dicttreeview.py:110
 msgid "Active"
