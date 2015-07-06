@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-02 14:38+0800\n"
+"POT-Creation-Date: 2015-07-06 16:33+0800\n"
 "PO-Revision-Date: 2012-03-19 22:13+0100\n"
 "Last-Translator: Ma Jiehong <ma.jiehong@gmail.com>\n"
 "Language-Team: French\n"
@@ -137,68 +137,72 @@ msgstr ""
 msgid "Please use \"hspnz\" to input."
 msgstr ""
 
-#: ../setup/main2.py:390
+#: ../setup/main2.py:392
 msgid "Please choose a file"
 msgstr ""
 
-#: ../setup/main2.py:408
+#: ../setup/main2.py:410
 msgid "Please save a file"
 msgstr ""
 
-#: ../setup/main2.py:452 ../setup/ibus-libpinyin-preferences.ui.h:80
+#: ../setup/main2.py:454 ../setup/ibus-libpinyin-preferences.ui.h:80
 #, fuzzy, no-c-format, python-format
 msgid "<big><b>Intelligent Pinyin %s</b></big>"
 msgstr "<big><b>Ibus Pinyin %s</b></big>"
 
-#: ../setup/dicttreeview.py:56
-msgid "Low Frequent Characters"
-msgstr ""
-
-#: ../setup/dicttreeview.py:57
+#: ../setup/dicttreeview.py:52
 msgid "Art"
 msgstr ""
 
-#: ../setup/dicttreeview.py:58
+#: ../setup/dicttreeview.py:53
 msgid "Culture"
 msgstr ""
 
-#: ../setup/dicttreeview.py:59
+#: ../setup/dicttreeview.py:54
 msgid "Economy"
 msgstr ""
 
-#: ../setup/dicttreeview.py:60
+#: ../setup/dicttreeview.py:55
 msgid "Geology"
 msgstr ""
 
-#: ../setup/dicttreeview.py:61
+#: ../setup/dicttreeview.py:56
 msgid "History"
 msgstr ""
 
-#: ../setup/dicttreeview.py:62
+#: ../setup/dicttreeview.py:57
 msgid "Life"
 msgstr ""
 
-#: ../setup/dicttreeview.py:63
+#: ../setup/dicttreeview.py:58
 msgid "Nature"
 msgstr ""
 
-#: ../setup/dicttreeview.py:64
-msgid "SciTech"
+#: ../setup/dicttreeview.py:59
+msgid "People"
 msgstr ""
 
-#: ../setup/dicttreeview.py:65
+#: ../setup/dicttreeview.py:60
+msgid "Science"
+msgstr ""
+
+#: ../setup/dicttreeview.py:61
 msgid "Society"
 msgstr ""
 
-#: ../setup/dicttreeview.py:66
+#: ../setup/dicttreeview.py:62
 msgid "Sport"
 msgstr ""
 
-#: ../setup/dicttreeview.py:113
+#: ../setup/dicttreeview.py:63
+msgid "Technology"
+msgstr ""
+
+#: ../setup/dicttreeview.py:110
 msgid "Active"
 msgstr ""
 
-#: ../setup/dicttreeview.py:118 ../setup/shortcuteditor.py:82
+#: ../setup/dicttreeview.py:115 ../setup/shortcuteditor.py:82
 msgid "Description"
 msgstr ""
 
@@ -228,13 +232,13 @@ msgstr ""
 msgid "Shorcut Editor"
 msgstr ""
 
-#: ../setup/keyboardshortcut.py:239 ../setup/shortcuteditor.py:193
-#: ../setup/shortcuteditor.py:228
+#: ../setup/keyboardshortcut.py:239 ../setup/shortcuteditor.py:195
+#: ../setup/shortcuteditor.py:232
 msgid "_Cancel"
 msgstr ""
 
-#: ../setup/keyboardshortcut.py:240 ../setup/shortcuteditor.py:194
-#: ../setup/shortcuteditor.py:229
+#: ../setup/keyboardshortcut.py:240 ../setup/shortcuteditor.py:196
+#: ../setup/shortcuteditor.py:233
 msgid "_OK"
 msgstr ""
 
@@ -271,11 +275,11 @@ msgid "_Default"
 msgstr ""
 
 #. edit button
-#: ../setup/shortcuteditor.py:169
+#: ../setup/shortcuteditor.py:168
 msgid "_Edit"
 msgstr ""
 
-#: ../setup/shortcuteditor.py:192
+#: ../setup/shortcuteditor.py:194
 #, fuzzy
 msgid "Select Switching Key"
 msgstr "Touches de sélection :"
