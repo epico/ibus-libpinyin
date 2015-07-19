@@ -157,7 +157,11 @@ static const luaL_Reg syslib[] = {
 
 
 LUALIB_API int luaopen_myos (lua_State *L) {
+#if LUA_VERSION_NUM >= 502
+  luaL_newlib(L, syslib);
+#else
   luaL_register(L, LUA_OSLIBNAME, syslib);
+#endif
   return 1;
 }
 
