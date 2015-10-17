@@ -58,7 +58,7 @@ public:
     gboolean initFullPunct (void) const         { return m_init_full_punct; }
     gboolean initSimpChinese (void) const       { return m_init_simp_chinese; }
     gboolean specialPhrases (void) const        { return m_special_phrases; }
-    ChewingScheme bopomofoKeyboardMapping (void) const   { return m_bopomofo_keyboard_mapping; }
+    ZhuyinScheme bopomofoKeyboardMapping (void) const   { return m_bopomofo_keyboard_mapping; }
     gint selectKeys (void) const                { return m_select_keys; }
     gboolean guideKey (void) const              { return m_guide_key; }
     gboolean auxiliarySelectKeyF (void) const   { return m_auxiliary_select_key_f; }
@@ -112,7 +112,7 @@ protected:
     gboolean m_init_simp_chinese;
     gboolean m_special_phrases;
 
-    ChewingScheme m_bopomofo_keyboard_mapping;
+    ZhuyinScheme m_bopomofo_keyboard_mapping;
     gint m_select_keys;
     gboolean m_guide_key;
     gboolean m_auxiliary_select_key_f;

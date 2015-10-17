@@ -353,7 +353,7 @@ BopomofoEditor::updateAuxiliaryText (void)
 
         gchar * str = NULL;
         if (G_UNLIKELY (cursor == m_cursor)) { /* at word boundary. */
-            pinyin_get_chewing_string (m_instance, key, &str);
+            pinyin_get_zhuyin_string (m_instance, key, &str);
             m_buffer << '|' << str;
             g_free (str);
         } else if (G_LIKELY (cursor < m_cursor &&
@@ -383,7 +383,7 @@ BopomofoEditor::updateAuxiliaryText (void)
                     m_buffer << *iter;
             }
         } else { /* other words */
-            pinyin_get_chewing_string (m_instance, key, &str);
+            pinyin_get_zhuyin_string (m_instance, key, &str);
             m_buffer << ' ' << str;
             g_free (str);
         }

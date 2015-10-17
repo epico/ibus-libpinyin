@@ -180,8 +180,8 @@ LibPinyinBackEnd::setChewingOptions (Config *config)
     if (NULL == m_chewing_context)
         return FALSE;
 
-    ChewingScheme scheme = config->bopomofoKeyboardMapping ();
-    pinyin_set_chewing_scheme (m_chewing_context, scheme);
+    ZhuyinScheme scheme = config->bopomofoKeyboardMapping ();
+    pinyin_set_zhuyin_scheme (m_chewing_context, scheme);
 
     pinyin_option_t options = config->option() | USE_TONE;
     pinyin_set_options(m_chewing_context, options);

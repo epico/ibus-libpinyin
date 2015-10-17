@@ -63,7 +63,7 @@ const gchar * const CONFIG_TRAD_SWITCH               = "TradSwitch";
 
 const pinyin_option_t PINYIN_DEFAULT_OPTION =
         PINYIN_INCOMPLETE |
-        CHEWING_INCOMPLETE|
+        ZHUYIN_INCOMPLETE|
         PINYIN_CORRECT_ALL|
         0;
 
@@ -88,7 +88,7 @@ void
 LibPinyinConfig::initDefaultValues (void)
 {
     m_option = PINYIN_DEFAULT_OPTION;
-    m_option_mask = PINYIN_INCOMPLETE | CHEWING_INCOMPLETE | PINYIN_CORRECT_ALL;
+    m_option_mask = PINYIN_INCOMPLETE | ZHUYIN_INCOMPLETE | PINYIN_CORRECT_ALL;
 
     m_orientation = IBUS_ORIENTATION_HORIZONTAL;
     m_page_size = 5;
@@ -121,7 +121,7 @@ static const struct {
     const gchar * const name;
     guint option;
 } options [] = {
-    { "IncompletePinyin",       PINYIN_INCOMPLETE|CHEWING_INCOMPLETE},
+    { "IncompletePinyin",       PINYIN_INCOMPLETE|ZHUYIN_INCOMPLETE},
     /* fuzzy pinyin */
     { "FuzzyPinyin_C_CH",       PINYIN_AMB_C_CH      },
     { "FuzzyPinyin_Z_ZH",       PINYIN_AMB_Z_ZH      },
@@ -464,12 +464,12 @@ PinyinConfig::valueChanged (const std::string &section,
 /* Here are the chewing keyboard scheme mapping table. */
 static const struct {
     gint bopomofo_keyboard;
-    ChewingScheme scheme;
+    ZhuyinScheme scheme;
 } chewing_schemes [] = {
-    {0, CHEWING_STANDARD},
-    {1, CHEWING_GINYIEH},
-    {2, CHEWING_ETEN},
-    {3, CHEWING_IBM}
+    {0, ZHUYIN_STANDARD},
+    {1, ZHUYIN_GINYIEH},
+    {2, ZHUYIN_ETEN},
+    {3, ZHUYIN_IBM}
 };
 
 BopomofoConfig::BopomofoConfig (Bus & bus)
@@ -500,7 +500,7 @@ BopomofoConfig::readDefaultValues (void)
     m_special_phrases = read (CONFIG_SPECIAL_PHRASES, false);
 
     const gint map = read (CONFIG_BOPOMOFO_KEYBOARD_MAPPING, 0);
-    m_bopomofo_keyboard_mapping = CHEWING_DEFAULT;
+    m_bopomofo_keyboard_mapping = ZHUYIN_DEFAULT;
 
     for (guint i = 0; i < G_N_ELEMENTS (chewing_schemes); i++) {
         if (map == chewing_schemes[i].bopomofo_keyboard) {
@@ -542,7 +542,7 @@ BopomofoConfig::valueChanged (const std::string &section,
         m_special_phrases = normalizeGVariant (value, false);
     else if (CONFIG_BOPOMOFO_KEYBOARD_MAPPING == name) {
         const gint map = normalizeGVariant (value, 0);
-        m_bopomofo_keyboard_mapping = CHEWING_DEFAULT;
+        m_bopomofo_keyboard_mapping = ZHUYIN_DEFAULT;
 
         for (guint i = 0; i < G_N_ELEMENTS (chewing_schemes); i++) {
             if (map == chewing_schemes[i].bopomofo_keyboard) {
