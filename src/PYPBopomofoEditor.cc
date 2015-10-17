@@ -18,7 +18,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 #include "PYPBopomofoEditor.h"
+#include <assert.h>
 #include "PYConfig.h"
 #include "PYLibPinyin.h"
 #include "PYPinyinProperties.h"
@@ -170,8 +172,10 @@ BopomofoEditor::processBopomofo (guint keyval, guint keycode,
     if (G_UNLIKELY (cmshm_filter (modifiers) != 0))
         return m_text ? TRUE : FALSE;
 
-    if (!(pinyin_in_chewing_keyboard (m_instance, keyval, NULL)))
+    gchar ** symbols = NULL;
+    if (!pinyin_in_chewing_keyboard (m_instance, keyval, &symbols))
         return FALSE;
+    g_strfreev (symbols);
 
     if (keyval == IBUS_space)
         return FALSE;
@@ -273,9 +277,11 @@ BopomofoEditor::commit ()
     /* text after pinyin */
     const gchar *p = m_text.c_str() + m_pinyin_len;
     while (*p != '\0') {
-        const char * symbol = NULL;
-        if (pinyin_in_chewing_keyboard(m_instance, *p, &symbol)) {
-            m_buffer << symbol;
+        gchar ** symbols = NULL;
+        if (pinyin_in_chewing_keyboard (m_instance, *p, &symbols)) {
+            assert (1 == g_strv_length (symbols));
+            m_buffer << symbols[0];
+            g_strfreev (symbols);
         } else {
             if (G_UNLIKELY (m_props.modeFull ())) {
                 m_buffer.appendUnichar (HalfFullConverter::toFull (*p));
@@ -368,19 +374,25 @@ BopomofoEditor::updateAuxiliaryText (void)
             String before = raw.substr (0, offset);
             String after = raw.substr (offset);
             String::const_iterator iter;
-            const char * symbol = NULL;
-            for ( iter = before.begin (); iter != before.end (); ++iter) {
-                if ( pinyin_in_chewing_keyboard(m_instance, *iter, &symbol))
-                    m_buffer << symbol;
-                else
+            gchar ** symbols = NULL;
+            for (iter = before.begin (); iter != before.end (); ++iter) {
+                if (pinyin_in_chewing_keyboard(m_instance, *iter, &symbols)) {
+                    assert (1 == g_strv_length (symbols));
+                    m_buffer << symbols[0];
+                    g_strfreev (symbols);
+                } else {
                     m_buffer << *iter;
+                }
             }
             m_buffer << '|';
-            for ( iter = after.begin (); iter != after.end (); ++iter) {
-                if ( pinyin_in_chewing_keyboard (m_instance, *iter, &symbol))
-                    m_buffer << symbol;
-                else
+            for (iter = after.begin (); iter != after.end (); ++iter) {
+                if (pinyin_in_chewing_keyboard (m_instance, *iter, &symbols)) {
+                    assert (1 == g_strv_length (symbols));
+                    m_buffer << symbols[0];
+                    g_strfreev (symbols);
+                } else {
                     m_buffer << *iter;
+                }
             }
         } else { /* other words */
             pinyin_get_zhuyin_string (m_instance, key, &str);
