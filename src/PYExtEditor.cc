@@ -603,7 +603,7 @@ ExtEditor::updateStateFromInput (void)
         return FALSE;
     }
 
-    if ( ! 'i' == m_text[0] ) {
+    if ( 'i' != m_text[0] ) {
         g_warning ("i is expected in m_text string.\n");
         return FALSE;
     }
