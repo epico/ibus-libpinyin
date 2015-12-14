@@ -109,6 +109,8 @@ LibPinyinConfig::initDefaultValues (void)
     m_init_simp_chinese = TRUE;
     m_special_phrases = TRUE;
 
+    m_bopomofo_keyboard_mapping = ZHUYIN_DEFAULT;
+
     m_dictionaries = "";
 
     m_main_switch = "<Shift>";
@@ -337,7 +339,7 @@ PinyinConfig::readDefaultValues (void)
     /* double pinyin */
     m_double_pinyin = read (CONFIG_DOUBLE_PINYIN, false);
 
-    const gint map = read (CONFIG_DOUBLE_PINYIN_SCHEMA, 0);
+    const gint map = read (CONFIG_DOUBLE_PINYIN_SCHEMA, DOUBLE_PINYIN_DEFAULT);
     m_double_pinyin_schema = DOUBLE_PINYIN_DEFAULT;
 
     for (guint i = 0; i < G_N_ELEMENTS (double_pinyin_schemes); i++) {
@@ -395,7 +397,7 @@ PinyinConfig::valueChanged (const std::string &section,
     if (CONFIG_DOUBLE_PINYIN == name)
         m_double_pinyin = normalizeGVariant (value, false);
     else if (CONFIG_DOUBLE_PINYIN_SCHEMA == name) {
-        const gint map = normalizeGVariant (value, 0);
+        const gint map = normalizeGVariant (value, DOUBLE_PINYIN_DEFAULT);
         m_double_pinyin_schema = DOUBLE_PINYIN_DEFAULT;
 
         for (guint i = 0; i < G_N_ELEMENTS (double_pinyin_schemes); i++) {
@@ -499,7 +501,7 @@ BopomofoConfig::readDefaultValues (void)
 
     m_special_phrases = read (CONFIG_SPECIAL_PHRASES, false);
 
-    const gint map = read (CONFIG_BOPOMOFO_KEYBOARD_MAPPING, 0);
+    const gint map = read (CONFIG_BOPOMOFO_KEYBOARD_MAPPING, ZHUYIN_DEFAULT);
     m_bopomofo_keyboard_mapping = ZHUYIN_DEFAULT;
 
     for (guint i = 0; i < G_N_ELEMENTS (chewing_schemes); i++) {
@@ -541,7 +543,7 @@ BopomofoConfig::valueChanged (const std::string &section,
     else if (CONFIG_SPECIAL_PHRASES == name)
         m_special_phrases = normalizeGVariant (value, false);
     else if (CONFIG_BOPOMOFO_KEYBOARD_MAPPING == name) {
-        const gint map = normalizeGVariant (value, 0);
+        const gint map = normalizeGVariant (value, ZHUYIN_DEFAULT);
         m_bopomofo_keyboard_mapping = ZHUYIN_DEFAULT;
 
         for (guint i = 0; i < G_N_ELEMENTS (chewing_schemes); i++) {
