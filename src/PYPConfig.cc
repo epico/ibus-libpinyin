@@ -109,6 +109,8 @@ LibPinyinConfig::initDefaultValues (void)
     m_init_simp_chinese = TRUE;
     m_special_phrases = TRUE;
 
+    m_bopomofo_keyboard_mapping = ZHUYIN_DEFAULT;
+
     m_dictionaries = "";
 
     m_main_switch = "<Shift>";
