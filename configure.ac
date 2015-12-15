@@ -61,7 +61,11 @@ PKG_CHECK_MODULES(IBUS, [
 PKG_CHECK_MODULES(SQLITE, [
     sqlite3
 ])
+
 AC_PATH_PROG(SQLITE3, sqlite3)
+if test -z "$SQLITE3"; then
+    AC_MSG_ERROR([could not find sqlite3 tool.])
+fi
 
 PKG_CHECK_MODULES(LIBPINYIN, [
     libpinyin >= 1.2.91
