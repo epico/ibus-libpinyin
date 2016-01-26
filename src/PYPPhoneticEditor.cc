@@ -397,8 +397,8 @@ PhoneticEditor::selectCandidate (guint i)
     len = 0;
     pinyin_get_n_pinyin (m_instance, &len);
     if (lookup_cursor == len) {
-        pinyin_train(m_instance);
-        commit();
+        pinyin_train (m_instance);
+        commit ();
         return TRUE;
     }
 
@@ -409,6 +409,7 @@ PhoneticEditor::selectCandidate (guint i)
     pinyin_get_pinyin_key_rest_positions (m_instance, pos, &begin, NULL);
     m_cursor = begin;
 
+    update ();
     return TRUE;
 }
 
