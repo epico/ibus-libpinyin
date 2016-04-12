@@ -213,8 +213,10 @@ LibPinyinBackEnd::importPinyinDictionary (const char * filename)
     import_iterator_t * iter = pinyin_begin_add_phrases
         (m_pinyin_context, USER_DICTIONARY);
 
-    if (NULL == iter)
+    if (NULL == iter) {
+        fclose(dictfile);
         return FALSE;
+    }
 
     char* linebuf = NULL; size_t size = 0; ssize_t read;
     while ((read = getline (&linebuf, &size, dictfile)) != -1) {
@@ -261,8 +263,10 @@ LibPinyinBackEnd::exportPinyinDictionary (const char * filename)
     export_iterator_t * iter = pinyin_begin_get_phrases
         (m_pinyin_context, USER_DICTIONARY);
 
-    if (NULL == iter)
+    if (NULL == iter) {
+        fclose(dictfile);
         return FALSE;
+    }
 
     /* use " " as the separator. */
     while (pinyin_iterator_has_next_phrase (iter)) {
@@ -279,6 +283,7 @@ LibPinyinBackEnd::exportPinyinDictionary (const char * filename)
         g_free (phrase); g_free (pinyin);
     }
 
+    pinyin_end_get_phrases(iter);
     fclose (dictfile);
     return TRUE;
 }
