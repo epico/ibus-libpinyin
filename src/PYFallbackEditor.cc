@@ -200,8 +200,7 @@ FallbackEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 {
     gboolean retval = FALSE;
 
-    modifiers &= (IBUS_SHIFT_MASK |
-                  IBUS_CONTROL_MASK |
+    modifiers &= (IBUS_CONTROL_MASK |
                   IBUS_MOD1_MASK |
                   IBUS_SUPER_MASK |
                   IBUS_HYPER_MASK |
