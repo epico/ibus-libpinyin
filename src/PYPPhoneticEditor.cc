@@ -384,14 +384,6 @@ PhoneticEditor::selectCandidate (guint i)
     lookup_cursor = pinyin_choose_candidate
         (m_instance, lookup_cursor, candidate);
 
-    if (DIVIDED_CANDIDATE == type ||
-        RESPLIT_CANDIDATE == type) {
-        const gchar * str = NULL;
-        pinyin_get_raw_full_pinyin (m_instance, &str);
-
-        m_text = str;
-        updatePinyin ();
-    }
     pinyin_guess_sentence (m_instance);
 
     len = 0;
