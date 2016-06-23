@@ -337,11 +337,9 @@ PhoneticEditor::commit (const gchar *str)
 guint
 PhoneticEditor::getPinyinCursor ()
 {
-    guint len = 0;
-
     /* Translate cursor position to pinyin position. */
-    guint16 pinyin_cursor = 0;
-    pinyin_get_pinyin_key_rest_offset (m_instance, m_cursor, &pinyin_cursor);
+    size_t pinyin_cursor = 0;
+    pinyin_get_pinyin_offset (m_instance, m_cursor, &pinyin_cursor);
 
     return pinyin_cursor;
 }
@@ -349,12 +347,10 @@ PhoneticEditor::getPinyinCursor ()
 guint
 PhoneticEditor::getLookupCursor (void)
 {
-    guint len = 0;
-    pinyin_get_n_pinyin (m_instance, &len);
     guint lookup_cursor = getPinyinCursor ();
 
     /* show candidates when pinyin cursor is at end. */
-    if (lookup_cursor == len)
+    if (lookup_cursor == m_text.length ())
         lookup_cursor = 0;
     return lookup_cursor;
 }
@@ -386,9 +382,7 @@ PhoneticEditor::selectCandidate (guint i)
 
     pinyin_guess_sentence (m_instance);
 
-    len = 0;
-    pinyin_get_n_pinyin (m_instance, &len);
-    if (lookup_cursor == len) {
+    if (lookup_cursor == m_text.length ()) {
         pinyin_train (m_instance);
         commit ();
         return TRUE;
@@ -497,37 +491,13 @@ PhoneticEditor::moveCursorToEnd (void)
 guint
 PhoneticEditor::getCursorLeftByWord (void)
 {
-    guint16 cursor = 0;
+    size_t offset = 0;
 
-    if (G_UNLIKELY (m_cursor > m_pinyin_len)) {
-        cursor = m_pinyin_len;
-    } else {
-        guint len = 0;
-        pinyin_get_n_pinyin (m_instance, &len);
+    pinyin_get_pinyin_offset (m_instance, m_cursor, &offset);
 
-        guint pinyin_cursor = getPinyinCursor ();
+    size_t cursor = 0;
 
-        PinyinKeyPos *pos = NULL;
-
-        if (pinyin_cursor < len) {
-            pinyin_get_pinyin_key_rest (m_instance, pinyin_cursor, &pos);
-
-            pinyin_get_pinyin_key_rest_positions
-                (m_instance, pos, &cursor, NULL);
-        } else {
-            /* at the end of pinyin string. */
-            cursor  = m_cursor;
-        }
-
-        /* cursor at the begin of one pinyin */
-        g_return_val_if_fail (pinyin_cursor > 0, 0);
-        if ( cursor == m_cursor) {
-            pinyin_get_pinyin_key_rest (m_instance, pinyin_cursor - 1, &pos);
-
-            pinyin_get_pinyin_key_rest_positions
-                (m_instance, pos, &cursor, NULL);
-        }
-    }
+    pinyin_get_left_character_offset(m_instance, offset, &cursor);
 
     return cursor;
 }
@@ -535,16 +505,13 @@ PhoneticEditor::getCursorLeftByWord (void)
 guint
 PhoneticEditor::getCursorRightByWord (void)
 {
-    guint16 cursor = 0;
+    size_t offset = 0;
 
-    if (G_UNLIKELY (m_cursor > m_pinyin_len)) {
-        cursor = m_text.length ();
-    } else {
-        guint pinyin_cursor = getPinyinCursor ();
-        PinyinKeyPos *pos = NULL;
-        pinyin_get_pinyin_key_rest (m_instance, pinyin_cursor, &pos);
-        pinyin_get_pinyin_key_rest_positions (m_instance, pos, NULL, &cursor);
-    }
+    pinyin_get_pinyin_offset (m_instance, m_cursor, &offset);
+
+    size_t cursor = 0;
+
+    pinyin_get_right_character_offset(m_instance, offset, &cursor);
 
     return cursor;
 }
