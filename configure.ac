@@ -68,7 +68,7 @@ if test -z "$SQLITE3"; then
 fi
 
 PKG_CHECK_MODULES(LIBPINYIN, [
-    libpinyin >= 1.2.91
+    libpinyin >= 1.5.91
 ], [enable_libpinyin=yes])
 
 LIBPINYIN_DATADIR=`$PKG_CONFIG --variable=pkgdatadir libpinyin`
