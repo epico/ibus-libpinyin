@@ -266,10 +266,13 @@ PinyinEditor::updatePreeditText ()
     /* underline */
     preedit_text.appendAttribute (IBUS_ATTR_TYPE_UNDERLINE, IBUS_ATTR_UNDERLINE_SINGLE, 0, -1);
 
-    guint pinyin_cursor = getPinyinCursor ();
-    Editor::updatePreeditText (preedit_text, pinyin_cursor, TRUE);
+    size_t offset = 0;
+    guint cursor = getPinyinCursor ();
+    pinyin_get_character_offset(m_instance, cursor, &offset);
+    Editor::updatePreeditText (preedit_text, offset, TRUE);
 }
 
+#if 0
 void
 PinyinEditor::updateAuxiliaryText ()
 {
@@ -306,6 +309,7 @@ PinyinEditor::updateAuxiliaryText ()
     StaticText aux_text (m_buffer);
     Editor::updateAuxiliaryText (aux_text, TRUE);
 }
+#endif
 
 void
 PinyinEditor::updateLookupTable ()

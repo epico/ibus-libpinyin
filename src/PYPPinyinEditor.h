@@ -42,7 +42,7 @@ protected:
 
     void commit ();
 
-    virtual void updateAuxiliaryText (void);
+    virtual void updateAuxiliaryText (void) = 0;
     virtual void updateLookupTable (void);
     virtual void updatePreeditText (void);
 
