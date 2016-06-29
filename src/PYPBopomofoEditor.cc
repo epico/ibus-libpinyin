@@ -346,62 +346,10 @@ BopomofoEditor::updateAuxiliaryText (void)
 
     m_buffer.clear ();
 
-    guint len = 0;
-    pinyin_get_n_pinyin (m_instance, &len);
-
-    for (guint i = 0; i < len; ++i) {
-        PinyinKey *key = NULL;
-        pinyin_get_pinyin_key (m_instance, i, &key);
-
-        PinyinKeyPos *pos = NULL;
-        pinyin_get_pinyin_key_rest (m_instance, i, &pos);
-
-        guint16 cursor = 0, end = 0;
-        pinyin_get_pinyin_key_rest_positions (m_instance, pos, &cursor, &end);
-
-        gchar * str = NULL;
-        if (G_UNLIKELY (cursor == m_cursor)) { /* at word boundary. */
-            pinyin_get_zhuyin_string (m_instance, key, &str);
-            m_buffer << '|' << str;
-            g_free (str);
-        } else if (G_LIKELY (cursor < m_cursor &&
-                             m_cursor < end)) { /* in word */
-            /* raw text */
-            guint16 length = 0;
-            pinyin_get_pinyin_key_rest_length (m_instance, pos, &length);
-
-            String raw = m_text.substr (cursor, length);
-            guint offset = m_cursor - cursor;
-            m_buffer << ' ';
-            String before = raw.substr (0, offset);
-            String after = raw.substr (offset);
-            String::const_iterator iter;
-            gchar ** symbols = NULL;
-            for (iter = before.begin (); iter != before.end (); ++iter) {
-                if (pinyin_in_chewing_keyboard(m_instance, *iter, &symbols)) {
-                    assert (1 == g_strv_length (symbols));
-                    m_buffer << symbols[0];
-                    g_strfreev (symbols);
-                } else {
-                    m_buffer << *iter;
-                }
-            }
-            m_buffer << '|';
-            for (iter = after.begin (); iter != after.end (); ++iter) {
-                if (pinyin_in_chewing_keyboard (m_instance, *iter, &symbols)) {
-                    assert (1 == g_strv_length (symbols));
-                    m_buffer << symbols[0];
-                    g_strfreev (symbols);
-                } else {
-                    m_buffer << *iter;
-                }
-            }
-        } else { /* other words */
-            pinyin_get_zhuyin_string (m_instance, key, &str);
-            m_buffer << ' ' << str;
-            g_free (str);
-        }
-    }
+    gchar * aux_text = NULL;
+    pinyin_get_chewing_auxiliary_text (m_instance, m_cursor, &aux_text);
+    m_buffer << aux_text;
+    g_free(aux_text);
 
     if (m_cursor == m_pinyin_len)
         m_buffer << '|';
@@ -410,7 +358,7 @@ BopomofoEditor::updateAuxiliaryText (void)
     const gchar * p = m_text.c_str() + m_pinyin_len;
     m_buffer << p;
 
-    StaticText aux_text (m_buffer);
-    Editor::updateAuxiliaryText (aux_text, TRUE);
+    StaticText text (m_buffer);
+    Editor::updateAuxiliaryText (text, TRUE);
 }
 
