@@ -497,7 +497,7 @@ PhoneticEditor::getCursorLeftByWord (void)
 
     size_t cursor = 0;
 
-    pinyin_get_left_character_offset(m_instance, offset, &cursor);
+    pinyin_get_left_pinyin_offset(m_instance, offset, &cursor);
 
     return cursor;
 }
@@ -511,7 +511,7 @@ PhoneticEditor::getCursorRightByWord (void)
 
     size_t cursor = 0;
 
-    pinyin_get_right_character_offset(m_instance, offset, &cursor);
+    pinyin_get_right_pinyin_offset(m_instance, offset, &cursor);
 
     return cursor;
 }
