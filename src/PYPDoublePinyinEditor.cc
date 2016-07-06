@@ -132,9 +132,6 @@ DoublePinyinEditor::updateAuxiliaryText (void)
     m_buffer << aux_text;
     g_free(aux_text);
 
-    if (m_cursor == m_pinyin_len)
-        m_buffer << '|';
-
     /* append rest text */
     const gchar * p = m_text.c_str() + m_pinyin_len;
     m_buffer << p;
