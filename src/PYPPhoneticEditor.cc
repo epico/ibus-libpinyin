@@ -155,6 +155,17 @@ PhoneticEditor::processFunctionKey (guint keyval, guint keycode, guint modifiers
             moveCursorRightByWord ();
             return TRUE;
 
+        /* remove user phrase */
+        case IBUS_d:
+        case IBUS_D:
+            {
+                guint index = m_lookup_table.cursorPos ();
+                lookup_candidate_t * candidate = NULL;
+                pinyin_get_candidate (m_instance, index, &candidate);
+                if (pinyin_is_user_candidate (m_instance, candidate))
+                    pinyin_remove_user_candidate (m_instance, candidate);
+                return TRUE;
+            }
         default:
             return TRUE;
         }
@@ -253,6 +264,9 @@ PhoneticEditor::fillLookupTable (void)
         }
 
         Text text (word);
+        /* show user candidate as blue. */
+        if (pinyin_is_user_candidate (m_instance, candidate))
+            text.appendAttribute (IBUS_ATTR_TYPE_FOREGROUND, 0x000000ef, 0, -1);
         m_lookup_table.appendCandidate (text);
     }
 
