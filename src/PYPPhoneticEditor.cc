@@ -162,8 +162,11 @@ PhoneticEditor::processFunctionKey (guint keyval, guint keycode, guint modifiers
                 guint index = m_lookup_table.cursorPos ();
                 lookup_candidate_t * candidate = NULL;
                 pinyin_get_candidate (m_instance, index, &candidate);
-                if (pinyin_is_user_candidate (m_instance, candidate))
+                if (pinyin_is_user_candidate (m_instance, candidate)) {
                     pinyin_remove_user_candidate (m_instance, candidate);
+                    updatePinyin ();
+                    update ();
+                }
                 return TRUE;
             }
         default:
