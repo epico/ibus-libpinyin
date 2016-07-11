@@ -156,7 +156,6 @@ PhoneticEditor::processFunctionKey (guint keyval, guint keycode, guint modifiers
             return TRUE;
 
         /* remove user phrase */
-        case IBUS_d:
         case IBUS_D:
             {
                 guint index = m_lookup_table.cursorPos ();
@@ -400,7 +399,6 @@ PhoneticEditor::selectCandidate (guint i)
     pinyin_guess_sentence (m_instance);
 
     if (lookup_cursor == m_text.length ()) {
-        pinyin_train (m_instance);
         commit ();
         return TRUE;
     }
