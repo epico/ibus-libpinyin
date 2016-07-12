@@ -219,16 +219,16 @@ ExtEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
     switch (m_cursor) {
     case 0: //Empty input string.
         {
-            g_return_val_if_fail ( 'i' == keyval, FALSE);
-            if ( 'i' == keyval ) {
+            g_return_val_if_fail ( 'i' == keyval || 'I' == keyval, FALSE);
+            if ( 'i' == keyval || 'I' == keyval) {
                 m_text.insert (m_cursor, keyval);
                 m_cursor++;
             }
         }
         break;
-    case 1 ... 2: // Only contains 'i' in input string.
+    case 1 ... 2: // Only contains 'i' or 'I' in input string.
         {
-            g_return_val_if_fail ( 'i' == m_text[0], FALSE);
+            g_return_val_if_fail ( 'i' == m_text[0] || 'I' == m_text[0], FALSE);
             if ( isalnum (keyval) ) {
                 m_text.insert (m_cursor, keyval);
                 m_cursor++;
@@ -237,7 +237,7 @@ ExtEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
         break;
     default: //Here is the appended argment.
         {
-            g_return_val_if_fail ( 'i' == m_text[0], FALSE);
+            g_return_val_if_fail ( 'i' == m_text[0] || 'I' == m_text[0], FALSE);
             if (isprint (keyval)) {
                 m_text.insert (m_cursor, keyval);
                 m_cursor++;
@@ -603,12 +603,12 @@ ExtEditor::updateStateFromInput (void)
         return FALSE;
     }
 
-    if ( 'i' != m_text[0] ) {
-        g_warning ("i is expected in m_text string.\n");
+    if ( 'i' != m_text[0] && 'I' != m_text[0] ) {
+        g_warning ("'i' or 'I' is expected in m_text string.\n");
         return FALSE;
     }
 
-    m_auxiliary_text = "i";
+    m_auxiliary_text = m_text[0];
 
     m_mode = LABEL_LIST_COMMANDS;
     if ( 1 == m_text.length () ) {
