@@ -109,7 +109,6 @@ ibus_engine_libpinyin_CXXFLAGS = \
 	@SQLITE_CFLAGS@ \
 	@LIBPINYIN_CFLAGS@ \
 	@OPENCC_CFLAGS@ \
-	@GDK3_CFLAGS@ \
 	-DGETTEXT_PACKAGE=\"@GETTEXT_PACKAGE@\" \
 	-DPKGDATADIR=\"$(pkgdatadir)\" \
 	-DLIBEXECDIR=\"$(libexecdir)\" \
@@ -130,7 +129,6 @@ ibus_engine_libpinyin_LDADD = \
 	@SQLITE_LIBS@ \
 	@LIBPINYIN_LIBS@ \
 	@OPENCC_LIBS@ \
-	@GDK3_LIBS@ \
 	$(NULL)
 
 ibus_engine_libpinyin_CXXFLAGS += \

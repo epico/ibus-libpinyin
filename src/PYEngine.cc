@@ -21,7 +21,6 @@
 
 #include "PYEngine.h"
 #include <cstring>
-#include <gdk/gdk.h>
 #include "PYPPinyinEngine.h"
 #include "PYPBopomofoEngine.h"
 
@@ -339,7 +338,7 @@ pinyin_accelerator_name(guint keyval, guint modifiers, std::string & name) {
 
     /* Convert keyval. */
     if (keyval) {
-        const gchar * symbol = gdk_keyval_name (gdk_keyval_to_lower (keyval));
+        const gchar * symbol = ibus_keyval_name (ibus_keyval_to_lower (keyval));
         name += symbol;
     }
 
