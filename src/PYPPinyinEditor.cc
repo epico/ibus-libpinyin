@@ -246,16 +246,14 @@ PinyinEditor::updatePreeditText ()
     }
 
     m_buffer.clear ();
-    char *tmp = NULL;
-    pinyin_get_sentence (m_instance, &tmp);
-    if (tmp) {
+    char *sentence = NULL;
+    pinyin_get_sentence (m_instance, &sentence);
+    if (sentence) {
         if (m_props.modeSimp ()) {
-            m_buffer<<tmp;
+            m_buffer<<sentence;
         } else {
-            SimpTradConverter::simpToTrad (tmp, m_buffer);
+            SimpTradConverter::simpToTrad (sentence, m_buffer);
         }
-        g_free (tmp);
-        tmp = NULL;
     }
 
     /* append rest text */
@@ -268,8 +266,11 @@ PinyinEditor::updatePreeditText ()
 
     size_t offset = 0;
     guint cursor = getPinyinCursor ();
-    pinyin_get_character_offset(m_instance, cursor, &offset);
+    pinyin_get_character_offset(m_instance, sentence, cursor, &offset);
     Editor::updatePreeditText (preedit_text, offset, TRUE);
+
+    if (sentence)
+        g_free (sentence);
 }
 
 #if 0
