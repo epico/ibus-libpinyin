@@ -21,7 +21,6 @@
 
 #include "PYLibPinyin.h"
 
-#include <assert.h>
 #include <string.h>
 #include <pinyin.h>
 #include "PYPConfig.h"
@@ -316,7 +315,7 @@ LibPinyinBackEnd::rememberUserInput (pinyin_instance_t * instance)
        remember user input. */
     gchar * sentence = NULL;
     pinyin_get_sentence (instance, &sentence);
-    assert (pinyin_remember_user_input (instance, sentence, -1));
+    pinyin_remember_user_input (instance, sentence, -1);
     g_free (sentence);
     /* save later,
        will mark modified from pinyin/bopomofo editor. */

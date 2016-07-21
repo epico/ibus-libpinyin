@@ -20,7 +20,6 @@
  */
 
 #include "PYPPinyinEditor.h"
-#include <assert.h>
 #include "PYConfig.h"
 #include "PYPinyinProperties.h"
 #include "PYSimpTradConverter.h"
@@ -267,7 +266,7 @@ PinyinEditor::updatePreeditText ()
 
     size_t offset = 0;
     guint cursor = getPinyinCursor ();
-    assert (pinyin_get_character_offset(m_instance, sentence, cursor, &offset));
+    g_assert (pinyin_get_character_offset(m_instance, sentence, cursor, &offset));
     Editor::updatePreeditText (preedit_text, offset, TRUE);
 
     if (sentence)

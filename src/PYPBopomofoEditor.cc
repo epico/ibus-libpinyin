@@ -20,7 +20,6 @@
  */
 
 #include "PYPBopomofoEditor.h"
-#include <assert.h>
 #include "PYConfig.h"
 #include "PYLibPinyin.h"
 #include "PYPinyinProperties.h"
@@ -279,7 +278,7 @@ BopomofoEditor::commit ()
     while (*p != '\0') {
         gchar ** symbols = NULL;
         if (pinyin_in_chewing_keyboard (m_instance, *p, &symbols)) {
-            assert (1 == g_strv_length (symbols));
+            g_assert (1 == g_strv_length (symbols));
             m_buffer << symbols[0];
             g_strfreev (symbols);
         } else {
@@ -330,7 +329,7 @@ BopomofoEditor::updatePreeditText ()
 
     size_t offset = 0;
     guint cursor = getPinyinCursor ();
-    assert (pinyin_get_character_offset(m_instance, sentence, cursor, &offset));
+    g_assert (pinyin_get_character_offset(m_instance, sentence, cursor, &offset));
     Editor::updatePreeditText (preedit_text, offset, TRUE);
 
     if (sentence)
