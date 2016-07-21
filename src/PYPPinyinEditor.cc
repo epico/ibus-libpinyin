@@ -20,6 +20,7 @@
  */
 
 #include "PYPPinyinEditor.h"
+#include <assert.h>
 #include "PYConfig.h"
 #include "PYPinyinProperties.h"
 #include "PYSimpTradConverter.h"

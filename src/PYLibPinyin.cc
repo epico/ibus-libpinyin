@@ -21,6 +21,7 @@
 
 #include "PYLibPinyin.h"
 
+#include <assert.h>
 #include <string.h>
 #include <pinyin.h>
 #include "PYPConfig.h"
