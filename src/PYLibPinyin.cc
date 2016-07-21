@@ -315,7 +315,7 @@ LibPinyinBackEnd::rememberUserInput (pinyin_instance_t * instance)
        remember user input. */
     gchar * sentence = NULL;
     pinyin_get_sentence (instance, &sentence);
-    pinyin_remember_user_input (instance, sentence, -1);
+    assert (pinyin_remember_user_input (instance, sentence, -1));
     g_free (sentence);
     /* save later,
        will mark modified from pinyin/bopomofo editor. */
