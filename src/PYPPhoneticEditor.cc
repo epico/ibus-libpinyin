@@ -365,8 +365,15 @@ PhoneticEditor::getLookupCursor (void)
 {
     guint lookup_cursor = getPinyinCursor ();
 
+    /* as pinyin_get_pinyin_offset can't handle the last "'" characters,
+       strip the string to work around it here. */
+    String stripped = m_text;
+    size_t pos = stripped.find_last_not_of ("'") + 1;
+    if (pos < stripped.length ())
+        stripped.erase (pos);
+
     /* show candidates when pinyin cursor is at end. */
-    if (lookup_cursor == m_text.length ())
+    if (lookup_cursor == stripped.length ())
         lookup_cursor = 0;
     return lookup_cursor;
 }
