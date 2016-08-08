@@ -44,6 +44,8 @@ protected:
 
     virtual void updatePinyin (void);
 
+    virtual guint getLookupCursor (void);
+
 };
 
 };
