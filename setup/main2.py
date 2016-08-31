@@ -29,7 +29,17 @@ import locale
 import os
 import sys
 
+from gi import require_version as gi_require_version
+gi_require_version('GLib', '2.0')
+gi_require_version('Gtk', '3.0')
+gi_require_version('IBus', '1.0')
+
 from gi.repository import GLib
+
+# set_prgname before importing other modules to show the name in warning
+# messages when import modules are failed. E.g. Gtk.
+GLib.set_prgname('ibus-setup-libpinyin')
+
 from gi.repository import Gtk
 from gi.repository import IBus
 
