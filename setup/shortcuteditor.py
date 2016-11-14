@@ -43,10 +43,10 @@ COLUMN_ACCELERATOR,
 # The default shortcut value is stored here.
 accelerators = \
     (
-        (_("Switch Chinese/English"), "MainSwitch" , "<Shift>"),
-        (_("Full/Half Width Letter"), "LetterSwitch", ""),
-        (_("Full/Half Width Punct"), "PunctSwitch", "<Control>period"),
-        (_("Switch Traditional/Simplfied Chinese"), "TradSwitch", "<Control><Shift>f")
+        (_("Switch Chinese/English"), "mainswitch" , "<Shift>"),
+        (_("Full/Half Width Letter"), "letterswitch", ""),
+        (_("Full/Half Width Punct"), "punctswitch", "<Control>period"),
+        (_("Switch Traditional/Simplfied Chinese"), "tradswitch", "<Control><Shift>f")
     )
 
 class ShortcutTreeView(Gtk.TreeView):

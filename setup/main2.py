@@ -131,29 +131,29 @@ class PreferencesDialog:
         self.__remember_every_input = self.__builder.get_object("RememberEveryInput")
 
         # read values
-        self.__init_chinese.set_active(self.__get_value("InitChinese", True))
-        self.__init_full.set_active(self.__get_value("InitFull", False))
-        self.__init_full_punct.set_active(self.__get_value("InitFullPunct", True))
-        self.__init_simp.set_active(self.__get_value("InitSimplifiedChinese", True))
+        self.__init_chinese.set_active(self.__get_value("initchinese", True))
+        self.__init_full.set_active(self.__get_value("initfull", False))
+        self.__init_full_punct.set_active(self.__get_value("initfullpunct", True))
+        self.__init_simp.set_active(self.__get_value("initsimplifiedchinese", True))
 
-        self.__lookup_table_orientation.set_active(self.__get_value("LookupTableOrientation", 0))
-        self.__lookup_table_page_size.set_value(self.__get_value("LookupTablePageSize", 5))
+        self.__lookup_table_orientation.set_active(self.__get_value("lookuptableorientation", 0))
+        self.__lookup_table_page_size.set_value(self.__get_value("lookuptablepagesize", 5))
 
-        self.__dynamic_adjust.set_active(self.__get_value("DynamicAdjust", True))
-        self.__remember_every_input.set_active(self.__get_value("RememberEveryInput", False))
+        self.__dynamic_adjust.set_active(self.__get_value("dynamicadjust", True))
+        self.__remember_every_input.set_active(self.__get_value("remembereveryinput", False))
         # connect signals
-        self.__init_chinese.connect("toggled", self.__toggled_cb, "InitChinese")
-        self.__init_full.connect("toggled", self.__toggled_cb, "InitFull")
-        self.__init_full_punct.connect("toggled", self.__toggled_cb, "InitFullPunct")
-        self.__init_simp.connect("toggled", self.__toggled_cb, "InitSimplifiedChinese")
-        self.__dynamic_adjust.connect("toggled", self.__toggled_cb, "DynamicAdjust")
-        self.__remember_every_input.connect("toggled", self.__toggled_cb, "RememberEveryInput")
+        self.__init_chinese.connect("toggled", self.__toggled_cb, "initchinese")
+        self.__init_full.connect("toggled", self.__toggled_cb, "initfull")
+        self.__init_full_punct.connect("toggled", self.__toggled_cb, "initfullpunct")
+        self.__init_simp.connect("toggled", self.__toggled_cb, "initsimplifiedchinese")
+        self.__dynamic_adjust.connect("toggled", self.__toggled_cb, "dynamicadjust")
+        self.__remember_every_input.connect("toggled", self.__toggled_cb, "remembereveryinput")
 
         def __lookup_table_page_size_changed_cb(adjustment):
-            self.__set_value("LookupTablePageSize", int(adjustment.get_value()))
+            self.__set_value("lookuptablepagesize", int(adjustment.get_value()))
 
         def __lookup_table_orientation_changed_cb(widget):
-            self.__set_value("LookupTableOrientation", widget.get_active())
+            self.__set_value("lookuptableorientation", widget.get_active())
 
         self.__lookup_table_orientation.connect("changed", __lookup_table_orientation_changed_cb)
         self.__lookup_table_page_size.connect("value-changed", __lookup_table_page_size_changed_cb)
@@ -172,9 +172,9 @@ class PreferencesDialog:
         self.__double_pinyin_show_raw.hide ()
 
         # read value
-        self.__incomplete_pinyin.set_active(self.__get_value("IncompletePinyin", True))
-        self.__full_pinyin.set_active(not self.__get_value("DoublePinyin", False))
-        self.__double_pinyin_schema.set_active(self.__get_value("DoublePinyinSchema", 0))
+        self.__incomplete_pinyin.set_active(self.__get_value("incompletepinyin", True))
+        self.__full_pinyin.set_active(not self.__get_value("doublepinyin", False))
+        self.__double_pinyin_schema.set_active(self.__get_value("doublepinyinschema", 0))
         if self.__full_pinyin.get_active():
             # self.__incomplete_pinyin.set_sensitive(True)
             self.__double_pinyin_schema.set_sensitive(False)
@@ -188,19 +188,19 @@ class PreferencesDialog:
 
         def __double_pinyin_toggled_cb(widget):
             val = widget.get_active()
-            self.__set_value("DoublePinyin", val)
+            self.__set_value("doublepinyin", val)
             self.__double_pinyin_schema.set_sensitive(val)
             # self.__double_pinyin_schema_label.set_sensitive(val)
             self.__double_pinyin_show_raw.set_sensitive(val)
 
         def __double_pinyin_schema_changed_cb(widget):
-            self.__set_value("DoublePinyinSchema", widget.get_active())
+            self.__set_value("doublepinyinschema", widget.get_active())
 
         # connect signals
         self.__double_pinyin.connect("toggled", __double_pinyin_toggled_cb)
-        self.__incomplete_pinyin.connect("toggled", self.__toggled_cb, "IncompletePinyin")
+        self.__incomplete_pinyin.connect("toggled", self.__toggled_cb, "incompletepinyin")
         self.__double_pinyin_schema.connect("changed", __double_pinyin_schema_changed_cb)
-        self.__double_pinyin_show_raw.connect("toggled", self.__toggled_cb, "DoublePinyinShowRaw")
+        self.__double_pinyin_show_raw.connect("toggled", self.__toggled_cb, "doublepinyinshowraw")
 
         self.__init_input_custom()
         self.__init_correct_pinyin()
@@ -223,27 +223,27 @@ class PreferencesDialog:
         self.__enter_key = self.__builder.get_object("CommitFirstCandidate")
 
         # read value
-        self.__bopomofo_keyboard_mapping.set_active(self.__get_value("BopomofoKeyboardMapping", 0))
-        self.__incomplete_bopomofo.set_active(self.__get_value("IncompletePinyin", False))
-        self.__select_keys.set_active(self.__get_value("SelectKeys", 0))
-        self.__guide_key.set_active(self.__get_value("GuideKey", 1))
-        self.__auxiliary_select_key_f.set_active(self.__get_value("AuxiliarySelectKey_F", 1))
-        self.__auxiliary_select_key_kp.set_active(self.__get_value("AuxiliarySelectKey_KP", 1))
-        self.__enter_key.set_active(self.__get_value("EnterKey", True))
+        self.__bopomofo_keyboard_mapping.set_active(self.__get_value("bopomofokeyboardmapping", 0))
+        self.__incomplete_bopomofo.set_active(self.__get_value("incompletepinyin", False))
+        self.__select_keys.set_active(self.__get_value("selectkeys", 0))
+        self.__guide_key.set_active(self.__get_value("guidekey", 1))
+        self.__auxiliary_select_key_f.set_active(self.__get_value("auxiliaryselectkey_f", 1))
+        self.__auxiliary_select_key_kp.set_active(self.__get_value("auxiliaryselectkey_kp", 1))
+        self.__enter_key.set_active(self.__get_value("enterkey", True))
 
         # connect signals
         def __bopomofo_keyboard_mapping_changed_cb(widget):
-            self.__set_value("BopomofoKeyboardMapping", widget.get_active())
+            self.__set_value("bopomofokeyboardmapping", widget.get_active())
         def __select_keys_changed_cb(widget):
-            self.__set_value("SelectKeys", widget.get_active())
+            self.__set_value("selectkeys", widget.get_active())
 
         self.__bopomofo_keyboard_mapping.connect("changed", __bopomofo_keyboard_mapping_changed_cb)
-        self.__incomplete_bopomofo.connect("toggled", self.__toggled_cb, "IncompletePinyin")
+        self.__incomplete_bopomofo.connect("toggled", self.__toggled_cb, "incompletepinyin")
         self.__select_keys.connect("changed", __select_keys_changed_cb)
-        self.__guide_key.connect("toggled", self.__toggled_cb, "GuideKey")
-        self.__auxiliary_select_key_f.connect("toggled", self.__toggled_cb, "AuxiliarySelectKey_F")
-        self.__auxiliary_select_key_kp.connect("toggled", self.__toggled_cb, "AuxiliarySelectKey_KP")
-        self.__enter_key.connect("toggled", self.__toggled_cb, "EnterKey")
+        self.__guide_key.connect("toggled", self.__toggled_cb, "guidekey")
+        self.__auxiliary_select_key_f.connect("toggled", self.__toggled_cb, "auxiliaryselectkey_f")
+        self.__auxiliary_select_key_kp.connect("toggled", self.__toggled_cb, "auxiliaryselectkey_kp")
+        self.__enter_key.connect("toggled", self.__toggled_cb, "enterkey")
 
     def __init_input_custom(self):
         # others
@@ -253,16 +253,16 @@ class PreferencesDialog:
         self.__auto_commit = self.__builder.get_object("AutoCommit")
 
         # read values
-        self.__shift_select_candidate.set_active(self.__get_value("ShiftSelectCandidate", False))
-        self.__minus_equal_page.set_active(self.__get_value("MinusEqualPage", True))
-        self.__comma_period_page.set_active(self.__get_value("CommaPeriodPage", True))
-        self.__auto_commit.set_active(self.__get_value("AutoCommit", False))
+        self.__shift_select_candidate.set_active(self.__get_value("shiftselectcandidate", False))
+        self.__minus_equal_page.set_active(self.__get_value("minusequalpage", True))
+        self.__comma_period_page.set_active(self.__get_value("commaperiodpage", True))
+        self.__auto_commit.set_active(self.__get_value("autocommit", False))
 
         # connect signals
-        self.__shift_select_candidate.connect("toggled", self.__toggled_cb, "ShiftSelectCandidate")
-        self.__minus_equal_page.connect("toggled", self.__toggled_cb, "MinusEqualPage")
-        self.__comma_period_page.connect("toggled", self.__toggled_cb, "CommaPeriodPage")
-        self.__auto_commit.connect("toggled", self.__toggled_cb, "AutoCommit")
+        self.__shift_select_candidate.connect("toggled", self.__toggled_cb, "shiftselectcandidate")
+        self.__minus_equal_page.connect("toggled", self.__toggled_cb, "minusequalpage")
+        self.__comma_period_page.connect("toggled", self.__toggled_cb, "commaperiodpage")
+        self.__auto_commit.connect("toggled", self.__toggled_cb, "autocommit")
 
     def __init_correct_pinyin(self):
         # auto correct
@@ -285,15 +285,15 @@ class PreferencesDialog:
         self.__correct_pinyin.connect("toggled", __correct_pinyin_toggled_cb)
 
         # init value
-        self.__correct_pinyin.set_active(self.__get_value("CorrectPinyin", True))
+        self.__correct_pinyin.set_active(self.__get_value("correctpinyin", True))
         for name, defval in self.__correct_pinyin_widgets:
             widget = self.__builder.get_object(name)
-            widget.set_active(self.__get_value(name, defval))
+            widget.set_active(self.__get_value(name.lower(), defval))
 
-        self.__correct_pinyin.connect("toggled", self.__toggled_cb, "CorrectPinyin")
+        self.__correct_pinyin.connect("toggled", self.__toggled_cb, "correctpinyin")
         for name, defval in self.__correct_pinyin_widgets:
             widget = self.__builder.get_object(name)
-            widget.connect("toggled", self.__toggled_cb, name)
+            widget.connect("toggled", self.__toggled_cb, name.lower())
 
     def __init_fuzzy(self):
         # page Fuzzy
@@ -321,15 +321,15 @@ class PreferencesDialog:
         self.__fuzzy_pinyin.connect("toggled", __fuzzy_pinyin_toggled_cb)
 
         # init value
-        self.__fuzzy_pinyin.set_active(self.__get_value("FuzzyPinyin", False))
+        self.__fuzzy_pinyin.set_active(self.__get_value("fuzzypinyin", False))
         for name, defval in self.__fuzzy_pinyin_widgets:
             widget = self.__builder.get_object(name)
-            widget.set_active(self.__get_value(name, defval))
+            widget.set_active(self.__get_value(name.lower(), defval))
 
-        self.__fuzzy_pinyin.connect("toggled", self.__toggled_cb, "FuzzyPinyin")
+        self.__fuzzy_pinyin.connect("toggled", self.__toggled_cb, "fuzzypinyin")
         for name, defval in self.__fuzzy_pinyin_widgets:
             widget = self.__builder.get_object(name)
-            widget.connect("toggled", self.__toggled_cb, name)
+            widget.connect("toggled", self.__toggled_cb, name.lower())
 
     def __convert_fuzzy_pinyin_to_bopomofo(self):
         options = [
@@ -356,10 +356,10 @@ class PreferencesDialog:
         # dictionary tree view
         self.__dict_treeview = self.__builder.get_object("Dictionaries")
         self.__dict_treeview.show()
-        self.__dict_treeview.set_dictionaries(self.__get_value("Dictionaries", "2"))
+        self.__dict_treeview.set_dictionaries(self.__get_value("dictionaries", "2"))
 
         def __notified_dicts_cb(self, param, dialog):
-            dialog.__set_value("Dictionaries", self.get_dictionaries())
+            dialog.__set_value("dictionaries", self.get_dictionaries())
 
         # connect notify signal
         self.__dict_treeview.connect("notify::dictionaries", __notified_dicts_cb, self)
@@ -411,7 +411,7 @@ class PreferencesDialog:
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            self.__set_value("ImportDictionary", dialog.get_filename())
+            self.__set_value("importdictionary", dialog.get_filename())
 
         dialog.destroy()
 
@@ -430,12 +430,12 @@ class PreferencesDialog:
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            self.__set_value("ExportDictionary", dialog.get_filename())
+            self.__set_value("exportdictionary", dialog.get_filename())
 
         dialog.destroy()
 
     def __clear_user_data_cb(self, widget, name):
-        self.__set_value("ClearUserData", name)
+        self.__set_value("clearuserdata", name)
 
     def __init_shortcut(self):
         # page Shortcut
