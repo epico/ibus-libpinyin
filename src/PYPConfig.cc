@@ -318,7 +318,7 @@ static const struct{
 };
 
 PinyinConfig::PinyinConfig (Bus & bus)
-    : LibPinyinConfig (bus, "pinyin")
+    : LibPinyinConfig (bus, "libpinyin")
 {
 }
 
@@ -475,7 +475,7 @@ static const struct {
 };
 
 BopomofoConfig::BopomofoConfig (Bus & bus)
-    : LibPinyinConfig (bus, "bopomofo")
+    : LibPinyinConfig (bus, "libbopomofo")
 {
 }
 

@@ -62,8 +62,8 @@ class PreferencesDialog:
         self.__dialog = self.__builder.get_object("dialog")
         self.__init_pages()
         
-        if engine == "pinyin":
-            self.__config_namespace = "engine/Pinyin"
+        if engine == "libpinyin":
+            self.__config_namespace = "engine/libpinyin"
             self.__values = dict(self.__config.get_values(self.__config_namespace))
             self.__init_general()
             self.__init_pinyin()
@@ -72,8 +72,8 @@ class PreferencesDialog:
             self.__init_user_data()
             self.__init_shortcut()
             self.__init_about()
-        elif engine == "bopomofo":
-            self.__config_namespace = "engine/Bopomofo"
+        elif engine == "libbopomofo":
+            self.__config_namespace = "engine/libbopomofo"
             self.__values = dict(self.__config.get_values(self.__config_namespace))
             self.__init_general()
             self.__init_bopomofo()
@@ -496,11 +496,11 @@ class PreferencesDialog:
         return self.__dialog.run()
 
 def main():
-    name = "pinyin"
+    name = "libpinyin"
     if len(sys.argv) == 2:
         name = sys.argv[1]
-    if name not in ("pinyin", "bopomofo"):
-        name = "pinyin"
+    if name not in ("libpinyin", "libbopomofo"):
+        name = "libpinyin"
     PreferencesDialog(name).run()
 
 
