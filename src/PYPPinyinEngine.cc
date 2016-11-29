@@ -317,7 +317,7 @@ inline void
 PinyinEngine::showSetupDialog (void)
 {
     g_spawn_command_line_async
-        (LIBEXECDIR"/ibus-setup-libpinyin pinyin", NULL);
+        (LIBEXECDIR"/ibus-setup-libpinyin libpinyin", NULL);
 }
 
 gboolean

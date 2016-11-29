@@ -230,7 +230,7 @@ inline void
 BopomofoEngine::showSetupDialog (void)
 {
     g_spawn_command_line_async
-        (LIBEXECDIR"/ibus-setup-libpinyin bopomofo", NULL);
+        (LIBEXECDIR"/ibus-setup-libpinyin libbopomofo", NULL);
 }
 
 gboolean

@@ -26,7 +26,7 @@
 			<description>Intelligent Pinyin input method</description>
 			<rank>99</rank>
 			<symbol>&#x62FC;</symbol>
-			<setup>${libexecdir}/ibus-setup-libpinyin pinyin</setup>
+			<setup>${libexecdir}/ibus-setup-libpinyin libpinyin</setup>
 		</engine>
 		<engine>
 			<name>libbopomofo</name>
@@ -43,7 +43,7 @@
 			<description>Bopomofo input method</description>
 			<rank>98</rank>
 			<symbol>&#x3109;</symbol>
-			<setup>${libexecdir}/ibus-setup-libpinyin bopomofo</setup>
+			<setup>${libexecdir}/ibus-setup-libpinyin libbopomofo</setup>
 		</engine>
 	</engines>
 </component>

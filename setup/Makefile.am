@@ -48,11 +48,11 @@ test-libpinyin:
 		   IBUS_LOCALEDIR=@localedir@ \
 		   IBUS_PKGDATADIR=$(pkgdatadir) \
 		   PYTHONPATH=$(abs_top_srcdir):$(pyexecdir) \
-		   $(PYTHON) $(srcdir)/main2.py pinyin
+		   $(PYTHON) $(srcdir)/main2.py libpinyin
 
 test-libbopomofo:
 	$(ENV) DBUS_DEBUG=true \
 		   IBUS_LOCALEDIR=@localedir@ \
 		   IBUS_PKGDATADIR=$(pkgdatadir) \
 		   PYTHONPATH=$(abs_top_srcdir):$(pyexecdir) \
-		   $(PYTHON) $(srcdir)/main2.py bopomofo
+		   $(PYTHON) $(srcdir)/main2.py libbopomofo
