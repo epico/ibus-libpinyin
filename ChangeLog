@@ -1,3 +1,10 @@
+version 1.8.1
+* change dconf key name to lower case
+
+version 1.8.0
+* use libpinyin 1.6.0
+* fixes setup dialog
+
 version 1.7.91
 * use libpinyin 1.5.91
 * allow to remove the user phrase
