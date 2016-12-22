@@ -293,7 +293,6 @@ static const struct {
 } pinyin_options [] = {
     /* correct */
     { "correct-pinyin-gn-ng",    PINYIN_CORRECT_GN_NG    },
-    { "correct-pinyin-gn-ng",    PINYIN_CORRECT_GN_NG    },
     { "correct-pinyin-mg-ng",    PINYIN_CORRECT_MG_NG    },
     { "correct-pinyin-iou-iu",   PINYIN_CORRECT_IOU_IU   },
     { "correct-pinyin-uei-ui",   PINYIN_CORRECT_UEI_UI   },
