@@ -28,38 +28,38 @@
 
 namespace PY {
 
-const gchar * const CONFIG_CORRECT_PINYIN            = "correctpinyin";
-const gchar * const CONFIG_FUZZY_PINYIN              = "fuzzypinyin";
-const gchar * const CONFIG_ORIENTATION               = "lookuptableorientation";
-const gchar * const CONFIG_PAGE_SIZE                 = "lookuptablepagesize";
-const gchar * const CONFIG_REMEMBER_EVERY_INPUT      = "remembereveryinput";
-const gchar * const CONFIG_SHIFT_SELECT_CANDIDATE    = "shiftselectcandidate";
-const gchar * const CONFIG_MINUS_EQUAL_PAGE          = "minusequalpage";
-const gchar * const CONFIG_COMMA_PERIOD_PAGE         = "commaperiodpage";
-const gchar * const CONFIG_AUTO_COMMIT               = "autocommit";
-const gchar * const CONFIG_DOUBLE_PINYIN             = "doublepinyin";
-const gchar * const CONFIG_DOUBLE_PINYIN_SCHEMA      = "doublepinyinschema";
-const gchar * const CONFIG_DOUBLE_PINYIN_SHOW_RAW    = "doublepinyinshowraw";
-const gchar * const CONFIG_INIT_CHINESE              = "initchinese";
-const gchar * const CONFIG_INIT_FULL                 = "initfull";
-const gchar * const CONFIG_INIT_FULL_PUNCT           = "initfullpunct";
-const gchar * const CONFIG_INIT_SIMP_CHINESE         = "initsimplifiedchinese";
-const gchar * const CONFIG_SPECIAL_PHRASES           = "specialphrases";
+const gchar * const CONFIG_CORRECT_PINYIN            = "correct-pinyin";
+const gchar * const CONFIG_FUZZY_PINYIN              = "fuzzy-pinyin";
+const gchar * const CONFIG_ORIENTATION               = "lookup-table-orientation";
+const gchar * const CONFIG_PAGE_SIZE                 = "lookup-table-page-size";
+const gchar * const CONFIG_REMEMBER_EVERY_INPUT      = "remember-every-input";
+const gchar * const CONFIG_SHIFT_SELECT_CANDIDATE    = "shift-select-candidate";
+const gchar * const CONFIG_MINUS_EQUAL_PAGE          = "minus-equal-page";
+const gchar * const CONFIG_COMMA_PERIOD_PAGE         = "comma-period-page";
+const gchar * const CONFIG_AUTO_COMMIT               = "auto-commit";
+const gchar * const CONFIG_DOUBLE_PINYIN             = "double-pinyin";
+const gchar * const CONFIG_DOUBLE_PINYIN_SCHEMA      = "double-pinyin-schema";
+const gchar * const CONFIG_DOUBLE_PINYIN_SHOW_RAW    = "double-pinyin-show-raw";
+const gchar * const CONFIG_INIT_CHINESE              = "init-chinese";
+const gchar * const CONFIG_INIT_FULL                 = "init-full";
+const gchar * const CONFIG_INIT_FULL_PUNCT           = "init-full-punct";
+const gchar * const CONFIG_INIT_SIMP_CHINESE         = "init-simplified-chinese";
+const gchar * const CONFIG_SPECIAL_PHRASES           = "special-phrases";
 const gchar * const CONFIG_DICTIONARIES              = "dictionaries";
-const gchar * const CONFIG_BOPOMOFO_KEYBOARD_MAPPING = "bopomofokeyboardmapping";
-const gchar * const CONFIG_SELECT_KEYS               = "selectkeys";
-const gchar * const CONFIG_GUIDE_KEY                 = "guidekey";
-const gchar * const CONFIG_AUXILIARY_SELECT_KEY_F    = "auxiliaryselectkey_f";
-const gchar * const CONFIG_AUXILIARY_SELECT_KEY_KP   = "auxiliaryselectkey_kp";
-const gchar * const CONFIG_ENTER_KEY                 = "enterkey";
-const gchar * const CONFIG_IMPORT_DICTIONARY         = "importdictionary";
-const gchar * const CONFIG_EXPORT_DICTIONARY         = "exportdictionary";
-const gchar * const CONFIG_CLEAR_USER_DATA           = "clearuserdata";
-/* const gchar * const CONFIG_CTRL_SWITCH               = "ctrlswitch"; */
-const gchar * const CONFIG_MAIN_SWITCH               = "mainswitch";
-const gchar * const CONFIG_LETTER_SWITCH             = "letterswitch";
-const gchar * const CONFIG_PUNCT_SWITCH              = "punctswitch";
-const gchar * const CONFIG_TRAD_SWITCH               = "tradswitch";
+const gchar * const CONFIG_BOPOMOFO_KEYBOARD_MAPPING = "bopomofo-keyboard-mapping";
+const gchar * const CONFIG_SELECT_KEYS               = "select-keys";
+const gchar * const CONFIG_GUIDE_KEY                 = "guide-key";
+const gchar * const CONFIG_AUXILIARY_SELECT_KEY_F    = "auxiliary-select-key-f";
+const gchar * const CONFIG_AUXILIARY_SELECT_KEY_KP   = "auxiliary-select-key-kp";
+const gchar * const CONFIG_ENTER_KEY                 = "enter-key";
+const gchar * const CONFIG_IMPORT_DICTIONARY         = "import-dictionary";
+const gchar * const CONFIG_EXPORT_DICTIONARY         = "export-dictionary";
+const gchar * const CONFIG_CLEAR_USER_DATA           = "clear-user-data";
+/* const gchar * const CONFIG_CTRL_SWITCH               = "ctrl-switch"; */
+const gchar * const CONFIG_MAIN_SWITCH               = "main-switch";
+const gchar * const CONFIG_LETTER_SWITCH             = "letter-switch";
+const gchar * const CONFIG_PUNCT_SWITCH              = "punct-switch";
+const gchar * const CONFIG_TRAD_SWITCH               = "trad-switch";
 
 const pinyin_option_t PINYIN_DEFAULT_OPTION =
         PINYIN_INCOMPLETE |
@@ -123,20 +123,20 @@ static const struct {
     const gchar * const name;
     guint option;
 } options [] = {
-    { "IncompletePinyin",       PINYIN_INCOMPLETE|ZHUYIN_INCOMPLETE},
+    { "incomplete-pinyin",       PINYIN_INCOMPLETE|ZHUYIN_INCOMPLETE},
     /* fuzzy pinyin */
-    { "FuzzyPinyin_C_CH",       PINYIN_AMB_C_CH      },
-    { "FuzzyPinyin_Z_ZH",       PINYIN_AMB_Z_ZH      },
-    { "FuzzyPinyin_S_SH",       PINYIN_AMB_S_SH      },
-    { "FuzzyPinyin_L_N",        PINYIN_AMB_L_N       },
-    { "FuzzyPinyin_F_H",        PINYIN_AMB_F_H       },
-    { "FuzzyPinyin_L_R",        PINYIN_AMB_L_R       },
-    { "FuzzyPinyin_G_K",        PINYIN_AMB_G_K       },
-    { "FuzzyPinyin_AN_ANG",     PINYIN_AMB_AN_ANG    },
-    { "FuzzyPinyin_EN_ENG",     PINYIN_AMB_EN_ENG    },
-    { "FuzzyPinyin_IN_ING",     PINYIN_AMB_IN_ING    },
+    { "fuzzy-pinyin-c-ch",       PINYIN_AMB_C_CH      },
+    { "fuzzy-pinyin-z-zh",       PINYIN_AMB_Z_ZH      },
+    { "fuzzy-pinyin-s-sh",       PINYIN_AMB_S_SH      },
+    { "fuzzy-pinyin-l-n",        PINYIN_AMB_L_N       },
+    { "fuzzy-pinyin-f-h",        PINYIN_AMB_F_H       },
+    { "fuzzy-pinyin-l-r",        PINYIN_AMB_L_R       },
+    { "fuzzy-pinyin-g-k",        PINYIN_AMB_G_K       },
+    { "fuzzy-pinyin-an-ang",     PINYIN_AMB_AN_ANG    },
+    { "fuzzy-pinyin-en-eng",     PINYIN_AMB_EN_ENG    },
+    { "fuzzy-pinyin-in-ing",     PINYIN_AMB_IN_ING    },
     /* dynamic adjust */
-    { "DynamicAdjust",          DYNAMIC_ADJUST       },
+    { "dynamic-adjust",          DYNAMIC_ADJUST       },
 };
 
 void
@@ -292,16 +292,16 @@ static const struct {
     guint option;
 } pinyin_options [] = {
     /* correct */
-    { "CorrectPinyin_GN_NG",    PINYIN_CORRECT_GN_NG    },
-    { "CorrectPinyin_GN_NG",    PINYIN_CORRECT_GN_NG    },
-    { "CorrectPinyin_MG_NG",    PINYIN_CORRECT_MG_NG    },
-    { "CorrectPinyin_IOU_IU",   PINYIN_CORRECT_IOU_IU   },
-    { "CorrectPinyin_UEI_UI",   PINYIN_CORRECT_UEI_UI   },
-    { "CorrectPinyin_UEN_UN",   PINYIN_CORRECT_UEN_UN   },
-    { "CorrectPinyin_UE_VE",    PINYIN_CORRECT_UE_VE    },
-    { "CorrectPinyin_V_U",      PINYIN_CORRECT_V_U      },
-    { "CorrectPinyin_VE_UE",    PINYIN_CORRECT_V_U      },
-    { "CorrectPinyin_ON_ONG",   PINYIN_CORRECT_ON_ONG   },
+    { "correct-pinyin-gn-ng",    PINYIN_CORRECT_GN_NG    },
+    { "correct-pinyin-gn-ng",    PINYIN_CORRECT_GN_NG    },
+    { "correct-pinyin-mg-ng",    PINYIN_CORRECT_MG_NG    },
+    { "correct-pinyin-iou-iu",   PINYIN_CORRECT_IOU_IU   },
+    { "correct-pinyin-uei-ui",   PINYIN_CORRECT_UEI_UI   },
+    { "correct-pinyin-uen-un",   PINYIN_CORRECT_UEN_UN   },
+    { "correct-pinyin-ue-ve",    PINYIN_CORRECT_UE_VE    },
+    { "correct-pinyin-v-u",      PINYIN_CORRECT_V_U      },
+    { "correct-pinyin-ve-ue",    PINYIN_CORRECT_V_U      },
+    { "correct-pinyin-on-ong",   PINYIN_CORRECT_ON_ONG   },
 };
 
 /* Here are the double pinyin keyboard scheme mapping table. */
