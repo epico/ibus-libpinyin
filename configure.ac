@@ -97,6 +97,23 @@ AC_ARG_WITH(python,
 )
 AM_PATH_PYTHON([2.5])
 
+# check icon_prop_key in IBus.EngineDesc
+AC_MSG_CHECKING([if IBus.EngineDesc has get_icon_prop_key])
+ICON_PROP_KEY_TEST="import gi
+gi.require_version('IBus', '1.0')
+from gi.repository import IBus
+exit(not hasattr(IBus.EngineDesc, 'get_icon_prop_key'))
+"
+$PYTHON -c "$ICON_PROP_KEY_TEST"
+if test $? -eq 0; then
+    ICON_PROP_KEY_XML="<icon_prop_key>InputMode</icon_prop_key>"
+    AC_MSG_RESULT([yes])
+else
+    ICON_PROP_KEY_XML="<!-- <icon_prop_key>InputMode</icon_prop_key> -->"
+    AC_MSG_RESULT([ibus 1.5.11 or later supports icon-prop-key in IBus.EngineDesc])
+fi
+AC_SUBST(ICON_PROP_KEY_XML)
+
 # --enable-boost
 AC_ARG_ENABLE(boost,
     AC_HELP_STRING([--enable-boost],
