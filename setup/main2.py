@@ -47,9 +47,12 @@ import config
 from dicttreeview import DictionaryTreeView
 from shortcuteditor import ShortcutEditor
 
+DOMAINNAME = 'ibus-libpinyin'
 locale.setlocale(locale.LC_ALL, "")
 localedir = os.getenv("IBUS_LOCALEDIR")
 pkgdatadir = os.getenv("IBUS_PKGDATADIR") or "."
+gettext.bindtextdomain(DOMAINNAME, localedir)
+gettext.bind_textdomain_codeset(DOMAINNAME, 'UTF-8')
 gettext.install('ibus-libpinyin', localedir)
 
 class PreferencesDialog:

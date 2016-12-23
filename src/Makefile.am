@@ -110,6 +110,7 @@ ibus_engine_libpinyin_CXXFLAGS = \
 	@LIBPINYIN_CFLAGS@ \
 	@OPENCC_CFLAGS@ \
 	-DGETTEXT_PACKAGE=\"@GETTEXT_PACKAGE@\" \
+	-DLOCALEDIR=\"$(localedir)\" \
 	-DPKGDATADIR=\"$(pkgdatadir)\" \
 	-DLIBEXECDIR=\"$(libexecdir)\" \
 	$(NULL)
