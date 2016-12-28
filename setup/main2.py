@@ -53,7 +53,7 @@ localedir = os.getenv("IBUS_LOCALEDIR")
 pkgdatadir = os.getenv("IBUS_PKGDATADIR") or "."
 gettext.bindtextdomain(DOMAINNAME, localedir)
 gettext.bind_textdomain_codeset(DOMAINNAME, 'UTF-8')
-gettext.install('ibus-libpinyin', localedir)
+gettext.install(DOMAINNAME, localedir)
 
 class PreferencesDialog:
     def __init__(self, engine):
