@@ -83,7 +83,7 @@ simplest_cn_number(gint64 num)
 }
 
 static inline const std::string
-translate_to_longform(gint64 num, const char * number[10], unit_t units[])
+translate_to_longform(gint64 num, const char * number[10], unit_t units[], int units_len)
 {
     std::string result = "";
     int cur_pos = -1;
@@ -97,7 +97,7 @@ translate_to_longform(gint64 num, const char * number[10], unit_t units[])
         int pos = cur_pos;
         size_t i = 6;
         while ( pos > 0 ) {
-            for ( i = 0; i < 7; ++i) {
+            for ( i = 0; i < units_len; ++i) {
                 pos = pos % units[i].digits;
                 if ( pos == 0 )
                     break;
@@ -133,7 +133,7 @@ translate_to_longform(gint64 num, const char * number[10], unit_t units[])
 static const std::string
 simplified_number(gint64 num)
 {
-    return translate_to_longform(num, numbers[1], units_simplified);
+    return translate_to_longform(num, numbers[1], units_simplified, G_N_ELEMENTS(units_simplified));
 }
 
 static const std::string
@@ -141,7 +141,7 @@ traditional_number(gint64 num)
 {
     if ( 0 == num )
         return numbers[0][0];
-    return translate_to_longform(num, numbers[0], units_traditional);
+    return translate_to_longform(num, numbers[0], units_traditional, G_N_ELEMENTS(units_traditional));
 }
 
 
