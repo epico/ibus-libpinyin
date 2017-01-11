@@ -70,7 +70,7 @@ class PreferencesDialog:
         self.__bus = IBus.Bus()
         self.__config = self.__bus.get_config()
         self.__builder = Gtk.Builder()
-        self.__builder.set_translation_domain("ibus-libpinyin")
+        self.__builder.set_translation_domain(DOMAINNAME)
         self.__builder.add_from_file("ibus-libpinyin-preferences.ui")
         self.__dialog = self.__builder.get_object("dialog")
         self.__init_pages()
