@@ -51,8 +51,18 @@ DOMAINNAME = 'ibus-libpinyin'
 locale.setlocale(locale.LC_ALL, "")
 localedir = os.getenv("IBUS_LOCALEDIR")
 pkgdatadir = os.getenv("IBUS_PKGDATADIR") or "."
+
+# Python's locale module doesn't provide all methods on some
+# operating systems like FreeBSD
+try:
+    locale.bindtextdomain(DOMAINNAME, localedir)
+    locale.bind_textdomain_codeset(DOMAINNAME, 'UTF-8')
+except AttributeError:
+    pass
+
 gettext.bindtextdomain(DOMAINNAME, localedir)
 gettext.bind_textdomain_codeset(DOMAINNAME, 'UTF-8')
+
 gettext.install(DOMAINNAME, localedir)
 
 class PreferencesDialog:
