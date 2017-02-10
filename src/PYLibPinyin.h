@@ -54,7 +54,7 @@ public:
     gboolean exportPinyinDictionary (const char * filename);
     gboolean clearPinyinUserData (const char * target);
 
-    gboolean rememberUserInput (pinyin_instance_t * instance);
+    gboolean rememberUserInput (pinyin_instance_t * instance, gint index);
 
     /* use static initializer in C++. */
     static LibPinyinBackEnd & instance (void) { return *m_instance; }

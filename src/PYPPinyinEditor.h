@@ -40,7 +40,7 @@ protected:
     gboolean processPunct (guint keyval, guint keycode, guint modifiers);
     gboolean processFunctionKey (guint keyval, guint keycode, guint modifiers);
 
-    void commit ();
+    void commit (gint index = 0);
 
     virtual void updateAuxiliaryText (void) = 0;
     virtual void updateLookupTable (void);

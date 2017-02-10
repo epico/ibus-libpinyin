@@ -51,7 +51,7 @@ protected:
     virtual void updateAuxiliaryText ();
     virtual void updatePinyin (void);
 
-    void commit ();
+    void commit (gint index = 0);
     void reset ();
 
     gboolean insert (gint ch);

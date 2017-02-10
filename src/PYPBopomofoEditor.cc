@@ -137,7 +137,7 @@ BopomofoEditor::processAuxiliarySelectKey
 
 gboolean
 BopomofoEditor::processSelectKey (guint keyval, guint keycode,
-                                           guint modifiers)
+                                  guint modifiers)
 {
     if (G_UNLIKELY (!m_text))
         return FALSE;
@@ -254,7 +254,7 @@ BopomofoEditor::updatePinyin (void)
 }
 
 void
-BopomofoEditor::commit ()
+BopomofoEditor::commit (gint index)
 {
     if (G_UNLIKELY (m_text.empty ()))
         return;
@@ -263,7 +263,7 @@ BopomofoEditor::commit ()
 
     /* sentence candidate */
     char *tmp = NULL;
-    pinyin_get_sentence (m_instance, &tmp);
+    pinyin_get_sentence (m_instance, index, &tmp);
     if (tmp) {
         if (m_props.modeSimp ()) {
             m_buffer << tmp;
@@ -291,9 +291,9 @@ BopomofoEditor::commit ()
         ++p;
     }
 
-    pinyin_train(m_instance);
+    pinyin_train(m_instance, index);
     if (m_config.rememberEveryInput ())
-        LibPinyinBackEnd::instance ().rememberUserInput (m_instance);
+        LibPinyinBackEnd::instance ().rememberUserInput (m_instance, index);
     LibPinyinBackEnd::instance ().modified();
     PhoneticEditor::commit ((const gchar *)m_buffer);
     reset();
@@ -310,7 +310,7 @@ BopomofoEditor::updatePreeditText ()
 
     m_buffer.clear ();
     char *sentence = NULL;
-    pinyin_get_sentence(m_instance, &sentence);
+    pinyin_get_sentence(m_instance, 0, &sentence);
     if (sentence) {
         if (m_props.modeSimp ()) {
             m_buffer<<sentence;

@@ -71,7 +71,7 @@ protected:
     virtual gboolean moveCursorRightByWord (void);
     virtual gboolean moveCursorToBegin (void);
     virtual gboolean moveCursorToEnd (void);
-    virtual void commit (void) = 0;
+    virtual void commit (gint index = 0) = 0;
     virtual void updateAuxiliaryText (void) = 0;
     virtual void updatePreeditText (void) = 0;
     virtual void updatePinyin (void) = 0;

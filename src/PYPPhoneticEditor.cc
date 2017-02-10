@@ -388,8 +388,12 @@ PhoneticEditor::selectCandidate (guint i)
     lookup_candidate_type_t type;
     pinyin_get_candidate_type (m_instance, candidate, &type);
 
-    if (BEST_MATCH_CANDIDATE == type) {
-        commit ();
+    if (NBEST_MATCH_CANDIDATE == type) {
+        /* as nbest match candidate starts from the beginning of user input. */
+        pinyin_choose_candidate (m_instance, 0, candidate);
+        guint8 index = 0;
+        pinyin_get_candidate_nbest_index(m_instance, candidate, &index);
+        commit (index);
         return TRUE;
     }
 
