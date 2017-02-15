@@ -1,3 +1,6 @@
+version 1.8.91
+* use libpinyin 1.9.91
+
 version 1.8.1
 * change dconf key name to lower case
 
