@@ -1,3 +1,6 @@
+version 1.8.92
+* fixes config in setup dialog
+
 version 1.8.91
 * use libpinyin 1.9.91
 
