@@ -106,17 +106,6 @@ FullPinyinEditor::updateAuxiliaryText (void)
     Editor::updateAuxiliaryText (text, TRUE);
 }
 
-void
-FullPinyinEditor::update (void)
-{
-    guint lookup_cursor = getLookupCursor ();
-    pinyin_guess_candidates (m_instance, lookup_cursor);
-
-    updateLookupTable ();
-    updatePreeditText ();
-    updateAuxiliaryText ();
-}
-
 guint
 FullPinyinEditor::getLookupCursor (void)
 {

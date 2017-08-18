@@ -38,7 +38,6 @@ public:
     virtual gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
     virtual void reset (void);
     virtual void updateAuxiliaryText (void);
-    virtual void update (void);
 
 protected:
 

@@ -336,7 +336,8 @@ void
 PhoneticEditor::update (void)
 {
     guint lookup_cursor = getLookupCursor ();
-    pinyin_guess_candidates (m_instance, lookup_cursor);
+    pinyin_guess_candidates (m_instance, lookup_cursor,
+                             m_config.sortOption ());
 
     updateLookupTable ();
     updatePreeditText ();

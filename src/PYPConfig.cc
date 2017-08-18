@@ -33,6 +33,7 @@ const gchar * const CONFIG_FUZZY_PINYIN              = "fuzzy_pinyin";
 const gchar * const CONFIG_ORIENTATION               = "lookup_table_orientation";
 const gchar * const CONFIG_PAGE_SIZE                 = "lookup_table_page_size";
 const gchar * const CONFIG_REMEMBER_EVERY_INPUT      = "remember_every_input";
+const gchar * const CONFIG_SORT_OPTION               = "sort_option";
 const gchar * const CONFIG_SHIFT_SELECT_CANDIDATE    = "shift_select_candidate";
 const gchar * const CONFIG_MINUS_EQUAL_PAGE          = "minus_equal_page";
 const gchar * const CONFIG_COMMA_PERIOD_PAGE         = "comma_period_page";
@@ -93,6 +94,7 @@ LibPinyinConfig::initDefaultValues (void)
     m_orientation = IBUS_ORIENTATION_HORIZONTAL;
     m_page_size = 5;
     m_remember_every_input = FALSE;
+    m_sort_option = SORT_BY_PHRASE_LENGTH_AND_FREQUENCY;
 
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
@@ -139,6 +141,14 @@ static const struct {
     { "dynamic_adjust",          DYNAMIC_ADJUST       },
 };
 
+static const struct{
+    gint sort_option_index;
+    sort_option_t sort_option;
+} sort_options [] = {
+    {0, SORT_BY_PHRASE_LENGTH_AND_FREQUENCY},
+    {1, SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY}
+};
+
 void
 LibPinyinConfig::readDefaultValues (void)
 {
@@ -183,6 +193,16 @@ LibPinyinConfig::readDefaultValues (void)
         g_warn_if_reached ();
     }
     m_remember_every_input = read (CONFIG_REMEMBER_EVERY_INPUT, false);
+
+    const gint index = read (CONFIG_SORT_OPTION, 0);
+    m_sort_option = SORT_BY_PHRASE_LENGTH_AND_FREQUANCY;
+
+    for (guint i = 0; i < G_N_ELEMENTS (sort_options); i++) {
+        if (index == sort_options[i].sort_option_index) {
+            /* set sort option. */
+            m_sort_option = sort_options[i].sort_option;
+        }
+    }
 
     m_dictionaries = read (CONFIG_DICTIONARIES, std::string (""));
 
@@ -235,6 +255,16 @@ LibPinyinConfig::valueChanged (const std::string &section,
         }
     } else if (CONFIG_REMEMBER_EVERY_INPUT == name) {
         m_remember_every_input = normalizeGVariant (value, false);
+    } else if (CONFIG_SORT_OPTION == name) {
+        const gint index = normalizeGVariant (value, 0);
+        m_sort_option = SORT_BY_PHRASE_LENGTH_AND_FREQUENCY;
+
+        for (guint i = 0; i < G_N_ELEMENTS (sort_options); i++) {
+            if (index == sort_options[i].sort_option_index) {
+                /* set sort option. */
+                m_sort_option = sort_options[i].sort_option;
+            }
+        }
     } else if (CONFIG_DICTIONARIES == name) {
         m_dictionaries = normalizeGVariant (value, std::string (""));
     } else if (CONFIG_MAIN_SWITCH == name) {
