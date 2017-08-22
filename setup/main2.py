@@ -137,11 +137,12 @@ class PreferencesDialog:
         self.__init_trad = self.__builder.get_object("InitTraditionalChinese")
 
         # UI
-        self.__lookup_table_page_size = self.__builder.get_object("LookupTablePageSize")
         self.__lookup_table_orientation = self.__builder.get_object("LookupTableOrientation")
+        self.__lookup_table_page_size = self.__builder.get_object("LookupTablePageSize")
 
         self.__dynamic_adjust = self.__builder.get_object("DynamicAdjust")
         self.__remember_every_input = self.__builder.get_object("RememberEveryInput")
+        self.__sort_candidate_option = self.__builder.get_object("SortCandidateOption")
 
         # read values
         self.__init_chinese.set_active(self.__get_value("init_chinese", True))
@@ -154,6 +155,7 @@ class PreferencesDialog:
 
         self.__dynamic_adjust.set_active(self.__get_value("dynamic_adjust", True))
         self.__remember_every_input.set_active(self.__get_value("remember_every_input", False))
+        self.__sort_candidate_option.set_active(self.__get_value("sort_candidate_option", 0))
         # connect signals
         self.__init_chinese.connect("toggled", self.__toggled_cb, "init_chinese")
         self.__init_full.connect("toggled", self.__toggled_cb, "init_full")
@@ -168,8 +170,12 @@ class PreferencesDialog:
         def __lookup_table_orientation_changed_cb(widget):
             self.__set_value("lookup_table_orientation", widget.get_active())
 
+        def __sort_candidate_option_changed_cb(widget):
+            self.__set_value("sort_candidate_option", widget.get_active())
+
         self.__lookup_table_orientation.connect("changed", __lookup_table_orientation_changed_cb)
         self.__lookup_table_page_size.connect("value-changed", __lookup_table_page_size_changed_cb)
+        self.__sort_candidate_option.connect("changed", __sort_candidate_option_changed_cb)
 
     def __init_pinyin(self):
         # page
