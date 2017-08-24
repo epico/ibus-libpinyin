@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-06 16:33+0800\n"
+"POT-Creation-Date: 2017-08-24 14:01+0800\n"
 "PO-Revision-Date: 2009-10-14 09:44+0300\n"
 "Last-Translator: Alexey Kotlyarov <koterpillar@gmail.com>\n"
 "Language-Team: Russian\n"
@@ -18,38 +18,38 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ../src/PYMain.cc:97
+#: ../src/PYMain.cc:98
 #, fuzzy
 msgid "Libpinyin input method"
 msgstr "Метод ввода пиньинь"
 
-#: ../src/PYMain.cc:107
+#: ../src/PYMain.cc:108
 #, fuzzy
 msgid "Intelligent Pinyin (debug)"
 msgstr "Пиньинь"
 
-#: ../src/PYMain.cc:108
+#: ../src/PYMain.cc:109
 #, fuzzy
 msgid "Intelligent Pinyin input method (debug)"
 msgstr "Метод ввода пиньинь"
 
-#: ../src/PYMain.cc:118
+#: ../src/PYMain.cc:119
 #, fuzzy
 msgid "Bopomofo (debug)"
 msgstr "Метод ввода пиньинь"
 
-#: ../src/PYMain.cc:119
+#: ../src/PYMain.cc:120
 #, fuzzy
 msgid "Bopomofo input method (debug)"
 msgstr "Метод ввода пиньинь"
 
 #: ../src/PYPinyinProperties.cc:40 ../src/PYPinyinProperties.cc:105
-#: ../setup/ibus-libpinyin-preferences.ui.h:17
+#: ../setup/ibus-libpinyin-preferences.ui.h:19
 msgid "Chinese"
 msgstr "Китайский"
 
 #: ../src/PYPinyinProperties.cc:41 ../src/PYPinyinProperties.cc:106
-#: ../setup/ibus-libpinyin-preferences.ui.h:18
+#: ../setup/ibus-libpinyin-preferences.ui.h:20
 msgid "English"
 msgstr "Английский"
 
@@ -117,7 +117,7 @@ msgid "Switch to Simplfied Chinese Mode"
 msgstr ""
 
 #: ../src/PYPinyinProperties.cc:83 ../src/PYPinyinProperties.cc:85
-#: ../setup/ibus-libpinyin-preferences.ui.h:13
+#: ../setup/ibus-libpinyin-preferences.ui.h:15
 #, fuzzy
 msgid "Preferences"
 msgstr "Настройки пиньиня"
@@ -138,15 +138,15 @@ msgstr ""
 msgid "Please use \"hspnz\" to input."
 msgstr ""
 
-#: ../setup/main2.py:392
+#: ../setup/main2.py:421
 msgid "Please choose a file"
 msgstr ""
 
-#: ../setup/main2.py:410
+#: ../setup/main2.py:439
 msgid "Please save a file"
 msgstr ""
 
-#: ../setup/main2.py:454 ../setup/ibus-libpinyin-preferences.ui.h:80
+#: ../setup/main2.py:483 ../setup/ibus-libpinyin-preferences.ui.h:83
 #, fuzzy, no-c-format, python-format
 msgid "<big><b>Intelligent Pinyin %s</b></big>"
 msgstr "<big><b>IBus Пиньинь %s</b></big>"
@@ -332,243 +332,257 @@ msgstr ""
 msgid "Vertical"
 msgstr ""
 
+#: ../setup/ibus-libpinyin-preferences.ui.h:13
+msgid "Frequency"
+msgstr ""
+
 #: ../setup/ibus-libpinyin-preferences.ui.h:14
+#, fuzzy
+msgid "Pinyin Length"
+msgstr "<b>Пиньинь</b>"
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:16
 msgid "Language:"
 msgstr "Язык:"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:15
+#: ../setup/ibus-libpinyin-preferences.ui.h:17
 msgid "Half/full width:"
 msgstr "Полная/половинная ширина:"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:16
+#: ../setup/ibus-libpinyin-preferences.ui.h:18
 msgid "Punctuations:"
 msgstr "Знаки препинания:"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:19
+#: ../setup/ibus-libpinyin-preferences.ui.h:21
 msgid "Full"
 msgstr "Полная"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:20
+#: ../setup/ibus-libpinyin-preferences.ui.h:22
 msgid "Half"
 msgstr "Половинная"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:21
+#: ../setup/ibus-libpinyin-preferences.ui.h:23
 msgid "Chinese:"
 msgstr "Иероглифы:"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:22
+#: ../setup/ibus-libpinyin-preferences.ui.h:24
 msgid "Simplified"
 msgstr "Упрощенные"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:23
+#: ../setup/ibus-libpinyin-preferences.ui.h:25
 msgid "Traditional"
 msgstr "Традиционные"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:24
+#: ../setup/ibus-libpinyin-preferences.ui.h:26
 msgid "<b>Initial state</b>"
 msgstr "<b>Начальное состояние</b>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:25
+#: ../setup/ibus-libpinyin-preferences.ui.h:27
 msgid "Orientation of candidates:"
 msgstr "Число кандидатов"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:26
+#: ../setup/ibus-libpinyin-preferences.ui.h:28
 msgid "Number of candidates:"
 msgstr "Число кандидатов"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:27
+#: ../setup/ibus-libpinyin-preferences.ui.h:29
 #, fuzzy
 msgid "<b>UI</b>"
 msgstr "<b>Другие</b>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:28
+#: ../setup/ibus-libpinyin-preferences.ui.h:30
 msgid "Dynamic adjust the candidates order."
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:29
+#: ../setup/ibus-libpinyin-preferences.ui.h:31
 msgid "Remember every input as a phrase."
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:30
+#: ../setup/ibus-libpinyin-preferences.ui.h:32
+#, fuzzy
+msgid "Sort candidates by:"
+msgstr "Число кандидатов"
+
+#: ../setup/ibus-libpinyin-preferences.ui.h:33
 #, fuzzy
 msgid "<b>Candidates</b>"
 msgstr "<b>Другие</b>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:31
+#: ../setup/ibus-libpinyin-preferences.ui.h:34
 msgid "General"
 msgstr "Общие"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:32
+#: ../setup/ibus-libpinyin-preferences.ui.h:35
 msgid "Full pinyin"
 msgstr "Полный пиньинь"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:33
+#: ../setup/ibus-libpinyin-preferences.ui.h:36
 msgid "Double pinyin"
 msgstr "Двойной пиньинь"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:34
+#: ../setup/ibus-libpinyin-preferences.ui.h:37
 msgid "Show raw input of Double Pinyin"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:35
+#: ../setup/ibus-libpinyin-preferences.ui.h:38
 msgid "Incomplete pinyin"
 msgstr "Неполный пиньинь"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:36
+#: ../setup/ibus-libpinyin-preferences.ui.h:39
 #, fuzzy
 msgid "<b>Pinyin mode</b>"
 msgstr "<b>Пиньинь</b>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:37
+#: ../setup/ibus-libpinyin-preferences.ui.h:40
 msgid "[Shift] select candidate"
 msgstr "Использовать [Shift] для выбора кандидатов"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:38
+#: ../setup/ibus-libpinyin-preferences.ui.h:41
 msgid "[-] [=] flip page"
 msgstr "Использовать клавиши [-] [=] для переключения страниц"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:39
+#: ../setup/ibus-libpinyin-preferences.ui.h:42
 msgid "[,] [.] flip page"
 msgstr "Использовать клавиши [,] [.] для переключения страниц"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:40
+#: ../setup/ibus-libpinyin-preferences.ui.h:43
 msgid "Auto commit"
 msgstr "Автоматически подтверждать фразу"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:41
+#: ../setup/ibus-libpinyin-preferences.ui.h:44
 #, fuzzy
 msgid "<b>Input Custom</b>"
 msgstr "<b>Начальное состояние</b>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:42
+#: ../setup/ibus-libpinyin-preferences.ui.h:45
 #, fuzzy
 msgid "Enable correct pinyin"
 msgstr "Исправления"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:43
+#: ../setup/ibus-libpinyin-preferences.ui.h:46
 #, fuzzy
 msgid "<b>Correct pinyin</b>"
 msgstr "Исправления"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:44
+#: ../setup/ibus-libpinyin-preferences.ui.h:47
 #, fuzzy
 msgid "Pinyin mode"
 msgstr "<b>Пиньинь</b>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:45
+#: ../setup/ibus-libpinyin-preferences.ui.h:48
 #, fuzzy
 msgid "Incomplete Bopomofo"
 msgstr "Неполный пиньинь"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:46
+#: ../setup/ibus-libpinyin-preferences.ui.h:49
 msgid "Keyboard Mapping:"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:47
+#: ../setup/ibus-libpinyin-preferences.ui.h:50
 #, fuzzy
 msgid "<b>Bopomofo mode</b>"
 msgstr "<b>Пиньинь</b>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:48
+#: ../setup/ibus-libpinyin-preferences.ui.h:51
 msgid "Selection Keys:"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:49
+#: ../setup/ibus-libpinyin-preferences.ui.h:52
 msgid "Enable Guidekey for Candidates Selection"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:50
+#: ../setup/ibus-libpinyin-preferences.ui.h:53
 msgid "Enable Auxiliary Select Keys F1 .. F10"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:51
+#: ../setup/ibus-libpinyin-preferences.ui.h:54
 msgid "Enable Auxiliary Select Keys Numbers on Keypad"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:52
+#: ../setup/ibus-libpinyin-preferences.ui.h:55
 #, fuzzy
 msgid "<b>Selection mode</b>"
 msgstr "<b>Пиньинь</b>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:53
+#: ../setup/ibus-libpinyin-preferences.ui.h:56
 msgid "Feature of Enter key:"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:54
+#: ../setup/ibus-libpinyin-preferences.ui.h:57
 #, fuzzy
 msgid "Commit first candidate"
 msgstr "Использовать [Shift] для выбора кандидатов"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:55
+#: ../setup/ibus-libpinyin-preferences.ui.h:58
 msgid "Commit original text"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:56
+#: ../setup/ibus-libpinyin-preferences.ui.h:59
 #, fuzzy
 msgid "<b>Other</b>"
 msgstr "<b>Другие</b>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:57
+#: ../setup/ibus-libpinyin-preferences.ui.h:60
 #, fuzzy
 msgid "Bopomofo mode"
 msgstr "Метод ввода пиньинь"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:58
+#: ../setup/ibus-libpinyin-preferences.ui.h:61
 #, fuzzy
 msgid "Enable fuzzy syllable"
 msgstr "Включить нечеткий пиньинь."
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:59
+#: ../setup/ibus-libpinyin-preferences.ui.h:62
 msgid "Fuzzy syllable"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:60
+#: ../setup/ibus-libpinyin-preferences.ui.h:63
 msgid "Tips: this changes may take effects after ime restarted."
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:61
+#: ../setup/ibus-libpinyin-preferences.ui.h:64
 #, fuzzy
 msgid "<b>Dictionary option</b>"
 msgstr "<b>Другие</b>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:62
+#: ../setup/ibus-libpinyin-preferences.ui.h:65
 msgid "Dictionary"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:63
+#: ../setup/ibus-libpinyin-preferences.ui.h:66
 msgid "User Lua Script"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:64
+#: ../setup/ibus-libpinyin-preferences.ui.h:67
 msgid "Edit"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:65
+#: ../setup/ibus-libpinyin-preferences.ui.h:68
 #, fuzzy
 msgid "<b>Customize IME</b>"
 msgstr "<b>Начальное состояние</b>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:66
+#: ../setup/ibus-libpinyin-preferences.ui.h:69
 msgid "Export"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:67
+#: ../setup/ibus-libpinyin-preferences.ui.h:70
 msgid "Import"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:68
+#: ../setup/ibus-libpinyin-preferences.ui.h:71
 msgid "User Dictionary"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:69
+#: ../setup/ibus-libpinyin-preferences.ui.h:72
 msgid "Clear All Data"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:70
+#: ../setup/ibus-libpinyin-preferences.ui.h:73
 msgid "Clear"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:71
+#: ../setup/ibus-libpinyin-preferences.ui.h:74
 msgid ""
 "<b>Dictionary File Format:</b>\n"
 "  Each line contains one of the following:\n"
@@ -576,37 +590,37 @@ msgid ""
 "  like \"你好 ni'hao\" or \"你好 ni'hao 5\"."
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:75
+#: ../setup/ibus-libpinyin-preferences.ui.h:78
 msgid "Help"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:76
+#: ../setup/ibus-libpinyin-preferences.ui.h:79
 #, fuzzy
 msgid "<b>User Dictionary</b>"
 msgstr "<b>Другие</b>"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:77
+#: ../setup/ibus-libpinyin-preferences.ui.h:80
 msgid "User data"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:78
+#: ../setup/ibus-libpinyin-preferences.ui.h:81
 msgid "Shortcuts"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:81
+#: ../setup/ibus-libpinyin-preferences.ui.h:84
 #, fuzzy
 msgid "Intelligent Pinyin input method for IBus"
 msgstr "Метод ввода пиньинь для IBus"
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:82
+#: ../setup/ibus-libpinyin-preferences.ui.h:85
 msgid "<small>Copyright (c) 2011-2012 Peng Wu</small>"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:83
+#: ../setup/ibus-libpinyin-preferences.ui.h:86
 msgid "https://github.com/libpinyin/ibus-libpinyin"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:84
+#: ../setup/ibus-libpinyin-preferences.ui.h:87
 msgid ""
 "<small>\n"
 "<b>Authors:</b>\n"
@@ -619,7 +633,7 @@ msgid ""
 "</small>"
 msgstr ""
 
-#: ../setup/ibus-libpinyin-preferences.ui.h:93
+#: ../setup/ibus-libpinyin-preferences.ui.h:96
 msgid "About"
 msgstr "О программе"
 
