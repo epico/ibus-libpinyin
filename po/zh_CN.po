@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ibus-libpinyin 1.2.99\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-24 14:01+0800\n"
-"PO-Revision-Date: 2015-07-06 16:37+0800\n"
+"PO-Revision-Date: 2017-08-24 14:03+0800\n"
 "Last-Translator: Peng Huang <shawn.p.huang@gmail.com>\n"
 "Language-Team: Peng Huang <shawn.p.huang@gmail.com>\n"
 "Language: \n"
@@ -318,12 +318,11 @@ msgstr "竖直"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:13
 msgid "Frequency"
-msgstr ""
+msgstr "词频"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:14
-#, fuzzy
 msgid "Pinyin Length"
-msgstr "拼音模式"
+msgstr "拼音长度"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:16
 msgid "Language:"
@@ -382,9 +381,8 @@ msgid "Remember every input as a phrase."
 msgstr "将每个输入记录为新的词汇"
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:32
-#, fuzzy
 msgid "Sort candidates by:"
-msgstr "每页显示候选词数："
+msgstr "候选词排列顺序："
 
 #: ../setup/ibus-libpinyin-preferences.ui.h:33
 msgid "<b>Candidates</b>"
