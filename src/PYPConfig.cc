@@ -311,9 +311,9 @@ LibPinyinConfig::valueChangedCallback (IBusConfig  *config,
 
     self->valueChanged (section, name, value);
 
-    if (self->m_section == "engine/pinyin")
+    if (self->m_section == "engine/libpinyin")
         LibPinyinBackEnd::instance ().setPinyinOptions (self);
-    if (self->m_section == "engine/bopomofo")
+    if (self->m_section == "engine/libbopomofo")
         LibPinyinBackEnd::instance ().setChewingOptions (self);
 }
 
