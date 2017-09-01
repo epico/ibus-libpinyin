@@ -26,8 +26,13 @@
 
 #include "lua-plugin.h"
 
+#if LUA_VERSION_NUM >= 502
+/* ugly hack for lua 5.2 */
+
 #ifndef lua_objlen
 #define lua_objlen lua_rawlen
+#endif
+
 #endif
 
 

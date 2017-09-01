@@ -101,8 +101,6 @@ int main(int argc, char * argv[]){
     exit(1);
   }
 
-  g_type_init();
-
   IBusEnginePlugin * plugin = ibus_engine_plugin_new();
 
   for ( i = 1; i < argc; ++i){
@@ -128,7 +126,7 @@ int main(int argc, char * argv[]){
         print_interactive_help();
       if ( 0 == strcmp("i", strs[0]) )
         list_all_commands(plugin);
-        break;
+      break;
     case 2:
       if ( 0 == strcmp("i", strs[0]))
         do_lua_call(plugin, strs[1], NULL);

@@ -28,8 +28,6 @@
 int main(int argc, char * argv[]){
   printf("starting test...\n");
 
-  g_type_init();
-  
   IBusEnginePlugin * plugin;
   plugin = ibus_engine_plugin_new();
 
