@@ -28,6 +28,7 @@
 			<symbol>&#x62FC;</symbol>
 			@ICON_PROP_KEY_XML@
 			<setup>${libexecdir}/ibus-setup-libpinyin libpinyin</setup>
+			<textdomain>ibus-libpinyin</textdomain>
 		</engine>
 		<engine>
 			<name>libbopomofo</name>
@@ -46,6 +47,7 @@
 			<symbol>&#x3109;</symbol>
 			@ICON_PROP_KEY_XML@
 			<setup>${libexecdir}/ibus-setup-libpinyin libbopomofo</setup>
+			<textdomain>ibus-libpinyin</textdomain>
 		</engine>
 	</engines>
 </component>
