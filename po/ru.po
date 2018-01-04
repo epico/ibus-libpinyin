@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-24 14:01+0800\n"
+"POT-Creation-Date: 2018-01-04 16:51+0800\n"
 "PO-Revision-Date: 2009-10-14 09:44+0300\n"
 "Last-Translator: Alexey Kotlyarov <koterpillar@gmail.com>\n"
 "Language-Team: Russian\n"
@@ -150,6 +150,11 @@ msgstr ""
 #, fuzzy, no-c-format, python-format
 msgid "<big><b>Intelligent Pinyin %s</b></big>"
 msgstr "<big><b>IBus Пиньинь %s</b></big>"
+
+#: ../setup/config.py:30
+#, fuzzy
+msgid "Intelligent Pinyin"
+msgstr "Пиньинь"
 
 #: ../setup/dicttreeview.py:52
 msgid "Art"

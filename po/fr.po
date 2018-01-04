@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-24 14:01+0800\n"
+"POT-Creation-Date: 2018-01-04 16:51+0800\n"
 "PO-Revision-Date: 2012-03-19 22:13+0100\n"
 "Last-Translator: Ma Jiehong <ma.jiehong@gmail.com>\n"
 "Language-Team: French\n"
@@ -149,6 +149,11 @@ msgstr ""
 #, fuzzy, no-c-format, python-format
 msgid "<big><b>Intelligent Pinyin %s</b></big>"
 msgstr "<big><b>Ibus Pinyin %s</b></big>"
+
+#: ../setup/config.py:30
+#, fuzzy
+msgid "Intelligent Pinyin"
+msgstr "Pinyin (débug)"
 
 #: ../setup/dicttreeview.py:52
 msgid "Art"

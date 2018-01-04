@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-libpinyin 1.3.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-24 14:01+0800\n"
+"POT-Creation-Date: 2018-01-04 16:51+0800\n"
 "PO-Revision-Date: 2009-09-20 16:05+8\n"
 "Last-Translator: BYVoid <byvoid1@gmail.com>\n"
 "Language-Team: BYVoid <byvoid1@gmail.com>\n"
@@ -142,6 +142,11 @@ msgstr ""
 #, fuzzy, no-c-format, python-format
 msgid "<big><b>Intelligent Pinyin %s</b></big>"
 msgstr "<big><b>IBus 拼音 %s</b></big>"
+
+#: ../setup/config.py:30
+#, fuzzy
+msgid "Intelligent Pinyin"
+msgstr "拼音（調試）"
 
 #: ../setup/dicttreeview.py:52
 msgid "Art"

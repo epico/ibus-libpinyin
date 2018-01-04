@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-24 14:01+0800\n"
+"POT-Creation-Date: 2018-01-04 16:51+0800\n"
 "PO-Revision-Date: 2015-09-24 09:36-0400\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan\n"
@@ -133,6 +133,11 @@ msgstr "Si us plau, deseu un fitxer"
 #, no-c-format, python-format
 msgid "<big><b>Intelligent Pinyin %s</b></big>"
 msgstr "<big><b>Pinyin intel·ligent %s</b></big>"
+
+#: ../setup/config.py:30
+#, fuzzy
+msgid "Intelligent Pinyin"
+msgstr "Pinyin intel·ligent (depuració)"
 
 #: ../setup/dicttreeview.py:52
 msgid "Art"
