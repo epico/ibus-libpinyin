@@ -1,3 +1,6 @@
+version 1.9.91
+* migrate to use GSettings
+
 version 1.9.3
 * translate input method name in ibus menu
 
