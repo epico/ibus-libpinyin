@@ -79,7 +79,7 @@ FallbackEditor::processPunctForSimplifiedChinese (guint keyval, guint keycode, g
         commit ("，"); return TRUE;
     case '.':
         if (m_prev_committed_char >= '0' && m_prev_committed_char <= '9')
-            commit (keyval);
+            return FALSE;
         else
             commit ("。");
         return TRUE;
@@ -147,7 +147,7 @@ FallbackEditor::processPunctForTraditionalChinese (guint keyval, guint keycode, 
         commit ("，"); return TRUE;
     case '.':
         if (m_prev_committed_char >= '0' && m_prev_committed_char <= '9')
-            commit (keyval);
+            return FALSE;
         else
             commit ("。");
         return TRUE;
@@ -175,7 +175,7 @@ FallbackEditor::processPunct (guint keyval, guint keycode, guint modifiers)
         if (G_UNLIKELY (m_props.modeFull ()))
             commit (HalfFullConverter::toFull (keyval));
         else
-            commit (keyval);
+            return FALSE;
         return TRUE;
     }
     else {
@@ -190,7 +190,10 @@ FallbackEditor::processPunct (guint keyval, guint keycode, guint modifiers)
                     return TRUE;
             }
         }
-        commit (m_props.modeFull () ? HalfFullConverter::toFull (keyval) : keyval);
+        if (m_props.modeFull ())
+            commit (HalfFullConverter::toFull (keyval));
+        else
+            return FALSE;
     }
     return TRUE;
 }
@@ -215,7 +218,10 @@ FallbackEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
         case IBUS_a ... IBUS_z:
         case IBUS_A ... IBUS_Z:
             if (modifiers == 0) {
-                commit (m_props.modeFull () ? HalfFullConverter::toFull (keyval) : keyval);
+                if (!m_props.modeFull ())
+                    return FALSE;
+
+                commit (HalfFullConverter::toFull (keyval));
                 retval = TRUE;
             }
             break;
@@ -254,7 +260,10 @@ FallbackEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
             keyval = IBUS_space;
         case IBUS_space:
             if (modifiers == 0) {
-                commit (m_props.modeFull () ? "　" : " ");
+                if (!m_props.modeFull ())
+                    return FALSE;
+
+                commit ("　");
                 retval = TRUE;
             }
             break;
