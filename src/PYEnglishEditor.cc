@@ -418,11 +418,11 @@ EnglishEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 
     /* Remember the input string. */
     if (m_cursor == 0) {
-        g_return_val_if_fail ('v' == keyval, FALSE);
-        m_text = "v";
+        g_return_val_if_fail ('v' == keyval || 'V' == keyval, FALSE);
+        m_text.insert (m_cursor, keyval);
         m_cursor ++;
     } else {
-        g_return_val_if_fail ('v' == m_text[0], FALSE);
+        g_return_val_if_fail ('v' == m_text[0] || 'V' == m_text[0], FALSE);
         if ((keyval >= 'a' && keyval <= 'z') ||
             (keyval >= 'A' && keyval <= 'Z')) {
             m_text.insert (m_cursor, keyval);
@@ -596,14 +596,15 @@ EnglishEditor::updateStateFromInput (void)
         return FALSE;
     }
 
-    if ('v' != m_text[0]) {
+    if ('v' != m_text[0] && 'V' != m_text[0]) {
         g_warning ("v is expected in m_text string.\n");
         m_auxiliary_text = "";
         clearLookupTable ();
         return FALSE;
     }
 
-    m_auxiliary_text = "v";
+    m_auxiliary_text.printf("%c", m_text[0]);
+
     if (1 == m_text.length ()) {
         clearLookupTable ();
 

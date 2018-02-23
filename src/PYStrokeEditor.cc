@@ -194,11 +194,11 @@ StrokeEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 
     /* Remember the input string. */
     if (m_cursor == 0) {
-        g_return_val_if_fail ('u' == keyval, FALSE);
-        m_text = "u";
+        g_return_val_if_fail ('u' == keyval || 'U' == keyval, FALSE);
+        m_text.insert (m_cursor, keyval);
         m_cursor ++;
     } else {
-        g_return_val_if_fail ('u' == m_text[0], FALSE);
+        g_return_val_if_fail ('u' == m_text[0] || 'U' == m_text[0], FALSE);
         if (keyval >= 'a' && keyval <= 'z') {
             /* only lower case characters here */
             m_text.insert (m_cursor, keyval);
@@ -371,14 +371,15 @@ StrokeEditor::updateStateFromInput (void)
         return FALSE;
     }
 
-    if ('u' != m_text[0]) {
+    if ('u' != m_text[0] && 'U' != m_text[0]) {
         g_warning ("u is expected in m_text string.\n");
         m_auxiliary_text = "";
         clearLookupTable ();
         return FALSE;
     }
 
-    m_auxiliary_text = "u";
+    m_auxiliary_text.printf("%c", m_text[0]);
+
     if (1 == m_text.length ()) {
         clearLookupTable ();
 

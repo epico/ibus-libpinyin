@@ -87,8 +87,8 @@ private:
     LabelMode m_mode;
     Pointer<IBusEnginePlugin> m_lua_plugin;
 
-    std::string m_preedit_text;
-    std::string m_auxiliary_text;
+    String m_preedit_text;
+    String m_auxiliary_text;
 
     LookupTable m_lookup_table;
 
