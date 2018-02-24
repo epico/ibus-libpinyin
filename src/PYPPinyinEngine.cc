@@ -201,7 +201,7 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 #endif
 #ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
                 case IBUS_v:
-                    // do not enable english mode when use double pinyin.
+                    // for full pinyin
                     if (PinyinConfig::instance ().doublePinyin ())
                         break;
                     m_input_mode = MODE_ENGLISH;
@@ -215,7 +215,7 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 #endif
 #ifdef IBUS_BUILD_STROKE_INPUT_MODE
                 case IBUS_u:
-                    // do not enable stroke mode when use double pinyin.
+                    // for full pinyin
                     if (PinyinConfig::instance ().doublePinyin ())
                         break;
                     m_input_mode = MODE_STROKE;
