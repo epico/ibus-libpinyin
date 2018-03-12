@@ -28,6 +28,10 @@ STROKES_DB = strokes.db
 
 APPDATA_XML = libpinyin.appdata.xml
 
+gsettings_SCHEMAS = com.github.libpinyin.ibus-libpinyin.gschema.xml
+
+@GSETTINGS_RULES@
+
 SUBDIRS = \
 	icons \
 	$(NULL)
@@ -79,6 +83,7 @@ EXTRA_DIST = \
 	$(STROKES) \
 	$(STROKES_AWK) \
 	$(APPDATA_XML) \
+	$(gsettings_SCHEMAS) \
 	$(NULL)
 
 CLEANFILES = \
