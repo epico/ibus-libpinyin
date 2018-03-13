@@ -26,6 +26,7 @@
 #endif
 
 #include <string>
+#include <gio/gio.h>
 #include <ibus.h>
 #include <pinyin.h>
 #include "PYUtil.h"
@@ -33,11 +34,9 @@
 
 namespace PY {
 
-class Bus;
-
-class Config : public Object {
+class Config {
 protected:
-    Config (Bus & bus, const std::string & name);
+    Config (const std::string & name);
     virtual ~Config (void);
 
 public:
@@ -78,18 +77,17 @@ protected:
     void initDefaultValues (void);
 
     virtual void readDefaultValues (void);
-    virtual gboolean valueChanged (const std::string  &section,
+    virtual gboolean valueChanged (const std::string  &schema_id,
                                    const std::string  &name,
                                    GVariant           *value);
 private:
-    static void valueChangedCallback (IBusConfig     *config,
-                                      const gchar    *section,
+    static void valueChangedCallback (GSettings      *settings,
                                       const gchar    *name,
-                                      GVariant       *value,
                                       Config         *self);
 
 protected:
-    std::string m_section;
+    GSettings *m_settings;
+    std::string m_schema_id;
     std::string m_dictionaries;
     pinyin_option_t m_option;
     pinyin_option_t m_option_mask;
@@ -133,24 +131,33 @@ protected:
 static inline bool
 normalizeGVariant (GVariant *value, bool defval)
 {
-    if (value == NULL || g_variant_classify (value) != G_VARIANT_CLASS_BOOLEAN)
+    if (value == NULL ||
+        g_variant_classify (value) != G_VARIANT_CLASS_BOOLEAN) {
+        g_warn_if_reached ();
         return defval;
+    }
     return g_variant_get_boolean (value);
 }
 
 static inline gint
 normalizeGVariant (GVariant *value, gint defval)
 {
-    if (value == NULL || g_variant_classify (value) != G_VARIANT_CLASS_INT32)
+    if (value == NULL ||
+        g_variant_classify (value) != G_VARIANT_CLASS_INT32) {
+        g_warn_if_reached ();
         return defval;
+    }
     return g_variant_get_int32 (value);
 }
 
 static inline std::string
 normalizeGVariant (GVariant *value, const std::string &defval)
 {
-    if (value == NULL || g_variant_classify (value) != G_VARIANT_CLASS_STRING)
+    if (value == NULL ||
+        g_variant_classify (value) != G_VARIANT_CLASS_STRING) {
+        g_warn_if_reached ();
         return defval;
+    }
     return g_variant_get_string (value, NULL);
 }
 

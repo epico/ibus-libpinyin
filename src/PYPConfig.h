@@ -34,11 +34,9 @@
 
 namespace PY {
 
-class Bus;
-
 class LibPinyinConfig : public Config {
 protected:
-    LibPinyinConfig (Bus & bus, const std::string & name);
+    LibPinyinConfig (const std::string & name);
     virtual ~LibPinyinConfig (void);
 
 public:
@@ -47,14 +45,12 @@ protected:
     void initDefaultValues (void);
 
     virtual void readDefaultValues (void);
-    virtual gboolean valueChanged (const std::string &section,
+    virtual gboolean valueChanged (const std::string &schema_id,
                                    const std::string &name,
                                    GVariant          *value);
 private:
-    static void valueChangedCallback (IBusConfig     *config,
-                                      const gchar    *section,
+    static void valueChangedCallback (GSettings      *settings,
                                       const gchar    *name,
-                                      GVariant       *value,
                                       LibPinyinConfig *self);
 
 protected:
@@ -63,14 +59,14 @@ protected:
 /* PinyinConfig */
 class PinyinConfig : public LibPinyinConfig {
 public:
-    static void init (Bus & bus);
+    static void init ();
     static PinyinConfig & instance (void) { return *m_instance; }
 
 protected:
-    PinyinConfig (Bus & bus);
+    PinyinConfig ();
     virtual void readDefaultValues (void);
 
-    virtual gboolean valueChanged (const std::string &section,
+    virtual gboolean valueChanged (const std::string &schema_id,
                                    const std::string &name,
                                    GVariant          *value);
 
@@ -81,14 +77,14 @@ private:
 /* Bopomof Config */
 class BopomofoConfig : public LibPinyinConfig {
 public:
-    static void init (Bus & bus);
+    static void init ();
     static BopomofoConfig & instance (void) { return *m_instance; }
 
 protected:
-    BopomofoConfig (Bus & bus);
+    BopomofoConfig ();
     virtual void readDefaultValues (void);
 
-    virtual gboolean valueChanged (const std::string &section,
+    virtual gboolean valueChanged (const std::string &schema_id,
                                    const std::string &name,
                                    GVariant          *value);
 

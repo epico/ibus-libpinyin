@@ -26,15 +26,11 @@
 namespace PY {
 
 
-Config::Config (Bus & bus, const std::string & name)
-    : Object (ibus_bus_get_config (bus)),
-      m_section ("engine/" + name)
+Config::Config (const std::string & name)
+    : m_schema_id (name)
 {
+    m_settings = NULL;
     initDefaultValues ();
-    g_signal_connect (get<IBusConfig> (),
-                      "value-changed",
-                      G_CALLBACK (valueChangedCallback),
-                      this);
 }
 
 Config::~Config (void)
@@ -78,59 +74,50 @@ Config::readDefaultValues (void)
 {
 }
 
-inline bool
+bool
 Config::read (const gchar * name,
               bool          defval)
 {
     GVariant *value = NULL;
-    if ((value = ibus_config_get_value (get<IBusConfig> (), m_section.c_str (), name)) != NULL) {
+    if ((value = g_settings_get_value (m_settings, name)) != NULL) {
         if (g_variant_classify (value) == G_VARIANT_CLASS_BOOLEAN)
             return g_variant_get_boolean (value);
     }
 
-    // write default value to config
-    value = g_variant_new ("b", defval);
-    ibus_config_set_value (get<IBusConfig> (), m_section.c_str (), name, value);
-
+    g_warn_if_reached ();
     return defval;
 }
 
-inline gint
+gint
 Config::read (const gchar * name,
               gint          defval)
 {
     GVariant *value = NULL;
-    if ((value = ibus_config_get_value (get<IBusConfig> (), m_section.c_str (), name)) != NULL) {
+    if ((value = g_settings_get_value (m_settings, name)) != NULL) {
         if (g_variant_classify (value) == G_VARIANT_CLASS_INT32)
             return g_variant_get_int32 (value);
     }
 
-    // write default value to config
-    value = g_variant_new ("i", defval);
-    ibus_config_set_value (get<IBusConfig> (), m_section.c_str (), name, value);
-
+    g_warn_if_reached ();
     return defval;
 }
 
-inline std::string
+std::string
 Config::read (const gchar * name,
               const gchar * defval)
 {
     GVariant *value = NULL;
-    if ((value = ibus_config_get_value (get<IBusConfig> (), m_section.c_str (), name)) != NULL) {
+    if ((value = g_settings_get_value (m_settings, name)) != NULL) {
         if (g_variant_classify (value) == G_VARIANT_CLASS_STRING)
             return g_variant_get_string (value, NULL);
     }
 
-    // write default value to config
-    value = g_variant_new ("s", defval);
-    ibus_config_set_value (get<IBusConfig> (), m_section.c_str (), name, value);
-
+    g_warn_if_reached ();
     return defval;
 }
 
 gboolean
-Config::valueChanged (const std::string &section,
+Config::valueChanged (const std::string &schema_id,
                       const std::string &name,
                       GVariant          *value)
 {
@@ -138,13 +125,18 @@ Config::valueChanged (const std::string &section,
 }
 
 void
-Config::valueChangedCallback (IBusConfig  *config,
-                              const gchar *section,
+Config::valueChangedCallback (GSettings   *settings,
                               const gchar *name,
-                              GVariant    *value,
                               Config      *self)
 {
-    self->valueChanged (section, name, value);
+    gchar * property = NULL;
+    g_object_get (settings, "schema-id", &property, NULL);
+    std::string schema_id (property);
+    g_free (property);
+
+    GVariant * value = g_settings_get_value (settings, name);
+    self->valueChanged (schema_id, name, value);
+    g_variant_unref (value);
 }
 
 };

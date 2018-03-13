@@ -25,42 +25,43 @@
 #include "PYBus.h"
 #include "PYLibPinyin.h"
 
+#define USE_G_SETTINGS_LIST_KEYS 0
 
 namespace PY {
 
-const gchar * const CONFIG_CORRECT_PINYIN            = "correct_pinyin";
-const gchar * const CONFIG_FUZZY_PINYIN              = "fuzzy_pinyin";
-const gchar * const CONFIG_ORIENTATION               = "lookup_table_orientation";
-const gchar * const CONFIG_PAGE_SIZE                 = "lookup_table_page_size";
-const gchar * const CONFIG_REMEMBER_EVERY_INPUT      = "remember_every_input";
-const gchar * const CONFIG_SORT_OPTION               = "sort_candidate_option";
-const gchar * const CONFIG_SHIFT_SELECT_CANDIDATE    = "shift_select_candidate";
-const gchar * const CONFIG_MINUS_EQUAL_PAGE          = "minus_equal_page";
-const gchar * const CONFIG_COMMA_PERIOD_PAGE         = "comma_period_page";
-const gchar * const CONFIG_AUTO_COMMIT               = "auto_commit";
-const gchar * const CONFIG_DOUBLE_PINYIN             = "double_pinyin";
-const gchar * const CONFIG_DOUBLE_PINYIN_SCHEMA      = "double_pinyin_schema";
-const gchar * const CONFIG_DOUBLE_PINYIN_SHOW_RAW    = "double_pinyin_show_raw";
-const gchar * const CONFIG_INIT_CHINESE              = "init_chinese";
-const gchar * const CONFIG_INIT_FULL                 = "init_full";
-const gchar * const CONFIG_INIT_FULL_PUNCT           = "init_full_punct";
-const gchar * const CONFIG_INIT_SIMP_CHINESE         = "init_simplified_chinese";
-const gchar * const CONFIG_SPECIAL_PHRASES           = "special_phrases";
+const gchar * const CONFIG_CORRECT_PINYIN            = "correct-pinyin";
+const gchar * const CONFIG_FUZZY_PINYIN              = "fuzzy-pinyin";
+const gchar * const CONFIG_ORIENTATION               = "lookup-table-orientation";
+const gchar * const CONFIG_PAGE_SIZE                 = "lookup-table-page-size";
+const gchar * const CONFIG_REMEMBER_EVERY_INPUT      = "remember-every-input";
+const gchar * const CONFIG_SORT_OPTION               = "sort-candidate-option";
+const gchar * const CONFIG_SHIFT_SELECT_CANDIDATE    = "shift-select-candidate";
+const gchar * const CONFIG_MINUS_EQUAL_PAGE          = "minus-equal-page";
+const gchar * const CONFIG_COMMA_PERIOD_PAGE         = "comma-period-page";
+const gchar * const CONFIG_AUTO_COMMIT               = "auto-commit";
+const gchar * const CONFIG_DOUBLE_PINYIN             = "double-pinyin";
+const gchar * const CONFIG_DOUBLE_PINYIN_SCHEMA      = "double-pinyin-schema";
+const gchar * const CONFIG_DOUBLE_PINYIN_SHOW_RAW    = "double-pinyin-show-raw";
+const gchar * const CONFIG_INIT_CHINESE              = "init-chinese";
+const gchar * const CONFIG_INIT_FULL                 = "init-full";
+const gchar * const CONFIG_INIT_FULL_PUNCT           = "init-full-punct";
+const gchar * const CONFIG_INIT_SIMP_CHINESE         = "init-simplified-chinese";
+const gchar * const CONFIG_SPECIAL_PHRASES           = "special-phrases";
 const gchar * const CONFIG_DICTIONARIES              = "dictionaries";
-const gchar * const CONFIG_BOPOMOFO_KEYBOARD_MAPPING = "bopomofo_keyboard_mapping";
-const gchar * const CONFIG_SELECT_KEYS               = "select_keys";
-const gchar * const CONFIG_GUIDE_KEY                 = "guide_key";
-const gchar * const CONFIG_AUXILIARY_SELECT_KEY_F    = "auxiliary_select_key_f";
-const gchar * const CONFIG_AUXILIARY_SELECT_KEY_KP   = "auxiliary_select_key_kp";
-const gchar * const CONFIG_ENTER_KEY                 = "enter_key";
-const gchar * const CONFIG_IMPORT_DICTIONARY         = "import_dictionary";
-const gchar * const CONFIG_EXPORT_DICTIONARY         = "export_dictionary";
-const gchar * const CONFIG_CLEAR_USER_DATA           = "clear_user_data";
-/* const gchar * const CONFIG_CTRL_SWITCH               = "ctrl_switch"; */
-const gchar * const CONFIG_MAIN_SWITCH               = "main_switch";
-const gchar * const CONFIG_LETTER_SWITCH             = "letter_switch";
-const gchar * const CONFIG_PUNCT_SWITCH              = "punct_switch";
-const gchar * const CONFIG_TRAD_SWITCH               = "trad_switch";
+const gchar * const CONFIG_BOPOMOFO_KEYBOARD_MAPPING = "bopomofo-keyboard-mapping";
+const gchar * const CONFIG_SELECT_KEYS               = "select-keys";
+const gchar * const CONFIG_GUIDE_KEY                 = "guide-key";
+const gchar * const CONFIG_AUXILIARY_SELECT_KEY_F    = "auxiliary-select-key-f";
+const gchar * const CONFIG_AUXILIARY_SELECT_KEY_KP   = "auxiliary-select-key-kp";
+const gchar * const CONFIG_ENTER_KEY                 = "enter-key";
+const gchar * const CONFIG_IMPORT_DICTIONARY         = "import-dictionary";
+const gchar * const CONFIG_EXPORT_DICTIONARY         = "export-dictionary";
+const gchar * const CONFIG_CLEAR_USER_DATA           = "clear-user-data";
+/* const gchar * const CONFIG_CTRL_SWITCH               = "ctrl-switch"; */
+const gchar * const CONFIG_MAIN_SWITCH               = "main-switch";
+const gchar * const CONFIG_LETTER_SWITCH             = "letter-switch";
+const gchar * const CONFIG_PUNCT_SWITCH              = "punct-switch";
+const gchar * const CONFIG_TRAD_SWITCH               = "trad-switch";
 
 const pinyin_option_t PINYIN_DEFAULT_OPTION =
         PINYIN_INCOMPLETE |
@@ -71,18 +72,21 @@ const pinyin_option_t PINYIN_DEFAULT_OPTION =
 std::unique_ptr<PinyinConfig> PinyinConfig::m_instance;
 std::unique_ptr<BopomofoConfig> BopomofoConfig::m_instance;
 
-LibPinyinConfig::LibPinyinConfig (Bus & bus, const std::string & name)
-    : Config (bus, name)
+LibPinyinConfig::LibPinyinConfig (const std::string & name)
+    : Config (name)
 {
+    m_settings = g_settings_new (m_schema_id.c_str ());
     initDefaultValues ();
-    g_signal_connect (get<IBusConfig> (),
-                      "value-changed",
+    g_signal_connect (m_settings,
+                      "changed",
                       G_CALLBACK (valueChangedCallback),
                       this);
 }
 
 LibPinyinConfig::~LibPinyinConfig (void)
 {
+    g_object_unref (m_settings);
+    m_settings = NULL;
 }
 
 void
@@ -125,20 +129,20 @@ static const struct {
     const gchar * const name;
     guint option;
 } options [] = {
-    { "incomplete_pinyin",       PINYIN_INCOMPLETE|ZHUYIN_INCOMPLETE},
+    { "incomplete-pinyin",       PINYIN_INCOMPLETE|ZHUYIN_INCOMPLETE},
     /* fuzzy pinyin */
-    { "fuzzy_pinyin_c_ch",       PINYIN_AMB_C_CH      },
-    { "fuzzy_pinyin_z_zh",       PINYIN_AMB_Z_ZH      },
-    { "fuzzy_pinyin_s_sh",       PINYIN_AMB_S_SH      },
-    { "fuzzy_pinyin_l_n",        PINYIN_AMB_L_N       },
-    { "fuzzy_pinyin_f_h",        PINYIN_AMB_F_H       },
-    { "fuzzy_pinyin_l_r",        PINYIN_AMB_L_R       },
-    { "fuzzy_pinyin_g_k",        PINYIN_AMB_G_K       },
-    { "fuzzy_pinyin_an_ang",     PINYIN_AMB_AN_ANG    },
-    { "fuzzy_pinyin_en_eng",     PINYIN_AMB_EN_ENG    },
-    { "fuzzy_pinyin_in_ing",     PINYIN_AMB_IN_ING    },
+    { "fuzzy-pinyin-c-ch",       PINYIN_AMB_C_CH      },
+    { "fuzzy-pinyin-z-zh",       PINYIN_AMB_Z_ZH      },
+    { "fuzzy-pinyin-s-sh",       PINYIN_AMB_S_SH      },
+    { "fuzzy-pinyin-l-n",        PINYIN_AMB_L_N       },
+    { "fuzzy-pinyin-f-h",        PINYIN_AMB_F_H       },
+    { "fuzzy-pinyin-l-r",        PINYIN_AMB_L_R       },
+    { "fuzzy-pinyin-g-k",        PINYIN_AMB_G_K       },
+    { "fuzzy-pinyin-an-ang",     PINYIN_AMB_AN_ANG    },
+    { "fuzzy-pinyin-en-eng",     PINYIN_AMB_EN_ENG    },
+    { "fuzzy-pinyin-in-ing",     PINYIN_AMB_IN_ING    },
     /* dynamic adjust */
-    { "dynamic_adjust",          DYNAMIC_ADJUST       },
+    { "dynamic-adjust",          DYNAMIC_ADJUST       },
 };
 
 static const struct{
@@ -152,18 +156,15 @@ static const struct{
 void
 LibPinyinConfig::readDefaultValues (void)
 {
-#if defined(HAVE_IBUS_CONFIG_GET_VALUES)
+#if USE_G_SETTINGS_LIST_KEYS
     /* read all values together */
     initDefaultValues ();
-    GVariant *values =
-            ibus_config_get_values (get<IBusConfig> (), m_section.c_str ());
-    g_return_if_fail (values != NULL);
+    gchar **keys = g_settings_list_keys (m_settings);
+    g_return_if_fail (keys != NULL);
 
-    GVariantIter iter;
-    gchar *name;
-    GVariant *value;
-    g_variant_iter_init (&iter, values);
-    while (g_variant_iter_next (&iter, "{sv}", &name, &value)) {
+    for (gchar **iter = keys; *iter != NULL; ++iter) {
+        gchar *name = *iter;
+
         /* skip signals here. */
         if (0 == strcmp(CONFIG_IMPORT_DICTIONARY, name))
             continue;
@@ -174,11 +175,12 @@ LibPinyinConfig::readDefaultValues (void)
         if (0 == strcmp(CONFIG_CLEAR_USER_DATA, name))
             continue;
 
-        valueChanged (m_section, name, value);
-        g_free (name);
+        GVariant *value = g_settings_get_value (m_settings, name);
+        valueChanged (m_schema_id, name, value);
         g_variant_unref (value);
     }
-    g_variant_unref (values);
+
+    g_strfreev (keys);
 #else
     /* others */
     m_orientation = read (CONFIG_ORIENTATION, 0);
@@ -195,7 +197,7 @@ LibPinyinConfig::readDefaultValues (void)
     m_remember_every_input = read (CONFIG_REMEMBER_EVERY_INPUT, false);
 
     const gint index = read (CONFIG_SORT_OPTION, 0);
-    m_sort_option = SORT_BY_PHRASE_LENGTH_AND_FREQUANCY;
+    m_sort_option = SORT_BY_PHRASE_LENGTH_AND_FREQUENCY;
 
     for (guint i = 0; i < G_N_ELEMENTS (sort_options); i++) {
         if (index == sort_options[i].sort_option_index) {
@@ -204,12 +206,12 @@ LibPinyinConfig::readDefaultValues (void)
         }
     }
 
-    m_dictionaries = read (CONFIG_DICTIONARIES, std::string (""));
+    m_dictionaries = read (CONFIG_DICTIONARIES, "");
 
-    m_main_switch = read (CONFIG_MAIN_SWITCH, std::string ("<Shift>"));
-    m_letter_switch = read (CONFIG_LETTER_SWITCH, std::string (""));
-    m_punct_switch = read (CONFIG_PUNCT_SWITCH, std::string ("<Control>period"));
-    m_trad_switch = read (CONFIG_TRAD_SWITCH, std::string ("<Control><Shift>f"));
+    m_main_switch = read (CONFIG_MAIN_SWITCH, "<Shift>");
+    m_letter_switch = read (CONFIG_LETTER_SWITCH, "");
+    m_punct_switch = read (CONFIG_PUNCT_SWITCH, "<Control>period");
+    m_trad_switch = read (CONFIG_TRAD_SWITCH, "<Control><Shift>f");
 
     /* fuzzy pinyin */
     if (read (CONFIG_FUZZY_PINYIN, false))
@@ -231,11 +233,11 @@ LibPinyinConfig::readDefaultValues (void)
 }
 
 gboolean
-LibPinyinConfig::valueChanged (const std::string &section,
+LibPinyinConfig::valueChanged (const std::string &schema_id,
                                const std::string &name,
                                GVariant          *value)
 {
-    if (m_section != section)
+    if (m_schema_id != schema_id)
         return FALSE;
 
     /* lookup table page size */
@@ -300,20 +302,26 @@ LibPinyinConfig::valueChanged (const std::string &section,
 }
 
 void
-LibPinyinConfig::valueChangedCallback (IBusConfig  *config,
-                                       const gchar *section,
+LibPinyinConfig::valueChangedCallback (GSettings   *settings,
                                        const gchar *name,
-                                       GVariant    *value,
                                        LibPinyinConfig *self)
 {
-    if (self->m_section != section)
+
+    gchar * property = NULL;
+    g_object_get (settings, "schema-id", &property, NULL);
+    std::string schema_id (property);
+    g_free (property);
+
+    if (self->m_schema_id != schema_id)
         return;
 
-    self->valueChanged (section, name, value);
+    GVariant * value = g_settings_get_value (settings, name);
+    self->valueChanged (self->m_schema_id, name, value);
+    g_variant_unref (value);
 
-    if (self->m_section == "engine/libpinyin")
+    if (self->m_schema_id == "com.github.libpinyin.ibus-libpinyin.libpinyin")
         LibPinyinBackEnd::instance ().setPinyinOptions (self);
-    if (self->m_section == "engine/libbopomofo")
+    if (self->m_schema_id == "com.github.libpinyin.ibus-libpinyin.libbopomofo")
         LibPinyinBackEnd::instance ().setChewingOptions (self);
 }
 
@@ -322,15 +330,15 @@ static const struct {
     guint option;
 } pinyin_options [] = {
     /* correct */
-    { "correct_pinyin_gn_ng",    PINYIN_CORRECT_GN_NG    },
-    { "correct_pinyin_mg_ng",    PINYIN_CORRECT_MG_NG    },
-    { "correct_pinyin_iou_iu",   PINYIN_CORRECT_IOU_IU   },
-    { "correct_pinyin_uei_ui",   PINYIN_CORRECT_UEI_UI   },
-    { "correct_pinyin_uen_un",   PINYIN_CORRECT_UEN_UN   },
-    { "correct_pinyin_ue_ve",    PINYIN_CORRECT_UE_VE    },
-    { "correct_pinyin_v_u",      PINYIN_CORRECT_V_U      },
-    { "correct_pinyin_ve_ue",    PINYIN_CORRECT_V_U      },
-    { "correct_pinyin_on_ong",   PINYIN_CORRECT_ON_ONG   },
+    { "correct-pinyin-gn-ng",    PINYIN_CORRECT_GN_NG    },
+    { "correct-pinyin-mg-ng",    PINYIN_CORRECT_MG_NG    },
+    { "correct-pinyin-iou-iu",   PINYIN_CORRECT_IOU_IU   },
+    { "correct-pinyin-uei-ui",   PINYIN_CORRECT_UEI_UI   },
+    { "correct-pinyin-uen-un",   PINYIN_CORRECT_UEN_UN   },
+    { "correct-pinyin-ue-ve",    PINYIN_CORRECT_UE_VE    },
+    { "correct-pinyin-v-u",      PINYIN_CORRECT_V_U      },
+    { "correct-pinyin-ve-ue",    PINYIN_CORRECT_V_U      },
+    { "correct-pinyin-on-ong",   PINYIN_CORRECT_ON_ONG   },
 };
 
 /* Here are the double pinyin keyboard scheme mapping table. */
@@ -346,16 +354,16 @@ static const struct{
     {5, DOUBLE_PINYIN_XHE}
 };
 
-PinyinConfig::PinyinConfig (Bus & bus)
-    : LibPinyinConfig (bus, "libpinyin")
+PinyinConfig::PinyinConfig ()
+    : LibPinyinConfig ("com.github.libpinyin.ibus-libpinyin.libpinyin")
 {
 }
 
 void
-PinyinConfig::init (Bus & bus)
+PinyinConfig::init ()
 {
     if (m_instance.get () == NULL) {
-        m_instance.reset (new PinyinConfig (bus));
+        m_instance.reset (new PinyinConfig ());
         m_instance->readDefaultValues ();
     }
 }
@@ -364,7 +372,7 @@ void
 PinyinConfig::readDefaultValues (void)
 {
     LibPinyinConfig::readDefaultValues ();
-#if !defined(HAVE_IBUS_CONFIG_GET_VALUES)
+#if USE_G_SETTINGS_LIST_KEYS
     /* double pinyin */
     m_double_pinyin = read (CONFIG_DOUBLE_PINYIN, false);
 
@@ -412,14 +420,14 @@ PinyinConfig::readDefaultValues (void)
 }
 
 gboolean
-PinyinConfig::valueChanged (const std::string &section,
-                                     const std::string &name,
-                                     GVariant          *value)
+PinyinConfig::valueChanged (const std::string &schema_id,
+                            const std::string &name,
+                            GVariant          *value)
 {
-    if (m_section != section)
+    if (m_schema_id != schema_id)
         return FALSE;
 
-    if (LibPinyinConfig::valueChanged (section, name, value))
+    if (LibPinyinConfig::valueChanged (schema_id, name, value))
         return TRUE;
 
     /* double pinyin */
@@ -503,16 +511,16 @@ static const struct {
     {3, ZHUYIN_IBM}
 };
 
-BopomofoConfig::BopomofoConfig (Bus & bus)
-    : LibPinyinConfig (bus, "libbopomofo")
+BopomofoConfig::BopomofoConfig ()
+    : LibPinyinConfig ("com.github.libpinyin.ibus-libpinyin.libbopomofo")
 {
 }
 
 void
-BopomofoConfig::init (Bus & bus)
+BopomofoConfig::init ()
 {
     if (m_instance.get () == NULL) {
-        m_instance.reset (new BopomofoConfig (bus));
+        m_instance.reset (new BopomofoConfig ());
         m_instance->readDefaultValues ();
     }
 }
@@ -521,7 +529,7 @@ void
 BopomofoConfig::readDefaultValues (void)
 {
     LibPinyinConfig::readDefaultValues ();
-#if !defined(HAVE_IBUS_CONFIG_GET_VALUES)
+#if USE_G_SETTINGS_LIST_KEYS
     /* init states */
     m_init_chinese = read (CONFIG_INIT_CHINESE, true);
     m_init_full = read (CONFIG_INIT_FULL, false);
@@ -550,14 +558,14 @@ BopomofoConfig::readDefaultValues (void)
 }
 
 gboolean
-BopomofoConfig::valueChanged (const std::string &section,
-                                       const std::string &name,
-                                       GVariant          *value)
+BopomofoConfig::valueChanged (const std::string &schema_id,
+                              const std::string &name,
+                              GVariant          *value)
 {
-    if (m_section != section)
+    if (m_schema_id != schema_id)
         return FALSE;
 
-    if (LibPinyinConfig::valueChanged (section, name, value))
+    if (LibPinyinConfig::valueChanged (schema_id, name, value))
         return TRUE;
 
     /* init states */
