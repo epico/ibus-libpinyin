@@ -43,10 +43,10 @@ COLUMN_ACCELERATOR,
 # The default shortcut value is stored here.
 accelerators = \
     (
-        (_("Switch Chinese/English"), "main_switch" , "<Shift>"),
-        (_("Full/Half Width Letter"), "letter_switch", ""),
-        (_("Full/Half Width Punct"), "punct_switch", "<Control>period"),
-        (_("Switch Traditional/Simplfied Chinese"), "trad_switch", "<Control><Shift>f")
+        (_("Switch Chinese/English"), "main-switch" , "<Shift>"),
+        (_("Full/Half Width Letter"), "letter-switch", ""),
+        (_("Full/Half Width Punct"), "punct-switch", "<Control>period"),
+        (_("Switch Traditional/Simplfied Chinese"), "trad-switch", "<Control><Shift>f")
     )
 
 class ShortcutTreeView(Gtk.TreeView):
@@ -211,12 +211,12 @@ class ShortcutEditor(Gtk.Box):
     def emit_shortcut_changed(self, key, value):
         self.emit("shortcut-changed", key, value)
 
-    def update_shortcuts(self, values):
+    def update_shortcuts(self, config):
         for label, keyname, defvalue in accelerators:
-            value = values[keyname] if keyname in values else defvalue
+            value = config.get_value(keyname).get_string()
             self.__shortcut_treeview.set_shortcut_value(keyname, value)
             # store the default value
-            self.emit_shortcut_changed(keyname, value)
+            # self.emit_shortcut_changed(keyname, value)
 
 class ShortcutEditorDialog(Gtk.Dialog):
     def __init__(self, title = None, transient_for = None, flags = 0):
