@@ -52,12 +52,10 @@ public:
     gboolean autoCommit (void) const            { return m_auto_commit; }
     gboolean doublePinyin (void) const          { return m_double_pinyin; }
     DoublePinyinScheme doublePinyinSchema (void) const { return m_double_pinyin_schema; }
-    gboolean doublePinyinShowRaw (void) const   { return m_double_pinyin_show_raw; }
     gboolean initChinese (void) const           { return m_init_chinese; }
     gboolean initFull (void) const              { return m_init_full; }
     gboolean initFullPunct (void) const         { return m_init_full_punct; }
     gboolean initSimpChinese (void) const       { return m_init_simp_chinese; }
-    gboolean specialPhrases (void) const        { return m_special_phrases; }
     ZhuyinScheme bopomofoKeyboardMapping (void) const   { return m_bopomofo_keyboard_mapping; }
     gint selectKeys (void) const                { return m_select_keys; }
     gboolean guideKey (void) const              { return m_guide_key; }
@@ -104,13 +102,11 @@ protected:
 
     gboolean m_double_pinyin;
     DoublePinyinScheme m_double_pinyin_schema;
-    gboolean m_double_pinyin_show_raw;
 
     gboolean m_init_chinese;
     gboolean m_init_full;
     gboolean m_init_full_punct;
     gboolean m_init_simp_chinese;
-    gboolean m_special_phrases;
 
     ZhuyinScheme m_bopomofo_keyboard_mapping;
     gint m_select_keys;

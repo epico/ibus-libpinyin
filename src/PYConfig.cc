@@ -52,13 +52,11 @@ Config::initDefaultValues (void)
 
     m_double_pinyin = FALSE;
     m_double_pinyin_schema = DOUBLE_PINYIN_DEFAULT;
-    m_double_pinyin_show_raw = FALSE;
 
     m_init_chinese = TRUE;
     m_init_full = FALSE;
     m_init_full_punct = TRUE;
     m_init_simp_chinese = TRUE;
-    m_special_phrases = TRUE;
 
     m_dictionaries = "";
 
