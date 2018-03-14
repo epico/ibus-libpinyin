@@ -41,12 +41,10 @@ const gchar * const CONFIG_COMMA_PERIOD_PAGE         = "comma-period-page";
 const gchar * const CONFIG_AUTO_COMMIT               = "auto-commit";
 const gchar * const CONFIG_DOUBLE_PINYIN             = "double-pinyin";
 const gchar * const CONFIG_DOUBLE_PINYIN_SCHEMA      = "double-pinyin-schema";
-const gchar * const CONFIG_DOUBLE_PINYIN_SHOW_RAW    = "double-pinyin-show-raw";
 const gchar * const CONFIG_INIT_CHINESE              = "init-chinese";
 const gchar * const CONFIG_INIT_FULL                 = "init-full";
 const gchar * const CONFIG_INIT_FULL_PUNCT           = "init-full-punct";
 const gchar * const CONFIG_INIT_SIMP_CHINESE         = "init-simplified-chinese";
-const gchar * const CONFIG_SPECIAL_PHRASES           = "special-phrases";
 const gchar * const CONFIG_DICTIONARIES              = "dictionaries";
 const gchar * const CONFIG_BOPOMOFO_KEYBOARD_MAPPING = "bopomofo-keyboard-mapping";
 const gchar * const CONFIG_SELECT_KEYS               = "select-keys";
@@ -337,7 +335,6 @@ static const struct {
     { "correct-pinyin-uen-un",   PINYIN_CORRECT_UEN_UN   },
     { "correct-pinyin-ue-ve",    PINYIN_CORRECT_UE_VE    },
     { "correct-pinyin-v-u",      PINYIN_CORRECT_V_U      },
-    { "correct-pinyin-ve-ue",    PINYIN_CORRECT_V_U      },
     { "correct-pinyin-on-ong",   PINYIN_CORRECT_ON_ONG   },
 };
 
@@ -372,7 +369,7 @@ void
 PinyinConfig::readDefaultValues (void)
 {
     LibPinyinConfig::readDefaultValues ();
-#if USE_G_SETTINGS_LIST_KEYS
+#if !USE_G_SETTINGS_LIST_KEYS
     /* double pinyin */
     m_double_pinyin = read (CONFIG_DOUBLE_PINYIN, false);
 
@@ -386,15 +383,11 @@ PinyinConfig::readDefaultValues (void)
         }
     }
 
-    m_double_pinyin_show_raw = read (CONFIG_DOUBLE_PINYIN_SHOW_RAW, false);
-
     /* init states */
     m_init_chinese = read (CONFIG_INIT_CHINESE, true);
     m_init_full = read (CONFIG_INIT_FULL, false);
     m_init_full_punct = read (CONFIG_INIT_FULL_PUNCT, true);
     m_init_simp_chinese = read (CONFIG_INIT_SIMP_CHINESE, true);
-
-    m_special_phrases = read (CONFIG_SPECIAL_PHRASES, true);
 
     /* other */
     m_shift_select_candidate = read (CONFIG_SHIFT_SELECT_CANDIDATE, false);
@@ -444,8 +437,6 @@ PinyinConfig::valueChanged (const std::string &schema_id,
             }
         }
     }
-    else if (CONFIG_DOUBLE_PINYIN_SHOW_RAW == name)
-        m_double_pinyin_show_raw = normalizeGVariant (value, false);
     /* init states */
     else if (CONFIG_INIT_CHINESE == name)
         m_init_chinese = normalizeGVariant (value, true);
@@ -455,8 +446,6 @@ PinyinConfig::valueChanged (const std::string &schema_id,
         m_init_full_punct = normalizeGVariant (value, true);
     else if (CONFIG_INIT_SIMP_CHINESE == name)
         m_init_simp_chinese = normalizeGVariant (value, true);
-    else if (CONFIG_SPECIAL_PHRASES == name)
-        m_special_phrases = normalizeGVariant (value, true);
     /* others */
     else if (CONFIG_SHIFT_SELECT_CANDIDATE == name)
         m_shift_select_candidate = normalizeGVariant (value, false);
@@ -529,14 +518,12 @@ void
 BopomofoConfig::readDefaultValues (void)
 {
     LibPinyinConfig::readDefaultValues ();
-#if USE_G_SETTINGS_LIST_KEYS
+#if !USE_G_SETTINGS_LIST_KEYS
     /* init states */
     m_init_chinese = read (CONFIG_INIT_CHINESE, true);
     m_init_full = read (CONFIG_INIT_FULL, false);
     m_init_full_punct = read (CONFIG_INIT_FULL_PUNCT, true);
     m_init_simp_chinese = read (CONFIG_INIT_SIMP_CHINESE, false);
-
-    m_special_phrases = read (CONFIG_SPECIAL_PHRASES, false);
 
     const gint map = read (CONFIG_BOPOMOFO_KEYBOARD_MAPPING, 0);
     m_bopomofo_keyboard_mapping = ZHUYIN_DEFAULT;
@@ -550,9 +537,9 @@ BopomofoConfig::readDefaultValues (void)
 
     m_select_keys = read (CONFIG_SELECT_KEYS, 0);
     if (m_select_keys >= 9) m_select_keys = 0;
-    m_guide_key = read (CONFIG_GUIDE_KEY, true);
-    m_auxiliary_select_key_f = read (CONFIG_AUXILIARY_SELECT_KEY_F, true);
-    m_auxiliary_select_key_kp = read (CONFIG_AUXILIARY_SELECT_KEY_KP, true);
+    m_guide_key = read (CONFIG_GUIDE_KEY, 1);
+    m_auxiliary_select_key_f = read (CONFIG_AUXILIARY_SELECT_KEY_F, 1);
+    m_auxiliary_select_key_kp = read (CONFIG_AUXILIARY_SELECT_KEY_KP, 1);
     m_enter_key = read (CONFIG_ENTER_KEY, true);
 #endif
 }
@@ -577,8 +564,6 @@ BopomofoConfig::valueChanged (const std::string &schema_id,
         m_init_full_punct = normalizeGVariant (value, true);
     else if (CONFIG_INIT_SIMP_CHINESE == name)
         m_init_simp_chinese = normalizeGVariant (value, false);
-    else if (CONFIG_SPECIAL_PHRASES == name)
-        m_special_phrases = normalizeGVariant (value, false);
     else if (CONFIG_BOPOMOFO_KEYBOARD_MAPPING == name) {
         const gint map = normalizeGVariant (value, 0);
         m_bopomofo_keyboard_mapping = ZHUYIN_DEFAULT;
