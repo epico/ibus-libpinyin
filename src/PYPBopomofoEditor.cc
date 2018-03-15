@@ -166,7 +166,7 @@ BopomofoEditor::processSelectKey (guint keyval, guint keycode,
 
 gboolean
 BopomofoEditor::processBopomofo (guint keyval, guint keycode,
-                                          guint modifiers)
+                                 guint modifiers)
 {
     if (G_UNLIKELY (cmshm_filter (modifiers) != 0))
         return m_text ? TRUE : FALSE;
@@ -210,6 +210,20 @@ BopomofoEditor::processKeyEvent (guint keyval, guint keycode,
     case IBUS_space:
         m_select_mode = TRUE;
         return processSpace (keyval, keycode, modifiers);
+
+    case IBUS_Return:
+    case IBUS_KP_Enter:
+        /* no user input */
+        if (m_text.empty ())
+            return FALSE;
+
+        if (m_config.enterKey ())
+            commit ();
+        else
+            PhoneticEditor::commit (m_text.c_str ());
+
+        reset ();
+        return TRUE;
 
     case IBUS_Up:        case IBUS_KP_Up:
     case IBUS_Down:      case IBUS_KP_Down:
