@@ -24,8 +24,7 @@
 namespace PY {
 
 Editor::Editor (PinyinProperties & props, Config & config)
-    : m_text (128),
-      m_cursor (0),
+    : m_cursor (0),
       m_props (props),
       m_config (config)
 {

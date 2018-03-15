@@ -32,7 +32,9 @@ public:
     String () : std::string () { }
     String (const gchar *str) : std::string (str) { }
     String (const std::string &str) : std::string (str) { }
-    String (gint len) : std::string () { reserve (len); }
+    /* TODO: remove the following line later. */
+    G_DEPRECATED String (gint len) : std::string () { reserve (len); }
+    String (const gchar ch) : std::string (1, ch) { }
 
     String & printf (const gchar *fmt, ...)
     {
