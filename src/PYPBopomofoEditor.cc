@@ -90,13 +90,11 @@ BopomofoEditor::processGuideKey (guint keyval, guint keycode,
     if (G_LIKELY (m_select_mode))
         return FALSE;
 
-#if 0
     if (G_UNLIKELY (keyval == IBUS_space)) {
         m_select_mode = TRUE;
         update ();
         return TRUE;
     }
-#endif
 
     return FALSE;
 }
@@ -269,6 +267,11 @@ BopomofoEditor::updateLookupTableLabel (void)
 void
 BopomofoEditor::updateLookupTable (void)
 {
+    if (!m_select_mode) {
+        hideLookupTable ();
+        return;
+    }
+
     m_lookup_table.clear ();
 
     fillLookupTable ();
