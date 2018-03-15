@@ -79,7 +79,7 @@ BopomofoEditor::insert (gint ch)
 
 gboolean
 BopomofoEditor::processGuideKey (guint keyval, guint keycode,
-                                          guint modifiers)
+                                 guint modifiers)
 {
     if (!m_config.guideKey ())
         return FALSE;
@@ -90,11 +90,13 @@ BopomofoEditor::processGuideKey (guint keyval, guint keycode,
     if (G_LIKELY (m_select_mode))
         return FALSE;
 
+#if 0
     if (G_UNLIKELY (keyval == IBUS_space)) {
         m_select_mode = TRUE;
         update ();
         return TRUE;
     }
+#endif
 
     return FALSE;
 }
@@ -249,6 +251,33 @@ BopomofoEditor::processKeyEvent (guint keyval, guint keycode,
             (keyval, keycode, modifiers);
     }
     return FALSE;
+}
+
+void
+BopomofoEditor::updateLookupTableLabel (void)
+{
+    String labels = bopomofo_select_keys[m_config.selectKeys ()];
+
+    size_t len = MIN (labels.length (), m_config.pageSize ());
+    for (size_t i = 0; i < len; ++i) {
+        String label = (gchar) labels[i];
+        Text text (label);
+        m_lookup_table.setLabel (i, text);
+    }
+}
+
+void
+BopomofoEditor::updateLookupTable (void)
+{
+    m_lookup_table.clear ();
+
+    fillLookupTable ();
+    updateLookupTableLabel ();
+    if (m_lookup_table.size()) {
+        Editor::updateLookupTable (m_lookup_table, TRUE);
+    } else {
+        hideLookupTable ();
+    }
 }
 
 void

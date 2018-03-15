@@ -46,6 +46,8 @@ protected:
     gboolean processBopomofo (guint keyval, guint keycode, guint modifiers);
     gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
 
+    void updateLookupTableLabel ();
+    virtual void updateLookupTable ();
 
     virtual void updatePreeditText ();
     virtual void updateAuxiliaryText ();
