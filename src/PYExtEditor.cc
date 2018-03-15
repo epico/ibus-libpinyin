@@ -608,7 +608,7 @@ ExtEditor::updateStateFromInput (void)
         return FALSE;
     }
 
-    m_auxiliary_text.printf("%c", m_text[0]);
+    m_auxiliary_text = m_text[0];
 
     m_mode = LABEL_LIST_COMMANDS;
     if ( 1 == m_text.length () ) {
