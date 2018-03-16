@@ -88,7 +88,7 @@ BopomofoEngine::processAccelKeyEvent (guint keyval, guint keycode,
             if (!m_editors[MODE_INIT]->text ().empty ())
                 m_editors[MODE_INIT]->reset ();
             m_props.toggleModeChinese ();
-            return TRUE;
+            return FALSE;
         }
 
         if (m_input_mode == MODE_INIT &&
