@@ -96,7 +96,7 @@ LibPinyinConfig::initDefaultValues (void)
     m_orientation = IBUS_ORIENTATION_HORIZONTAL;
     m_page_size = 5;
     m_remember_every_input = FALSE;
-    m_sort_option = SORT_BY_PHRASE_LENGTH_AND_FREQUENCY;
+    m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
 
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
@@ -193,7 +193,7 @@ LibPinyinConfig::readDefaultValues (void)
     m_remember_every_input = read (CONFIG_REMEMBER_EVERY_INPUT, false);
 
     const gint index = read (CONFIG_SORT_OPTION, 0);
-    m_sort_option = SORT_BY_PHRASE_LENGTH_AND_FREQUENCY;
+    m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
 
     for (guint i = 0; i < G_N_ELEMENTS (sort_options); i++) {
         if (index == sort_options[i].sort_option_index) {
@@ -255,7 +255,7 @@ LibPinyinConfig::valueChanged (const std::string &schema_id,
         m_remember_every_input = normalizeGVariant (value, false);
     } else if (CONFIG_SORT_OPTION == name) {
         const gint index = normalizeGVariant (value, 0);
-        m_sort_option = SORT_BY_PHRASE_LENGTH_AND_FREQUENCY;
+        m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
 
         for (guint i = 0; i < G_N_ELEMENTS (sort_options); i++) {
             if (index == sort_options[i].sort_option_index) {

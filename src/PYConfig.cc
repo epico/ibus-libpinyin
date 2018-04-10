@@ -43,7 +43,7 @@ Config::initDefaultValues (void)
     m_orientation = IBUS_ORIENTATION_HORIZONTAL;
     m_page_size = 5;
     m_remember_every_input = FALSE;
-    m_sort_option = SORT_BY_PHRASE_LENGTH_AND_FREQUENCY;
+    m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
 
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
