@@ -1,3 +1,6 @@
+version 1.10.0
+* bug fixes
+
 version 1.9.91
 * migrate to use GSettings
 * fixes lyx short cut issue
