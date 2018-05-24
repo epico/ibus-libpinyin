@@ -28,7 +28,10 @@
 
 namespace PY {
 
+class EnhancedCandidates;
+
 class PhoneticEditor : public Editor {
+    friend class EnhancedCandidates;
 public:
     PhoneticEditor (PinyinProperties & props, Config & config);
     virtual ~PhoneticEditor ();
@@ -50,6 +53,7 @@ public:
     virtual gboolean fillLookupTable ();
 
 protected:
+    gboolean selectCandidateInternal (CandidateType type, guint id);
     gboolean selectCandidate (guint i);
     gboolean selectCandidateInPage (guint i);
 
@@ -87,6 +91,11 @@ protected:
 
     /* use LibPinyinBackEnd here. */
     pinyin_instance_t           *m_instance;
+
+    /* use EnhancedCandidates here. */
+    std::vector<EnhancedCandidate> m_candidates;
+
+    /* several EnhancedCandidates providers. */
 };
 
 };
