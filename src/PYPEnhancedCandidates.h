@@ -27,9 +27,21 @@ namespace PY {
 enum CandidateType {
     CANDIDATE_USER_RAW_INPUT = 1,
     CANDIDATE_LIBPINYIN,
+    CANDIDATE_TRADITIONAL_CHINESE,
     CANDIDATE_LUA_EXTENSION,
     CANDIDATE_CLOUD_INPUT,
     CANDIDATE_EMOJI
+};
+
+enum SelectCandidateAction {
+    SELECT_CANDIDATE_ALREADY_HANDLED = 1,
+    /* commit the text without change. */
+    SELECT_CANDIDATE_COMMIT,
+    /* modify the candidate recursively for candidates process chain,
+       then commit the changed text. */
+    SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT,
+    /* need to call updateCandidates method in class PhoneticEditor. */
+    SELECT_CANDIDATE_UPDATE_ALL
 };
 
 struct EnhancedCandidate {
@@ -42,7 +54,8 @@ class EnhancedCandidates {
 
 public:
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
-    gboolean selectCandidate (CandidateType type, guint id);
+
+    SelectCandidateAction selectCandidate (EnhancedCandidate & candidate);
 
 protected:
     gboolean selectCandidateInPhoneticEditor (CandidateType type, guint id) {

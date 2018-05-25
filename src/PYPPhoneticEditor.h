@@ -24,14 +24,17 @@
 #include <pinyin.h>
 #include "PYLookupTable.h"
 #include "PYEditor.h"
+#include "PYPEnhancedCandidates.h"
 
 
 namespace PY {
 
 class EnhancedCandidates;
+class LibPinyinCandidates;
 
 class PhoneticEditor : public Editor {
     friend class EnhancedCandidates;
+    friend class LibPinyinCandidates;
 public:
     PhoneticEditor (PinyinProperties & props, Config & config);
     virtual ~PhoneticEditor ();
@@ -48,6 +51,7 @@ public:
     virtual gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
     virtual gboolean processSpace (guint keyval, guint keycode, guint modifiers);
     virtual gboolean processFunctionKey (guint keyval, guint keycode, guint modifiers);
+    virtual gboolean updateCandidates ();
     virtual void updateLookupTable ();
     virtual void updateLookupTableFast ();
     virtual gboolean fillLookupTable ();
