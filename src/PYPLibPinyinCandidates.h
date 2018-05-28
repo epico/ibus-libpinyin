@@ -33,36 +33,9 @@ public:
     }
 
 public:
-    gboolean processCandidates (std::vector<EnhancedCandidate> & candidates) {
-        pinyin_instance_t *instance = m_editor->m_instance;
+    gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
 
-        guint len = 0;
-        pinyin_get_n_candidate (m_instance, &len);
-
-        for (guint i = 0; i < len; i++) {
-            lookup_candidate_t * candidate = NULL;
-            pinyin_get_candidate (m_instance, i, &candidate);
-
-            const gchar * phrase_string = NULL;
-            pinyin_get_candidate_string (m_instance, candidate, &phrase_string);
-
-            EnhancedCandidate candidate;
-            candidate.m_candidate_type = CANDIDATE_LIBPINYIN;
-            candidate.m_candidate_id = i;
-            candidate.m_display_string = phrase_string;
-
-            candidates.push_back (candidate);
-        }
-
-        return TRUE;
-    }
-
-    SelectCandidateAction selectCandidate (EnhancedCandidate & candidate) {
-        assert (CANDIDATE_LIBPINYIN == candidate.m_candidate_type);
-
-        assert (FALSE);
-    }
-
+    SelectCandidateAction selectCandidate (EnhancedCandidate & candidate);
 };
 
 };
