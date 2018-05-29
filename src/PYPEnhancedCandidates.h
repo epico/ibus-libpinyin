@@ -58,8 +58,8 @@ public:
     SelectCandidateAction selectCandidate (EnhancedCandidate & candidate);
 
 protected:
-    gboolean selectCandidateInPhoneticEditor (CandidateType type, guint id) {
-        return m_editor->selectCandidateInternal (type, id);
+    SelectCandidateAction selectCandidateInPhoneticEditor (EnhancedCandidate & candidate) {
+        return m_editor->selectCandidateInternal (candidate);
     }
 
     /* will call selectCandidateInternal method of class PhoneticEditor. */

@@ -57,7 +57,7 @@ public:
     virtual gboolean fillLookupTable ();
 
 protected:
-    gboolean selectCandidateInternal (CandidateType type, guint id);
+    SelectCandidateAction selectCandidateInternal (EnhancedCandidate & candidate);
     gboolean selectCandidate (guint i);
     gboolean selectCandidateInPage (guint i);
 
