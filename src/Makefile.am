@@ -69,6 +69,9 @@ ibus_engine_libpinyin_h_sources = \
 	PYPPinyinEngine.h \
 	PYPBopomofoEngine.h \
 	PYPConfig.h \
+	PYPEnhancedCandidates.h \
+	PYPLibPinyinCandidates.h \
+	PYPTradCandidates.h \
 	$(NULL)
 
 ibus_engine_libpinyin_c_sources += \
@@ -81,6 +84,8 @@ ibus_engine_libpinyin_c_sources += \
 	PYPBopomofoEditor.cc \
 	PYPPinyinEngine.cc \
 	PYPBopomofoEngine.cc \
+	PYPLibPinyinCandidates.cc \
+	PYPTradCandidates.cc \
 	$(NULL)
 
 
