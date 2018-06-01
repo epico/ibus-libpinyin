@@ -20,6 +20,9 @@
  */
 
 #include "PYPLibPinyinCandidates.h"
+#include <assert.h>
+#include <pinyin.h>
+#include "PYPPhoneticEditor.h"
 
 using namespace PY;
 
@@ -38,33 +41,33 @@ LibPinyinCandidates::processCandidates (std::vector<EnhancedCandidate> & candida
         const gchar * phrase_string = NULL;
         pinyin_get_candidate_string (instance, candidate, &phrase_string);
 
-        EnhancedCandidate candidate;
-        candidate.m_candidate_type = CANDIDATE_LIBPINYIN;
-        candidate.m_candidate_id = i;
-        candidate.m_display_string = phrase_string;
+        EnhancedCandidate enhanced;
+        enhanced.m_candidate_type = CANDIDATE_LIBPINYIN;
+        enhanced.m_candidate_id = i;
+        enhanced.m_display_string = phrase_string;
 
-        candidates.push_back (candidate);
+        candidates.push_back (enhanced);
     }
 
     return TRUE;
 }
 
 SelectCandidateAction
-LibPinyinCandidates::selectCandidate (EnhancedCandidate & candidate)
+LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
     pinyin_instance_t * instance = m_editor->m_instance;
-    assert (CANDIDATE_LIBPINYIN == candidate.m_candidate_type);
+    assert (CANDIDATE_LIBPINYIN == enhanced.m_candidate_type);
 
     guint len = 0;
     pinyin_get_n_candidate (instance, &len);
 
-    if (G_UNLIKELY (candidate.m_candidate_id >= len))
+    if (G_UNLIKELY (enhanced.m_candidate_id >= len))
         return SELECT_CANDIDATE_ALREADY_HANDLED;
 
     guint lookup_cursor = m_editor->getLookupCursor ();
 
     lookup_candidate_t * candidate = NULL;
-    pinyin_get_candidate (instance, i, &candidate);
+    pinyin_get_candidate (instance, enhanced.m_candidate_id, &candidate);
 
     lookup_candidate_type_t type;
     pinyin_get_candidate_type (instance, candidate, &type);
@@ -86,21 +89,21 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & candidate)
     lookup_cursor = pinyin_choose_candidate
         (instance, lookup_cursor, candidate);
 
-    pinyin_guess_sentence (m_instance);
+    pinyin_guess_sentence (instance);
 
     if (lookup_cursor == m_editor->m_text.length ()) {
         char *tmp = NULL;
         pinyin_get_sentence (instance, 0, &tmp);
-        candidate.m_display_string = tmp;
-        pinyin_train (m_instance, 0);
+        enhanced.m_display_string = tmp;
+        pinyin_train (instance, 0);
         return SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT;
     }
 
     PinyinKeyPos *pos = NULL;
-    pinyin_get_pinyin_key_rest (m_instance, lookup_cursor, &pos);
+    pinyin_get_pinyin_key_rest (instance, lookup_cursor, &pos);
 
     guint16 begin = 0;
-    pinyin_get_pinyin_key_rest_positions (m_instance, pos, &begin, NULL);
+    pinyin_get_pinyin_key_rest_positions (instance, pos, &begin, NULL);
     m_editor->m_cursor = begin;
 
     return SELECT_CANDIDATE_UPDATE_ALL;

@@ -20,6 +20,9 @@
  */
 
 #include "PYPTradCandidates.h"
+#include <assert.h>
+#include "PYString.h"
+#include "PYPPhoneticEditor.h"
 #include "PYSimpTradConverter.h"
 
 using namespace PY;
@@ -30,33 +33,33 @@ TraditionalCandidates::processCandidates (std::vector<EnhancedCandidate> & candi
     m_candidates.clear ();
 
     for (guint i = 0; i < candidates.size (); i++) {
-        EnhancedCandidate & candidate = candidates[i];
+        EnhancedCandidate & enhanced = candidates[i];
 
-        m_candidates.push_back (candidate);
+        m_candidates.push_back (enhanced);
 
-        candidate.m_candidate_type = CANDIDATE_TRADITIONAL_CHINESE;
-        candidate.m_candidate_id = i;
+        enhanced.m_candidate_type = CANDIDATE_TRADITIONAL_CHINESE;
+        enhanced.m_candidate_id = i;
         String trad;
-        SimpTradConverter::simpToTrad (candidate.c_str (), trad);
-        candidate.m_display_string = trad;
+        SimpTradConverter::simpToTrad (enhanced.m_display_string.c_str (), trad);
+        enhanced.m_display_string = trad;
     }
 
     return TRUE;
 }
 
 SelectCandidateAction
-TraditionalCandidates::selectCandidate (EnhancedCandidate & candidate)
+TraditionalCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
-    assert (CANDIDATE_TRADITIONAL_CHINESE == candidate.m_candidate_type);
+    assert (CANDIDATE_TRADITIONAL_CHINESE == enhanced.m_candidate_type);
 
     SelectCandidateAction action = SELECT_CANDIDATE_ALREADY_HANDLED;
 
-    action = selectCandidateInPhoneticEditor (candidate);
+    action = m_editor->selectCandidateInternal (enhanced);
 
     if (SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT == action) {
         String trad;
-        SimpTradConverter::simpToTrad (candidate.c_str (), trad);
-        candidate.m_display_string = trad;
+        SimpTradConverter::simpToTrad (enhanced.m_display_string.c_str (), trad);
+        enhanced.m_display_string = trad;
     }
 
     return action;

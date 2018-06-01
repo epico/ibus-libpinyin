@@ -21,6 +21,7 @@
 #ifndef __PY_LIB_PINYIN_BASE_EDITOR_H_
 #define __PY_LIB_PINYIN_BASE_EDITOR_H_
 
+#include <vector>
 #include <pinyin.h>
 #include "PYLookupTable.h"
 #include "PYEditor.h"
@@ -29,12 +30,12 @@
 
 namespace PY {
 
-class EnhancedCandidates;
 class LibPinyinCandidates;
+class TraditionalCandidates;
 
 class PhoneticEditor : public Editor {
-    friend class EnhancedCandidates;
     friend class LibPinyinCandidates;
+    friend class TraditionalCandidates;
 public:
     PhoneticEditor (PinyinProperties & props, Config & config);
     virtual ~PhoneticEditor ();

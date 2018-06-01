@@ -26,7 +26,7 @@
 
 namespace PY {
 
-class LibPinyinCandidates : public EnhancedCandidate {
+class LibPinyinCandidates : public EnhancedCandidates {
 public:
     LibPinyinCandidates (PhoneticEditor *editor) {
         m_editor = editor;
@@ -35,7 +35,7 @@ public:
 public:
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
 
-    SelectCandidateAction selectCandidate (EnhancedCandidate & candidate);
+    SelectCandidateAction selectCandidate (EnhancedCandidate & enhanced);
 };
 
 };

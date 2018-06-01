@@ -22,7 +22,13 @@
 #ifndef __PY_LIB_PINYIN_ENHANCED_CANDIDATES_H_
 #define __PY_LIB_PINYIN_ENHANCED_CANDIDATES_H_
 
+#include <glib.h>
+#include <string>
+#include <vector>
+
 namespace PY {
+
+class PhoneticEditor;
 
 enum CandidateType {
     CANDIDATE_USER_RAW_INPUT = 1,
@@ -55,15 +61,12 @@ class EnhancedCandidates {
 public:
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
 
-    SelectCandidateAction selectCandidate (EnhancedCandidate & candidate);
+    SelectCandidateAction selectCandidate (EnhancedCandidate & enhanced);
 
 protected:
-    SelectCandidateAction selectCandidateInPhoneticEditor (EnhancedCandidate & candidate) {
-        return m_editor->selectCandidateInternal (candidate);
-    }
 
     /* will call selectCandidateInternal method of class PhoneticEditor. */
-    PhoneticEditor * m_editor;
+    PhoneticEditor *m_editor;
 };
 
 };

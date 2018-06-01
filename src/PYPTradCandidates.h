@@ -27,7 +27,7 @@
 
 namespace PY {
 
-class TraditionalCandidates : public EnhancedCandidate {
+class TraditionalCandidates : public EnhancedCandidates {
 public:
     TraditionalCandidates (PhoneticEditor *editor) {
         m_editor = editor;
@@ -36,7 +36,7 @@ public:
 public:
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
 
-    SelectCandidateAction selectCandidate (EnhancedCandidate & candidate);
+    SelectCandidateAction selectCandidate (EnhancedCandidate & enhanced);
 
 protected:
     std::vector<EnhancedCandidate> m_candidates;
