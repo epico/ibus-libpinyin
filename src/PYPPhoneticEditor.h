@@ -26,6 +26,8 @@
 #include "PYLookupTable.h"
 #include "PYEditor.h"
 #include "PYPEnhancedCandidates.h"
+#include "PYPLibPinyinCandidates.h"
+#include "PYPTradCandidates.h"
 
 
 namespace PY {
@@ -101,6 +103,8 @@ protected:
     std::vector<EnhancedCandidate> m_candidates;
 
     /* several EnhancedCandidates providers. */
+    LibPinyinCandidates m_libpinyin_candidates;
+    TraditionalCandidates m_traditional_candidates;
 };
 
 };

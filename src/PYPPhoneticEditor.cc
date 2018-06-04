@@ -18,7 +18,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 #include "PYPPhoneticEditor.h"
+#include <assert.h>
 #include "PYConfig.h"
 #include "PYPinyinProperties.h"
 #include "PYSimpTradConverter.h"
@@ -30,7 +32,9 @@ PhoneticEditor::PhoneticEditor (PinyinProperties &props,
                                                   Config &config):
     Editor (props, config),
     m_pinyin_len (0),
-    m_lookup_table (m_config.pageSize ())
+    m_lookup_table (m_config.pageSize ()),
+    m_libpinyin_candidates (this),
+    m_traditional_candidates (this)
 {
 }
 
@@ -192,12 +196,24 @@ PhoneticEditor::updateLookupTable (void)
 {
     m_lookup_table.clear ();
 
+    updateCandidates ();
     fillLookupTable ();
     if (m_lookup_table.size()) {
         Editor::updateLookupTable (m_lookup_table, TRUE);
     } else {
         hideLookupTable ();
     }
+}
+
+gboolean
+PhoneticEditor::updateCandidates (void)
+{
+    m_libpinyin_candidates.processCandidates (m_candidates);
+
+    if (!m_props.modeSimp ())
+        m_traditional_candidates.processCandidates (m_candidates);
+
+    return TRUE;
 }
 
 #if 0
@@ -370,6 +386,23 @@ PhoneticEditor::getLookupCursor (void)
     if (lookup_cursor == m_text.length ())
         lookup_cursor = 0;
     return lookup_cursor;
+}
+
+SelectCandidateAction
+PhoneticEditor::selectCandidateInternal (EnhancedCandidate & candidate)
+{
+    switch (candidate.m_candidate_type) {
+    case CANDIDATE_NBEST_MATCH:
+    case CANDIDATE_NORMAL:
+    case CANDIDATE_USER:
+        return m_libpinyin_candidates.selectCandidate (candidate);
+
+    case CANDIDATE_TRADITIONAL_CHINESE:
+        return m_traditional_candidates.selectCandidate (candidate);
+
+    default:
+        assert (FALSE);
+    }
 }
 
 gboolean

@@ -38,11 +38,32 @@ LibPinyinCandidates::processCandidates (std::vector<EnhancedCandidate> & candida
         lookup_candidate_t * candidate = NULL;
         pinyin_get_candidate (instance, i, &candidate);
 
+        lookup_candidate_type_t type;
+        pinyin_get_candidate_type (instance, candidate, &type);
+
         const gchar * phrase_string = NULL;
         pinyin_get_candidate_string (instance, candidate, &phrase_string);
 
         EnhancedCandidate enhanced;
-        enhanced.m_candidate_type = CANDIDATE_LIBPINYIN;
+
+        switch (type) {
+        case NBEST_MATCH_CANDIDATE:
+            enhanced.m_candidate_type = CANDIDATE_NBEST_MATCH;
+            break;
+
+        case NORMAL_CANDIDATE:
+        case ADDON_CANDIDATE:
+            enhanced.m_candidate_type = CANDIDATE_NORMAL;
+
+            if (pinyin_is_user_candidate (instance, candidate))
+                enhanced.m_candidate_type = CANDIDATE_USER;
+
+            break;
+
+        default:
+            assert (FALSE);
+        }
+
         enhanced.m_candidate_id = i;
         enhanced.m_display_string = phrase_string;
 
@@ -56,7 +77,9 @@ SelectCandidateAction
 LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
     pinyin_instance_t * instance = m_editor->m_instance;
-    assert (CANDIDATE_LIBPINYIN == enhanced.m_candidate_type);
+    assert (CANDIDATE_NBEST_MATCH == enhanced.m_candidate_type ||
+            CANDIDATE_NORMAL == enhanced.m_candidate_type ||
+            CANDIDATE_USER == enhanced.m_candidate_type);
 
     guint len = 0;
     pinyin_get_n_candidate (instance, &len);
@@ -69,10 +92,7 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
     lookup_candidate_t * candidate = NULL;
     pinyin_get_candidate (instance, enhanced.m_candidate_id, &candidate);
 
-    lookup_candidate_type_t type;
-    pinyin_get_candidate_type (instance, candidate, &type);
-
-    if (NBEST_MATCH_CANDIDATE == type) {
+    if (CANDIDATE_NBEST_MATCH == enhanced.m_candidate_type) {
         /* because nbest match candidate
            starts from the beginning of user input. */
         pinyin_choose_candidate (instance, 0, candidate);

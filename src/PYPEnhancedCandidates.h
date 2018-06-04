@@ -32,7 +32,11 @@ class PhoneticEditor;
 
 enum CandidateType {
     CANDIDATE_USER_RAW_INPUT = 1,
-    CANDIDATE_LIBPINYIN,
+    CANDIDATE_NBEST_MATCH,
+    /* not included with user candidate */
+    CANDIDATE_NORMAL,
+    /* both normal candidate and user candidate */
+    CANDIDATE_USER,
     CANDIDATE_TRADITIONAL_CHINESE,
     CANDIDATE_LUA_EXTENSION,
     CANDIDATE_CLOUD_INPUT,
