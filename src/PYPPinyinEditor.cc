@@ -233,15 +233,16 @@ void
 PinyinEditor::updatePreeditText ()
 {
     /* preedit text = guessed sentence + un-parsed pinyin text */
-    if (G_UNLIKELY (m_text.empty ())) {
+    if (G_UNLIKELY (m_text.empty () || m_candidates.empty () )) {
         hidePreeditText ();
         return;
     }
 
     m_buffer.clear ();
-    char *sentence = NULL;
-    pinyin_get_sentence (m_instance, 0, &sentence);
-    if (sentence) {
+
+    EnhancedCandidate & candidate = m_candidates[0];
+    String sentence = candidate.m_display_string;
+    if (CANDIDATE_NBEST_MATCH == candidate.m_candidate_type) {
         if (m_props.modeSimp ()) {
             m_buffer<<sentence;
         } else {
@@ -259,11 +260,8 @@ PinyinEditor::updatePreeditText ()
 
     size_t offset = 0;
     guint cursor = getPinyinCursor ();
-    pinyin_get_character_offset(m_instance, sentence, cursor, &offset);
+    pinyin_get_character_offset(m_instance, sentence.c_str (), cursor, &offset);
     Editor::updatePreeditText (preedit_text, offset, TRUE);
-
-    if (sentence)
-        g_free (sentence);
 }
 
 #if 0

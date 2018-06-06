@@ -309,8 +309,8 @@ LibPinyinBackEnd::clearPinyinUserData (const char *target)
 }
 
 gboolean
-LibPinyinBackEnd::rememberUserInput (pinyin_instance_t * instance,
-                                     const gchar * phrase)
+LibPinyinBackEnd::rememberUserInput (pinyin_instance_t *instance,
+                                     const gchar *phrase)
 {
     /* pre-check the incomplete pinyin keys, prepare pinyin string,
        remember user input. */
