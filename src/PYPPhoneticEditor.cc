@@ -350,6 +350,7 @@ PhoneticEditor::selectCandidateInternal (EnhancedCandidate & candidate)
     }
 }
 
+#if 0
 gboolean
 PhoneticEditor::selectCandidate (guint i)
 {
@@ -395,6 +396,40 @@ PhoneticEditor::selectCandidate (guint i)
 
     update ();
     return TRUE;
+}
+#endif
+
+gboolean
+PhoneticEditor::selectCandidate (guint i)
+{
+    if (G_UNLIKELY (i >= m_candidates.size ()))
+        return FALSE;
+
+    EnhancedCandidate & candidate = m_candidates[i];
+    SelectCandidateAction action = selectCandidateInternal (candidate);
+
+    switch (action) {
+    case SELECT_CANDIDATE_ALREADY_HANDLED:
+        return TRUE;
+
+    case SELECT_CANDIDATE_COMMIT:
+    case SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT: {
+        Text text (candidate.m_display_string.c_str ());
+        commitText (text);
+        /* call pinyin_train and rememberUserInput here */
+        assert (FALSE);
+        return TRUE;
+    }
+
+    case SELECT_CANDIDATE_UPDATE_ALL:
+        update ();
+        return TRUE;
+
+    default:
+        assert (FALSE);
+    }
+
+    return FALSE;
 }
 
 gboolean

@@ -219,8 +219,10 @@ BopomofoEditor::processKeyEvent (guint keyval, guint keycode,
 
         if (m_config.enterKey ())
             commit ();
-        else
-            PhoneticEditor::commit (m_text.c_str ());
+        else {
+            Text text (m_text.c_str ());
+            commitText (text);
+        }
 
         reset ();
         return TRUE;
