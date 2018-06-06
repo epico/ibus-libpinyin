@@ -40,8 +40,6 @@ protected:
     gboolean processPunct (guint keyval, guint keycode, guint modifiers);
     gboolean processFunctionKey (guint keyval, guint keycode, guint modifiers);
 
-    void commit (gint index = 0);
-
     virtual void updateAuxiliaryText (void) = 0;
     virtual void updateLookupTable (void);
     virtual void updatePreeditText (void);
@@ -49,6 +47,9 @@ protected:
     virtual gboolean processKeyEvent (guint keyval, guint keycode, guint modifiers);
 
     virtual void updatePinyin (void) = 0;
+    virtual void commit (const gchar *str);
+    using PhoneticEditor::commit;
+
 };
 
 };

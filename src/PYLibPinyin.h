@@ -50,11 +50,11 @@ public:
     void freeChewingInstance (pinyin_instance_t *instance);
     void modified (void);
 
-    gboolean importPinyinDictionary (const char * filename);
-    gboolean exportPinyinDictionary (const char * filename);
-    gboolean clearPinyinUserData (const char * target);
+    gboolean importPinyinDictionary (const char *filename);
+    gboolean exportPinyinDictionary (const char *filename);
+    gboolean clearPinyinUserData (const char *target);
 
-    gboolean rememberUserInput (pinyin_instance_t * instance, gint index);
+    gboolean rememberUserInput (pinyin_instance_t *instance, const gchar *phrase);
 
     /* use static initializer in C++. */
     static LibPinyinBackEnd & instance (void) { return *m_instance; }

@@ -52,8 +52,9 @@ protected:
     virtual void updatePreeditText ();
     virtual void updateAuxiliaryText ();
     virtual void updatePinyin (void);
+    virtual void commit (const gchar *str);
+    using PhoneticEditor::commit;
 
-    void commit (gint index = 0);
     void reset ();
 
     gboolean insert (gint ch);

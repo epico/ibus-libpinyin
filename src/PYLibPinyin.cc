@@ -203,7 +203,7 @@ LibPinyinBackEnd::modified (void)
 }
 
 gboolean
-LibPinyinBackEnd::importPinyinDictionary (const char * filename)
+LibPinyinBackEnd::importPinyinDictionary (const char *filename)
 {
     /* user phrase library should be already loaded here. */
     FILE * dictfile = fopen (filename, "r");
@@ -253,7 +253,7 @@ LibPinyinBackEnd::importPinyinDictionary (const char * filename)
 }
 
 gboolean
-LibPinyinBackEnd::exportPinyinDictionary (const char * filename)
+LibPinyinBackEnd::exportPinyinDictionary (const char *filename)
 {
     /* user phrase library should be already loaded here. */
     FILE * dictfile = fopen (filename, "w");
@@ -289,7 +289,7 @@ LibPinyinBackEnd::exportPinyinDictionary (const char * filename)
 }
 
 gboolean
-LibPinyinBackEnd::clearPinyinUserData (const char * target)
+LibPinyinBackEnd::clearPinyinUserData (const char *target)
 {
     if (0 == strcmp ("all", target)) {
         pinyin_mask_out (m_pinyin_context, 0x0, 0x0);
@@ -310,14 +310,12 @@ LibPinyinBackEnd::clearPinyinUserData (const char * target)
 
 gboolean
 LibPinyinBackEnd::rememberUserInput (pinyin_instance_t * instance,
-                                     gint index)
+                                     const gchar * phrase)
 {
     /* pre-check the incomplete pinyin keys, prepare pinyin string,
        remember user input. */
-    gchar * sentence = NULL;
-    pinyin_get_sentence (instance, index, &sentence);
-    pinyin_remember_user_input (instance, sentence, -1);
-    g_free (sentence);
+    pinyin_remember_user_input (instance, phrase, -1);
+
     /* save later,
        will mark modified from pinyin/bopomofo editor. */
     return TRUE;

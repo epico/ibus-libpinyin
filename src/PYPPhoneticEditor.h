@@ -58,13 +58,15 @@ public:
     virtual void updateLookupTable ();
     virtual void updateLookupTableFast ();
     virtual gboolean fillLookupTable ();
+    virtual void commit (const gchar *str) = 0;
 
 protected:
     SelectCandidateAction selectCandidateInternal (EnhancedCandidate & candidate);
     gboolean selectCandidate (guint i);
     gboolean selectCandidateInPage (guint i);
 
-    void commit (const gchar *str);
+    void commit () { selectCandidate (0); }
+
     guint getPinyinCursor (void);
     guint getLookupCursor (void);
 
@@ -82,7 +84,6 @@ protected:
     virtual gboolean moveCursorRightByWord (void);
     virtual gboolean moveCursorToBegin (void);
     virtual gboolean moveCursorToEnd (void);
-    virtual void commit (gint index = 0) = 0;
     virtual void updateAuxiliaryText (void) = 0;
     virtual void updatePreeditText (void) = 0;
     virtual void updatePinyin (void) = 0;

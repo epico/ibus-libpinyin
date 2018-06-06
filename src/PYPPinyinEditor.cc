@@ -199,7 +199,7 @@ PinyinEditor::processKeyEvent (guint keyval, guint keycode,
 }
 
 void
-PinyinEditor::commit (gint index)
+PinyinEditor::commit (const gchar *str)
 {
     if (G_UNLIKELY (m_text.empty ()))
         return;
@@ -207,16 +207,7 @@ PinyinEditor::commit (gint index)
     m_buffer.clear ();
 
     /* sentence candidate */
-    char *tmp = NULL;
-    pinyin_get_sentence (m_instance, index, &tmp);
-    if (tmp) {
-        if (m_props.modeSimp ()) {
-            m_buffer << tmp;
-        } else {
-            SimpTradConverter::simpToTrad (tmp, m_buffer);
-        }
-        g_free (tmp);
-    }
+    m_buffer << str;
 
     /* text after pinyin */
     const gchar *p = m_text.c_str() + m_pinyin_len;
@@ -228,11 +219,13 @@ PinyinEditor::commit (gint index)
         m_buffer << p;
     }
 
-    pinyin_train (m_instance, index);
     if (m_config.rememberEveryInput ())
-        LibPinyinBackEnd::instance ().rememberUserInput (m_instance, index);
+        LibPinyinBackEnd::instance ().rememberUserInput (m_instance, str);
     LibPinyinBackEnd::instance ().modified ();
-    PhoneticEditor::commit ((const gchar *)m_buffer);
+
+    Text text (m_buffer.c_str ());
+    commitText (text);
+
     reset();
 }
 

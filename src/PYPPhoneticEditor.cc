@@ -305,13 +305,6 @@ PhoneticEditor::update (void)
     updateAuxiliaryText ();
 }
 
-void
-PhoneticEditor::commit (const gchar *str)
-{
-    StaticText text(str);
-    commitText (text);
-}
-
 guint
 PhoneticEditor::getPinyinCursor ()
 {
