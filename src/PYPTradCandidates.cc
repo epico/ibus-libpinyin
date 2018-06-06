@@ -32,6 +32,7 @@ TraditionalCandidates::processCandidates (std::vector<EnhancedCandidate> & candi
 {
     m_candidates.clear ();
 
+    String trad;
     for (guint i = 0; i < candidates.size (); i++) {
         EnhancedCandidate & enhanced = candidates[i];
 
@@ -39,7 +40,8 @@ TraditionalCandidates::processCandidates (std::vector<EnhancedCandidate> & candi
 
         enhanced.m_candidate_type = CANDIDATE_TRADITIONAL_CHINESE;
         enhanced.m_candidate_id = i;
-        String trad;
+
+        trad.truncate (0);
         SimpTradConverter::simpToTrad (enhanced.m_display_string.c_str (), trad);
         enhanced.m_display_string = trad;
     }

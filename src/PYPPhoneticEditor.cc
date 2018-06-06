@@ -216,75 +216,20 @@ PhoneticEditor::updateCandidates (void)
     return TRUE;
 }
 
-#if 0
-gboolean
-PhoneticEditor::fillLookupTableByPage (void)
-{
-    guint len = 0;
-    pinyin_get_n_candidate (m_instance, &len);
-
-    guint filled_nr = m_lookup_table.size ();
-    guint page_size = m_lookup_table.pageSize ();
-
-    /* fill lookup table by libpinyin get candidates. */
-    guint need_nr = MIN (page_size, len - filled_nr);
-    g_assert (need_nr >=0);
-    if (need_nr == 0)
-        return FALSE;
-
-    String word;
-    for (guint i = filled_nr; i < filled_nr + need_nr; i++) {
-        if (i >= len)  /* no more candidates */
-            break;
-
-        lookup_candidate_t * candidate = NULL;
-        pinyin_get_candidate (m_instance, i, &candidate);
-
-        const gchar * phrase_string = NULL;
-        pinyin_get_candidate_string (m_instance, candidate, &phrase_string);
-
-        /* show get candidates. */
-        if (G_LIKELY (m_props.modeSimp ())) {
-            word = phrase_string;
-        } else { /* Traditional Chinese */
-            word.truncate (0);
-            SimpTradConverter::simpToTrad (phrase_string, word);
-        }
-
-        Text text (word);
-        m_lookup_table.appendCandidate (text);
-    }
-
-    return TRUE;
-}
-#endif
-
 gboolean
 PhoneticEditor::fillLookupTable (void)
 {
-    guint len = 0;
-    pinyin_get_n_candidate (m_instance, &len);
-
     String word;
-    for (guint i = 0; i < len; i++) {
-        lookup_candidate_t * candidate = NULL;
-        pinyin_get_candidate (m_instance, i, &candidate);
-
-        const gchar * phrase_string = NULL;
-        pinyin_get_candidate_string (m_instance, candidate, &phrase_string);
-
-        /* show get candidates. */
-        if (G_LIKELY (m_props.modeSimp ())) {
-            word = phrase_string;
-        } else { /* Traditional Chinese */
-            word.truncate (0);
-            SimpTradConverter::simpToTrad (phrase_string, word);
-        }
+    for (guint i = 0; i < m_candidates.size (); i++) {
+        EnhancedCandidate & candidate = m_candidates[i];
+        word = candidate.m_display_string;
 
         Text text (word);
+
         /* show user candidate as blue. */
-        if (pinyin_is_user_candidate (m_instance, candidate))
+        if (CANDIDATE_USER == candidate.m_candidate_type)
             text.appendAttribute (IBUS_ATTR_TYPE_FOREGROUND, 0x000000ef, 0, -1);
+
         m_lookup_table.appendCandidate (text);
     }
 
