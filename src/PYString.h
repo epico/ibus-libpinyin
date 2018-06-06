@@ -81,9 +81,9 @@ public:
         return *this;
     }
 
-    String & truncate (guint len)
+    String & truncate (guint index)
     {
-        erase(len);
+        erase(index);
         return *this;
     }
 
