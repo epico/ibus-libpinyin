@@ -260,6 +260,23 @@ static const lua_command_candidate_t * ibus_engine_plugin_get_candidate(lua_Stat
 }
 
 /**
+ * retrieve the string value. (value has been copied.)
+ */
+const char * ibus_engine_plugin_get_result_string(IBusEnginePlugin * plugin){
+  IBusEnginePluginPrivate * priv = IBUS_ENGINE_PLUGIN_GET_PRIVATE(plugin);
+  const char * result = NULL; int type;
+  lua_State * L = priv->L;
+
+  type = lua_type(L ,-1);
+  if ( LUA_TNUMBER == type || LUA_TBOOLEAN == type || LUA_TSTRING == type) {
+    result = g_strdup(lua_tostring(L, -1));
+    lua_pop(L, 1);
+  }
+
+  return (const char *)result;
+}
+
+/**
  * retrieve the retval string value. (value has been copied.)
  */
 const lua_command_candidate_t * ibus_engine_plugin_get_retval(IBusEnginePlugin * plugin){

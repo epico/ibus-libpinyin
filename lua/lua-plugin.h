@@ -52,12 +52,14 @@ typedef struct _lua_command_candidate_t{
 typedef struct _lua_trigger_t{
   const char * lua_function_name;
   const char * description;
-  /*< private, skip it, and register it into Special Table directly with * wildcard. >*/
-  /*
-   * list of input_trigger_strings;
-   * list of candidate_trigger_strings;
-   */
+  gchar **input_trigger_strings;
+  gchar **candidate_trigger_strings;
 } lua_trigger_t;
+
+typedef struct _lua_converter_t{
+  const char * lua_function_name;
+  const char * description;
+} lua_converter_t;
 
 /*
  * Type macros.
@@ -109,9 +111,41 @@ gboolean ibus_engine_plugin_add_command(IBusEnginePlugin * plugin, lua_command_t
 
 /**
  * retrieve all available lua plugin commands.
- * return array of command informations of type lua_command_t without copies.
+ * return array of command information of type lua_command_t without copies.
  */
 const GArray * ibus_engine_plugin_get_available_commands(IBusEnginePlugin * plugin);
+
+/**
+ * add a lua_trigger_t to plugin.
+ */
+gboolean ibus_engine_plugin_add_trigger(IBusEnginePlugin * plugin, lua_trigger_t * trigger);
+
+/**
+ * retrieve all available lua plugin triggers.
+ * return array of trigger information of type lua_trigger_t without copies.
+ */
+const GArray * ibus_engine_plugin_get_available_triggers(IBusEnginePlugin * plugin);
+
+/**
+ * add a lua_converter_t to plugin.
+ */
+gboolean ibus_engine_plugin_add_converter(IBusEnginePlugin * plugin, lua_converter_t * converter);
+
+/**
+ * retrieve all available lua plugin converters.
+ * return array of converter information of type lua_converter_t without copies.
+ */
+const GArray * ibus_engine_plugin_get_available_converters(IBusEnginePlugin * plugin);
+
+/**
+ * set the converter with the lua function name.
+ */
+gboolean ibus_engine_plugin_set_converter(IBusEnginePlugin * plugin, const char * lua_function_name);
+
+/**
+ * get the converter with the lua function name.
+ */
+const char * ibus_engine_plugin_get_converter(IBusEnginePlugin * plugin);
 
 /**
  * Lookup a special command in ime lua extension.
@@ -121,11 +155,26 @@ const GArray * ibus_engine_plugin_get_available_commands(IBusEnginePlugin * plug
 const lua_command_t * ibus_engine_plugin_lookup_command(IBusEnginePlugin * plugin, const char * command_name);
 
 /**
+ * retrieve the lua function name of the matched input for lua_trigger_t.
+ */
+gboolean ibus_engine_plugin_match_input(IBusEnginePlugin * plugin, const char * input, const char ** lua_function_name);
+
+/**
+ * retrieve the lua function name of the matched candidate for lua_trigger_t.
+ */
+gboolean ibus_engine_plugin_match_candidate(IBusEnginePlugin * plugin, const char * candidate, const char ** lua_function_name);
+
+/**
  * retval int: returns the number of results,
  *              only support string or string array.
  * the consequence call of ibus_engine_plugin_get_retval* must follow this call immediately.
  */
 int ibus_engine_plugin_call(IBusEnginePlugin * plugin, const char * lua_function_name, const char * argument /*optional, maybe NULL.*/);
+
+/**
+ * retrieve the string value. (value has been copied.)
+ */
+const char * ibus_engine_plugin_get_result_string(IBusEnginePlugin * plugin);
 
 /**
  * retrieve the retval string value. (value has been copied.)
