@@ -208,6 +208,8 @@ PhoneticEditor::updateLookupTable (void)
 gboolean
 PhoneticEditor::updateCandidates (void)
 {
+    m_candidates.clear ();
+
     m_libpinyin_candidates.processCandidates (m_candidates);
 
     if (!m_props.modeSimp ())
@@ -407,10 +409,7 @@ PhoneticEditor::selectCandidate (guint i)
 
     case SELECT_CANDIDATE_COMMIT:
     case SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT: {
-        Text text (candidate.m_display_string.c_str ());
-        commitText (text);
-        /* call pinyin_train and rememberUserInput here */
-        assert (FALSE);
+        commit (candidate.m_display_string.c_str ());
         return TRUE;
     }
 

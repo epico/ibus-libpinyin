@@ -52,15 +52,19 @@ TraditionalCandidates::processCandidates (std::vector<EnhancedCandidate> & candi
 SelectCandidateAction
 TraditionalCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
+    guint id = enhanced.m_candidate_id;
     assert (CANDIDATE_TRADITIONAL_CHINESE == enhanced.m_candidate_type);
 
-    SelectCandidateAction action = SELECT_CANDIDATE_ALREADY_HANDLED;
+    if (G_UNLIKELY (id >= m_candidates.size ()))
+        return SELECT_CANDIDATE_ALREADY_HANDLED;
 
-    action = m_editor->selectCandidateInternal (enhanced);
+    SelectCandidateAction action = SELECT_CANDIDATE_ALREADY_HANDLED;
+    action = m_editor->selectCandidateInternal (m_candidates[id]);
 
     if (SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT == action) {
         String trad;
-        SimpTradConverter::simpToTrad (enhanced.m_display_string.c_str (), trad);
+        SimpTradConverter::simpToTrad
+            (m_candidates[id].m_display_string.c_str (), trad);
         enhanced.m_display_string = trad;
     }
 
