@@ -241,44 +241,74 @@ static int ime_register_command(lua_State * L){
 }
 
 static int ime_register_trigger(lua_State * L){
-  const char * lua_function_name = luaL_checklstring(L, 1, NULL);
-  const char * description = luaL_checklstring(L, 2, NULL);
-  size_t num; size_t i;
-  fprintf(stderr, "TODO: ime_register_trigger unimplemented when called with %s (%s).\n", lua_function_name, description);
+  lua_trigger_t new_trigger;
 
+  memset(&new_trigger, 0, sizeof(new_trigger));
+  new_trigger.lua_function_name = luaL_checklstring(L, 1, NULL);
+  lua_getglobal(L, new_trigger.lua_function_name);
+  luaL_checktype(L, -1, LUA_TFUNCTION);
+  lua_pop(L, 1);
+
+  new_trigger.description = luaL_checklstring(L, 2, NULL);
+  size_t num; gint i;
+  GPtrArray *array;
+
+  /* register_trigger with input_trigger_strings. */
+  array = g_ptr_array_new();
   luaL_checktype(L, 3, LUA_TTABLE);
-
-  /* TODO: register_trigger with input_trigger_strings. */
   num = lua_objlen(L, 3);
   for ( i = 0; i < num; ++i) {
     lua_pushinteger(L, i + 1);
     lua_gettable(L, 3);
-    fprintf(stderr, "%d:%s\t", (int)i + 1, lua_tostring(L, -1));
+    g_ptr_array_add(array, (gpointer)lua_tostring(L, -1));
     lua_pop(L, 1);
   }
-  fprintf(stderr, "\n");
+  new_trigger.input_trigger_strings =
+    (gchar **)g_ptr_array_free(array, FALSE);
 
+  /* register_trigger with candidate_trigger_strings. */
+  array = g_ptr_array_new();
   luaL_checktype(L, 4, LUA_TTABLE);
-
-  /* TODO: register_trigger with candidate_trigger_strings. */
   num = lua_objlen(L, 4);
   for ( i = 0; i < num; ++i) {
     lua_pushinteger(L, i + 1);
     lua_gettable(L, 4);
-    fprintf(stderr, "%d:%s\t", (int) i + 1, lua_tostring(L, -1));
+    g_ptr_array_add(array, (gpointer)lua_tostring(L, -1));
+    lua_pop(L, 1);
   }
-  fprintf(stderr, "\n");
+  new_trigger.candidate_trigger_strings =
+    (gchar **)g_ptr_array_free(array, FALSE);
+
+  gboolean result = ibus_engine_plugin_add_trigger
+    (lua_plugin_retrieve_plugin(L), &new_trigger);
+
+  g_free(new_trigger.input_trigger_strings);
+  g_free(new_trigger.candidate_trigger_strings);
+
+  if (!result)
+    return luaL_error(L, "register trigger with function %s failed.\n", new_trigger.lua_function_name);
 
   return 0;
 }
 
 static int ime_register_converter(lua_State * L){
-    const char * lua_function_name = luaL_checklstring(L, 1, NULL);
-    const char * description = luaL_checklstring(L, 2, NULL);
+  lua_converter_t new_converter;
 
-    fprintf(stderr, "TODO: ime_register_converter unimplemented when called with %s(%s).\n", lua_function_name, description);
+  memset(&new_converter, 0, sizeof(new_converter));
+  new_converter.lua_function_name = luaL_checklstring(L, 1, NULL);
+  lua_getglobal(L, new_converter.lua_function_name);
+  luaL_checktype(L, -1, LUA_TFUNCTION);
+  lua_pop(L, 1);
 
-    return 0;
+  new_converter.description = luaL_checklstring(L, 2, NULL);
+
+  gboolean result = ibus_engine_plugin_add_converter
+    (lua_plugin_retrieve_plugin(L), &new_converter);
+
+  if (!result)
+    return luaL_error(L, "register converter with function %s failed.\n", new_converter.lua_function_name);
+
+  return 0;
 }
 
 static int ime_split_string(lua_State * L){

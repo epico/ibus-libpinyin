@@ -114,6 +114,8 @@ static int
 lua_plugin_fini(IBusEnginePluginPrivate * plugin){
   size_t i;
   lua_command_t * command;
+  lua_trigger_t * trigger;
+  lua_converter_t * converter;
 
   if ( plugin->lua_commands ){
     for ( i = 0; i < plugin->lua_commands->len; ++i){
@@ -124,8 +126,30 @@ lua_plugin_fini(IBusEnginePluginPrivate * plugin){
     plugin->lua_commands = NULL;
   }
 
+  if ( plugin->lua_triggers ){
+    for ( i = 0; i < plugin->lua_triggers->len; ++i){
+      trigger = &g_array_index(plugin->lua_triggers, lua_trigger_t, i);
+      lua_trigger_reclaim(trigger);
+    }
+    g_array_free(plugin->lua_triggers, TRUE);
+    plugin->lua_triggers = NULL;
+  }
+
+  if ( plugin->lua_converters ){
+    for ( i = 0; i < plugin->lua_converters->len; ++i){
+      converter = &g_array_index(plugin->lua_converters, lua_converter_t, i);
+      lua_converter_reclaim(converter);
+    }
+    g_array_free(plugin->lua_converters, TRUE);
+    plugin->lua_converters = NULL;
+  }
+
   lua_close(plugin->L);
   plugin->L = NULL;
+
+  g_free(plugin->use_converter);
+  plugin->use_converter = NULL;
+
   return 0;
 }
 
