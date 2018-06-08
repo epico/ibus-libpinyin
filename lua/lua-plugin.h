@@ -127,6 +127,16 @@ gboolean ibus_engine_plugin_add_trigger(IBusEnginePlugin * plugin, lua_trigger_t
 const GArray * ibus_engine_plugin_get_available_triggers(IBusEnginePlugin * plugin);
 
 /**
+ * retrieve the lua function name of the matched input for lua_trigger_t.
+ */
+gboolean ibus_engine_plugin_match_input(IBusEnginePlugin * plugin, const char * input, const char ** lua_function_name);
+
+/**
+ * retrieve the lua function name of the matched candidate for lua_trigger_t.
+ */
+gboolean ibus_engine_plugin_match_candidate(IBusEnginePlugin * plugin, const char * candidate, const char ** lua_function_name);
+
+/**
  * add a lua_converter_t to plugin.
  */
 gboolean ibus_engine_plugin_add_converter(IBusEnginePlugin * plugin, lua_converter_t * converter);
@@ -153,16 +163,6 @@ const char * ibus_engine_plugin_get_converter(IBusEnginePlugin * plugin);
  * return the matched command.
  */
 const lua_command_t * ibus_engine_plugin_lookup_command(IBusEnginePlugin * plugin, const char * command_name);
-
-/**
- * retrieve the lua function name of the matched input for lua_trigger_t.
- */
-gboolean ibus_engine_plugin_match_input(IBusEnginePlugin * plugin, const char * input, const char ** lua_function_name);
-
-/**
- * retrieve the lua function name of the matched candidate for lua_trigger_t.
- */
-gboolean ibus_engine_plugin_match_candidate(IBusEnginePlugin * plugin, const char * candidate, const char ** lua_function_name);
 
 /**
  * retval int: returns the number of results,

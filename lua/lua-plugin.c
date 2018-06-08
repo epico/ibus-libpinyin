@@ -41,6 +41,9 @@
 struct _IBusEnginePluginPrivate{
   lua_State * L;
   GArray * lua_commands; /* Array of lua_command_t. */
+  GArray * lua_triggers; /* Array of lua_trigger_t. */
+  GArray * lua_converters; /* Array of lua_converter_t. */
+  gchar * use_converter;
 };
 
 G_DEFINE_TYPE (IBusEnginePlugin, ibus_engine_plugin, G_TYPE_OBJECT);
@@ -61,6 +64,30 @@ static void lua_command_reclaim(lua_command_t * command){
   g_free((gpointer)command->help);
 }
 
+static void lua_trigger_clone(lua_trigger_t * trigger, lua_trigger_t * new_trigger){
+  new_trigger->lua_function_name = g_strdup(trigger->lua_function_name);
+  new_trigger->description = g_strdup(trigger->description);
+  new_trigger->input_trigger_strings = g_strdupv(trigger->input_trigger_strings);
+  new_trigger->candidate_trigger_strings = g_strdupv(trigger->candidate_trigger_strings);
+}
+
+static void lua_trigger_reclaim(lua_trigger_t * trigger){
+  g_free((gpointer)trigger->lua_function_name);
+  g_free((gpointer)trigger->description);
+  g_strfreev((gchar **)trigger->input_trigger_strings);
+  g_strfreev((gchar **)trigger->candidate_trigger_strings);
+}
+
+static void lua_converter_clone(lua_converter_t * converter, lua_converter_t * new_converter){
+  new_converter->lua_function_name = g_strdup(converter->lua_function_name);
+  new_converter->description = g_strdup(converter->description);
+}
+
+static void lua_converter_reclaim(lua_converter_t * converter){
+  g_free((gpointer)converter->lua_function_name);
+  g_free((gpointer)converter->description);
+}
+
 static int
 lua_plugin_init(IBusEnginePluginPrivate * plugin){
   g_assert(NULL == plugin->L);
@@ -72,6 +99,14 @@ lua_plugin_init(IBusEnginePluginPrivate * plugin){
 
   g_assert ( NULL == plugin->lua_commands );
   plugin->lua_commands = g_array_new(TRUE, TRUE, sizeof(lua_command_t));
+
+  g_assert ( NULL == plugin->lua_triggers );
+  plugin->lua_triggers = g_array_new(TRUE, TRUE, sizeof(lua_trigger_t));
+
+  g_assert ( NULL == plugin->lua_converters );
+  plugin->lua_converters = g_array_new(TRUE, TRUE, sizeof(lua_converter_t));
+  plugin->use_converter = NULL;
+
   return 0;
 }
 
@@ -197,6 +232,100 @@ const lua_command_t * ibus_engine_plugin_lookup_command(IBusEnginePlugin * plugi
 const GArray * ibus_engine_plugin_get_available_commands(IBusEnginePlugin * plugin){
   IBusEnginePluginPrivate * priv = IBUS_ENGINE_PLUGIN_GET_PRIVATE(plugin);
   return priv->lua_commands;
+}
+
+gboolean ibus_engine_plugin_add_trigger(IBusEnginePlugin * plugin, lua_trigger_t * trigger){
+  IBusEnginePluginPrivate * priv = IBUS_ENGINE_PLUGIN_GET_PRIVATE(plugin);
+  GArray * lua_triggers = priv->lua_triggers;
+
+  lua_trigger_t new_trigger;
+  lua_trigger_clone(trigger, &new_trigger);
+
+  g_array_append_val(lua_triggers, new_trigger);
+
+  return TRUE;
+}
+
+const GArray * ibus_engine_plugin_get_available_triggers(IBusEnginePlugin * plugin){
+  IBusEnginePluginPrivate * priv = IBUS_ENGINE_PLUGIN_GET_PRIVATE(plugin);
+  return priv->lua_triggers;
+}
+
+gboolean ibus_engine_plugin_match_input(IBusEnginePlugin * plugin, const char * input, const char ** lua_function_name){
+  IBusEnginePluginPrivate * priv = IBUS_ENGINE_PLUGIN_GET_PRIVATE(plugin);
+  GArray * lua_triggers = priv->lua_triggers;
+
+  gint i; gchar ** pattern;
+  for (i = 0; i < lua_triggers->len; ++i){
+    lua_trigger_t * trigger = &g_array_index(lua_triggers, lua_trigger_t, i);
+
+    for (pattern = trigger->input_trigger_strings; *pattern != NULL; ++pattern){
+      if (g_pattern_match_simple(*pattern, input)){
+        *lua_function_name = trigger->lua_function_name;
+        return TRUE;
+      }
+    }
+  }
+
+  return FALSE;
+}
+
+gboolean ibus_engine_plugin_match_candidate(IBusEnginePlugin * plugin, const char * candidate, const char ** lua_function_name){
+  IBusEnginePluginPrivate * priv = IBUS_ENGINE_PLUGIN_GET_PRIVATE(plugin);
+  GArray * lua_triggers = priv->lua_triggers;
+
+  gint i; gchar ** pattern;
+  for (i = 0; i < lua_triggers->len; ++i){
+    lua_trigger_t * trigger = &g_array_index(lua_triggers, lua_trigger_t, i);
+
+    for (pattern = trigger->candidate_trigger_strings; *pattern != NULL; ++pattern){
+      if (g_pattern_match_simple(*pattern, candidate)){
+        *lua_function_name = trigger->lua_function_name;
+        return TRUE;
+      }
+    }
+  }
+
+  return FALSE;
+}
+
+gboolean ibus_engine_plugin_add_converter(IBusEnginePlugin * plugin, lua_converter_t * converter){
+  IBusEnginePluginPrivate * priv = IBUS_ENGINE_PLUGIN_GET_PRIVATE(plugin);
+  GArray * lua_converters = priv->lua_converters;
+
+  lua_converter_t new_converter;
+  lua_converter_clone(converter, &new_converter);
+
+  g_array_append_val(lua_converters, new_converter);
+
+  return TRUE;
+}
+
+const GArray * ibus_engine_plugin_get_available_converters(IBusEnginePlugin * plugin){
+  IBusEnginePluginPrivate * priv = IBUS_ENGINE_PLUGIN_GET_PRIVATE(plugin);
+  return priv->lua_converters;
+}
+
+gboolean ibus_engine_plugin_set_converter(IBusEnginePlugin * plugin, const char * lua_function_name){
+  IBusEnginePluginPrivate * priv = IBUS_ENGINE_PLUGIN_GET_PRIVATE(plugin);
+  GArray * lua_converters = priv->lua_converters;
+
+  gint i;
+  for (i = 0; i < lua_converters->len; ++i) {
+    lua_converter_t * converter = &g_array_index
+      (lua_converters, lua_converter_t, i);
+    if (g_strcmp0 (converter->lua_function_name, lua_function_name) == 0) {
+      priv->use_converter = g_strdup(lua_function_name);
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+const char * ibus_engine_plugin_get_converter(IBusEnginePlugin * plugin){
+  IBusEnginePluginPrivate * priv = IBUS_ENGINE_PLUGIN_GET_PRIVATE(plugin);
+  return priv->use_converter;  
 }
 
 int ibus_engine_plugin_call(IBusEnginePlugin * plugin, const char * lua_function_name, const char * argument /*optional, maybe NULL.*/){
