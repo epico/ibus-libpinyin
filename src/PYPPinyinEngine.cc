@@ -177,6 +177,12 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
         return FALSE;
 
     if (m_props.modeChinese ()) {
+        /* return from MODE_SUGGESTION to normal input. */
+        if (m_input_mode == MODE_SUGGESTION) {
+            /* only accept input to select candidate. */
+        }
+
+        /* handle normal input. */
         if (m_input_mode == MODE_INIT &&
             (cmshm_filter (modifiers) == 0)) {
             const String & text = m_editors[MODE_INIT]->text ();

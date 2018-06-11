@@ -67,6 +67,7 @@ private:
         MODE_ENGLISH,           // press v into English input mode
         MODE_STROKE,            // press u into stroke input mode
         MODE_EXTENSION,         // press i into extension input mode
+        MODE_SUGGESTION,        // suggestion mode
         MODE_LAST,
     } m_input_mode;
 

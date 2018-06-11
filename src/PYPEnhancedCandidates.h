@@ -38,7 +38,8 @@ enum CandidateType {
     /* both normal candidate and user candidate */
     CANDIDATE_USER,
     CANDIDATE_TRADITIONAL_CHINESE,
-    CANDIDATE_LUA_EXTENSION,
+    CANDIDATE_LUA_TRIGGER,
+    CANDIDATE_LUA_CONVERTER,
     CANDIDATE_CLOUD_INPUT,
     CANDIDATE_EMOJI
 };
