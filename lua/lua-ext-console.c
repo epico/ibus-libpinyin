@@ -36,7 +36,9 @@ void print_interactive_help(){
   printf("i \t\t\t - lists all commands.\n");
   printf("i [COMMAND] \t\t - evaluates command without argument. \n");
   printf("i [COMMAND] [ARGUMENT] \t evaluates command with argument. \n");
-  /* printf("g [TRIGGER_STRING] \t\t - tests a trigger string, fire trigger if hit.\n"); */
+  printf("g [TRIGGER_STRING] \t\t - tests a trigger string, fire trigger if hit.\n");
+  printf("c \t\t\t - lists all converters.\n");
+  printf("c [FUNCTION] [STRING] \t tests a converter function. \n");
   printf("quit \t\t\t - quit the shell.\n");
   printf("help \t\t\t - show this message.\n");
 }
@@ -48,6 +50,17 @@ void list_all_commands(IBusEnginePlugin * plugin){
     lua_command_t * command = &g_array_index(commands, lua_command_t, i);
     printf("%s.%s >\t", command->command_name,
            command->description);
+  }
+  printf("\n");
+}
+
+void list_all_converters(IBusEnginePlugin * plugin){
+  const GArray * converters = ibus_engine_plugin_get_available_converters(plugin);
+  size_t i;
+  for ( i = 0; i < converters->len; ++i ){
+    lua_converter_t * converter = &g_array_index(converters, lua_converter_t, i);
+    printf("%s.%s >\t", converter->lua_function_name,
+           converter->description);
   }
   printf("\n");
 }
@@ -90,6 +103,13 @@ int do_lua_call(IBusEnginePlugin * plugin, const char * command_name, const char
   return 0;
 }
 
+int do_simple_lua_call(IBusEnginePlugin * plugin, const char * lua_function_name, const char * string){
+  int num = ibus_engine_plugin_call(plugin, lua_function_name, string);
+  printf("result: %s.\n", ibus_engine_plugin_get_result_string(plugin));
+  return 0;
+}
+
+
 int main(int argc, char * argv[]){
   char * line = NULL;
   size_t len = 0;
@@ -126,16 +146,28 @@ int main(int argc, char * argv[]){
         print_interactive_help();
       if ( 0 == strcmp("i", strs[0]) )
         list_all_commands(plugin);
+      if ( 0 == strcmp("c", strs[0]) )
+        list_all_converters(plugin);
       break;
     case 2:
       if ( 0 == strcmp("i", strs[0]))
         do_lua_call(plugin, strs[1], NULL);
-      if ( 0 == strcmp("g", strs[0]))
-        fprintf(stderr, "ime trigger unimplemented.");
+      if ( 0 == strcmp("g", strs[0])) {
+          const char * lua_function_name = NULL;
+          if (ibus_engine_plugin_match_input
+              (plugin, strs[1], &lua_function_name)) {
+              do_simple_lua_call(plugin, lua_function_name, strs[1]);
+          } else if (ibus_engine_plugin_match_candidate
+                     (plugin, strs[1], &lua_function_name)) {
+              do_simple_lua_call(plugin, lua_function_name, strs[1]);
+          }
+      }
       break;
     case 3:
       if ( 0 == strcmp("i", strs[0]))
         do_lua_call(plugin, strs[1], strs[2]);
+      if ( 0 == strcmp("c", strs[0]))
+        do_simple_lua_call(plugin, strs[1], strs[2]);
       break;
     default:
       fprintf(stderr, "wrong arguments.");
