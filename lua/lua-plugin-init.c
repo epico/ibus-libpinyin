@@ -263,6 +263,7 @@ static int ime_register_trigger(lua_State * L){
     g_ptr_array_add(array, (gpointer)lua_tostring(L, -1));
     lua_pop(L, 1);
   }
+  g_ptr_array_add(array, NULL);
   new_trigger.input_trigger_strings =
     (gchar **)g_ptr_array_free(array, FALSE);
 
@@ -276,6 +277,7 @@ static int ime_register_trigger(lua_State * L){
     g_ptr_array_add(array, (gpointer)lua_tostring(L, -1));
     lua_pop(L, 1);
   }
+  g_ptr_array_add(array, NULL);
   new_trigger.candidate_trigger_strings =
     (gchar **)g_ptr_array_free(array, FALSE);
 
@@ -443,9 +445,7 @@ static const luaL_Reg imelib[] = {
   {"join_string", ime_join_string},
   {"parse_mapping", ime_parse_mapping},
   {"register_command", ime_register_command},
-  /* Note: the register_converter function is dropped for ibus-libpinyin. */
   {"register_converter", ime_register_converter},
-  /* Note: the register_trigger function is dropped for ibus-libpinyin. */
   {"register_trigger", ime_register_trigger},
   {"split_string", ime_split_string},
   {"trim_string_left", ime_trim_string_left},
