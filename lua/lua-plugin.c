@@ -413,9 +413,9 @@ static const lua_command_candidate_t * ibus_engine_plugin_get_candidate(lua_Stat
 }
 
 /**
- * retrieve the string value. (value has been copied.)
+ * retrieve the first string value. (value has been copied.)
  */
-const char * ibus_engine_plugin_get_result_string(IBusEnginePlugin * plugin){
+const char * ibus_engine_plugin_get_first_result(IBusEnginePlugin * plugin){
   IBusEnginePluginPrivate * priv = IBUS_ENGINE_PLUGIN_GET_PRIVATE(plugin);
   const char * result = NULL; int type;
   lua_State * L = priv->L;
@@ -424,6 +424,13 @@ const char * ibus_engine_plugin_get_result_string(IBusEnginePlugin * plugin){
   if ( LUA_TNUMBER == type || LUA_TBOOLEAN == type || LUA_TSTRING == type) {
     result = g_strdup(lua_tostring(L, -1));
     lua_pop(L, 1);
+  } else if( LUA_TTABLE == type ){
+    lua_pushinteger(L, 1);
+    lua_gettable(L, -2);
+    int type = lua_type(L, -1);
+    if ( LUA_TNUMBER == type || LUA_TBOOLEAN == type || LUA_TSTRING == type )
+      result = g_strdup(lua_tostring(L, -1));
+    lua_pop(L, 2);
   }
 
   return (const char *)result;

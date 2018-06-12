@@ -172,9 +172,9 @@ const lua_command_t * ibus_engine_plugin_lookup_command(IBusEnginePlugin * plugi
 int ibus_engine_plugin_call(IBusEnginePlugin * plugin, const char * lua_function_name, const char * argument /*optional, maybe NULL.*/);
 
 /**
- * retrieve the string value. (value has been copied.)
+ * retrieve the first string value. (value has been copied.)
  */
-const char * ibus_engine_plugin_get_result_string(IBusEnginePlugin * plugin);
+const char * ibus_engine_plugin_get_first_result(IBusEnginePlugin * plugin);
 
 /**
  * retrieve the retval string value. (value has been copied.)

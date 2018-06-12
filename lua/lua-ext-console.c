@@ -59,8 +59,7 @@ void list_all_converters(IBusEnginePlugin * plugin){
   size_t i;
   for ( i = 0; i < converters->len; ++i ){
     lua_converter_t * converter = &g_array_index(converters, lua_converter_t, i);
-    printf("%s.%s >\t", converter->lua_function_name,
-           converter->description);
+    printf("%s %s >\t", converter->lua_function_name, converter->description);
   }
   printf("\n");
 }
@@ -105,7 +104,7 @@ int do_lua_call(IBusEnginePlugin * plugin, const char * command_name, const char
 
 int do_simple_lua_call(IBusEnginePlugin * plugin, const char * lua_function_name, const char * string){
   int num = ibus_engine_plugin_call(plugin, lua_function_name, string);
-  printf("result: %s.\n", ibus_engine_plugin_get_result_string(plugin));
+  printf("result: %s.\n", ibus_engine_plugin_get_first_result(plugin));
   return 0;
 }
 
