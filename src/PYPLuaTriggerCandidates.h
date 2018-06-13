@@ -22,15 +22,18 @@
 #ifndef __PY_LIB_PINYIN_LUA_TRIGGER_CANDIDATES_H_
 #define __PY_LIB_PINYIN_LUA_TRIGGER_CANDIDATES_H_
 
+extern "C" {
+#include "lua-plugin.h"
+}
+
+#include "PYPointer.h"
 #include "PYPEnhancedCandidates.h"
 
 namespace PY {
 
 class LuaTriggerCandidates : public EnhancedCandidates {
 public:
-    LuaTriggerCandidates (PhoneticEditor *editor) {
-        m_editor = editor;
-    }
+    LuaTriggerCandidates (PhoneticEditor *editor);
 
 public:
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
@@ -38,7 +41,9 @@ public:
     SelectCandidateAction selectCandidate (EnhancedCandidate & enhanced);
 
 protected:
-    EnhancedCandidate m_candidate;
+    int loadLuaScript (std::string filename);
+
+    Pointer<IBusEnginePlugin> m_lua_plugin;
 };
 
 };

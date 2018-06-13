@@ -28,16 +28,19 @@
 #include "PYPEnhancedCandidates.h"
 #include "PYPLibPinyinCandidates.h"
 #include "PYPTradCandidates.h"
+#include "PYPLuaTriggerCandidates.h"
 
 
 namespace PY {
 
 class LibPinyinCandidates;
 class TraditionalCandidates;
+class LuaTriggerCandidates;
 
 class PhoneticEditor : public Editor {
     friend class LibPinyinCandidates;
     friend class TraditionalCandidates;
+    friend class LuaTriggerCandidates;
 public:
     PhoneticEditor (PinyinProperties & props, Config & config);
     virtual ~PhoneticEditor ();

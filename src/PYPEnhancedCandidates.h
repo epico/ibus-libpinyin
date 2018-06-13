@@ -31,8 +31,7 @@ namespace PY {
 class PhoneticEditor;
 
 enum CandidateType {
-    CANDIDATE_USER_RAW_INPUT = 1,
-    CANDIDATE_NBEST_MATCH,
+    CANDIDATE_NBEST_MATCH = 1,
     /* not included with user candidate */
     CANDIDATE_NORMAL,
     /* both normal candidate and user candidate */
