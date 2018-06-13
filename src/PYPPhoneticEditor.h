@@ -29,6 +29,7 @@
 #include "PYPLibPinyinCandidates.h"
 #include "PYPTradCandidates.h"
 #include "PYPLuaTriggerCandidates.h"
+#include "PYPLuaConverterCandidates.h"
 
 
 namespace PY {
@@ -36,11 +37,13 @@ namespace PY {
 class LibPinyinCandidates;
 class TraditionalCandidates;
 class LuaTriggerCandidates;
+class LuaConverterCandidates;
 
 class PhoneticEditor : public Editor {
     friend class LibPinyinCandidates;
     friend class TraditionalCandidates;
     friend class LuaTriggerCandidates;
+    friend class LuaConverterCandidates;
 public:
     PhoneticEditor (PinyinProperties & props, Config & config);
     virtual ~PhoneticEditor ();
@@ -109,6 +112,8 @@ protected:
     /* several EnhancedCandidates providers. */
     LibPinyinCandidates m_libpinyin_candidates;
     TraditionalCandidates m_traditional_candidates;
+    LuaTriggerCandidates m_lua_trigger_candidates;
+    LuaConverterCandidates m_lua_converter_candidates;
 };
 
 };

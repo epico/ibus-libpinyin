@@ -67,7 +67,7 @@ LuaTriggerCandidates::processCandidates (std::vector<EnhancedCandidate> & candid
 
     if (ibus_engine_plugin_match_input
         (m_lua_plugin, text, &lua_function_name)) {
-        ibus_engine_plugin_call(m_lua_plugin, lua_function_name, text);
+        ibus_engine_plugin_call (m_lua_plugin, lua_function_name, text);
         enhanced.m_display_string =
             ibus_engine_plugin_get_first_result (m_lua_plugin);
 
@@ -80,7 +80,7 @@ LuaTriggerCandidates::processCandidates (std::vector<EnhancedCandidate> & candid
             text = candidates[i].m_display_string.c_str ();
             if (ibus_engine_plugin_match_candidate
                 (m_lua_plugin, text, &lua_function_name)) {
-                ibus_engine_plugin_call(m_lua_plugin, lua_function_name, text);
+                ibus_engine_plugin_call (m_lua_plugin, lua_function_name, text);
                 enhanced.m_display_string =
                     ibus_engine_plugin_get_first_result (m_lua_plugin);
 
