@@ -18,12 +18,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 #include <cstring>
 #include <string>
-
-extern "C" {
-#include "lua-plugin.h"
-}
 
 #include "PYConfig.h"
 #include "PYPointer.h"

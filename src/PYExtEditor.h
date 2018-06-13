@@ -21,10 +21,9 @@
 #ifndef __PY_EXT_EDITOR_
 #define __PY_EXT_EDITOR_
 
-#include <glib.h>
-
-typedef struct _IBusEnginePlugin IBusEnginePlugin;
-typedef struct _lua_command_candidate_t lua_command_candidate_t;
+extern "C" {
+#include "lua-plugin.h"
+}
 
 namespace PY {
 
