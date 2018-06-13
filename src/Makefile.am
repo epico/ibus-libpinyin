@@ -72,6 +72,7 @@ ibus_engine_libpinyin_h_sources = \
 	PYPEnhancedCandidates.h \
 	PYPLibPinyinCandidates.h \
 	PYPTradCandidates.h \
+	PYPLuaTriggerCandidates.h \
 	$(NULL)
 
 ibus_engine_libpinyin_c_sources += \
@@ -90,7 +91,10 @@ ibus_engine_libpinyin_c_sources += \
 
 
 if IBUS_BUILD_LUA_EXTENSION
-ibus_engine_libpinyin_c_sources += PYExtEditor.cc
+ibus_engine_libpinyin_c_sources += \
+	PYExtEditor.cc \
+	PYPLuaTriggerCandidates.cc \
+	$(NULL)
 endif
 
 if IBUS_BUILD_STROKE_INPUT_MODE
