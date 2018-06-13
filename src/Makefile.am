@@ -73,6 +73,7 @@ ibus_engine_libpinyin_h_sources = \
 	PYPLibPinyinCandidates.h \
 	PYPTradCandidates.h \
 	PYPLuaTriggerCandidates.h \
+	PYPLuaConverterCandidates.h \
 	$(NULL)
 
 ibus_engine_libpinyin_c_sources += \
@@ -94,6 +95,7 @@ if IBUS_BUILD_LUA_EXTENSION
 ibus_engine_libpinyin_c_sources += \
 	PYExtEditor.cc \
 	PYPLuaTriggerCandidates.cc \
+	PYPLuaConverterCandidates.cc \
 	$(NULL)
 endif
 
