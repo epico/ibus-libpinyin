@@ -22,24 +22,34 @@
 #ifndef __PY_LIB_PINYIN_LUA_CONVERTER_CANDIDATES_H_
 #define __PY_LIB_PINYIN_LUA_CONVERTER_CANDIDATES_H_
 
+extern "C" {
+#include "lua-plugin.h"
+}
+
 #include <vector>
+#include "PYPointer.h"
 #include "PYPEnhancedCandidates.h"
 
 namespace PY {
 
 class LuaConverterCandidates : public EnhancedCandidates {
 public:
-    LuaConverterCandidates (PhoneticEditor *editor) {
-        m_editor = editor;
-    }
+    LuaConverterCandidates (PhoneticEditor *editor);
 
 public:
+    gboolean setConverter (const char * lua_function_name);
+
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
 
     SelectCandidateAction selectCandidate (EnhancedCandidate & enhanced);
 
 protected:
     std::vector<EnhancedCandidate> m_candidates;
+
+    int loadLuaScript (std::string filename);
+
+    Pointer<IBusEnginePlugin> m_lua_plugin;
+
 };
 
 };
