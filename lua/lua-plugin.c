@@ -339,6 +339,7 @@ gboolean ibus_engine_plugin_set_converter(IBusEnginePlugin * plugin, const char 
     lua_converter_t * converter = &g_array_index
       (lua_converters, lua_converter_t, i);
     if (g_strcmp0 (converter->lua_function_name, lua_function_name) == 0) {
+      g_free(priv->use_converter);
       priv->use_converter = g_strdup(lua_function_name);
       return TRUE;
     }
