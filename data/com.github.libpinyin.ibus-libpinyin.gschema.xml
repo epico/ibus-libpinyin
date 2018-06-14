@@ -177,6 +177,14 @@
       <default>''</default>
       <summary>Clean User Data</summary>
     </key>
+    <key name="lua-converter" type="s">
+      <default>''</default>
+      <summary>Use Lua Converter</summary>
+    </key>
+    <key name="show-suggestion" type="b">
+      <default>true</default>
+      <summary>Show Suggestions</summary>
+    </key>
   </schema>
   <schema path="/com/github/libpinyin/ibus-libpinyin/libbopomofo/" id="com.github.libpinyin.ibus-libpinyin.libbopomofo">
     <key name="auxiliary-select-key-f" type="i">
@@ -306,6 +314,10 @@
     <key name="sort-candidate-option" type="i">
       <default>1</default>
       <summary>Sort candidate option</summary>
+    </key>
+    <key name="show-suggestion" type="b">
+      <default>true</default>
+      <summary>Show Suggestions</summary>
     </key>
   </schema>
 </schemalist>
