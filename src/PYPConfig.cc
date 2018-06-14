@@ -35,6 +35,7 @@ const gchar * const CONFIG_ORIENTATION               = "lookup-table-orientation
 const gchar * const CONFIG_PAGE_SIZE                 = "lookup-table-page-size";
 const gchar * const CONFIG_REMEMBER_EVERY_INPUT      = "remember-every-input";
 const gchar * const CONFIG_SORT_OPTION               = "sort-candidate-option";
+const gchar * const CONFIG_SHOW_SUGGESTION           = "show-suggestion";
 const gchar * const CONFIG_SHIFT_SELECT_CANDIDATE    = "shift-select-candidate";
 const gchar * const CONFIG_MINUS_EQUAL_PAGE          = "minus-equal-page";
 const gchar * const CONFIG_COMMA_PERIOD_PAGE         = "comma-period-page";
@@ -98,6 +99,7 @@ LibPinyinConfig::initDefaultValues (void)
     m_page_size = 5;
     m_remember_every_input = FALSE;
     m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
+    m_show_suggestion = TRUE;
 
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
@@ -204,6 +206,8 @@ LibPinyinConfig::readDefaultValues (void)
         }
     }
 
+    m_show_suggestion = read (CONFIG_SHOW_SUGGESTION, true);
+
     m_dictionaries = read (CONFIG_DICTIONARIES, "");
 
     m_main_switch = read (CONFIG_MAIN_SWITCH, "<Shift>");
@@ -265,6 +269,8 @@ LibPinyinConfig::valueChanged (const std::string &schema_id,
                 m_sort_option = sort_options[i].sort_option;
             }
         }
+    } else if (CONFIG_SHOW_SUGGESTION == name) {
+        m_show_suggestion = normalizeGVariant (value, true);
     } else if (CONFIG_DICTIONARIES == name) {
         m_dictionaries = normalizeGVariant (value, std::string (""));
     } else if (CONFIG_MAIN_SWITCH == name) {
