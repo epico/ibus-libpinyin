@@ -219,7 +219,7 @@ PhoneticEditor::updateCandidates (void)
 
     m_lua_trigger_candidates.processCandidates (m_candidates);
 
-    const char * converter = m_config.luaConverter ();
+    const char * converter = m_config.luaConverter ().c_str ();
 
     if (NULL != converter) {
         m_lua_converter_candidates.setConverter (converter);

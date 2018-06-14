@@ -41,6 +41,7 @@ protected:
 
 public:
     std::string dictionaries (void) const       { return m_dictionaries; }
+    std::string luaConverter (void) const       { return m_lua_converter; }
     pinyin_option_t option (void) const         { return m_option & m_option_mask; }
     guint orientation (void) const              { return m_orientation; }
     guint pageSize (void) const                 { return m_page_size; }
@@ -87,6 +88,7 @@ protected:
     GSettings *m_settings;
     std::string m_schema_id;
     std::string m_dictionaries;
+    std::string m_lua_converter;
     pinyin_option_t m_option;
     pinyin_option_t m_option_mask;
 

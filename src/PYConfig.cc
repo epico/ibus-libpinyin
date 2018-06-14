@@ -59,6 +59,7 @@ Config::initDefaultValues (void)
     m_init_simp_chinese = TRUE;
 
     m_dictionaries = "";
+    m_lua_converter = "";
 
     m_main_switch = "<Shift>";
     m_letter_switch = "";
