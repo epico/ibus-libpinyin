@@ -23,7 +23,6 @@
 #include <assert.h>
 #include "PYConfig.h"
 #include "PYPinyinProperties.h"
-#include "PYSimpTradConverter.h"
 
 using namespace PY;
 
@@ -34,9 +33,11 @@ PhoneticEditor::PhoneticEditor (PinyinProperties &props,
     m_pinyin_len (0),
     m_lookup_table (m_config.pageSize ()),
     m_libpinyin_candidates (this),
-    m_traditional_candidates (this),
+#ifdef IBUS_BUILD_LUA_EXTENSION
     m_lua_trigger_candidates (this),
-    m_lua_converter_candidates (this)
+    m_lua_converter_candidates (this),
+#endif
+    m_traditional_candidates (this)
 {
 }
 
@@ -217,6 +218,7 @@ PhoneticEditor::updateCandidates (void)
     if (!m_props.modeSimp ())
         m_traditional_candidates.processCandidates (m_candidates);
 
+#ifdef IBUS_BUILD_LUA_EXTENSION
     m_lua_trigger_candidates.processCandidates (m_candidates);
 
     const char * converter = m_config.luaConverter ().c_str ();
@@ -225,6 +227,7 @@ PhoneticEditor::updateCandidates (void)
         m_lua_converter_candidates.setConverter (converter);
         m_lua_converter_candidates.processCandidates (m_candidates);
     }
+#endif
 
     return TRUE;
 }
@@ -351,11 +354,13 @@ PhoneticEditor::selectCandidateInternal (EnhancedCandidate & candidate)
     case CANDIDATE_TRADITIONAL_CHINESE:
         return m_traditional_candidates.selectCandidate (candidate);
 
+#ifdef IBUS_BUILD_LUA_EXTENSION
     case CANDIDATE_LUA_TRIGGER:
         return m_lua_trigger_candidates.selectCandidate (candidate);
 
     case CANDIDATE_LUA_CONVERTER:
         return m_lua_converter_candidates.selectCandidate (candidate);
+#endif
 
     default:
         assert (FALSE);

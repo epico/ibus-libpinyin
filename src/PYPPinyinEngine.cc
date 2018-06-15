@@ -37,6 +37,7 @@
 #include "PYPFullPinyinEditor.h"
 #include "PYPDoublePinyinEditor.h"
 #include "PYFallbackEditor.h"
+#include "PYPSuggestionEditor.h"
 
 using namespace PY;
 
@@ -79,6 +80,9 @@ PinyinEngine::PinyinEngine (IBusEngine *engine)
 #else
     m_editors[MODE_STROKE].reset (new Editor (m_props, PinyinConfig::instance ()));
 #endif
+
+    m_editors[MODE_SUGGESTION].reset
+        (new SuggestionEditor (m_props, PinyinConfig::instance ()));
 
     m_props.signalUpdateProperty ().connect
         (std::bind (&PinyinEngine::updateProperty, this, _1));

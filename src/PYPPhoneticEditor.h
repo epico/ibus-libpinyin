@@ -28,22 +28,23 @@
 #include "PYPEnhancedCandidates.h"
 #include "PYPLibPinyinCandidates.h"
 #include "PYPTradCandidates.h"
+
+#ifdef IBUS_BUILD_LUA_EXTENSION
 #include "PYPLuaTriggerCandidates.h"
 #include "PYPLuaConverterCandidates.h"
-
+#endif
 
 namespace PY {
-
-class LibPinyinCandidates;
-class TraditionalCandidates;
-class LuaTriggerCandidates;
-class LuaConverterCandidates;
 
 class PhoneticEditor : public Editor {
     friend class LibPinyinCandidates;
     friend class TraditionalCandidates;
+
+#ifdef IBUS_BUILD_LUA_EXTENSION
     friend class LuaTriggerCandidates;
     friend class LuaConverterCandidates;
+#endif
+
 public:
     PhoneticEditor (PinyinProperties & props, Config & config);
     virtual ~PhoneticEditor ();
@@ -112,8 +113,11 @@ protected:
     /* several EnhancedCandidates providers. */
     LibPinyinCandidates m_libpinyin_candidates;
     TraditionalCandidates m_traditional_candidates;
+
+#ifdef IBUS_BUILD_LUA_EXTENSION
     LuaTriggerCandidates m_lua_trigger_candidates;
     LuaConverterCandidates m_lua_converter_candidates;
+#endif
 };
 
 };

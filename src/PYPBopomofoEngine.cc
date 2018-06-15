@@ -25,6 +25,7 @@
 #include "PYPunctEditor.h"
 #include "PYPBopomofoEditor.h"
 #include "PYFallbackEditor.h"
+#include "PYPSuggestionEditor.h"
 #include "PYConfig.h"
 #include "PYPConfig.h"
 
@@ -43,6 +44,7 @@ BopomofoEngine::BopomofoEngine (IBusEngine *engine)
     /* create editors */
     m_editors[MODE_INIT].reset (new BopomofoEditor (m_props, BopomofoConfig::instance ()));
     m_editors[MODE_PUNCT].reset (new PunctEditor (m_props, BopomofoConfig::instance ()));
+    m_editors[MODE_SUGGESTION].reset (new SuggestionEditor (m_props, BopomofoConfig::instance ()));
 
     m_props.signalUpdateProperty ().connect
         (std::bind (&BopomofoEngine::updateProperty, this, _1));
