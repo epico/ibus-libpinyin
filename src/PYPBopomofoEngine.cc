@@ -22,6 +22,7 @@
  */
 #include "PYPBopomofoEngine.h"
 #include <string>
+#include <assert.h>
 #include "PYPunctEditor.h"
 #include "PYPBopomofoEditor.h"
 #include "PYFallbackEditor.h"
@@ -81,7 +82,7 @@ BopomofoEngine::processAccelKeyEvent (guint keyval, guint keycode,
         gboolean triggered = FALSE;
 
         if (m_prev_pressed_key == keyval) {
-            if (PinyinConfig::instance ().mainSwitch () == accel) {
+            if (BopomofoConfig::instance ().mainSwitch () == accel) {
                 triggered = TRUE;
             }
         }
@@ -104,21 +105,21 @@ BopomofoEngine::processAccelKeyEvent (guint keyval, guint keycode,
     }
 
     /* Toggle full/half Letter Mode */
-    if (PinyinConfig::instance (). letterSwitch () == accel) {
+    if (BopomofoConfig::instance (). letterSwitch () == accel) {
         m_props.toggleModeFull ();
         m_prev_pressed_key = keyval;
         return TRUE;
     }
 
     /* Toggle full/half Punct Mode */
-    if (PinyinConfig::instance (). punctSwitch () == accel) {
+    if (BopomofoConfig::instance (). punctSwitch () == accel) {
         m_props.toggleModeFullPunct ();
         m_prev_pressed_key = keyval;
         return TRUE;
     }
 
     /* Toggle simp/trad Chinese Mode */
-    if (PinyinConfig::instance ().tradSwitch () == accel) {
+    if (BopomofoConfig::instance ().tradSwitch () == accel) {
         m_props.toggleModeSimp ();
         m_prev_pressed_key = keyval;
         return TRUE;
@@ -143,6 +144,29 @@ BopomofoEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
         return FALSE;
 
     if (m_props.modeChinese ()) {
+        /* return from MODE_SUGGESTION to normal input. */
+        if (m_input_mode == MODE_SUGGESTION) {
+            /* only accept input to select candidate. */
+            if (IBUS_Escape == keyval) {
+                m_editors[m_input_mode]->reset ();
+                m_input_mode = MODE_INIT;
+                /* m_editors[m_input_mode]->reset (); */
+                m_editors[m_input_mode]->update ();
+                return TRUE;
+            }
+
+            switch (keyval) {
+            case IBUS_0 ... IBUS_9:
+            case IBUS_space:
+            case IBUS_Return:
+                /* still in suggestion mode. */
+                break;
+
+            default:
+                m_input_mode = MODE_INIT;
+            }
+        }
+
         if (G_UNLIKELY (m_input_mode == MODE_INIT &&
                         m_editors[MODE_INIT]->text ().empty () &&
                         cmshm_filter (modifiers) == 0 &&
@@ -262,8 +286,21 @@ void
 BopomofoEngine::commitText (Text & text)
 {
     Engine::commitText (text);
-    if (m_input_mode != MODE_INIT)
+
+    if (m_input_mode != MODE_INIT && m_input_mode != MODE_SUGGESTION)
         m_input_mode = MODE_INIT;
+    else if (BopomofoConfig::instance ().showSuggestion ()) {
+        if (m_input_mode == MODE_INIT) {
+            m_input_mode = MODE_SUGGESTION;
+            m_editors[m_input_mode]->setText (text.text (), 0);
+            m_editors[m_input_mode]->update ();
+        } else if (m_input_mode == MODE_SUGGESTION) {
+            m_editors[m_input_mode]->setText (text.text (), 0);
+            m_editors[m_input_mode]->update ();
+        } else
+            assert (FALSE);
+    }
+
 #if 1
     /* handle "<num>+.<num>+" here */
     if (text.text ())
