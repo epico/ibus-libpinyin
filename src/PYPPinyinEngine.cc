@@ -21,6 +21,7 @@
  */
 #include "PYPPinyinEngine.h"
 #include <string>
+#include <assert.h>
 #include "PYConfig.h"
 #include "PYPConfig.h"
 #include "PYPunctEditor.h"
@@ -184,6 +185,24 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
         /* return from MODE_SUGGESTION to normal input. */
         if (m_input_mode == MODE_SUGGESTION) {
             /* only accept input to select candidate. */
+            if (IBUS_Escape == keyval) {
+                m_editors[m_input_mode]->reset ();
+                m_input_mode = MODE_INIT;
+                /* m_editors[m_input_mode]->reset (); */
+                m_editors[m_input_mode]->update ();
+                return TRUE;
+            }
+
+            switch (keyval) {
+            case IBUS_0 ... IBUS_9:
+            case IBUS_space:
+            case IBUS_Return:
+                /* still in suggestion mode. */
+                break;
+
+            default:
+                m_input_mode = MODE_INIT;
+            }
         }
 
         /* handle normal input. */
@@ -366,8 +385,20 @@ void
 PinyinEngine::commitText (Text & text)
 {
     Engine::commitText (text);
-    if (m_input_mode != MODE_INIT)
+
+    if (m_input_mode != MODE_INIT && m_input_mode != MODE_SUGGESTION)
         m_input_mode = MODE_INIT;
+    else if (PinyinConfig::instance ().showSuggestion ()) {
+        if (m_input_mode == MODE_INIT) {
+            m_input_mode = MODE_SUGGESTION;
+            m_editors[m_input_mode]->setText (text.text (), 0);
+            m_editors[m_input_mode]->update ();
+        } else if (m_input_mode == MODE_SUGGESTION) {
+            m_editors[m_input_mode]->setText (text.text (), 0);
+            m_editors[m_input_mode]->update ();
+        } else
+            assert (FALSE);
+    }
 #if 1
     /* handle "<num>+.<num>+" here */
     if (text.text ())
