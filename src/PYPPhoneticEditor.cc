@@ -221,10 +221,10 @@ PhoneticEditor::updateCandidates (void)
 #ifdef IBUS_BUILD_LUA_EXTENSION
     m_lua_trigger_candidates.processCandidates (m_candidates);
 
-    const char * converter = m_config.luaConverter ().c_str ();
+    std::string converter = m_config.luaConverter ();
 
-    if (NULL != converter) {
-        m_lua_converter_candidates.setConverter (converter);
+    if (!converter.empty ()) {
+        m_lua_converter_candidates.setConverter (converter.c_str ());
         m_lua_converter_candidates.processCandidates (m_candidates);
     }
 #endif
