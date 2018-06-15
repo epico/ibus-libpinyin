@@ -52,7 +52,6 @@ private:
 
     gboolean processSpace (guint keyval);
     gboolean processEnter (guint keyval);
-    gboolean processEscape (guint keyval);
 
 private:
     /* variables */
