@@ -75,8 +75,9 @@ LuaConverterCandidates::processCandidates (std::vector<EnhancedCandidate> & cand
 
         ibus_engine_plugin_call (m_lua_plugin, converter,
                                 enhanced.m_display_string.c_str ());
-        enhanced.m_display_string =
-                    ibus_engine_plugin_get_first_result (m_lua_plugin);
+        gchar * string = ibus_engine_plugin_get_first_result (m_lua_plugin);
+        enhanced.m_display_string = string;
+        g_free (string);
     }
 
     return TRUE;
@@ -100,8 +101,9 @@ LuaConverterCandidates::selectCandidate (EnhancedCandidate & enhanced)
     if (SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT == action) {
         ibus_engine_plugin_call (m_lua_plugin, converter,
                                  enhanced.m_display_string.c_str ());
-        enhanced.m_display_string =
-            ibus_engine_plugin_get_first_result (m_lua_plugin);
+        gchar * string = ibus_engine_plugin_get_first_result (m_lua_plugin);
+        enhanced.m_display_string = string;
+        g_free (string);
     }
 
     return action;

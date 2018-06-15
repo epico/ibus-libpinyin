@@ -416,7 +416,7 @@ static const lua_command_candidate_t * ibus_engine_plugin_get_candidate(lua_Stat
 /**
  * retrieve the first string value. (value has been copied.)
  */
-const char * ibus_engine_plugin_get_first_result(IBusEnginePlugin * plugin){
+gchar * ibus_engine_plugin_get_first_result(IBusEnginePlugin * plugin){
   IBusEnginePluginPrivate * priv = IBUS_ENGINE_PLUGIN_GET_PRIVATE(plugin);
   const char * result = NULL; int type;
   lua_State * L = priv->L;

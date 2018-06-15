@@ -174,7 +174,7 @@ int ibus_engine_plugin_call(IBusEnginePlugin * plugin, const char * lua_function
 /**
  * retrieve the first string value. (value has been copied.)
  */
-const char * ibus_engine_plugin_get_first_result(IBusEnginePlugin * plugin);
+gchar * ibus_engine_plugin_get_first_result(IBusEnginePlugin * plugin);
 
 /**
  * retrieve the retval string value. (value has been copied.)
