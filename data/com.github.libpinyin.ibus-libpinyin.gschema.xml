@@ -47,7 +47,7 @@
     </key>
     <key name="dictionaries" type="s">
       <default>''</default>
-      <summary>enable install updates</summary>
+      <summary>enable dictionaries</summary>
     </key>
     <key name="double-pinyin" type="b">
       <default>false</default>
@@ -201,7 +201,7 @@
     </key>
     <key name="dictionaries" type="s">
       <default>''</default>
-      <summary>enable install updates</summary>
+      <summary>enable dictionaries</summary>
     </key>
     <key name="dynamic-adjust" type="b">
       <default>true</default>
