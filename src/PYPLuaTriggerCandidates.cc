@@ -52,6 +52,9 @@ LuaTriggerCandidates::loadLuaScript (std::string filename)
 gboolean
 LuaTriggerCandidates::processCandidates (std::vector<EnhancedCandidate> & candidates)
 {
+    if (!m_lua_plugin)
+        return FALSE;
+
     EnhancedCandidate enhanced;
     enhanced.m_candidate_type = CANDIDATE_LUA_TRIGGER;
     enhanced.m_candidate_id = 0;

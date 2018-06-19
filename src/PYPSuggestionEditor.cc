@@ -20,6 +20,9 @@
  */
 
 #include "PYPSuggestionEditor.h"
+#include <assert.h>
+#include "PYConfig.h"
+#include "PYLibPinyin.h"
 
 using namespace PY;
 
@@ -28,6 +31,291 @@ SuggestionEditor::SuggestionEditor (PinyinProperties &props,
     : Editor (props, config)
 {
     /* use m_text to store the prefix string. */
-    m_text = "prefix";
+    m_text = "";
+    m_cursor = 0;
+
+    m_instance = LibPinyinBackEnd::instance ().allocPinyinInstance ();
 }
 
+SuggestionEditor::~SuggestionEditor (void)
+{
+    LibPinyinBackEnd::instance ().freePinyinInstance (m_instance);
+    m_instance = NULL;
+}
+
+gboolean
+SuggestionEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
+{
+    //IBUS_SHIFT_MASK is removed.
+    modifiers &= (IBUS_CONTROL_MASK |
+                  IBUS_MOD1_MASK |
+                  IBUS_SUPER_MASK |
+                  IBUS_HYPER_MASK |
+                  IBUS_META_MASK |
+                  IBUS_LOCK_MASK);
+    if (modifiers)
+        return FALSE;
+
+    // handle enter here.
+    if (keyval == IBUS_Return)
+        return FALSE;
+
+    //handle page/cursor up/down here.
+    if (processPageKey (keyval))
+        return TRUE;
+
+    //handle label key select here.
+    if (processLabelKey (keyval))
+        return TRUE;
+
+    if (processSpace (keyval))
+        return TRUE;
+
+    update ();
+    return TRUE;
+}
+
+gboolean
+SuggestionEditor::processPageKey (guint keyval)
+{
+    switch (keyval) {
+    case IBUS_comma:
+        if (m_config.commaPeriodPage ()) {
+            pageUp ();
+            return TRUE;
+        }
+        break;
+    case IBUS_minus:
+        if (m_config.minusEqualPage ()) {
+            pageUp ();
+            return TRUE;
+        }
+        break;
+    case IBUS_period:
+        if (m_config.commaPeriodPage ()) {
+            pageDown ();
+            return TRUE;
+        }
+        break;
+    case IBUS_equal:
+        if (m_config.minusEqualPage ()) {
+            pageDown ();
+            return TRUE;
+        }
+        break;
+
+    case IBUS_Up:
+    case IBUS_KP_Up:
+        cursorUp ();
+        return TRUE;
+
+    case IBUS_Down:
+    case IBUS_KP_Down:
+        cursorDown ();
+        return TRUE;
+
+    case IBUS_Page_Up:
+    case IBUS_KP_Page_Up:
+        pageUp ();
+        return TRUE;
+
+    case IBUS_Page_Down:
+    case IBUS_KP_Page_Down:
+        pageDown ();
+        return TRUE;
+
+    case IBUS_Escape:
+        reset ();
+        return TRUE;
+    }
+    return FALSE;
+}
+
+gboolean
+SuggestionEditor::processLabelKey (guint keyval)
+{
+    switch (keyval) {
+    case '1' ... '9':
+        return selectCandidateInPage (keyval - '1');
+        break;
+    case '0':
+        return selectCandidateInPage (9);
+        break;
+    }
+    return FALSE;
+}
+
+gboolean
+SuggestionEditor::processSpace (guint keyval)
+{
+    if (!(keyval == IBUS_space || keyval == IBUS_KP_Space))
+        return FALSE;
+
+    guint cursor_pos = m_lookup_table.cursorPos ();
+    return selectCandidate (cursor_pos);
+}
+
+void
+SuggestionEditor::candidateClicked (guint index, guint button, guint state)
+{
+    selectCandidateInPage (index);
+}
+
+gboolean
+SuggestionEditor::selectCandidateInPage (guint index)
+{
+    guint page_size = m_lookup_table.pageSize ();
+    guint cursor_pos = m_lookup_table.cursorPos ();
+
+    if (G_UNLIKELY (index >= page_size))
+        return FALSE;
+    index += (cursor_pos / page_size) * page_size;
+
+    return selectCandidate (index);
+}
+
+gboolean
+SuggestionEditor::selectCandidate (guint index)
+{
+    guint len = 0;
+    pinyin_get_n_candidate (m_instance, &len);
+
+    if (index >= len)
+        return FALSE;
+
+    lookup_candidate_t *candidate = NULL;
+    pinyin_get_candidate (m_instance, index, &candidate);
+
+    lookup_candidate_type_t type;
+    pinyin_get_candidate_type (m_instance, candidate, &type);
+    assert (PREDICTED_CANDIDATE == type);
+
+    const gchar *phrase_string = NULL;
+    pinyin_get_candidate_string (m_instance, candidate, &phrase_string);
+
+    Text text (phrase_string);
+    commitText (text);
+
+    m_text = phrase_string;
+    update ();
+    return TRUE;
+}
+
+/* Auxiliary Functions */
+
+void
+SuggestionEditor::pageUp (void)
+{
+    if (G_LIKELY (m_lookup_table.pageUp ())) {
+        update ();
+    }
+}
+
+void
+SuggestionEditor::pageDown (void)
+{
+    if (G_LIKELY (m_lookup_table.pageDown ())) {
+        update ();
+    }
+}
+
+void
+SuggestionEditor::cursorUp (void)
+{
+    if (G_LIKELY (m_lookup_table.cursorUp ())) {
+        update ();
+    }
+}
+
+void
+SuggestionEditor::cursorDown (void)
+{
+    if (G_LIKELY (m_lookup_table.cursorDown ())) {
+        update ();
+    }
+}
+
+void
+SuggestionEditor::update (void)
+{
+    pinyin_guess_predicted_candidates (m_instance, m_text);
+
+    updateLookupTable ();
+    updatePreeditText ();
+    updateAuxiliaryText ();
+}
+
+void
+SuggestionEditor::reset (void)
+{
+    m_text = "";
+    update ();
+}
+
+void
+SuggestionEditor::updateLookupTable (void)
+{
+    m_lookup_table.clear ();
+
+    updateCandidates ();
+    fillLookupTable ();
+    if (m_lookup_table.size ()){
+        Editor::updateLookupTableFast (m_lookup_table, TRUE);
+    } else {
+        hideLookupTable ();
+    }
+}
+
+gboolean
+SuggestionEditor::updateCandidates ()
+{
+    assert (FALSE);
+}
+
+gboolean
+SuggestionEditor::fillLookupTable ()
+{
+    guint len = 0;
+    pinyin_get_n_candidate (m_instance, &len);
+
+    for (guint i = 0; i < len; i++) {
+        lookup_candidate_t * candidate = NULL;
+        pinyin_get_candidate (m_instance, i, &candidate);
+
+        lookup_candidate_type_t type;
+        pinyin_get_candidate_type (m_instance, candidate, &type);
+        assert (PREDICTED_CANDIDATE == type);
+
+        const gchar * phrase_string = NULL;
+        pinyin_get_candidate_string (m_instance, candidate, &phrase_string);
+
+        Text text (phrase_string);
+        m_lookup_table.appendCandidate (text);
+    }
+
+    return TRUE;
+}
+
+void
+SuggestionEditor::updatePreeditText (void)
+{
+    if (G_UNLIKELY (m_preedit_text.empty ())) {
+        hidePreeditText ();
+        return;
+    }
+
+    StaticText preedit_text (m_preedit_text);
+    Editor::updatePreeditText (preedit_text, m_cursor, TRUE);
+}
+
+void
+SuggestionEditor::updateAuxiliaryText (void)
+{
+    if (G_UNLIKELY (m_auxiliary_text.empty ())) {
+        hideAuxiliaryText ();
+        return;
+    }
+
+    StaticText aux_text (m_auxiliary_text);
+    Editor::updateAuxiliaryText (aux_text, TRUE);
+}

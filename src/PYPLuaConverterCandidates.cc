@@ -58,6 +58,9 @@ LuaConverterCandidates::setConverter (const char * lua_function_name)
 gboolean
 LuaConverterCandidates::processCandidates (std::vector<EnhancedCandidate> & candidates)
 {
+    if (!m_lua_plugin)
+        return FALSE;
+
     m_candidates.clear ();
 
     const char * converter = ibus_engine_plugin_get_converter (m_lua_plugin);

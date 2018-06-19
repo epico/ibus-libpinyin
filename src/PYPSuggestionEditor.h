@@ -22,6 +22,7 @@
 #ifndef __PY_LIB_PINYIN_SUGGESTION_EDITOR_
 #define __PY_LIB_PINYIN_SUGGESTION_EDITOR_
 
+#include <pinyin.h>
 #include "PYEditor.h"
 #include "PYLookupTable.h"
 
@@ -42,8 +43,9 @@ public:
     virtual void candidateClicked (guint index, guint button, guint state);
 
 private:
-    void clearLookupTable (void);
     void updateLookupTable (void);
+    gboolean updateCandidates ();
+    gboolean fillLookupTable ();
     void updatePreeditText (void);
     void updateAuxiliaryText (void);
 
@@ -51,7 +53,8 @@ private:
     gboolean selectCandidate (guint index);
 
     gboolean processSpace (guint keyval);
-    gboolean processEnter (guint keyval);
+    gboolean processLabelKey (guint keyval);
+    gboolean processPageKey (guint keyval);
 
 private:
     /* variables */
