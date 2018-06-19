@@ -386,9 +386,9 @@ PinyinEngine::commitText (Text & text)
 {
     Engine::commitText (text);
 
-    if (m_input_mode != MODE_INIT && m_input_mode != MODE_SUGGESTION)
+    if (m_input_mode != MODE_INIT && m_input_mode != MODE_SUGGESTION) {
         m_input_mode = MODE_INIT;
-    else if (PinyinConfig::instance ().showSuggestion ()) {
+    } else if (PinyinConfig::instance ().showSuggestion ()) {
         if (m_input_mode == MODE_INIT) {
             m_input_mode = MODE_SUGGESTION;
             m_editors[m_input_mode]->setText (text.text (), 0);
@@ -398,7 +398,10 @@ PinyinEngine::commitText (Text & text)
             m_editors[m_input_mode]->update ();
         } else
             assert (FALSE);
+    } else {
+        m_input_mode = MODE_INIT;
     }
+
 #if 1
     /* handle "<num>+.<num>+" here */
     if (text.text ())

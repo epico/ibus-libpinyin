@@ -287,9 +287,9 @@ BopomofoEngine::commitText (Text & text)
 {
     Engine::commitText (text);
 
-    if (m_input_mode != MODE_INIT && m_input_mode != MODE_SUGGESTION)
+    if (m_input_mode != MODE_INIT && m_input_mode != MODE_SUGGESTION) {
         m_input_mode = MODE_INIT;
-    else if (BopomofoConfig::instance ().showSuggestion ()) {
+    } else if (BopomofoConfig::instance ().showSuggestion ()) {
         if (m_input_mode == MODE_INIT) {
             m_input_mode = MODE_SUGGESTION;
             m_editors[m_input_mode]->setText (text.text (), 0);
@@ -299,6 +299,8 @@ BopomofoEngine::commitText (Text & text)
             m_editors[m_input_mode]->update ();
         } else
             assert (FALSE);
+    } else {
+        m_input_mode = MODE_INIT;
     }
 
 #if 1
