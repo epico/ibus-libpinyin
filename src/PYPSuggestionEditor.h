@@ -25,10 +25,19 @@
 #include <pinyin.h>
 #include "PYEditor.h"
 #include "PYLookupTable.h"
+#include "PYPSuggestionCandidates.h"
+#include "PYPTradCandidates.h"
+
+#ifdef IBUS_BUILD_LUA_EXTENSION
+#include "PYPLuaTriggerCandidates.h"
+#include "PYPLuaConverterCandidates.h"
+#endif
 
 namespace PY {
 
 class SuggestionEditor : public Editor {
+    friend class SuggestionCandidates;
+
 public:
     SuggestionEditor (PinyinProperties &props, Config & config);
     virtual ~SuggestionEditor ();
@@ -41,6 +50,9 @@ public:
     virtual void update (void);
     virtual void reset (void);
     virtual void candidateClicked (guint index, guint button, guint state);
+
+protected:
+    virtual SelectCandidateAction selectCandidateInternal (EnhancedCandidate & candidate);
 
 private:
     void updateLookupTable (void);
@@ -65,6 +77,18 @@ private:
 
     /* use LibPinyinBackEnd here. */
     pinyin_instance_t           *m_instance;
+
+    /* use EnhancedCandidates here. */
+    std::vector<EnhancedCandidate> m_candidates;
+
+    /* several EnhancedCandidates providers. */
+    SuggestionCandidates m_suggestion_candidates;
+    TraditionalCandidates m_traditional_candidates;
+
+#ifdef IBUS_BUILD_LUA_EXTENSION
+    LuaTriggerCandidates m_lua_trigger_candidates;
+    LuaConverterCandidates m_lua_converter_candidates;
+#endif
 };
 
 };

@@ -23,12 +23,19 @@
 #include <assert.h>
 #include "PYConfig.h"
 #include "PYLibPinyin.h"
+#include "PYPinyinProperties.h"
 
 using namespace PY;
 
 SuggestionEditor::SuggestionEditor (PinyinProperties &props,
                                     Config & config)
-    : Editor (props, config)
+    : Editor (props, config),
+      m_suggestion_candidates (this),
+#ifdef IBUS_BUILD_LUA_EXTENSION
+      m_lua_trigger_candidates (this),
+      m_lua_converter_candidates (this),
+#endif
+      m_traditional_candidates (this)
 {
     /* use m_text to store the prefix string. */
     m_text = "";
@@ -267,33 +274,69 @@ SuggestionEditor::updateLookupTable (void)
 }
 
 gboolean
-SuggestionEditor::updateCandidates ()
+SuggestionEditor::updateCandidates (void)
 {
-    assert (FALSE);
+    m_candidates.clear ();
+
+    m_suggestion_candidates.processCandidates (m_candidates);
+
+    if (!m_props.modeSimp ())
+        m_traditional_candidates.processCandidates (m_candidates);
+
+#ifdef IBUS_BUILD_LUA_EXTENSION
+    m_lua_trigger_candidates.processCandidates (m_candidates);
+
+    std::string converter = m_config.luaConverter ();
+
+    if (!converter.empty ()) {
+        m_lua_converter_candidates.setConverter (converter.c_str ());
+        m_lua_converter_candidates.processCandidates (m_candidates);
+    }
+#endif
+
+    return TRUE;
 }
 
 gboolean
 SuggestionEditor::fillLookupTable ()
 {
-    guint len = 0;
-    pinyin_get_n_candidate (m_instance, &len);
+    String word;
+    for (guint i = 0; i < m_candidates.size (); i++) {
+        EnhancedCandidate & candidate = m_candidates[i];
+        word = candidate.m_display_string;
 
-    for (guint i = 0; i < len; i++) {
-        lookup_candidate_t * candidate = NULL;
-        pinyin_get_candidate (m_instance, i, &candidate);
+        Text text (word);
 
-        lookup_candidate_type_t type;
-        pinyin_get_candidate_type (m_instance, candidate, &type);
-        assert (PREDICTED_CANDIDATE == type);
+        /* no user candidate in suggestion editor. */
+        assert (CANDIDATE_USER != candidate.m_candidate_type);
 
-        const gchar * phrase_string = NULL;
-        pinyin_get_candidate_string (m_instance, candidate, &phrase_string);
-
-        Text text (phrase_string);
         m_lookup_table.appendCandidate (text);
     }
 
     return TRUE;
+}
+
+SelectCandidateAction
+SuggestionEditor::selectCandidateInternal (EnhancedCandidate & candidate)
+{
+    switch (candidate.m_candidate_type) {
+    case CANDIDATE_SUGGESTION:
+        return m_suggestion_candidates.selectCandidate (candidate);
+
+    case CANDIDATE_TRADITIONAL_CHINESE:
+        return m_traditional_candidates.selectCandidate (candidate);
+
+#ifdef IBUS_BUILD_LUA_EXTENSION
+    case CANDIDATE_LUA_TRIGGER:
+        return m_lua_trigger_candidates.selectCandidate (candidate);
+
+    case CANDIDATE_LUA_CONVERTER:
+        return m_lua_converter_candidates.selectCandidate (candidate);
+#endif
+
+    default:
+        assert (FALSE);
+    }
 }
 
 void
