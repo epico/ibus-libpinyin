@@ -27,7 +27,7 @@
 
 using namespace PY;
 
-LuaTriggerCandidates::LuaTriggerCandidates (PhoneticEditor *editor)
+LuaTriggerCandidates::LuaTriggerCandidates (Editor *editor)
 {
     m_editor = editor;
 

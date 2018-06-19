@@ -32,9 +32,11 @@ extern "C" {
 
 namespace PY {
 
-class LuaConverterCandidates : public EnhancedCandidates {
+class Editor;
+
+class LuaConverterCandidates : public EnhancedCandidates<Editor> {
 public:
-    LuaConverterCandidates (PhoneticEditor *editor);
+    LuaConverterCandidates (Editor *editor);
 
 public:
     gboolean setConverter (const char * lua_function_name);
@@ -49,7 +51,6 @@ protected:
     int loadLuaScript (std::string filename);
 
     Pointer<IBusEnginePlugin> m_lua_plugin;
-
 };
 
 };

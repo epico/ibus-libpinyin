@@ -22,7 +22,7 @@
 #include "PYPSuggestionCandidates.h"
 #include <assert.h>
 #include <pinyin.h>
-#include "PYPPhoneticEditor.h"
+#include "PYPSuggestionEditor.h"
 
 using namespace PY;
 

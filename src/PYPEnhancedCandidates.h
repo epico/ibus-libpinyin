@@ -28,8 +28,6 @@
 
 namespace PY {
 
-class PhoneticEditor;
-
 enum CandidateType {
     CANDIDATE_NBEST_MATCH = 1,
     /* not included with user candidate */
@@ -61,6 +59,7 @@ struct EnhancedCandidate {
     std::string m_display_string;
 };
 
+template <class IEditor>
 class EnhancedCandidates {
 
 public:
@@ -70,8 +69,8 @@ public:
 
 protected:
 
-    /* will call selectCandidateInternal method of class PhoneticEditor. */
-    PhoneticEditor *m_editor;
+    /* will call selectCandidateInternal method of class IEditor. */
+    IEditor *m_editor;
 };
 
 };

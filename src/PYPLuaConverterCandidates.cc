@@ -27,7 +27,7 @@
 
 using namespace PY;
 
-LuaConverterCandidates::LuaConverterCandidates (PhoneticEditor *editor)
+LuaConverterCandidates::LuaConverterCandidates (Editor *editor)
 {
     m_editor = editor;
 

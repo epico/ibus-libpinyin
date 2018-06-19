@@ -38,12 +38,6 @@ namespace PY {
 
 class PhoneticEditor : public Editor {
     friend class LibPinyinCandidates;
-    friend class TraditionalCandidates;
-
-#ifdef IBUS_BUILD_LUA_EXTENSION
-    friend class LuaTriggerCandidates;
-    friend class LuaConverterCandidates;
-#endif
 
 public:
     PhoneticEditor (PinyinProperties & props, Config & config);
@@ -68,7 +62,7 @@ public:
     virtual void commit (const gchar *str) = 0;
 
 protected:
-    SelectCandidateAction selectCandidateInternal (EnhancedCandidate & candidate);
+    virtual SelectCandidateAction selectCandidateInternal (EnhancedCandidate & candidate);
     gboolean selectCandidate (guint i);
     gboolean selectCandidateInPage (guint i);
 

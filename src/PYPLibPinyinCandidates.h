@@ -26,7 +26,9 @@
 
 namespace PY {
 
-class LibPinyinCandidates : public EnhancedCandidates {
+class PhoneticEditor;
+
+class LibPinyinCandidates : public EnhancedCandidates<PhoneticEditor> {
 public:
     LibPinyinCandidates (PhoneticEditor *editor) {
         m_editor = editor;

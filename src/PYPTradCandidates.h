@@ -27,9 +27,11 @@
 
 namespace PY {
 
-class TraditionalCandidates : public EnhancedCandidates {
+class Editor;
+
+class TraditionalCandidates : public EnhancedCandidates<Editor> {
 public:
-    TraditionalCandidates (PhoneticEditor *editor) {
+    TraditionalCandidates (Editor *editor) {
         m_editor = editor;
     }
 

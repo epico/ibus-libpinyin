@@ -31,9 +31,11 @@ extern "C" {
 
 namespace PY {
 
-class LuaTriggerCandidates : public EnhancedCandidates {
+class Editor;
+
+class LuaTriggerCandidates : public EnhancedCandidates<Editor> {
 public:
-    LuaTriggerCandidates (PhoneticEditor *editor);
+    LuaTriggerCandidates (Editor *editor);
 
 public:
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);

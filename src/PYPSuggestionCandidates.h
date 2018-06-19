@@ -26,9 +26,11 @@
 
 namespace PY {
 
-class SuggestionCandidates : public EnhancedCandidates {
+class SuggestionEditor;
+
+class SuggestionCandidates : public EnhancedCandidates<SuggestionEditor> {
 public:
-    SuggestionCandidates (PhoneticEditor *editor) {
+    SuggestionCandidates (SuggestionEditor *editor) {
         m_editor = editor;
     }
 

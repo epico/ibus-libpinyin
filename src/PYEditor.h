@@ -25,6 +25,7 @@
 #include "PYSignal.h"
 #include "PYString.h"
 #include "PYUtil.h"
+#include "PYPEnhancedCandidates.h"
 
 namespace PY {
 
@@ -36,7 +37,18 @@ class Config;
 class Editor;
 typedef std::shared_ptr<Editor> EditorPtr;
 
+class TraditionalCandidates;
+class LuaTriggerCandidates;
+class LuaConverterCandidates;
+
 class Editor {
+    friend class TraditionalCandidates;
+
+#ifdef IBUS_BUILD_LUA_EXTENSION
+    friend class LuaTriggerCandidates;
+    friend class LuaConverterCandidates;
+#endif
+
 public:
     Editor (PinyinProperties & prop, Config & config);
     virtual ~Editor (void);
@@ -139,6 +151,8 @@ protected:
     }
 
 protected:
+    virtual SelectCandidateAction selectCandidateInternal (EnhancedCandidate & candidate) { return SELECT_CANDIDATE_ALREADY_HANDLED; }
+
     /* signals */
     signal <void (Text &)> m_signal_commit_text;
     signal <void ( Text &, guint, gboolean)> m_signal_update_preedit_text;
