@@ -22,9 +22,7 @@
 #ifndef __PY_LIB_PINYIN_LUA_CONVERTER_CANDIDATES_H_
 #define __PY_LIB_PINYIN_LUA_CONVERTER_CANDIDATES_H_
 
-extern "C" {
 #include "lua-plugin.h"
-}
 
 #include <vector>
 #include "PYPointer.h"
@@ -39,6 +37,8 @@ public:
     LuaConverterCandidates (Editor *editor);
 
 public:
+    gboolean setLuaPlugin (IBusEnginePlugin * plugin);
+
     gboolean setConverter (const char * lua_function_name);
 
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
@@ -47,8 +47,6 @@ public:
 
 protected:
     std::vector<EnhancedCandidate> m_candidates;
-
-    int loadLuaScript (std::string filename);
 
     Pointer<IBusEnginePlugin> m_lua_plugin;
 };

@@ -30,23 +30,13 @@ using namespace PY;
 LuaTriggerCandidates::LuaTriggerCandidates (Editor *editor)
 {
     m_editor = editor;
-
-    m_lua_plugin = ibus_engine_plugin_new ();
-
-    loadLuaScript ( ".." G_DIR_SEPARATOR_S "lua" G_DIR_SEPARATOR_S "base.lua")||
-        loadLuaScript (PKGDATADIR G_DIR_SEPARATOR_S "base.lua");
-
-    gchar * path = g_build_filename (g_get_user_config_dir (),
-                             "ibus", "libpinyin", "user.lua", NULL);
-    loadLuaScript(path);
-    g_free(path);
 }
 
-int
-LuaTriggerCandidates::loadLuaScript (std::string filename)
+gboolean
+LuaTriggerCandidates::setLuaPlugin (IBusEnginePlugin *plugin)
 {
-    return !ibus_engine_plugin_load_lua_script
-        (m_lua_plugin, filename.c_str ());
+    m_lua_plugin = plugin;
+    return TRUE;
 }
 
 gboolean

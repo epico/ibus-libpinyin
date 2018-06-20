@@ -21,12 +21,9 @@
 #ifndef __PY_EXT_EDITOR_
 #define __PY_EXT_EDITOR_
 
-extern "C" {
 #include "lua-plugin.h"
-}
 
 namespace PY {
-
 
 class ExtEditor : public Editor {
 public:
@@ -41,8 +38,7 @@ public:
     virtual void reset (void);
     virtual void candidateClicked (guint index, guint button, guint state);
 
-    int loadLuaScript (std::string filename);
-    void resetLuaState (void);
+    gboolean setLuaPlugin (IBusEnginePlugin *plugin);
 
 private:
     bool updateStateFromInput (void);

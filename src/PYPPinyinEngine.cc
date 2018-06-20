@@ -52,14 +52,21 @@ PinyinEngine::PinyinEngine (IBusEngine *engine)
 {
     gint i;
 
+    initLuaPlugin ();
+
     m_double_pinyin = PinyinConfig::instance ().doublePinyin ();
 
-    if (m_double_pinyin)
-        m_editors[MODE_INIT].reset
-            (new DoublePinyinEditor (m_props, PinyinConfig::instance ()));
-    else
-        m_editors[MODE_INIT].reset
-            (new FullPinyinEditor (m_props, PinyinConfig::instance ()));
+    if (m_double_pinyin) {
+        PhoneticEditor *editor = new DoublePinyinEditor
+            (m_props, PinyinConfig::instance ());
+        m_editors[MODE_INIT].reset (editor);
+        editor->setLuaPlugin (m_lua_plugin);
+    } else {
+        PhoneticEditor *editor = new FullPinyinEditor
+            (m_props, PinyinConfig::instance ());
+        m_editors[MODE_INIT].reset (editor);
+        editor->setLuaPlugin (m_lua_plugin);
+    }
 
     m_editors[MODE_PUNCT].reset
         (new PunctEditor (m_props, PinyinConfig::instance ()));
@@ -82,8 +89,12 @@ PinyinEngine::PinyinEngine (IBusEngine *engine)
     m_editors[MODE_STROKE].reset (new Editor (m_props, PinyinConfig::instance ()));
 #endif
 
-    m_editors[MODE_SUGGESTION].reset
-        (new SuggestionEditor (m_props, PinyinConfig::instance ()));
+    {
+        SuggestionEditor *editor = new SuggestionEditor
+            (m_props, PinyinConfig::instance ());
+        m_editors[MODE_SUGGESTION].reset (editor);
+        editor->setLuaPlugin (m_lua_plugin);
+    }
 
     m_props.signalUpdateProperty ().connect
         (std::bind (&PinyinEngine::updateProperty, this, _1));
@@ -98,6 +109,28 @@ PinyinEngine::PinyinEngine (IBusEngine *engine)
 /* destructor */
 PinyinEngine::~PinyinEngine (void)
 {
+}
+
+gboolean
+PinyinEngine::initLuaPlugin (void)
+{
+    m_lua_plugin = ibus_engine_plugin_new ();
+
+    loadLuaScript ( ".." G_DIR_SEPARATOR_S "lua" G_DIR_SEPARATOR_S "base.lua")||
+        loadLuaScript (PKGDATADIR G_DIR_SEPARATOR_S "base.lua");
+
+    gchar * path = g_build_filename (g_get_user_config_dir (),
+                             "ibus", "libpinyin", "user.lua", NULL);
+    loadLuaScript(path);
+    g_free(path);
+
+    return TRUE;
+}
+
+gboolean
+PinyinEngine::loadLuaScript (const char * filename)
+{
+    return !ibus_engine_plugin_load_lua_script (m_lua_plugin, filename);
 }
 
 /* keep synced with bopomofo engine. */
@@ -284,14 +317,20 @@ PinyinEngine::focusIn (void)
      *       or switch full/double pinyin when pinyin config is changed.*/
     if (PinyinConfig::instance ().doublePinyin ()) {
         if (!m_double_pinyin) {
-            m_editors[MODE_INIT].reset (new DoublePinyinEditor (m_props, PinyinConfig::instance ()));
+            PhoneticEditor *editor = new DoublePinyinEditor
+                (m_props, PinyinConfig::instance ());
+            m_editors[MODE_INIT].reset (editor);
+            editor->setLuaPlugin (m_lua_plugin);
             connectEditorSignals (m_editors[MODE_INIT]);
         }
         m_double_pinyin = TRUE;
     }
     else {
         if (m_double_pinyin) {
-            m_editors[MODE_INIT].reset (new FullPinyinEditor (m_props, PinyinConfig::instance ()));
+            PhoneticEditor *editor = new FullPinyinEditor
+                (m_props, PinyinConfig::instance ());
+            m_editors[MODE_INIT].reset (editor);
+            editor->setLuaPlugin (m_lua_plugin);
             connectEditorSignals (m_editors[MODE_INIT]);
         }
         m_double_pinyin = FALSE;

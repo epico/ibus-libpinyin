@@ -45,6 +45,16 @@ PhoneticEditor::~PhoneticEditor (){
 }
 
 gboolean
+PhoneticEditor::setLuaPlugin (IBusEnginePlugin *plugin)
+{
+#ifdef IBUS_BUILD_LUA_EXTENSION
+    m_lua_trigger_candidates.setLuaPlugin (plugin);
+    m_lua_converter_candidates.setLuaPlugin (plugin);
+#endif
+    return TRUE;
+}
+
+gboolean
 PhoneticEditor::processSpace (guint keyval, guint keycode,
                                        guint modifiers)
 {

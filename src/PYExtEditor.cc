@@ -154,30 +154,14 @@ ExtEditor::ExtEditor (PinyinProperties & props, Config & config)
       m_candidate (NULL),
       m_candidates (NULL)
 {
-    m_lua_plugin = ibus_engine_plugin_new ();
-
-    loadLuaScript ( ".." G_DIR_SEPARATOR_S "lua" G_DIR_SEPARATOR_S "base.lua")||
-        loadLuaScript (PKGDATADIR G_DIR_SEPARATOR_S "base.lua");
-
-    gchar * path = g_build_filename (g_get_user_config_dir (),
-                             "ibus", "libpinyin", "user.lua", NULL);
-    loadLuaScript(path);
-    g_free(path);
 }
 
-int
-ExtEditor::loadLuaScript (std::string filename)
+gboolean
+ExtEditor::setLuaPlugin (IBusEnginePlugin *plugin)
 {
-    return !ibus_engine_plugin_load_lua_script (m_lua_plugin, filename.c_str ());
+    m_lua_plugin = plugin;
+    return TRUE;
 }
-
-void
-ExtEditor::resetLuaState ()
-{
-  g_object_unref (m_lua_plugin);
-  m_lua_plugin = ibus_engine_plugin_new ();
-}
-
 
 gboolean
 ExtEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)

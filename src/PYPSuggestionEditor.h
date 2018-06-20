@@ -51,6 +51,8 @@ public:
     virtual void reset (void);
     virtual void candidateClicked (guint index, guint button, guint state);
 
+    gboolean setLuaPlugin (IBusEnginePlugin *plugin);
+
 protected:
     virtual SelectCandidateAction selectCandidateInternal (EnhancedCandidate & candidate);
 

@@ -22,9 +22,7 @@
 #ifndef __PY_LIB_PINYIN_LUA_TRIGGER_CANDIDATES_H_
 #define __PY_LIB_PINYIN_LUA_TRIGGER_CANDIDATES_H_
 
-extern "C" {
 #include "lua-plugin.h"
-}
 
 #include "PYPointer.h"
 #include "PYPEnhancedCandidates.h"
@@ -38,13 +36,13 @@ public:
     LuaTriggerCandidates (Editor *editor);
 
 public:
+    gboolean setLuaPlugin (IBusEnginePlugin *plugin);
+
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
 
     SelectCandidateAction selectCandidate (EnhancedCandidate & enhanced);
 
 protected:
-    int loadLuaScript (std::string filename);
-
     Pointer<IBusEnginePlugin> m_lua_plugin;
 };
 

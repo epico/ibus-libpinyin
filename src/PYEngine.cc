@@ -21,6 +21,7 @@
 
 #include "PYEngine.h"
 #include <cstring>
+#include "lua-plugin.h"
 #include "PYPPinyinEngine.h"
 #include "PYPBopomofoEngine.h"
 

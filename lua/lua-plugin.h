@@ -23,6 +23,10 @@
 #ifndef LUA_PLUGIN_H
 #define LUA_PLUGIN_H
 
+#include <glib.h>
+
+G_BEGIN_DECLS
+
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
@@ -187,4 +191,7 @@ const lua_command_candidate_t * ibus_engine_plugin_get_retval(IBusEnginePlugin *
 GArray * ibus_engine_plugin_get_retvals(IBusEnginePlugin * plugin);
 
 void ibus_engine_plugin_free_candidate(lua_command_candidate_t * candidate);
+
+G_END_DECLS
+
 #endif

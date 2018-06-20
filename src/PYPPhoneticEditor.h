@@ -21,6 +21,8 @@
 #ifndef __PY_LIB_PINYIN_BASE_EDITOR_H_
 #define __PY_LIB_PINYIN_BASE_EDITOR_H_
 
+#include "lua-plugin.h"
+
 #include <vector>
 #include <pinyin.h>
 #include "PYLookupTable.h"
@@ -60,6 +62,8 @@ public:
     virtual gboolean updateCandidates ();
     virtual gboolean fillLookupTable ();
     virtual void commit (const gchar *str) = 0;
+
+    gboolean setLuaPlugin (IBusEnginePlugin *plugin);
 
 protected:
     virtual SelectCandidateAction selectCandidateInternal (EnhancedCandidate & candidate);
