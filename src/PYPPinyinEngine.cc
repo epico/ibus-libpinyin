@@ -57,12 +57,12 @@ PinyinEngine::PinyinEngine (IBusEngine *engine)
     m_double_pinyin = PinyinConfig::instance ().doublePinyin ();
 
     if (m_double_pinyin) {
-        PhoneticEditor *editor = new DoublePinyinEditor
+        DoublePinyinEditor *editor = new DoublePinyinEditor
             (m_props, PinyinConfig::instance ());
         m_editors[MODE_INIT].reset (editor);
         editor->setLuaPlugin (m_lua_plugin);
     } else {
-        PhoneticEditor *editor = new FullPinyinEditor
+        FullPinyinEditor *editor = new FullPinyinEditor
             (m_props, PinyinConfig::instance ());
         m_editors[MODE_INIT].reset (editor);
         editor->setLuaPlugin (m_lua_plugin);
@@ -74,7 +74,11 @@ PinyinEngine::PinyinEngine (IBusEngine *engine)
         (new RawEditor (m_props, PinyinConfig::instance ()));
 
 #ifdef IBUS_BUILD_LUA_EXTENSION
-    m_editors[MODE_EXTENSION].reset (new ExtEditor (m_props, PinyinConfig::instance ()));
+    {
+        ExtEditor *editor = new ExtEditor (m_props, PinyinConfig::instance ());
+        m_editors[MODE_EXTENSION].reset (editor);
+        editor->setLuaPlugin (m_lua_plugin);
+    }
 #else
     m_editors[MODE_EXTENSION].reset (new Editor (m_props, PinyinConfig::instance ()));
 #endif
@@ -317,7 +321,7 @@ PinyinEngine::focusIn (void)
      *       or switch full/double pinyin when pinyin config is changed.*/
     if (PinyinConfig::instance ().doublePinyin ()) {
         if (!m_double_pinyin) {
-            PhoneticEditor *editor = new DoublePinyinEditor
+            DoublePinyinEditor *editor = new DoublePinyinEditor
                 (m_props, PinyinConfig::instance ());
             m_editors[MODE_INIT].reset (editor);
             editor->setLuaPlugin (m_lua_plugin);
@@ -327,7 +331,7 @@ PinyinEngine::focusIn (void)
     }
     else {
         if (m_double_pinyin) {
-            PhoneticEditor *editor = new FullPinyinEditor
+            FullPinyinEditor *editor = new FullPinyinEditor
                 (m_props, PinyinConfig::instance ());
             m_editors[MODE_INIT].reset (editor);
             editor->setLuaPlugin (m_lua_plugin);
