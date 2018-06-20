@@ -143,6 +143,7 @@ class PreferencesDialog:
 
         self.__dynamic_adjust = self.__builder.get_object("DynamicAdjust")
         self.__remember_every_input = self.__builder.get_object("RememberEveryInput")
+        self.__show_suggestion = self.__builder.get_object("ShowSuggestion")
         self.__sort_candidate_option = self.__builder.get_object("SortCandidateOption")
 
         # read values
@@ -156,6 +157,7 @@ class PreferencesDialog:
 
         self.__dynamic_adjust.set_active(self.__get_value("dynamic-adjust"))
         self.__remember_every_input.set_active(self.__get_value("remember-every-input"))
+        self.__show_suggestion.set_active(self.__get_value("show-suggestion"))
         self.__sort_candidate_option.set_active(self.__get_value("sort-candidate-option"))
         # connect signals
         self.__init_chinese.connect("toggled", self.__toggled_cb, "init-chinese")
@@ -164,6 +166,7 @@ class PreferencesDialog:
         self.__init_simp.connect("toggled", self.__toggled_cb, "init-simplified-chinese")
         self.__dynamic_adjust.connect("toggled", self.__toggled_cb, "dynamic-adjust")
         self.__remember_every_input.connect("toggled", self.__toggled_cb, "remember-every-input")
+        self.__show_suggestion.connect("toggled", self.__toggled_cb, "show-suggestion")
 
         def __lookup_table_page_size_changed_cb(adjustment):
             self.__set_value("lookup-table-page-size", int(adjustment.get_value()))
