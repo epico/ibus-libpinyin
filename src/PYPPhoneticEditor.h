@@ -110,12 +110,13 @@ protected:
 
     /* several EnhancedCandidates providers. */
     LibPinyinCandidates m_libpinyin_candidates;
-    TraditionalCandidates m_traditional_candidates;
 
 #ifdef IBUS_BUILD_LUA_EXTENSION
     LuaTriggerCandidates m_lua_trigger_candidates;
     LuaConverterCandidates m_lua_converter_candidates;
 #endif
+
+    TraditionalCandidates m_traditional_candidates;
 };
 
 };

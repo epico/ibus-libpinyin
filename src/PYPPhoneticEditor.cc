@@ -28,8 +28,8 @@ using namespace PY;
 
 /* init static members */
 PhoneticEditor::PhoneticEditor (PinyinProperties &props,
-                                                  Config &config):
-    Editor (props, config),
+                                Config &config)
+    : Editor (props, config),
     m_pinyin_len (0),
     m_lookup_table (m_config.pageSize ()),
     m_libpinyin_candidates (this),
