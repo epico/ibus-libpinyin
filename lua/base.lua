@@ -235,11 +235,20 @@ function query_zodiac(birthday)
   error("Should never reach here")
 end
 
+function get_current_time()
+  return get_time("")
+end
+
+function get_today()
+  return get_date("")
+end
 
 ------------
 ime.register_command("sj", "get_time", "输入时间", "alpha", "输入可选时间，例如12:34")
 ime.register_command("rq", "get_date", "输入日期", "alpha", "输入可选日期，例如2013-01-01")
 ime.register_command("js", "compute", "计算模式", "none", "输入表达式，例如log(2)")
 ime.register_command("xz", "query_zodiac", "查询星座", "none", "输入您的生日，例如12-3")
+ime.register_trigger("get_current_time", "显示时间", {}, {'时间'})
+ime.register_trigger("get_today", "显示日期", {}, {'日期'})
 
 print("lua script loaded.")
