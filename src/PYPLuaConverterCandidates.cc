@@ -90,7 +90,7 @@ LuaConverterCandidates::selectCandidate (EnhancedCandidate & enhanced)
 
     int action = m_editor->selectCandidateInternal (m_candidates[id]);
 
-    if (SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT == action) {
+    if (action & SELECT_CANDIDATE_MODIFY_IN_PLACE) {
         ibus_engine_plugin_call (m_lua_plugin, converter,
                                  enhanced.m_display_string.c_str ());
         gchar * string = ibus_engine_plugin_get_first_result (m_lua_plugin);

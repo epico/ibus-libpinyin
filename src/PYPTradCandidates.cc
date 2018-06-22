@@ -60,7 +60,7 @@ TraditionalCandidates::selectCandidate (EnhancedCandidate & enhanced)
 
     int action = m_editor->selectCandidateInternal (m_candidates[id]);
 
-    if (SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT == action) {
+    if (action & SELECT_CANDIDATE_MODIFY_IN_PLACE) {
         String trad;
         SimpTradConverter::simpToTrad
             (m_candidates[id].m_display_string.c_str (), trad);

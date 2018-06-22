@@ -52,11 +52,6 @@ enum SelectCandidateAction {
     SELECT_CANDIDATE_UPDATE = 0x4
 };
 
-/* modify the candidate recursively for candidates process chain,
-   then commit the changed text. */
-#define SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT \
-    (SELECT_CANDIDATE_MODIFY_IN_PLACE|SELECT_CANDIDATE_COMMIT)
-
 struct EnhancedCandidate {
     CandidateType m_candidate_type;
     guint m_candidate_id;

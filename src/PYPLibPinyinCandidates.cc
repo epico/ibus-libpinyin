@@ -116,7 +116,7 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
         pinyin_get_sentence (instance, 0, &tmp);
         enhanced.m_display_string = tmp;
         pinyin_train (instance, 0);
-        return SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT;
+        return SELECT_CANDIDATE_MODIFY_IN_PLACE|SELECT_CANDIDATE_COMMIT;
     }
 
     PinyinKeyPos *pos = NULL;
