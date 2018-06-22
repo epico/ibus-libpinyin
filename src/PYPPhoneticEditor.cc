@@ -352,7 +352,7 @@ PhoneticEditor::getLookupCursor (void)
     return lookup_cursor;
 }
 
-SelectCandidateAction
+int
 PhoneticEditor::selectCandidateInternal (EnhancedCandidate & candidate)
 {
     switch (candidate.m_candidate_type) {
@@ -433,27 +433,15 @@ PhoneticEditor::selectCandidate (guint index)
         return FALSE;
 
     EnhancedCandidate & candidate = m_candidates[index];
-    SelectCandidateAction action = selectCandidateInternal (candidate);
+    int action = selectCandidateInternal (candidate);
 
-    switch (action) {
-    case SELECT_CANDIDATE_ALREADY_HANDLED:
-        return TRUE;
-
-    case SELECT_CANDIDATE_COMMIT:
-    case SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT: {
+    if (action & SELECT_CANDIDATE_COMMIT)
         commit (candidate.m_display_string.c_str ());
-        return TRUE;
-    }
 
-    case SELECT_CANDIDATE_UPDATE_ALL:
+    if (action & SELECT_CANDIDATE_UPDATE)
         update ();
-        return TRUE;
 
-    default:
-        assert (FALSE);
-    }
-
-    return FALSE;
+    return TRUE;
 }
 
 gboolean

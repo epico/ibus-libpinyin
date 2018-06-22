@@ -153,5 +153,11 @@ Editor::update (void)
     }
 }
 
+int
+Editor::selectCandidateInternal (EnhancedCandidate & candidate)
+{
+    return SELECT_CANDIDATE_ALREADY_HANDLED;
+}
+
 };
 

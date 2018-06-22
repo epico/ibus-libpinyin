@@ -40,7 +40,7 @@ public:
 
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
 
-    SelectCandidateAction selectCandidate (EnhancedCandidate & enhanced);
+    int selectCandidate (EnhancedCandidate & enhanced);
 
 protected:
     Pointer<IBusEnginePlugin> m_lua_plugin;

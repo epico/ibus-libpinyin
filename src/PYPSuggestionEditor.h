@@ -54,7 +54,7 @@ public:
     gboolean setLuaPlugin (IBusEnginePlugin *plugin);
 
 protected:
-    virtual SelectCandidateAction selectCandidateInternal (EnhancedCandidate & candidate);
+    virtual int selectCandidateInternal (EnhancedCandidate & candidate);
 
 private:
     void updateLookupTable (void);

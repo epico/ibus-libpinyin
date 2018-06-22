@@ -432,9 +432,6 @@ PinyinEngine::commitText (Text & text)
     if (m_input_mode != MODE_INIT && m_input_mode != MODE_SUGGESTION) {
         m_input_mode = MODE_INIT;
     } else if (PinyinConfig::instance ().showSuggestion ()) {
-        assert (m_input_mode == MODE_INIT ||
-                m_input_mode == MODE_SUGGESTION);
-
         m_input_mode = MODE_SUGGESTION;
         m_editors[m_input_mode]->setText (text.text (), 0);
         m_editors[m_input_mode]->update ();

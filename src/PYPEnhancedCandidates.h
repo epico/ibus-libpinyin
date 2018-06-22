@@ -43,15 +43,19 @@ enum CandidateType {
 };
 
 enum SelectCandidateAction {
-    SELECT_CANDIDATE_ALREADY_HANDLED = 1,
+    SELECT_CANDIDATE_ALREADY_HANDLED = 0x0,
     /* commit the text without change. */
-    SELECT_CANDIDATE_COMMIT,
-    /* modify the candidate recursively for candidates process chain,
-       then commit the changed text. */
-    SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT,
-    /* need to call updateCandidates method in class PhoneticEditor. */
-    SELECT_CANDIDATE_UPDATE_ALL
+    SELECT_CANDIDATE_COMMIT = 0x1,
+    /* modify the current candidate in place */
+    SELECT_CANDIDATE_MODIFY_IN_PLACE = 0x2,
+    /* need to call update method in class Editor. */
+    SELECT_CANDIDATE_UPDATE = 0x4
 };
+
+/* modify the candidate recursively for candidates process chain,
+   then commit the changed text. */
+#define SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT \
+    (SELECT_CANDIDATE_MODIFY_IN_PLACE|SELECT_CANDIDATE_COMMIT)
 
 struct EnhancedCandidate {
     CandidateType m_candidate_type;
@@ -65,7 +69,7 @@ class EnhancedCandidates {
 public:
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
 
-    SelectCandidateAction selectCandidate (EnhancedCandidate & enhanced);
+    int selectCandidate (EnhancedCandidate & enhanced);
 
 protected:
 

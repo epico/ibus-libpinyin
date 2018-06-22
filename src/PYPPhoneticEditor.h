@@ -66,7 +66,7 @@ public:
     gboolean setLuaPlugin (IBusEnginePlugin *plugin);
 
 protected:
-    virtual SelectCandidateAction selectCandidateInternal (EnhancedCandidate & candidate);
+    virtual int selectCandidateInternal (EnhancedCandidate & candidate);
     gboolean selectCandidate (guint i);
     gboolean selectCandidateInPage (guint i);
 

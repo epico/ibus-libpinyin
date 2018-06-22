@@ -151,7 +151,7 @@ protected:
     }
 
 protected:
-    virtual SelectCandidateAction selectCandidateInternal (EnhancedCandidate & candidate) { return SELECT_CANDIDATE_ALREADY_HANDLED; }
+    virtual int selectCandidateInternal (EnhancedCandidate & candidate);
 
     /* signals */
     signal <void (Text &)> m_signal_commit_text;

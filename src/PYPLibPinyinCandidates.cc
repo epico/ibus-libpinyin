@@ -73,7 +73,7 @@ LibPinyinCandidates::processCandidates (std::vector<EnhancedCandidate> & candida
     return TRUE;
 }
 
-SelectCandidateAction
+int
 LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
     pinyin_instance_t * instance = m_editor->m_instance;
@@ -126,5 +126,5 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
     pinyin_get_pinyin_key_rest_positions (instance, pos, &begin, NULL);
     m_editor->m_cursor = begin;
 
-    return SELECT_CANDIDATE_UPDATE_ALL;
+    return SELECT_CANDIDATE_UPDATE;
 }

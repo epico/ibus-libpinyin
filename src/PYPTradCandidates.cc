@@ -49,7 +49,7 @@ TraditionalCandidates::processCandidates (std::vector<EnhancedCandidate> & candi
     return TRUE;
 }
 
-SelectCandidateAction
+int
 TraditionalCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
     guint id = enhanced.m_candidate_id;
@@ -58,8 +58,7 @@ TraditionalCandidates::selectCandidate (EnhancedCandidate & enhanced)
     if (G_UNLIKELY (id >= m_candidates.size ()))
         return SELECT_CANDIDATE_ALREADY_HANDLED;
 
-    SelectCandidateAction action = SELECT_CANDIDATE_ALREADY_HANDLED;
-    action = m_editor->selectCandidateInternal (m_candidates[id]);
+    int action = m_editor->selectCandidateInternal (m_candidates[id]);
 
     if (SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT == action) {
         String trad;

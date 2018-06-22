@@ -38,7 +38,7 @@ public:
 public:
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
 
-    SelectCandidateAction selectCandidate (EnhancedCandidate & enhanced);
+    int selectCandidate (EnhancedCandidate & enhanced);
 
 protected:
     std::vector<EnhancedCandidate> m_candidates;

@@ -76,7 +76,7 @@ LuaConverterCandidates::processCandidates (std::vector<EnhancedCandidate> & cand
     return TRUE;
 }
 
-SelectCandidateAction
+int
 LuaConverterCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
     guint id = enhanced.m_candidate_id;
@@ -88,8 +88,7 @@ LuaConverterCandidates::selectCandidate (EnhancedCandidate & enhanced)
     if (G_UNLIKELY (id >= m_candidates.size ()))
         return SELECT_CANDIDATE_ALREADY_HANDLED;
 
-    SelectCandidateAction action = SELECT_CANDIDATE_ALREADY_HANDLED;
-    action = m_editor->selectCandidateInternal (m_candidates[id]);
+    int action = m_editor->selectCandidateInternal (m_candidates[id]);
 
     if (SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT == action) {
         ibus_engine_plugin_call (m_lua_plugin, converter,

@@ -198,28 +198,18 @@ SuggestionEditor::selectCandidate (guint index)
         return FALSE;
 
     EnhancedCandidate & candidate = m_candidates[index];
-    SelectCandidateAction action = selectCandidateInternal (candidate);
+    int action = selectCandidateInternal (candidate);
 
-    switch (action) {
-    case SELECT_CANDIDATE_ALREADY_HANDLED:
-        return TRUE;
-
-    case SELECT_CANDIDATE_COMMIT:
-    case SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT: {
-        Text text (candidate.m_display_string.c_str ());
+    if (action & SELECT_CANDIDATE_COMMIT) {
+        m_text = candidate.m_display_string.c_str ();
+        Text text (m_text);
         commitText (text);
-        return TRUE;
     }
 
-    case SELECT_CANDIDATE_UPDATE_ALL:
+    if (action & SELECT_CANDIDATE_UPDATE)
         update ();
-        return TRUE;
 
-    default:
-        assert (FALSE);
-    }
-
-    return FALSE;
+    return TRUE;
 }
 
 /* Auxiliary Functions */
@@ -330,7 +320,7 @@ SuggestionEditor::fillLookupTable ()
     return TRUE;
 }
 
-SelectCandidateAction
+int
 SuggestionEditor::selectCandidateInternal (EnhancedCandidate & candidate)
 {
     switch (candidate.m_candidate_type) {

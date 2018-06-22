@@ -91,7 +91,7 @@ LuaTriggerCandidates::processCandidates (std::vector<EnhancedCandidate> & candid
     return FALSE;
 }
 
-SelectCandidateAction
+int
 LuaTriggerCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
     assert (CANDIDATE_LUA_TRIGGER == enhanced.m_candidate_type);

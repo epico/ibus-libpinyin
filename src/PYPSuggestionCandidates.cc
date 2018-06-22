@@ -56,7 +56,7 @@ SuggestionCandidates::processCandidates (std::vector<EnhancedCandidate> & candid
     return TRUE;
 }
 
-SelectCandidateAction
+int
 SuggestionCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
     pinyin_instance_t * instance = m_editor->m_instance;
