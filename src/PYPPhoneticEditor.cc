@@ -56,7 +56,7 @@ PhoneticEditor::setLuaPlugin (IBusEnginePlugin *plugin)
 
 gboolean
 PhoneticEditor::processSpace (guint keyval, guint keycode,
-                                       guint modifiers)
+                              guint modifiers)
 {
     if (!m_text)
         return FALSE;

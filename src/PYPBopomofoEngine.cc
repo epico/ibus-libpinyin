@@ -183,6 +183,9 @@ BopomofoEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
             m_input_mode = MODE_INIT;
     }
 
+    /* needed for SuggestionEditor */
+    m_editors[m_input_mode]->update ();
+
     if (G_UNLIKELY (!retval))
         retval = m_fallback_editor->processKeyEvent (keyval, keycode, modifiers);
 
