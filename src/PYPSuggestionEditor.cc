@@ -194,28 +194,32 @@ SuggestionEditor::selectCandidateInPage (guint index)
 gboolean
 SuggestionEditor::selectCandidate (guint index)
 {
-    guint len = 0;
-    pinyin_get_n_candidate (m_instance, &len);
-
-    if (index >= len)
+    if (G_UNLIKELY (index >= m_candidates.size ()))
         return FALSE;
 
-    lookup_candidate_t *candidate = NULL;
-    pinyin_get_candidate (m_instance, index, &candidate);
+    EnhancedCandidate & candidate = m_candidates[index];
+    SelectCandidateAction action = selectCandidateInternal (candidate);
 
-    lookup_candidate_type_t type;
-    pinyin_get_candidate_type (m_instance, candidate, &type);
-    assert (PREDICTED_CANDIDATE == type);
+    switch (action) {
+    case SELECT_CANDIDATE_ALREADY_HANDLED:
+        return TRUE;
 
-    const gchar *phrase_string = NULL;
-    pinyin_get_candidate_string (m_instance, candidate, &phrase_string);
+    case SELECT_CANDIDATE_COMMIT:
+    case SELECT_CANDIDATE_MODIFY_IN_PLACE_AND_COMMIT: {
+        Text text (candidate.m_display_string.c_str ());
+        commitText (text);
+        return TRUE;
+    }
 
-    Text text (phrase_string);
-    commitText (text);
+    case SELECT_CANDIDATE_UPDATE_ALL:
+        update ();
+        return TRUE;
 
-    m_text = phrase_string;
-    update ();
-    return TRUE;
+    default:
+        assert (FALSE);
+    }
+
+    return FALSE;
 }
 
 /* Auxiliary Functions */

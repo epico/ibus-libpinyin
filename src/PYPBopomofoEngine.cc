@@ -290,15 +290,12 @@ BopomofoEngine::commitText (Text & text)
     if (m_input_mode != MODE_INIT && m_input_mode != MODE_SUGGESTION) {
         m_input_mode = MODE_INIT;
     } else if (BopomofoConfig::instance ().showSuggestion ()) {
-        if (m_input_mode == MODE_INIT) {
-            m_input_mode = MODE_SUGGESTION;
-            m_editors[m_input_mode]->setText (text.text (), 0);
-            m_editors[m_input_mode]->update ();
-        } else if (m_input_mode == MODE_SUGGESTION) {
-            m_editors[m_input_mode]->setText (text.text (), 0);
-            m_editors[m_input_mode]->update ();
-        } else
-            assert (FALSE);
+        assert (m_input_mode == MODE_INIT ||
+                m_input_mode == MODE_SUGGESTION);
+
+        m_input_mode = MODE_SUGGESTION;
+        m_editors[m_input_mode]->setText (text.text (), 0);
+        m_editors[m_input_mode]->update ();
     } else {
         m_input_mode = MODE_INIT;
     }

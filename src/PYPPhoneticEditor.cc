@@ -427,12 +427,12 @@ PhoneticEditor::selectCandidate (guint i)
 #endif
 
 gboolean
-PhoneticEditor::selectCandidate (guint i)
+PhoneticEditor::selectCandidate (guint index)
 {
-    if (G_UNLIKELY (i >= m_candidates.size ()))
+    if (G_UNLIKELY (index >= m_candidates.size ()))
         return FALSE;
 
-    EnhancedCandidate & candidate = m_candidates[i];
+    EnhancedCandidate & candidate = m_candidates[index];
     SelectCandidateAction action = selectCandidateInternal (candidate);
 
     switch (action) {
