@@ -239,6 +239,7 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 
             default:
                 m_input_mode = MODE_INIT;
+                break;
             }
         }
 

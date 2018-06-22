@@ -201,8 +201,7 @@ SuggestionEditor::selectCandidate (guint index)
     int action = selectCandidateInternal (candidate);
 
     if (action & SELECT_CANDIDATE_COMMIT) {
-        m_text = candidate.m_display_string.c_str ();
-        Text text (m_text);
+        Text text (candidate.m_display_string);
         commitText (text);
     }
 
@@ -267,6 +266,8 @@ void
 SuggestionEditor::updateLookupTable (void)
 {
     m_lookup_table.clear ();
+    m_lookup_table.setPageSize (m_config.pageSize ());
+    m_lookup_table.setOrientation (m_config.orientation ());
 
     updateCandidates ();
     fillLookupTable ();
@@ -304,12 +305,10 @@ SuggestionEditor::updateCandidates (void)
 gboolean
 SuggestionEditor::fillLookupTable ()
 {
-    String word;
     for (guint i = 0; i < m_candidates.size (); i++) {
         EnhancedCandidate & candidate = m_candidates[i];
-        word = candidate.m_display_string;
 
-        Text text (word);
+        Text text (candidate.m_display_string);
 
         /* no user candidate in suggestion editor. */
         assert (CANDIDATE_USER != candidate.m_candidate_type);
