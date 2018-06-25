@@ -182,7 +182,7 @@
       <summary>Use Lua Converter</summary>
     </key>
     <key name="show-suggestion" type="b">
-      <default>true</default>
+      <default>false</default>
       <summary>Show Suggestions</summary>
     </key>
   </schema>
@@ -316,7 +316,7 @@
       <summary>Sort candidate option</summary>
     </key>
     <key name="show-suggestion" type="b">
-      <default>true</default>
+      <default>false</default>
       <summary>Show Suggestions</summary>
     </key>
   </schema>
