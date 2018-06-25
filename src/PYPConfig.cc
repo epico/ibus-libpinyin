@@ -99,7 +99,7 @@ LibPinyinConfig::initDefaultValues (void)
     m_page_size = 5;
     m_remember_every_input = FALSE;
     m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
-    m_show_suggestion = TRUE;
+    m_show_suggestion = FALSE;
 
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
@@ -206,7 +206,7 @@ LibPinyinConfig::readDefaultValues (void)
         }
     }
 
-    m_show_suggestion = read (CONFIG_SHOW_SUGGESTION, true);
+    m_show_suggestion = read (CONFIG_SHOW_SUGGESTION, false);
 
     m_dictionaries = read (CONFIG_DICTIONARIES, "");
 
@@ -270,7 +270,7 @@ LibPinyinConfig::valueChanged (const std::string &schema_id,
             }
         }
     } else if (CONFIG_SHOW_SUGGESTION == name) {
-        m_show_suggestion = normalizeGVariant (value, true);
+        m_show_suggestion = normalizeGVariant (value, false);
     } else if (CONFIG_DICTIONARIES == name) {
         m_dictionaries = normalizeGVariant (value, std::string (""));
     } else if (CONFIG_MAIN_SWITCH == name) {
