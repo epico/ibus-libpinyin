@@ -58,6 +58,7 @@ protected:
 
 private:
     void updateLookupTable (void);
+    void updateLookupTableFast ();
     gboolean updateCandidates ();
     gboolean fillLookupTable ();
     void updatePreeditText (void);

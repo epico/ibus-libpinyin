@@ -217,7 +217,9 @@ void
 SuggestionEditor::pageUp (void)
 {
     if (G_LIKELY (m_lookup_table.pageUp ())) {
-        update ();
+        updateLookupTableFast ();
+        updatePreeditText ();
+        updateAuxiliaryText ();
     }
 }
 
@@ -225,7 +227,9 @@ void
 SuggestionEditor::pageDown (void)
 {
     if (G_LIKELY (m_lookup_table.pageDown ())) {
-        update ();
+        updateLookupTableFast ();
+        updatePreeditText ();
+        updateAuxiliaryText ();
     }
 }
 
@@ -233,7 +237,9 @@ void
 SuggestionEditor::cursorUp (void)
 {
     if (G_LIKELY (m_lookup_table.cursorUp ())) {
-        update ();
+        updateLookupTableFast ();
+        updatePreeditText ();
+        updateAuxiliaryText ();
     }
 }
 
@@ -241,7 +247,9 @@ void
 SuggestionEditor::cursorDown (void)
 {
     if (G_LIKELY (m_lookup_table.cursorDown ())) {
-        update ();
+        updateLookupTableFast ();
+        updatePreeditText ();
+        updateAuxiliaryText ();
     }
 }
 
@@ -263,6 +271,12 @@ SuggestionEditor::reset (void)
 }
 
 void
+SuggestionEditor::updateLookupTableFast (void)
+{
+    Editor::updateLookupTableFast (m_lookup_table, TRUE);
+}
+
+void
 SuggestionEditor::updateLookupTable (void)
 {
     m_lookup_table.clear ();
@@ -275,6 +289,8 @@ SuggestionEditor::updateLookupTable (void)
         Editor::updateLookupTableFast (m_lookup_table, TRUE);
     } else {
         hideLookupTable ();
+        /* clean up prefix */
+        m_text = "";
     }
 }
 
