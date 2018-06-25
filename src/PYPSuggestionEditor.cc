@@ -88,8 +88,7 @@ SuggestionEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
     if (processSpace (keyval))
         return TRUE;
 
-    update ();
-    return TRUE;
+    return FALSE;
 }
 
 gboolean
