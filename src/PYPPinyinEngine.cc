@@ -48,6 +48,7 @@ PinyinEngine::PinyinEngine (IBusEngine *engine)
       m_props (PinyinConfig::instance ()),
       m_prev_pressed_key (IBUS_VoidSymbol),
       m_input_mode (MODE_INIT),
+      m_need_update (FALSE),
       m_fallback_editor (new FallbackEditor (m_props, PinyinConfig::instance ()))
 {
     gint i;
@@ -225,22 +226,17 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
             if (IBUS_Escape == keyval) {
                 m_editors[m_input_mode]->reset ();
                 m_input_mode = MODE_INIT;
-                /* m_editors[m_input_mode]->reset (); */
-                m_editors[m_input_mode]->update ();
+                m_editors[m_input_mode]->reset ();
+                /* m_editors[m_input_mode]->update ();*/
                 return TRUE;
             }
 
-            switch (keyval) {
-            case IBUS_0 ... IBUS_9:
-            case IBUS_space:
-            case IBUS_Return:
-                /* still in suggestion mode. */
-                break;
+            retval = m_editors[m_input_mode]->processKeyEvent (keyval, keycode, modifiers);
 
-            default:
+            if (retval)
+                goto out;
+            else
                 m_input_mode = MODE_INIT;
-                break;
-            }
         }
 
         /* handle normal input. */
@@ -306,12 +302,15 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
             m_input_mode = MODE_INIT;
     }
 
-    /* needed for SuggestionEditor */
-    m_editors[m_input_mode]->update ();
-
     if (G_UNLIKELY (!retval))
         retval = m_fallback_editor->processKeyEvent (keyval, keycode, modifiers);
 
+out:
+    /* needed for SuggestionEditor */
+    if (m_need_update) {
+        m_editors[m_input_mode]->update ();
+        m_need_update = FALSE;
+    }
     /* store ignored key event by editors */
     m_prev_pressed_key = retval ? IBUS_VoidSymbol : keyval;
 
@@ -438,7 +437,7 @@ PinyinEngine::commitText (Text & text)
     } else if (PinyinConfig::instance ().showSuggestion ()) {
         m_input_mode = MODE_SUGGESTION;
         m_editors[m_input_mode]->setText (text.text (), 0);
-        m_editors[m_input_mode]->update ();
+        m_need_update = TRUE;
     } else {
         m_input_mode = MODE_INIT;
     }

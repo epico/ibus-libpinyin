@@ -77,6 +77,8 @@ private:
         MODE_LAST,
     } m_input_mode;
 
+    gboolean m_need_update;
+
     EditorPtr m_editors[MODE_LAST];
     EditorPtr m_fallback_editor;
 };

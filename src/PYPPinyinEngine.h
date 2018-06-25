@@ -76,6 +76,8 @@ private:
         MODE_LAST,
     } m_input_mode;
 
+    gboolean m_need_update;
+
     gboolean m_double_pinyin;
 
     EditorPtr m_editors[MODE_LAST];
