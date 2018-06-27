@@ -235,10 +235,12 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 
             retval = m_editors[m_input_mode]->processKeyEvent (keyval, keycode, modifiers);
 
-            if (retval)
+            if (retval) {
                 goto out;
-            else
+            } else {
+                m_editors[m_input_mode]->reset ();
                 m_input_mode = MODE_INIT;
+            }
         }
 
         /* handle normal input. */
