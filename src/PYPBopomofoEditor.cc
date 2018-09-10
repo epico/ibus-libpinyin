@@ -330,10 +330,6 @@ BopomofoEditor::commit (const gchar *str)
         ++p;
     }
 
-    if (m_config.rememberEveryInput ())
-        LibPinyinBackEnd::instance ().rememberUserInput (m_instance, str);
-    LibPinyinBackEnd::instance ().modified();
-
     Text text (m_buffer.c_str ());
     commitText (text);
 
