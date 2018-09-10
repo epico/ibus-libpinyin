@@ -269,6 +269,9 @@ BopomofoEditor::updateLookupTableLabel (void)
 void
 BopomofoEditor::updateLookupTable (void)
 {
+    // needed by updatePreeditText
+    updateCandidates ();
+
     if (!m_select_mode) {
         hideLookupTable ();
         return;
