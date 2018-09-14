@@ -533,9 +533,12 @@ EnglishEditor::processEnter (guint keyval)
     if (m_text.length () == 0)
         return FALSE;
 
-    Text text(m_text);
+    String word = m_text;
+    word.erase (0, 1);
+
+    Text text(word);
     commitText (text);
-    train (m_text.c_str (), m_train_factor);
+    train (word.c_str (), m_train_factor);
     reset ();
     return TRUE;
 }
