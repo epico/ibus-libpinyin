@@ -164,8 +164,12 @@ PinyinEngine::processAccelKeyEvent (guint keyval, guint keycode,
         }
 
         if (triggered) {
-            if (!m_editors[MODE_INIT]->text ().empty ())
+            if (!m_editors[MODE_INIT]->text ().empty ()) {
+                Text text (m_editors[MODE_INIT]->text ());
+                commitText (text);
                 m_editors[MODE_INIT]->reset ();
+            }
+
             if (!m_editors[MODE_SUGGESTION]->text ().empty ())
                 m_editors[MODE_SUGGESTION]->reset ();
             m_props.toggleModeChinese ();
