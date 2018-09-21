@@ -82,6 +82,8 @@ def filter_Chinese_emoji(emojis):
 
 def prepare_emojis():
     global eng_emojis, chs_emojis
+    # need unicode cldr annotation from
+    # /usr/share/unicode/cldr/common/annotations
     eng_emojis = filter_English_emoji(load_emoji('en.xml'))
     chs_emojis = filter_Chinese_emoji(load_emoji('yue_Hans.xml'))
 
