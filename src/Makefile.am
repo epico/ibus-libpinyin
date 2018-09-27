@@ -76,6 +76,8 @@ ibus_engine_libpinyin_h_sources = \
 	PYPLuaConverterCandidates.h \
 	PYPSuggestionEditor.h \
 	PYPSuggestionCandidates.h \
+	PYPEmojiTable.h \
+	PYPEmojiCandidates.h \
 	$(NULL)
 
 ibus_engine_libpinyin_c_sources += \
@@ -92,6 +94,7 @@ ibus_engine_libpinyin_c_sources += \
 	PYPTradCandidates.cc \
 	PYPSuggestionEditor.cc \
 	PYPSuggestionCandidates.cc \
+	PYPEmojiCandidates.cc \
 	$(NULL)
 
 
