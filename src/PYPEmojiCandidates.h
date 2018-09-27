@@ -30,9 +30,7 @@ class Editor;
 
 class EmojiCandidates : public EnhancedCandidates<Editor> {
 public:
-    EmojiCandidates (Editor *editor) {
-        m_editor = editor;
-    }
+    EmojiCandidates (Editor *editor);
 
 public:
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
