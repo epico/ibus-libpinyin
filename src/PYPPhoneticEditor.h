@@ -36,6 +36,8 @@
 #include "PYPLuaConverterCandidates.h"
 #endif
 
+#include "PYPEmojiCandidates.h"
+
 namespace PY {
 
 class PhoneticEditor : public Editor {
@@ -115,6 +117,8 @@ protected:
     LuaTriggerCandidates m_lua_trigger_candidates;
     LuaConverterCandidates m_lua_converter_candidates;
 #endif
+
+    EmojiCandidates m_emoji_candidates;
 
     TraditionalCandidates m_traditional_candidates;
 };

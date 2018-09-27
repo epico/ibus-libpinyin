@@ -37,6 +37,7 @@ PhoneticEditor::PhoneticEditor (PinyinProperties &props,
     m_lua_trigger_candidates (this),
     m_lua_converter_candidates (this),
 #endif
+    m_emoji_candidates (this),
     m_traditional_candidates (this)
 {
 }
@@ -239,6 +240,8 @@ PhoneticEditor::updateCandidates (void)
     }
 #endif
 
+    m_emoji_candidates.processCandidates (m_candidates);
+
     return TRUE;
 }
 
@@ -371,6 +374,9 @@ PhoneticEditor::selectCandidateInternal (EnhancedCandidate & candidate)
     case CANDIDATE_LUA_CONVERTER:
         return m_lua_converter_candidates.selectCandidate (candidate);
 #endif
+
+    case CANDIDATE_EMOJI:
+        return m_emoji_candidates.selectCandidate (candidate);
 
     default:
         assert (FALSE);
