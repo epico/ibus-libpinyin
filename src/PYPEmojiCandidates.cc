@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <string>
 #include "PYPPhoneticEditor.h"
+#include "PYConfig.h"
 #include "PYPEmojiTable.h"
 
 using namespace PY;
@@ -35,14 +36,14 @@ EmojiCandidates::EmojiCandidates (Editor *editor)
 }
 
 static bool compare_match_less_than (const EmojiItem & lhs,
-                                    const EmojiItem & rhs) {
+                                     const EmojiItem & rhs) {
     return 0 > strcmp (lhs.m_emoji_match, rhs.m_emoji_match);
 }
 
-static bool search_emoji (EmojiItem * emojis,
-                         guint emojis_len,
-                         const char * match,
-                         std::string & emoji) {
+static bool search_emoji (const EmojiItem * emojis,
+                          guint emojis_len,
+                          const char * match,
+                          std::string & emoji) {
     const EmojiItem item = {match, NULL};
 
     std::pair<const EmojiItem *, const EmojiItem *> range;
@@ -78,7 +79,7 @@ EmojiCandidates::processCandidates (std::vector<EnhancedCandidate> & candidates)
     std::string emoji;
     if (search_emoji (english_emoji_table,
                       G_N_ELEMENTS (english_emoji_table),
-                      m_text, emoji)) {
+                      m_editor->m_text, emoji)) {
         enhanced.m_display_string = emoji;
         candidates.insert (pos, enhanced);
         return TRUE;
@@ -86,7 +87,7 @@ EmojiCandidates::processCandidates (std::vector<EnhancedCandidate> & candidates)
         int num = std::min
             (m_editor->m_config.pageSize (), (guint)candidates.size ());
         for (int i = 0; i < num; ++i) {
-            text = candidates[i].m_display_string.c_str ();
+            String text = candidates[i].m_display_string;
 
             if (search_emoji (chinese_emoji_table,
                               G_N_ELEMENTS (chinese_emoji_table),
