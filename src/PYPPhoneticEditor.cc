@@ -91,10 +91,12 @@ PhoneticEditor::processFunctionKey (guint keyval, guint keycode, guint modifiers
     if (modifiers == 0) {  /* no modifiers. */
         switch (keyval) {
         case IBUS_Return:
-        case IBUS_KP_Enter:
-            commit (m_text.c_str ());
+        case IBUS_KP_Enter: {
+            Text text (m_text.c_str ());
+            commitText (text);
             reset ();
             return TRUE;
+        }
 
         case IBUS_BackSpace:
             removeCharBefore ();
