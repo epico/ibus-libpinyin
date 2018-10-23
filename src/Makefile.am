@@ -236,7 +236,7 @@ test: ibus-engine-libpinyin
 # 	$(builddir)/ibus-engine-pinyin
 ZhConversion.php:
 	$(AM_V_GEN) \
-	svn cat http://svn.wikimedia.org/svnroot/mediawiki/trunk/phase3/includes/ZhConversion.php > $@ || \
+	curl https://raw.githubusercontent.com/wikimedia/mediawiki/master/languages/data/ZhConversion.php > $@ || \
 		( $(RM) $@; exit 1 )
 
 ZhConversion.py: ZhConversion.php
