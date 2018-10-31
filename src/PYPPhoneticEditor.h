@@ -21,7 +21,9 @@
 #ifndef __PY_LIB_PINYIN_BASE_EDITOR_H_
 #define __PY_LIB_PINYIN_BASE_EDITOR_H_
 
+#ifdef IBUS_BUILD_LUA_EXTENSION
 #include "lua-plugin.h"
+#endif
 
 #include <vector>
 #include <pinyin.h>
@@ -65,7 +67,9 @@ public:
     virtual gboolean fillLookupTable ();
     virtual void commit (const gchar *str) = 0;
 
+#ifdef IBUS_BUILD_LUA_EXTENSION
     gboolean setLuaPlugin (IBusEnginePlugin *plugin);
+#endif
 
 protected:
     virtual int selectCandidateInternal (EnhancedCandidate & candidate);
