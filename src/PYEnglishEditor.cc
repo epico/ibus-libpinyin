@@ -366,7 +366,7 @@ EnglishEditor::EnglishEditor (PinyinProperties & props, Config &config)
     m_english_database = new EnglishDatabase;
 
     gchar *path = g_build_filename (g_get_user_cache_dir (),
-                                     "ibus", "pinyin", "english-user.db", NULL);
+                                     "ibus", "libpinyin", "english-user.db", NULL);
 
     gboolean result = m_english_database->openDatabase
         (".." G_DIR_SEPARATOR_S "data" G_DIR_SEPARATOR_S "english.db",
