@@ -211,6 +211,7 @@ LibPinyinConfig::readDefaultValues (void)
     m_show_suggestion = read (CONFIG_SHOW_SUGGESTION, false);
 
     m_dictionaries = read (CONFIG_DICTIONARIES, "");
+    m_opencc_config = read (CONFIG_OPENCC_CONFIG, "s2t.json");
 
     m_main_switch = read (CONFIG_MAIN_SWITCH, "<Shift>");
     m_letter_switch = read (CONFIG_LETTER_SWITCH, "");
@@ -275,6 +276,8 @@ LibPinyinConfig::valueChanged (const std::string &schema_id,
         m_show_suggestion = normalizeGVariant (value, false);
     } else if (CONFIG_DICTIONARIES == name) {
         m_dictionaries = normalizeGVariant (value, std::string (""));
+    } else if (CONFIG_OPENCC_CONFIG == name) {
+        m_opencc_config = normalizeGVariant (value, std::string ("s2t.json"));
     } else if (CONFIG_MAIN_SWITCH == name) {
         m_main_switch = normalizeGVariant (value, std::string ("<Shift>"));
     } else if (CONFIG_LETTER_SWITCH == name) {
@@ -402,7 +405,6 @@ PinyinConfig::readDefaultValues (void)
     m_minus_equal_page = read (CONFIG_MINUS_EQUAL_PAGE, true);
     m_comma_period_page = read (CONFIG_COMMA_PERIOD_PAGE, true);
     m_auto_commit = read (CONFIG_AUTO_COMMIT, false);
-    m_opencc_config = read (CONFIG_OPENCC_CONFIG, "s2t.json");
 
     /* lua */
     m_lua_converter = read (CONFIG_LUA_CONVERTER, "");
@@ -467,8 +469,6 @@ PinyinConfig::valueChanged (const std::string &schema_id,
         m_comma_period_page = normalizeGVariant (value, true);
     else if (CONFIG_LUA_CONVERTER == name)
         m_lua_converter = normalizeGVariant (value, std::string (""));
-    else if (CONFIG_OPENCC_CONFIG == name)
-        m_opencc_config = normalizeGVariant (value, std::string (""));
     else if (CONFIG_AUTO_COMMIT == name)
         m_auto_commit = normalizeGVariant (value, false);
     else if (CONFIG_IMPORT_DICTIONARY == name) {
