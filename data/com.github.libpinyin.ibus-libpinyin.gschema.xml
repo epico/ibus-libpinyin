@@ -323,5 +323,9 @@
       <default>false</default>
       <summary>Show Suggestions</summary>
     </key>
+    <key name="opencc-config" type="s">
+      <default>'s2t.json'</default>
+      <summary>The config file which should be used by OpenCC for traditional input. Please consult the OpenCC documentation for more information</summary>
+    </key>
   </schema>
 </schemalist>
