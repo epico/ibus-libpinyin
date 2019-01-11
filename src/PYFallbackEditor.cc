@@ -250,7 +250,7 @@ FallbackEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
             retval = processPunct ('-', keycode, modifiers);
             break;
         case IBUS_KP_Decimal:
-            retval = processPunct ('.', keycode, modifiers);
+            retval = False;
             break;
         case IBUS_KP_Divide:
             retval = processPunct ('/', keycode, modifiers);
