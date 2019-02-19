@@ -228,7 +228,8 @@ PhoneticEditor::updateCandidates (void)
 
     m_libpinyin_candidates.processCandidates (m_candidates);
 
-    m_emoji_candidates.processCandidates (m_candidates);
+    if (m_config.emojiCandidate ())
+        m_emoji_candidates.processCandidates (m_candidates);
 
 #ifdef IBUS_BUILD_LUA_EXTENSION
     m_lua_trigger_candidates.processCandidates (m_candidates);

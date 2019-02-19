@@ -48,6 +48,7 @@ public:
     gboolean rememberEveryInput (void) const    { return m_remember_every_input; }
     sort_option_t sortOption (void) const       { return m_sort_option; }
     gboolean showSuggestion (void) const        { return m_show_suggestion; }
+    gboolean emojiCandidate (void) const        { return m_emoji_candidate; }
     gboolean shiftSelectCandidate (void) const  { return m_shift_select_candidate; }
     gboolean minusEqualPage (void) const        { return m_minus_equal_page; }
     gboolean commaPeriodPage (void) const       { return m_comma_period_page; }
@@ -100,6 +101,7 @@ protected:
     gboolean m_remember_every_input;
     sort_option_t m_sort_option;
     gboolean m_show_suggestion;
+    gboolean m_emoji_candidate;
 
     gboolean m_shift_select_candidate;
     gboolean m_minus_equal_page;
