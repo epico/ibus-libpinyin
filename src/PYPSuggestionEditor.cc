@@ -77,6 +77,10 @@ SuggestionEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
     if (keyval == IBUS_Return)
         return FALSE;
 
+    // no suggestion candidates.
+    if (m_lookup_table.size () == 0)
+        return FALSE;
+
     //handle page/cursor up/down here.
     if (processPageKey (keyval))
         return TRUE;
