@@ -1,3 +1,8 @@
+version 1.11.1
+* use gettext
+* add emoji-candidate option
+* fixes SuggestionEditor
+
 version 1.11.0
 * fixes keypad decimal
 * fixes emoji candidates
