@@ -63,6 +63,7 @@ const gchar * const CONFIG_CLEAR_USER_DATA           = "clear-user-data";
 const gchar * const CONFIG_MAIN_SWITCH               = "main-switch";
 const gchar * const CONFIG_LETTER_SWITCH             = "letter-switch";
 const gchar * const CONFIG_PUNCT_SWITCH              = "punct-switch";
+const gchar * const CONFIG_BOTH_SWITCH               = "both-switch";
 const gchar * const CONFIG_TRAD_SWITCH               = "trad-switch";
 
 const pinyin_option_t PINYIN_DEFAULT_OPTION =
@@ -126,6 +127,7 @@ LibPinyinConfig::initDefaultValues (void)
     m_main_switch = "<Shift>";
     m_letter_switch = "";
     m_punct_switch = "<Control>period";
+    m_both_switch = "";
     m_trad_switch = "<Control><Shift>f";
 }
 
@@ -219,6 +221,7 @@ LibPinyinConfig::readDefaultValues (void)
     m_main_switch = read (CONFIG_MAIN_SWITCH, "<Shift>");
     m_letter_switch = read (CONFIG_LETTER_SWITCH, "");
     m_punct_switch = read (CONFIG_PUNCT_SWITCH, "<Control>period");
+    m_both_switch = read (CONFIG_BOTH_SWITCH, "");
     m_trad_switch = read (CONFIG_TRAD_SWITCH, "<Control><Shift>f");
 
     /* fuzzy pinyin */
@@ -289,6 +292,8 @@ LibPinyinConfig::valueChanged (const std::string &schema_id,
         m_letter_switch = normalizeGVariant (value, std::string (""));
     } else if (CONFIG_PUNCT_SWITCH == name) {
         m_punct_switch = normalizeGVariant (value, std::string ("<Control>period"));
+    } else if (CONFIG_BOTH_SWITCH == name) {
+        m_both_switch = normalizeGVariant (value, std::string (""));
     } else if (CONFIG_TRAD_SWITCH == name) {
         m_trad_switch = normalizeGVariant (value, std::string ("<Control><Shift>f"));
     }

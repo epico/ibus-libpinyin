@@ -46,6 +46,7 @@ accelerators = \
         (_("Switch Chinese/English"), "main-switch" , "<Shift>"),
         (_("Full/Half Width Letter"), "letter-switch", ""),
         (_("Full/Half Width Punct"), "punct-switch", "<Control>period"),
+        (_("Full/Half Width Both Switch"), "both-switch", ""),
         (_("Switch Traditional/Simplfied Chinese"), "trad-switch", "<Control><Shift>f")
     )
 

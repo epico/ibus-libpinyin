@@ -137,6 +137,10 @@
       <default>'&lt;Control&gt;period'</default>
       <summary>Shortcut for Full/Half Punctuation</summary>
     </key>
+    <key name="both-switch" type="s">
+      <default>''</default>
+      <summary>Shortcut for Full/Half Both Switch</summary>
+    </key>
     <key name="trad-switch" type="s">
       <default>'&lt;Control&gt;&lt;Shift&gt;f'</default>
       <summary>Shortcut for Simplified/Traditional Chinese Mode</summary>
@@ -298,6 +302,10 @@
     <key name="punct-switch" type="s">
       <default>'&lt;Control&gt;period'</default>
       <summary>Shortcut for Full/Half Punctuation</summary>
+    </key>
+    <key name="both-switch" type="s">
+      <default>''</default>
+      <summary>Shortcut for Full/Half Both Switch</summary>
     </key>
     <key name="trad-switch" type="s">
       <default>'&lt;Control&gt;&lt;Shift&gt;f'</default>

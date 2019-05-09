@@ -69,6 +69,7 @@ public:
     std::string mainSwitch (void) const         { return m_main_switch; }
     std::string letterSwitch (void) const       { return m_letter_switch; }
     std::string punctSwitch (void) const        { return m_punct_switch; }
+    std::string bothSwitch (void) const         { return m_both_switch; }
     std::string tradSwitch (void) const         { return m_trad_switch; }
     std::string openccConfig (void) const       { return m_opencc_config; }
 
@@ -127,6 +128,7 @@ protected:
     std::string m_main_switch;
     std::string m_letter_switch;
     std::string m_punct_switch;
+    std::string m_both_switch;
     std::string m_trad_switch;
 
 };

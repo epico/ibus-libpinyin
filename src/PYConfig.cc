@@ -67,6 +67,7 @@ Config::initDefaultValues (void)
     m_main_switch = "<Shift>";
     m_letter_switch = "";
     m_punct_switch = "<Control>period";
+    m_both_switch = "";
     m_trad_switch = "<Control><Shift>f";
 }
 
