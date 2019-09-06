@@ -504,6 +504,9 @@ EnglishEditor::processPageKey (guint keyval)
         return TRUE;
 
     case IBUS_Escape:
+    case IBUS_space:
+    case IBUS_KEY_Shift_L:
+    case IBUS_KEY_Shift_R:
         reset ();
         return TRUE;
     }
