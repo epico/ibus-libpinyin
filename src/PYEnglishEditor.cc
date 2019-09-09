@@ -504,9 +504,6 @@ EnglishEditor::processPageKey (guint keyval)
         return TRUE;
 
     case IBUS_Escape:
-    case IBUS_space:
-    case IBUS_KEY_Shift_L:
-    case IBUS_KEY_Shift_R:
         reset ();
         return TRUE;
     }
@@ -551,6 +548,11 @@ EnglishEditor::processSpace (guint keyval)
 {
     if (!(keyval == IBUS_space || keyval == IBUS_KP_Space))
         return FALSE;
+
+    if (m_text == "v" || m_text == "V") {
+        reset ();
+        return TRUE;
+    }
 
     guint cursor_pos = m_lookup_table.cursorPos ();
     return selectCandidate (cursor_pos);
