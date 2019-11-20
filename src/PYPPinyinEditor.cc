@@ -130,7 +130,7 @@ PinyinEditor::processPunct (guint keyval, guint keycode,
         return FALSE;
     }
 
-    return TRUE;
+    return FALSE;
 }
 
 inline gboolean

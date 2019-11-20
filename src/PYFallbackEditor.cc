@@ -219,6 +219,7 @@ FallbackEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
         case IBUS_A ... IBUS_Z:
             if (modifiers == 0) {
                 if (!m_props.modeFull ())
+                    m_prev_committed_char = keyval;
                     return FALSE;
 
                 commit (HalfFullConverter::toFull (keyval));
