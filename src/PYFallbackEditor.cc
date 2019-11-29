@@ -76,13 +76,21 @@ FallbackEditor::processPunctForSimplifiedChinese (guint keyval, guint keycode, g
         m_double_quote = !m_double_quote;
         return TRUE;
     case ',':
-        commit ("，"); return TRUE;
-    case '.':
-        if (m_prev_committed_char >= '0' && m_prev_committed_char <= '9')
+        if (m_prev_committed_char >= '0' && m_prev_committed_char <= '9') {
+            m_prev_committed_char = keyval;
             return FALSE;
-        else
+        } else {
+            commit ("，");
+            return TRUE;
+        }
+    case '.':
+        if (m_prev_committed_char >= '0' && m_prev_committed_char <= '9') {
+            m_prev_committed_char = keyval;
+            return FALSE;
+        } else {
             commit ("。");
-        return TRUE;
+            return TRUE;
+        }
     case '<':
         commit ("《"); return TRUE;
     case '>':
@@ -144,13 +152,21 @@ FallbackEditor::processPunctForTraditionalChinese (guint keyval, guint keycode, 
         m_double_quote = !m_double_quote;
         return TRUE;
     case ',':
-        commit ("，"); return TRUE;
-    case '.':
-        if (m_prev_committed_char >= '0' && m_prev_committed_char <= '9')
+        if (m_prev_committed_char >= '0' && m_prev_committed_char <= '9') {
+            m_prev_committed_char = keyval;
             return FALSE;
-        else
+        } else {
+            commit ("，");
+            return TRUE;
+        }
+    case '.':
+        if (m_prev_committed_char >= '0' && m_prev_committed_char <= '9') {
+            m_prev_committed_char = keyval;
+            return FALSE;
+        } else {
             commit ("。");
-        return TRUE;
+            return TRUE;
+        }
     case '<':
         commit ("《"); return TRUE;
     case '>':
