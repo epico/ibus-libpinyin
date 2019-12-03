@@ -94,7 +94,7 @@ AC_ARG_WITH(python,
         [Select python2 or python3]),
     [PYTHON=$with_python], []
 )
-AM_PATH_PYTHON([2.5])
+AM_PATH_PYTHON([3.2])
 
 # check icon_prop_key in IBus.EngineDesc
 AC_MSG_CHECKING([if IBus.EngineDesc has get_icon_prop_key])
