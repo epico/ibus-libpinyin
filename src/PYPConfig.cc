@@ -33,6 +33,7 @@ const gchar * const CONFIG_CORRECT_PINYIN            = "correct-pinyin";
 const gchar * const CONFIG_FUZZY_PINYIN              = "fuzzy-pinyin";
 const gchar * const CONFIG_ORIENTATION               = "lookup-table-orientation";
 const gchar * const CONFIG_PAGE_SIZE                 = "lookup-table-page-size";
+const gchar * const CONFIG_DISPLAY_STYLE             = "display-style";
 const gchar * const CONFIG_REMEMBER_EVERY_INPUT      = "remember-every-input";
 const gchar * const CONFIG_SORT_OPTION               = "sort-candidate-option";
 const gchar * const CONFIG_SHOW_SUGGESTION           = "show-suggestion";
@@ -100,6 +101,7 @@ LibPinyinConfig::initDefaultValues (void)
 
     m_orientation = IBUS_ORIENTATION_HORIZONTAL;
     m_page_size = 5;
+    m_display_style = DISPLAY_STYLE_TRADITIONAL;
     m_remember_every_input = FALSE;
     m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
     m_show_suggestion = FALSE;
@@ -159,6 +161,14 @@ static const struct{
     {1, SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY}
 };
 
+static const struct{
+    gint display_style_index;
+    DisplayStyle display_style;
+} display_style_options [] = {
+    {0, DISPLAY_STYLE_TRADITIONAL},
+    {1, DISPLAY_STYLE_COMPACT}
+};
+
 void
 LibPinyinConfig::readDefaultValues (void)
 {
@@ -200,9 +210,20 @@ LibPinyinConfig::readDefaultValues (void)
         m_page_size = 5;
         g_warn_if_reached ();
     }
+
+    gint index = read (CONFIG_SORT_OPTION, 0);
+    m_display_style = DISPLAY_STYLE_TRADITIONAL;
+
+    for (guint i = 0; i < G_N_ELEMENTS (display_style_options); i++) {
+        if (index == display_style_options[i].display_style_index) {
+            /* set display style option. */
+            m_display_style = display_style_options[i].display_style;
+        }
+    }
+
     m_remember_every_input = read (CONFIG_REMEMBER_EVERY_INPUT, false);
 
-    const gint index = read (CONFIG_SORT_OPTION, 0);
+    index = read (CONFIG_SORT_OPTION, 0);
     m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
 
     for (guint i = 0; i < G_N_ELEMENTS (sort_options); i++) {
@@ -259,12 +280,21 @@ LibPinyinConfig::valueChanged (const std::string &schema_id,
             m_orientation = IBUS_ORIENTATION_HORIZONTAL;
             g_warn_if_reached ();
         }
-    }
-    else if (CONFIG_PAGE_SIZE == name) {
+    } else if (CONFIG_PAGE_SIZE == name) {
         m_page_size = normalizeGVariant (value, 5);
         if (m_page_size > 10) {
             m_page_size = 5;
             g_warn_if_reached ();
+        }
+    } else if (CONFIG_DISPLAY_STYLE == name) {
+        const gint index = normalizeGVariant (value, 0);
+        m_display_style = DISPLAY_STYLE_TRADITIONAL;
+
+        for (guint i = 0; i < G_N_ELEMENTS (display_style_options); i++) {
+            if (index == display_style_options[i].display_style_index) {
+                /* set display style option. */
+                m_display_style = display_style_options[i].display_style;
+            }
         }
     } else if (CONFIG_REMEMBER_EVERY_INPUT == name) {
         m_remember_every_input = normalizeGVariant (value, false);
