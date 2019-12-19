@@ -141,3 +141,20 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
 
     return SELECT_CANDIDATE_UPDATE;
 }
+
+gboolean
+LibPinyinCandidates::removeCandidate (EnhancedCandidate & enhanced)
+{
+    pinyin_instance_t * instance = m_editor->m_instance;
+
+    if (enhanced.m_candidate_type != CANDIDATE_USER)
+        return FALSE;
+
+    lookup_candidate_t * candidate = NULL;
+    guint index = enhanced.m_candidate_id;
+    pinyin_get_candidate (instance, index, &candidate);
+    assert (pinyin_is_user_candidate (instance, candidate));
+    pinyin_remove_user_candidate (instance, candidate);
+
+    return TRUE;
+}

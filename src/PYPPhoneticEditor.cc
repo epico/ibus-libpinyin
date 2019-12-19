@@ -179,10 +179,8 @@ PhoneticEditor::processFunctionKey (guint keyval, guint keycode, guint modifiers
         case IBUS_D:
             {
                 guint index = m_lookup_table.cursorPos ();
-                lookup_candidate_t * candidate = NULL;
-                pinyin_get_candidate (m_instance, index, &candidate);
-                if (pinyin_is_user_candidate (m_instance, candidate)) {
-                    pinyin_remove_user_candidate (m_instance, candidate);
+                if (index < m_candidates.size () &&
+                    removeCandidateInternal (m_candidates[index])) {
                     updatePinyin ();
                     update ();
                 }
@@ -380,6 +378,34 @@ PhoneticEditor::selectCandidateInternal (EnhancedCandidate & candidate)
 
     case CANDIDATE_EMOJI:
         return m_emoji_candidates.selectCandidate (candidate);
+
+    default:
+        assert (FALSE);
+    }
+}
+
+gboolean
+PhoneticEditor::removeCandidateInternal (EnhancedCandidate & candidate)
+{
+    switch (candidate.m_candidate_type) {
+    case CANDIDATE_NBEST_MATCH:
+    case CANDIDATE_NORMAL:
+    case CANDIDATE_USER:
+        return m_libpinyin_candidates.removeCandidate (candidate);
+
+    case CANDIDATE_TRADITIONAL_CHINESE:
+        return m_traditional_candidates.removeCandidate (candidate);
+
+#ifdef IBUS_BUILD_LUA_EXTENSION
+    case CANDIDATE_LUA_TRIGGER:
+        return m_lua_trigger_candidates.removeCandidate (candidate);
+
+    case CANDIDATE_LUA_CONVERTER:
+        return m_lua_converter_candidates.removeCandidate (candidate);
+#endif
+
+    case CANDIDATE_EMOJI:
+        return m_emoji_candidates.removeCandidate (candidate);
 
     default:
         assert (FALSE);

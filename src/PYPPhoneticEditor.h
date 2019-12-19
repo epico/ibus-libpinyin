@@ -73,6 +73,7 @@ public:
 
 protected:
     virtual int selectCandidateInternal (EnhancedCandidate & candidate);
+    virtual gboolean removeCandidateInternal (EnhancedCandidate & candidate);
     gboolean selectCandidate (guint i);
     gboolean selectCandidateInPage (guint i);
 
