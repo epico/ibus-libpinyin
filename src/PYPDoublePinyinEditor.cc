@@ -137,5 +137,8 @@ DoublePinyinEditor::updateAuxiliaryText (void)
     m_buffer << p;
 
     StaticText text (m_buffer);
-    Editor::updateAuxiliaryText (text, TRUE);
+    if (DISPLAY_STYLE_TRADITIONAL == m_config.displayStyle ())
+        Editor::updateAuxiliaryText (text, TRUE);
+    if (DISPLAY_STYLE_COMPACT == m_config.displayStyle ())
+        Editor::updatePreeditText (text, 0, TRUE);
 }

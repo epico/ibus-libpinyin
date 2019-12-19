@@ -228,6 +228,9 @@ PinyinEditor::commit (const gchar *str)
 void
 PinyinEditor::updatePreeditText ()
 {
+    if (DISPLAY_STYLE_COMPACT == m_config.displayStyle ())
+        return;
+
     guint num = 0;
     pinyin_get_n_candidate (m_instance, &num);
 

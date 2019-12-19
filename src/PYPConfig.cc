@@ -211,7 +211,7 @@ LibPinyinConfig::readDefaultValues (void)
         g_warn_if_reached ();
     }
 
-    gint index = read (CONFIG_SORT_OPTION, 0);
+    gint index = read (CONFIG_DISPLAY_STYLE, 0);
     m_display_style = DISPLAY_STYLE_TRADITIONAL;
 
     for (guint i = 0; i < G_N_ELEMENTS (display_style_options); i++) {
