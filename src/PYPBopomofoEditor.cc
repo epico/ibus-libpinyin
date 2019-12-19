@@ -400,7 +400,10 @@ void
 BopomofoEditor::updateAuxiliaryText (void)
 {
     if (G_UNLIKELY (m_text.empty ())) {
-        hideAuxiliaryText ();
+        if (DISPLAY_STYLE_TRADITIONAL == m_config.displayStyle ())
+            hideAuxiliaryText ();
+        if (DISPLAY_STYLE_COMPACT == m_config.displayStyle ())
+            hidePreeditText ();
         return;
     }
 
