@@ -153,6 +153,10 @@
       <default>5</default>
       <summary>Lookup table page size</summary>
     </key>
+    <key name="display-style" type="i">
+      <default>0</default>
+      <summary>UI display style</summary>
+    </key>
     <key name="minus-equal-page" type="b">
       <default>true</default>
       <summary>Use minus and equal to flip page</summary>
@@ -318,6 +322,10 @@
     <key name="lookup-table-page-size" type="i">
       <default>5</default>
       <summary>Lookup table page size</summary>
+    </key>
+    <key name="display-style" type="i">
+      <default>0</default>
+      <summary>UI display style</summary>
     </key>
     <key name="remember-every-input" type="b">
       <default>false</default>
