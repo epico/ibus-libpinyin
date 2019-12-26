@@ -1,3 +1,7 @@
+version 1.11.91
+* support compact display style
+* fixes remove user phrase
+
 version 1.11.1
 * use gettext
 * add emoji-candidate option
