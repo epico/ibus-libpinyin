@@ -278,7 +278,8 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
             if (text.empty ()) {
                 switch (keyval) {
                 case IBUS_grave:
-                    m_input_mode = MODE_PUNCT;
+                    if (m_props.modeFullPunct ())
+                        m_input_mode = MODE_PUNCT;
                     break;
 #ifdef IBUS_BUILD_LUA_EXTENSION
                 case IBUS_i:

@@ -192,7 +192,8 @@ BopomofoEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
                         keyval == IBUS_grave)){
             /* if BopomofoEditor is empty and get a grave key,
              * switch current editor to PunctEditor */
-            m_input_mode = MODE_PUNCT;
+            if (m_props.modeFullPunct ())
+                m_input_mode = MODE_PUNCT;
         }
 
         retval = m_editors[m_input_mode]->processKeyEvent (keyval, keycode, modifiers);
