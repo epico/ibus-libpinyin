@@ -111,6 +111,7 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
         if (m_editor->m_config.rememberEveryInput ())
             LibPinyinBackEnd::instance ().rememberUserInput (instance, str);
         LibPinyinBackEnd::instance ().modified();
+        g_free (str);
 
         return SELECT_CANDIDATE_COMMIT;
     }
@@ -128,6 +129,7 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
         if (m_editor->m_config.rememberEveryInput ())
             LibPinyinBackEnd::instance ().rememberUserInput (instance, str);
         LibPinyinBackEnd::instance ().modified ();
+        g_free (str);
 
         return SELECT_CANDIDATE_MODIFY_IN_PLACE|SELECT_CANDIDATE_COMMIT;
     }

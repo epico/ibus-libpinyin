@@ -394,6 +394,8 @@ BopomofoEditor::updatePreeditText ()
     guint cursor = getPinyinCursor ();
     pinyin_get_character_offset(m_instance, sentence, cursor, &offset);
     Editor::updatePreeditText (preedit_text, offset, TRUE);
+
+    g_free (sentence);
 }
 
 void
