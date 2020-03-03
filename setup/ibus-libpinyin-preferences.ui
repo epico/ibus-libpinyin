@@ -30,6 +30,20 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="liststoreDisplayStyle">
+    <columns>
+      <!-- column-name orientation -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Default</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Compact</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkListStore" id="liststoreDoublePinyin">
     <columns>
       <!-- column-name schema -->
@@ -67,20 +81,6 @@
       </row>
       <row>
         <col id="0" translatable="yes">Vertical</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="liststoreDisplayStyle">
-    <columns>
-      <!-- column-name orientation -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Default</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Compact</col>
       </row>
     </data>
   </object>
@@ -2303,7 +2303,7 @@ Peng Huang
 BYVoid
 
 &lt;b&gt;Contributors:&lt;/b&gt;
-koterpilla, Zerng07
+koterpilla, Zerng07, Hillwood Yang
 &lt;/small&gt;</property>
                             <property name="use_markup">True</property>
                             <property name="justify">center</property>
