@@ -664,11 +664,11 @@ msgstr "關於"
 
 #: data/ibus-setup-libpinyin.desktop.in:3
 msgid "IBus LibPinyin Setup"
-msgstr "IBus LibPinyin 設置"
+msgstr "IBus 智能拼音配置工具"
 
 #: data/ibus-setup-libpinyin.desktop.in:7
 msgid "Set ibus-libpinyin Preferences"
-msgstr "設置 ibus-libpinyin 首選項"
+msgstr "設定 IBus 智能拼音個人偏好"
 
 #: data/ibus-setup-libpinyin.desktop.in:12
 msgid "@pkgdatadir@/icons/ibus-pinyin.svg"
@@ -676,11 +676,11 @@ msgstr ""
 
 #: data/ibus-setup-libbopomofo.desktop.in:3
 msgid "IBus LibBopomofo Preferences"
-msgstr "IBus LibBopomofo 首選項"
+msgstr "IBus 注音配置工具"
 
 #: data/ibus-setup-libbopomofo.desktop.in:7
 msgid "Set ibus-libbopomofo Preferences"
-msgstr "設置 IBus LibBopomofo 首選項"
+msgstr "設定 IBus 注音個人偏好"
 
 #: data/ibus-setup-libbopomofo.desktop.in:12
 msgid "@pkgdatadir@/icons/ibus-bopomofo.svg"
