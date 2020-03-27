@@ -357,6 +357,7 @@ ExtEditor::processSpace (guint keyval)
     case LABEL_LIST_COMMANDS:
     case LABEL_LIST_DIGIT:
     case LABEL_LIST_ALPHA:
+    case LABEL_LIST_NONE:
         selectCandidate (cursor_pos);
         break;
     case LABEL_LIST_SINGLE:
@@ -529,6 +530,7 @@ ExtEditor::selectCandidate (guint index)
         break;
     case LABEL_LIST_DIGIT:
     case LABEL_LIST_ALPHA:
+    case LABEL_LIST_NONE:
         {
             g_return_val_if_fail (m_result_num > 1, FALSE);
             g_return_val_if_fail (static_cast<int>(index) < m_result_num, FALSE);
