@@ -54,7 +54,7 @@ $(STROKES_DB): $(STROKES) $(STROKES_AWK)
 	$(AWK) -f $(srcdir)/$(STROKES_AWK) $(srcdir)/$(STROKES) | @SQLITE3@ $@ || \
 		( $(RM) $@ ; exit 1 )
 
-appdatadir = @datadir@/appdata
+appdatadir = @datadir@/metainfo
 
 appdata_DATA = $(APPDATA_XML)
 
