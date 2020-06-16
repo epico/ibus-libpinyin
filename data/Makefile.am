@@ -25,6 +25,10 @@ STROKES = strokes
 STROKES_AWK = strokes.awk
 STROKES_DB = strokes.db
 
+network_DATA = network.txt
+
+networkdir = $(pkgdatadir)
+
 APPDATA_XML = libpinyin.appdata.xml
 
 gsettings_SCHEMAS = com.github.libpinyin.ibus-libpinyin.gschema.xml
@@ -79,6 +83,7 @@ EXTRA_DIST = \
 	$(ENGLISH_AWK) \
 	$(STROKES) \
 	$(STROKES_AWK) \
+	$(network_DATA) \
 	$(APPDATA_XML) \
 	$(gsettings_SCHEMAS) \
 	$(NULL)
