@@ -63,7 +63,7 @@ def filter_Chinese_emoji(emojis):
     emojis_copy = {}
 
     for key, value in emojis.items():
-        if len(key) > 2:
+        if len(key) > 3:
             continue
 
         # just reject alphabet
