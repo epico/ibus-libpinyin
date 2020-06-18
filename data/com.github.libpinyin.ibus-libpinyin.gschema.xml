@@ -201,6 +201,14 @@
       <default>true</default>
       <summary>Show Emoji Candidates</summary>
     </key>
+    <key name="network-dictionary-start-timestamp" type="u">
+      <default>0</default>
+      <summary>Start Timestamp for Network Dictionary</summary>
+    </key>
+    <key name="network-dictionary-end-timestamp" type="u">
+      <default>0</default>
+      <summary>End Timestamp for Network Dictionary</summary>
+    </key>
   </schema>
   <schema path="/com/github/libpinyin/ibus-libpinyin/libbopomofo/" id="com.github.libpinyin.ibus-libpinyin.libbopomofo">
     <key name="auxiliary-select-key-f" type="i">
@@ -350,6 +358,14 @@
     <key name="emoji-candidate" type="b">
       <default>true</default>
       <summary>Show Emoji Candidates</summary>
+    </key>
+    <key name="network-dictionary-start-timestamp" type="u">
+      <default>0</default>
+      <summary>Start Timestamp for Network Dictionary</summary>
+    </key>
+    <key name="network-dictionary-end-timestamp" type="u">
+      <default>0</default>
+      <summary>End Timestamp for Network Dictionary</summary>
     </key>
   </schema>
 </schemalist>
