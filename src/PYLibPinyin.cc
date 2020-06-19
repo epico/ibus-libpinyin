@@ -349,3 +349,137 @@ LibPinyinBackEnd::saveUserDB (void)
         pinyin_save (m_chewing_context);
     return TRUE;
 }
+
+#define TIMESTAMP_LINE "# timestamp: %ld\n"
+
+bool
+LibPinyinBackEnd::readNetworkDictionary(pinyin_context_t * context,
+                                        const char * filename,
+                                        /* inout */ time_t & start,
+                                        /* inout */ time_t & loaded)
+{
+    time_t current = time (NULL);
+
+    FILE * dictfile = fopen (filename, "r");
+
+    if (!checkNetworkDictionary (context, dictfile, start, loaded)) {
+        fclose (dictfile);
+        return FALSE;
+    }
+
+    fseek (dictfile, 0, SEEK_SET);
+
+    /* read to the loaded time. */
+    forwardNetworkDictionary (dictfile, loaded);
+
+    /* import the rest of network dictionary. */
+    importRestNetworkDictionary (context, dictfile, loaded);
+
+    fclose (dictfile);
+
+    pinyin_save (context);
+    return TRUE;
+}
+
+bool
+LibPinyinBackEnd::clearNetworkDictionary (pinyin_context_t * context)
+{
+    pinyin_mask_out (context, PHRASE_INDEX_LIBRARY_MASK,
+                     PHRASE_INDEX_MAKE_TOKEN (NETWORK_DICTIONARY, null_token));
+    pinyin_save (context);
+    return TRUE;
+}
+
+bool
+LibPinyinBackEnd::checkNetworkDictionary (pinyin_context_t * context,
+                                          FILE * dictfile,
+                                          /* inout */ time_t & start,
+                                          /* inout */ time_t & loaded)
+{
+    long stamp = 0;
+    /* check the first line with start time. */
+    int retval = fscanf (dictfile, TIMESTAMP_LINE, &stamp);
+
+    /* empty network dictionary. */
+    if (retval == EOF) {
+        clearNetworkDictionary (context);
+        return FALSE;
+    }
+
+    /* clear network dictionary if start time is changed. */
+    if (start != stamp) {
+        clearNetworkDictionary (context);
+
+        /* reset the time */
+        start = stamp;
+        loaded = stamp - 1;
+    }
+
+    return TRUE;
+}
+
+bool
+LibPinyinBackEnd::forwardNetworkDictionary (FILE * dictfile,
+                                            /* in */ time_t loaded)
+{
+    char* linebuf = NULL; size_t size = 0; ssize_t read;
+    while ((read = getline (&linebuf, &size, dictfile)) != -1) {
+        if (0 == strlen (linebuf))
+            continue;
+
+        if ('#' != linebuf[0])
+            continue;
+
+        time_t stamp;
+        sscanf (linebuf, TIMESTAMP_LINE, &stamp);
+
+        if (loaded < stamp)
+            break;
+    }
+
+    return TRUE;
+}
+
+bool
+LibPinyinBackEnd::importRestNetworkDictionary (pinyin_context_t * context,
+                                               FILE * dictfile,
+                                               /* out */ time_t & loaded)
+{
+    import_iterator_t * iter = pinyin_begin_add_phrases
+        (context, NETWORK_DICTIONARY);
+
+    char* linebuf = NULL; size_t size = 0; ssize_t read;
+    while ((read = getline (&linebuf, &size, dictfile)) != -1) {
+        if (0 == strlen (linebuf))
+            continue;
+
+        if ('#' == linebuf[0]) {
+            sscanf (linebuf, TIMESTAMP_LINE, &loaded);
+            continue;
+        }
+
+        if ( '\n' == linebuf[strlen (linebuf) - 1] ) {
+            linebuf[strlen (linebuf) - 1] = '\0';
+        }
+
+        gchar ** items = g_strsplit_set (linebuf, " \t", 3);
+        guint len = g_strv_length (items);
+
+        gchar * phrase = NULL, * pinyin = NULL;
+        gint count = -1;
+        if (2 == len || 3 == len) {
+            phrase = items[0];
+            pinyin = items[1];
+            if (3 == len)
+                count = atoi (items[2]);
+        } else
+            continue;
+
+        pinyin_iterator_add_phrase (iter, phrase, pinyin, count);
+
+        g_strfreev (items);
+    }
+
+    pinyin_end_add_phrases (iter);
+    return TRUE;
+}

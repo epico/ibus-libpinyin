@@ -22,6 +22,7 @@
 #define __PY_LIB_PINYIN_H_
 
 #include <memory>
+#include <time.h>
 #include <glib.h>
 
 typedef struct _pinyin_context_t pinyin_context_t;
@@ -62,9 +63,26 @@ public:
     static void finalize (void);
 
 
+protected:
+    bool readNetworkDictionary(pinyin_context_t * context,
+                               const char * filename,
+                               /* inout */ time_t & start,
+                               /* inout */ time_t & loaded);
+
 private:
     gboolean saveUserDB (void);
     static gboolean timeoutCallback (gpointer data);
+
+    bool clearNetworkDictionary (pinyin_context_t * context);
+    bool checkNetworkDictionary (pinyin_context_t * context,
+                                 FILE * dictfile,
+                                 /* inout */ time_t & start,
+                                 /* inout */ time_t & loaded);
+    bool forwardNetworkDictionary (FILE * dictfile,
+                                   /* in */ time_t loaded);
+    bool importRestNetworkDictionary (pinyin_context_t * context,
+                                      FILE * dictfile,
+                                      /* out */ time_t & loaded);
 
 private:
     /* libpinyin context */
