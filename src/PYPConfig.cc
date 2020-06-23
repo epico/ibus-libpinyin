@@ -65,6 +65,8 @@ const gchar * const CONFIG_LETTER_SWITCH             = "letter-switch";
 const gchar * const CONFIG_PUNCT_SWITCH              = "punct-switch";
 const gchar * const CONFIG_BOTH_SWITCH               = "both-switch";
 const gchar * const CONFIG_TRAD_SWITCH               = "trad-switch";
+const gchar * const CONFIG_NETWORK_DICTIONARY_START_TIMESTAMP = "network-dictionary-start-timestamp";
+const gchar * const CONFIG_NETWORK_DICTIONARY_END_TIMESTAMP   = "network-dictionary-end-timestamp";
 
 const pinyin_option_t PINYIN_DEFAULT_OPTION =
         PINYIN_INCOMPLETE |
@@ -90,6 +92,20 @@ LibPinyinConfig::~LibPinyinConfig (void)
 {
     g_object_unref (m_settings);
     m_settings = NULL;
+}
+
+gboolean
+LibPinyinConfig::networkDictionaryStartTimestamp (gint64 timestamp)
+{
+    m_network_dictionary_start_timestamp = timestamp;
+    return write (CONFIG_NETWORK_DICTIONARY_START_TIMESTAMP, timestamp);
+}
+
+gboolean
+LibPinyinConfig::networkDictionaryEndTimestamp (gint64 timestamp)
+{
+    m_network_dictionary_end_timestamp = timestamp;
+    return write (CONFIG_NETWORK_DICTIONARY_END_TIMESTAMP, timestamp);
 }
 
 void
@@ -130,6 +146,9 @@ LibPinyinConfig::initDefaultValues (void)
     m_punct_switch = "<Control>period";
     m_both_switch = "";
     m_trad_switch = "<Control><Shift>f";
+
+    m_network_dictionary_start_timestamp = 0;
+    m_network_dictionary_end_timestamp = 0;
 }
 
 static const struct {
@@ -244,6 +263,9 @@ LibPinyinConfig::readDefaultValues (void)
     m_both_switch = read (CONFIG_BOTH_SWITCH, "");
     m_trad_switch = read (CONFIG_TRAD_SWITCH, "<Control><Shift>f");
 
+    m_network_dictionary_start_timestamp = read (CONFIG_NETWORK_DICTIONARY_START_TIMESTAMP, (gint64) 0);
+    m_network_dictionary_end_timestamp = read (CONFIG_NETWORK_DICTIONARY_END_TIMESTAMP, (gint64) 0);
+
     /* fuzzy pinyin */
     if (read (CONFIG_FUZZY_PINYIN, false))
         m_option_mask |= PINYIN_AMB_ALL;
@@ -325,6 +347,10 @@ LibPinyinConfig::valueChanged (const std::string &schema_id,
         m_both_switch = normalizeGVariant (value, std::string (""));
     } else if (CONFIG_TRAD_SWITCH == name) {
         m_trad_switch = normalizeGVariant (value, std::string ("<Control><Shift>f"));
+    } else if (CONFIG_NETWORK_DICTIONARY_START_TIMESTAMP == name) {
+        m_network_dictionary_start_timestamp = normalizeGVariant (value, (gint64) 0);
+    } else if (CONFIG_NETWORK_DICTIONARY_END_TIMESTAMP == name) {
+        m_network_dictionary_end_timestamp = normalizeGVariant (value, (gint64) 0);
     }
     /* fuzzy pinyin */
     else if (CONFIG_FUZZY_PINYIN == name) {

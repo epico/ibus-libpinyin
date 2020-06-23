@@ -78,11 +78,29 @@ public:
     std::string tradSwitch (void) const         { return m_trad_switch; }
     std::string openccConfig (void) const       { return m_opencc_config; }
 
+    gint64 networkDictionaryStartTimestamp (void) const
+    { return m_network_dictionary_start_timestamp; }
+    gint64 networkDictionaryEndTimestamp (void) const
+    { return m_network_dictionary_end_timestamp; }
+
+public:
+    /* write option */
+    virtual gboolean networkDictionaryStartTimestamp (gint64 timestamp)
+    { return FALSE; }
+    virtual gboolean networkDictionaryEndTimestamp (gint64 timestamp)
+    { return FALSE; }
+
 protected:
     bool read (const gchar * name, bool defval);
     gint read (const gchar * name, gint defval);
     std::string read (const gchar * name, const gchar * defval);
+    gint64 read (const gchar * name, gint64 defval);
     void initDefaultValues (void);
+
+    gboolean write (const gchar * name, bool val);
+    gboolean write (const gchar * name, gint val);
+    gboolean write (const gchar * name, const gchar * val);
+    gboolean write (const gchar * name, gint64 val);
 
     virtual void readDefaultValues (void);
     virtual gboolean valueChanged (const std::string  &schema_id,
@@ -137,6 +155,8 @@ protected:
     std::string m_both_switch;
     std::string m_trad_switch;
 
+    gint64 m_network_dictionary_start_timestamp;
+    gint64 m_network_dictionary_end_timestamp;
 };
 
 
@@ -171,6 +191,17 @@ normalizeGVariant (GVariant *value, const std::string &defval)
         return defval;
     }
     return g_variant_get_string (value, NULL);
+}
+
+static inline gint64
+normalizeGVariant (GVariant *value, gint64 defval)
+{
+    if (value == NULL ||
+        g_variant_classify (value) != G_VARIANT_CLASS_INT64) {
+        g_warn_if_reached ();
+        return defval;
+    }
+    return g_variant_get_int64 (value);
 }
 
 };

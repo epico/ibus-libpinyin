@@ -69,6 +69,9 @@ Config::initDefaultValues (void)
     m_punct_switch = "<Control>period";
     m_both_switch = "";
     m_trad_switch = "<Control><Shift>f";
+
+    m_network_dictionary_start_timestamp = 0;
+    m_network_dictionary_end_timestamp = 0;
 }
 
 
@@ -117,6 +120,44 @@ Config::read (const gchar * name,
 
     g_warn_if_reached ();
     return defval;
+}
+
+gint64
+Config::read (const gchar * name,
+              gint64        defval)
+{
+    GVariant *value = NULL;
+    if ((value = g_settings_get_value (m_settings, name)) != NULL) {
+        if (g_variant_classify (value) == G_VARIANT_CLASS_INT64)
+            return g_variant_get_int64 (value);
+    }
+
+    g_warn_if_reached ();
+    return defval;
+}
+
+gboolean
+Config::write (const gchar * name, bool val)
+{
+    return g_settings_set_boolean (m_settings, name, val);
+}
+
+gboolean
+Config::write (const gchar * name, gint val)
+{
+    return g_settings_set_int (m_settings, name, val);
+}
+
+gboolean
+Config::write (const gchar * name, const gchar * val)
+{
+    return g_settings_set_string (m_settings, name, val);
+}
+
+gboolean
+Config::write (const gchar * name, gint64 val)
+{
+    return g_settings_set_int64 (m_settings, name, val);
 }
 
 gboolean

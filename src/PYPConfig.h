@@ -39,6 +39,8 @@ protected:
     virtual ~LibPinyinConfig (void);
 
 public:
+    virtual gboolean networkDictionaryStartTimestamp (gint64 timestamp);
+    virtual gboolean networkDictionaryEndTimestamp (gint64 timestamp);
 
 protected:
     void initDefaultValues (void);
