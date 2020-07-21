@@ -309,10 +309,23 @@ BopomofoEditor::commit (const gchar *str)
     if (G_UNLIKELY (m_text.empty ()))
         return;
 
+    guint num = 0;
+    pinyin_get_n_candidate (m_instance, &num);
+
     m_buffer.clear ();
 
     /* sentence candidate */
     m_buffer << str;
+
+    /* un-parsed pinyin text */
+    if (G_UNLIKELY (0 == num)) {
+        m_buffer << m_text;
+        Text text (m_buffer.c_str ());
+        commitText (text);
+
+        reset();
+        return;
+    }
 
     /* text after pinyin */
     const gchar *p = m_text.c_str() + m_pinyin_len;
@@ -344,16 +357,24 @@ BopomofoEditor::updatePreeditText ()
     if (DISPLAY_STYLE_COMPACT == m_config.displayStyle ())
         return;
 
-    guint num = 0;
-    pinyin_get_n_candidate (m_instance, &num);
-
     /* preedit text = guessed sentence + un-parsed pinyin text */
-    if (G_UNLIKELY (m_text.empty () || 0 == num)) {
+    if (G_UNLIKELY (m_text.empty ())) {
         hidePreeditText ();
         return;
     }
 
+    guint num = 0;
+    pinyin_get_n_candidate (m_instance, &num);
+
     m_buffer.clear ();
+
+    /* un-parsed pinyin text */
+    if (G_UNLIKELY (0 == num)) {
+        m_buffer << m_text;
+        StaticText preedit_text (m_buffer);
+        Editor::updatePreeditText (preedit_text, m_buffer.length (), TRUE);
+        return;
+    }
 
     /* probe nbest match candidate */
     lookup_candidate_type_t type;

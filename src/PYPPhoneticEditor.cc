@@ -463,6 +463,12 @@ PhoneticEditor::selectCandidate (guint i)
 gboolean
 PhoneticEditor::selectCandidate (guint index)
 {
+    /* un-parsed text */
+    if (G_UNLIKELY (0 == index && 0 == m_candidates.size ())) {
+        commit ("");
+        return TRUE;
+    }
+
     if (G_UNLIKELY (index >= m_candidates.size ()))
         return FALSE;
 
