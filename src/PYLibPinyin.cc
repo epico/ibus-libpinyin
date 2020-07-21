@@ -68,6 +68,19 @@ LibPinyinBackEnd::initPinyinContext (Config *config)
     context = pinyin_init (LIBPINYIN_DATADIR, userdir);
     g_free (userdir);
 
+    /* init network dictionary */
+    pinyin_load_phrase_library (context, NETWORK_DICTIONARY);
+    time_t start = config->networkDictionaryStartTimestamp ();
+    time_t end = config->networkDictionaryEndTimestamp ();
+
+    readNetworkDictionary (context, PKGDATADIR G_DIR_SEPARATOR_S "network.txt",
+                           start, end);
+
+    /* save the timestamp */
+    config->networkDictionaryStartTimestamp (start);
+    config->networkDictionaryEndTimestamp (end);
+
+    /* load addon dictionaries */
     const char *dicts = config->dictionaries ().c_str ();
     gchar ** indices = g_strsplit_set (dicts, ";", -1);
     for (size_t i = 0; i < g_strv_length(indices); ++i) {
@@ -114,6 +127,19 @@ LibPinyinBackEnd::initChewingContext (Config *config)
     context = pinyin_init (LIBPINYIN_DATADIR, userdir);
     g_free(userdir);
 
+    /* init network dictionary */
+    pinyin_load_phrase_library (context, NETWORK_DICTIONARY);
+    time_t start = config->networkDictionaryStartTimestamp ();
+    time_t end = config->networkDictionaryEndTimestamp ();
+
+    readNetworkDictionary (context, PKGDATADIR G_DIR_SEPARATOR_S "network.txt",
+                           start, end);
+
+    /* save the timestamp */
+    config->networkDictionaryStartTimestamp (start);
+    config->networkDictionaryEndTimestamp (end);
+
+    /* load addon dictionaries */
     const char *dicts = config->dictionaries ().c_str ();
     gchar ** indices = g_strsplit_set (dicts, ";", -1);
     for (size_t i = 0; i < g_strv_length(indices); ++i) {
@@ -361,6 +387,11 @@ LibPinyinBackEnd::readNetworkDictionary(pinyin_context_t * context,
     time_t current = time (NULL);
 
     FILE * dictfile = fopen (filename, "r");
+
+    if (NULL == dictfile) {
+        fprintf (stderr, "failed to open file: %s.\n", filename);
+        return FALSE;
+    }
 
     if (!checkNetworkDictionary (context, dictfile, start, loaded)) {
         fclose (dictfile);
