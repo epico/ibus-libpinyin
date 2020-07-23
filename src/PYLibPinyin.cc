@@ -21,6 +21,7 @@
 #include "PYLibPinyin.h"
 
 #include <string.h>
+#include <time.h>
 #include <pinyin.h>
 #include "PYPConfig.h"
 
@@ -321,6 +322,8 @@ LibPinyinBackEnd::clearPinyinUserData (const char *target)
 
     if (0 == strcmp ("all", target)) {
         pinyin_mask_out (m_pinyin_context, 0x0, 0x0);
+        PinyinConfig::instance ().networkDictionaryStartTimestamp (0);
+        PinyinConfig::instance ().networkDictionaryEndTimestamp (0);
     } else if (0 == strcmp ("user", target)) {
         /* clear addon dictionary. */
         pinyin_mask_out (m_pinyin_context, PHRASE_INDEX_LIBRARY_MASK,
@@ -407,6 +410,10 @@ LibPinyinBackEnd::readNetworkDictionary(pinyin_context_t * context,
     importRestNetworkDictionary (context, dictfile, loaded);
 
     fclose (dictfile);
+
+    /* if network.txt only contains one time stamp entry */
+    if (start > loaded)
+        loaded = start;
 
     pinyin_save (context);
     return TRUE;
