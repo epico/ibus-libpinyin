@@ -70,7 +70,6 @@ LibPinyinBackEnd::initPinyinContext (Config *config)
     g_free (userdir);
 
     /* init network dictionary */
-    pinyin_load_phrase_library (context, NETWORK_DICTIONARY);
     time_t start = config->networkDictionaryStartTimestamp ();
     time_t end = config->networkDictionaryEndTimestamp ();
 
@@ -129,7 +128,6 @@ LibPinyinBackEnd::initChewingContext (Config *config)
     g_free(userdir);
 
     /* init network dictionary */
-    pinyin_load_phrase_library (context, NETWORK_DICTIONARY);
     time_t start = config->networkDictionaryStartTimestamp ();
     time_t end = config->networkDictionaryEndTimestamp ();
 
