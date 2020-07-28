@@ -272,7 +272,7 @@ LibPinyinBackEnd::importPinyinDictionary (const char *filename)
     pinyin_end_add_phrases (iter);
     fclose (dictfile);
 
-    pinyin_save (m_pinyin_context);
+    modified ();
     return TRUE;
 }
 
@@ -333,7 +333,7 @@ LibPinyinBackEnd::clearPinyinUserData (const char *target)
         g_warning ("unknown clear target: %s.\n", target);
     }
 
-    pinyin_save (m_pinyin_context);
+    modified ();
     return TRUE;
 }
 
@@ -413,7 +413,7 @@ LibPinyinBackEnd::readNetworkDictionary(pinyin_context_t * context,
     if (start > loaded)
         loaded = start;
 
-    pinyin_save (context);
+    modified ();
     return TRUE;
 }
 
@@ -422,7 +422,7 @@ LibPinyinBackEnd::clearNetworkDictionary (pinyin_context_t * context)
 {
     pinyin_mask_out (context, PHRASE_INDEX_LIBRARY_MASK,
                      PHRASE_INDEX_MAKE_TOKEN (NETWORK_DICTIONARY, null_token));
-    pinyin_save (context);
+    modified ();
     return TRUE;
 }
 
