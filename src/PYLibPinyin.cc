@@ -405,7 +405,7 @@ LibPinyinBackEnd::readNetworkDictionary(pinyin_context_t * context,
     forwardNetworkDictionary (dictfile, loaded);
 
     /* import the rest of network dictionary. */
-    importRestNetworkDictionary (context, dictfile, loaded);
+    bool retval = importRestNetworkDictionary (context, dictfile, loaded);
 
     fclose (dictfile);
 
@@ -413,7 +413,8 @@ LibPinyinBackEnd::readNetworkDictionary(pinyin_context_t * context,
     if (start > loaded)
         loaded = start;
 
-    modified ();
+    if (retval)
+        modified ();
     return TRUE;
 }
 
@@ -481,6 +482,8 @@ LibPinyinBackEnd::importRestNetworkDictionary (pinyin_context_t * context,
                                                FILE * dictfile,
                                                /* out */ time_t & loaded)
 {
+    bool retval = FALSE;
+
     import_iterator_t * iter = pinyin_begin_add_phrases
         (context, NETWORK_DICTIONARY);
 
@@ -512,10 +515,11 @@ LibPinyinBackEnd::importRestNetworkDictionary (pinyin_context_t * context,
             continue;
 
         pinyin_iterator_add_phrase (iter, phrase, pinyin, count);
+        retval = TRUE;
 
         g_strfreev (items);
     }
 
     pinyin_end_add_phrases (iter);
-    return TRUE;
+    return retval;
 }
