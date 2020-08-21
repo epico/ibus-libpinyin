@@ -177,9 +177,17 @@ PinyinEngine::processAccelKeyEvent (guint keyval, guint keycode,
                 m_editors[MODE_INIT]->reset ();
             }
 
+            if (!m_editors[MODE_STROKE]->text ().empty ())
+                m_editors[MODE_STROKE]->reset ();
+
             if (!m_editors[MODE_SUGGESTION]->text ().empty ())
                 m_editors[MODE_SUGGESTION]->reset ();
-            m_props.toggleModeChinese ();
+
+            if (m_input_mode != MODE_ENGLISH &&
+                m_input_mode != MODE_EXTENSION) {
+                m_input_mode = MODE_INIT;
+                m_props.toggleModeChinese ();
+            }
             return FALSE;
         }
 
