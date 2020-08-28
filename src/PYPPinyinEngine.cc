@@ -166,8 +166,10 @@ PinyinEngine::processAccelKeyEvent (guint keyval, guint keycode,
          * and no other key event between the press and release key event */
         gboolean triggered = FALSE;
 
-        if (PinyinConfig::instance ().mainSwitch () == accel) {
-            triggered = TRUE;
+        if (m_prev_pressed_key == keyval) {
+            if (PinyinConfig::instance ().mainSwitch () == accel) {
+                triggered = TRUE;
+            }
         }
 
         if (triggered) {
