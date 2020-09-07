@@ -84,7 +84,7 @@ EmojiCandidates::processCandidates (std::vector<EnhancedCandidate> & candidates)
         return TRUE;
     } else {
         int num = std::min
-            (m_editor->m_config.pageSize (), (guint)candidates.size ());
+            (m_editor->m_config.pageSize () - 1, (guint)candidates.size ());
         for (int i = 0; i < num; ++i) {
             String text = candidates[i].m_display_string;
 
