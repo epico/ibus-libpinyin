@@ -28,3 +28,6 @@ def get_version():
 
 def get_longname():
     return _("Intelligent Pinyin")
+
+def support_cloud_input():
+    return @CLOUD_INPUT_MODE@

@@ -116,7 +116,6 @@ class PreferencesDialog:
         self.__page_dictionary = self.__builder.get_object("pageDictionary")
         self.__page_user_data = self.__builder.get_object("pageUserData")
         self.__page_shortcut = self.__builder.get_object("pageShortcut")
-        self.__frame_cloud_input = self.__builder.get_object("frameCloudInput")
         self.__page_about = self.__builder.get_object("pageAbout")
 
         self.__page_general.hide()
@@ -125,7 +124,6 @@ class PreferencesDialog:
         self.__page_fuzzy.hide()
         self.__page_dictionary.hide()
         self.__page_user_data.hide()
-        self.__frame_cloud_input.hide()
         self.__page_about.hide()
 
     def __init_general(self):
@@ -207,7 +205,7 @@ class PreferencesDialog:
         self.__double_pinyin_schema = self.__builder.get_object("DoublePinyinSchema")
         # self.__double_pinyin_schema_label = self.__builder.get_object("labelDoublePinyinSchema")
         self.__double_pinyin_show_raw = self.__builder.get_object("DoublePinyinShowRaw")
-        self.__double_pinyin_show_raw.hide ()
+        self.__double_pinyin_show_raw.hide()
 
         # read value
         self.__incomplete_pinyin.set_active(self.__get_value("incomplete-pinyin"))
@@ -495,14 +493,15 @@ class PreferencesDialog:
         self.__set_value(key, value)
 
     def __init_bopomofo_cloud_input(self):
-        # page Bopomofo CloudInput
-        self.__frame_cloud_input = self.__builder.get_object("frameBopomofoCloudInput")
-
         # init state
+        self.__frame_cloud_input = self.__builder.get_object("frameBopomofoCloudInput")
         self.__init_enable_cloud_input = self.__builder.get_object("InitEnableBopomofoCloudInput")
 
         # cloud input option
         self.__cloud_input_source = self.__builder.get_object("BopomofoCloudInputSource")
+
+        if not config.support_cloud_input():
+            self.__frame_cloud_input.hide()
 
         # read values
         self.__init_enable_cloud_input.set_active(self.__get_value("enable-cloud-input"))
@@ -528,14 +527,15 @@ class PreferencesDialog:
 
 
     def __init_cloud_input(self):
-        # page CloudInput
-        self.__frame_cloud_input.show()
-
         # init state
+        self.__frame_cloud_input = self.__builder.get_object("frameCloudInput")
         self.__init_enable_cloud_input = self.__builder.get_object("InitEnableCloudInput")
 
         # cloud input option
         self.__cloud_input_source = self.__builder.get_object("CloudInputSource")
+
+        if not config.support_cloud_input():
+            self.__frame_cloud_input.hide()
 
         # read values
         self.__init_enable_cloud_input.set_active(self.__get_value("enable-cloud-input"))

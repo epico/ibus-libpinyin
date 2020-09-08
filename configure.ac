@@ -182,6 +182,7 @@ fi
 AM_CONDITIONAL(IBUS_BUILD_LUA_EXTENSION, [test x"$enable_lua_extension" = x"yes"])
 
 # --enable-cloud-input-mode
+CLOUD_INPUT_MODE="False"
 AC_ARG_ENABLE(cloud-input-mode,
     AC_HELP_STRING([--enable-cloud-input-mode],
         [add cloud candidates]),
@@ -198,8 +199,11 @@ if test x"$enable_cloud_input_mode" = x"yes"; then
     PKG_CHECK_MODULES(JSONGLIB, [json-glib-1.0 >= 1.0])
     AC_SUBST(JSONGLIB_CFLAGS)
     AC_SUBST(JSONGLIB_LIBS)
+
+    CLOUD_INPUT_MODE="True"
 fi
 AM_CONDITIONAL(ENABLE_CLOUD_INPUT_MODE, test x"$enable_cloud_input_mode" = x"yes")
+AC_SUBST(CLOUD_INPUT_MODE)
 
 # --disable-english-input-mode
 AC_ARG_ENABLE(english-input-mode,
