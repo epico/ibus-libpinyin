@@ -222,6 +222,7 @@
       <summary>Cloud Candidates Number</summary>
     </key>
     <key name="cloud-request-delay-time" type="i">
+      <range min="200" max="2000"/>
       <default>600</default>
       <summary>Sending Cloud request with delay</summary>
     </key>
@@ -396,6 +397,7 @@
       <summary>Cloud Candidates Number</summary>
     </key>
     <key name="cloud-request-delay-time" type="i">
+      <range min="200" max="2000"/>
       <default>600</default>
       <summary>Sending Cloud request with delay</summary>
     </key>
