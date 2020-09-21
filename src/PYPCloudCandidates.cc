@@ -335,8 +335,9 @@ CloudCandidates::CloudCandidates (PhoneticEditor * editor) : m_input_mode(FullPi
     m_source_event_id = 0;
     m_message = NULL;
 
-    m_baidu_parser = new BaiduCloudCandidatesResponseJsonParser ();
-    m_google_parser = new GoogleCloudCandidatesResponseJsonParser ();
+    m_input_source = CLOUD_INPUT_SOURCE_UNKNOWN;
+
+    m_parser = NULL;
 }
 
 CloudCandidates::~CloudCandidates ()
@@ -356,15 +357,32 @@ CloudCandidates::~CloudCandidates ()
         m_session = NULL;
     }
 
-    if (m_baidu_parser) {
-        delete m_baidu_parser;
-        m_baidu_parser = NULL;
+    if (m_parser) {
+        delete m_parser;
+        m_parser = NULL;
+    }
+}
+
+void
+CloudCandidates::resetCloudResponseParser ()
+{
+    CloudInputSource input_source = m_editor->m_config.cloudInputSource ();
+
+    if (m_input_source == input_source)
+        return;
+
+    /* cloud input option is changed */
+    if (m_parser) {
+        delete m_parser;
+        m_parser = NULL;
     }
 
-    if (m_google_parser) {
-        delete m_google_parser;
-        m_google_parser = NULL;
-    }
+    m_input_source = input_source;
+
+    if (input_source == CLOUD_INPUT_SOURCE_BAIDU)
+        m_parser = new BaiduCloudCandidatesResponseJsonParser;
+    else if (input_source == CLOUD_INPUT_SOURCE_GOOGLE)
+        m_parser = new GoogleCloudCandidatesResponseJsonParser;
 }
 
 gboolean
@@ -545,11 +563,11 @@ CloudCandidates::cloudSyncRequest (const gchar* request_str, std::vector<Enhance
     guint cloud_source = m_editor->m_config.cloudInputSource ();
     guint cloud_candidates_number = m_editor->m_config.cloudCandidatesNumber ();
 
-    if (cloud_source == BAIDU)
-        queryRequest= g_strdup_printf (BAIDU_URL_TEMPLATE, request_str, cloud_candidates_number);
-    else if (cloud_source == GOOGLE)
-        queryRequest= g_strdup_printf (GOOGLE_URL_TEMPLATE, request_str, cloud_candidates_number);
-    SoupMessage *msg = soup_message_new ("GET", queryRequest);
+    if (cloud_source == CLOUD_INPUT_SOURCE_BAIDU)
+        query_request= g_strdup_printf (BAIDU_URL_TEMPLATE, request_str, cloud_candidates_number);
+    else if (cloud_source == CLOUD_INPUT_SOURCE_GOOGLE)
+        query_request= g_strdup_printf (GOOGLE_URL_TEMPLATE, request_str, cloud_candidates_number);
+    SoupMessage *msg = soup_message_new ("GET", query_request);
 
     GInputStream *stream = soup_session_send (m_session, msg, NULL, error);
 
@@ -560,17 +578,11 @@ void
 CloudCandidates::processCloudResponse (GInputStream *stream, std::vector<EnhancedCandidate> & candidates)
 {
     guint retval;
-    CloudCandidatesResponseJsonParser *parser = NULL;
     String text;
     gchar annotation[MAX_PINYIN_LEN + 1];
-    guint cloud_source = m_editor->m_config.cloudInputSource ();
 
-    if (cloud_source == BAIDU)
-        parser = m_baidu_parser;
-    else if (cloud_source == GOOGLE)
-        parser = m_google_parser;
-
-    retval = parser->parse (stream);
+    resetCloudResponseParser ();
+    retval = m_parser->parse (stream);
 
     /* no annotation if there is NETWORK_ERROR, process before detecting parsed annotation */
     if (retval == PARSER_NETWORK_ERROR) {
@@ -579,8 +591,8 @@ CloudCandidates::processCloudResponse (GInputStream *stream, std::vector<Enhance
         }
     }
 
-    if (parser->getAnnotation ())
-        strncpy (annotation, parser->getAnnotation (), MAX_PINYIN_LEN);
+    if (m_parser->getAnnotation ())
+        strncpy (annotation, m_parser->getAnnotation (), MAX_PINYIN_LEN);
     else /* the request might have been cancelled */
         return;
 
@@ -593,10 +605,10 @@ CloudCandidates::processCloudResponse (GInputStream *stream, std::vector<Enhance
     }
 
     /* ignore annotation match while using Baidu source */
-    if (cloud_source == BAIDU || !g_strcmp0 (annotation, text)) {
+    if (!g_strcmp0 (annotation, text)) {
         if (retval == PARSER_NOERR) {
             /* update to the cached candidates list */
-            std::vector<std::string> &updated = parser->getStringCandidates ();
+            std::vector<std::string> &updated = m_parser->getStringCandidates ();
             assert (m_candidates.size () == updated.size ());
 
             for (guint i = 0; i < m_candidates.size (); ++i) {

@@ -33,8 +33,7 @@
 
 
 
-class BaiduCloudCandidatesResponseJsonParser;
-class GoogleCloudCandidatesResponseJsonParser;
+class CloudCandidatesResponseParser;
 
 namespace PY {
 
@@ -82,12 +81,14 @@ private:
 
     /* get internal full pinyin representation */
     String getFullPinyin ();
+
+    void resetCloudResponseParser ();
 private:
     SoupSession *m_session;
     InputMode m_input_mode;
 
-    BaiduCloudCandidatesResponseJsonParser *m_baidu_parser;
-    GoogleCloudCandidatesResponseJsonParser *m_google_parser;
+    CloudInputSource m_input_source;
+    CloudCandidatesResponseParser *m_parser;
 protected:
     std::vector<EnhancedCandidate> m_candidates;
 };

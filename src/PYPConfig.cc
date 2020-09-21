@@ -156,7 +156,7 @@ LibPinyinConfig::initDefaultValues (void)
 
     m_enable_cloud_input = FALSE;
     m_cloud_candidates_number = 1;
-    m_cloud_input_source = BAIDU;
+    m_cloud_input_source = CLOUD_INPUT_SOURCE_BAIDU;
     m_cloud_request_delay_time = 600;
 }
 
@@ -509,9 +509,9 @@ PinyinConfig::readDefaultValues (void)
         g_warn_if_reached ();
     }
     m_cloud_input_source = read (CONFIG_CLOUD_INPUT_SOURCE, 0);
-    if (m_cloud_input_source != BAIDU &&
-        m_cloud_input_source != GOOGLE) {
-        m_cloud_input_source = BAIDU;
+    if (m_cloud_input_source < CLOUD_INPUT_SOURCE_BAIDU ||
+        m_cloud_input_source >= CLOUD_INPUT_SOURCE_UNKNOWN) {
+        m_cloud_input_source = CLOUD_INPUT_SOURCE_BAIDU;
         g_warn_if_reached ();
     }
     m_cloud_request_delay_time = read (CONFIG_CLOUD_REQUEST_DELAY_TIME, 600);
@@ -593,10 +593,10 @@ PinyinConfig::valueChanged (const std::string &schema_id,
         }
     }
     else if (CONFIG_CLOUD_INPUT_SOURCE == name) {
-        m_cloud_input_source = normalizeGVariant (value, BAIDU);
-        if (m_cloud_input_source != BAIDU &&
-            m_cloud_input_source != GOOGLE) {
-            m_cloud_input_source = BAIDU;
+        m_cloud_input_source = normalizeGVariant (value, CLOUD_INPUT_SOURCE_BAIDU);
+        if (m_cloud_input_source < CLOUD_INPUT_SOURCE_BAIDU ||
+            m_cloud_input_source >= CLOUD_INPUT_SOURCE_UNKNOWN) {
+            m_cloud_input_source = CLOUD_INPUT_SOURCE_BAIDU;
             g_warn_if_reached ();
         }
     }

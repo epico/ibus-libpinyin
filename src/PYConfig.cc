@@ -75,7 +75,7 @@ Config::initDefaultValues (void)
 
     m_enable_cloud_input = FALSE;
     m_cloud_candidates_number = 1;
-    m_cloud_input_source = BAIDU;
+    m_cloud_input_source = CLOUD_INPUT_SOURCE_BAIDU;
     m_cloud_request_delay_time = 600;
 }
 
