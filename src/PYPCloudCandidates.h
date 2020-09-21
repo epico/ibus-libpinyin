@@ -61,10 +61,10 @@ public:
 
     int selectCandidate (EnhancedCandidate & enhanced);
 
-    void cloudAsyncRequest (const gchar* requestStr);
-    void cloudSyncRequest (const gchar* requestStr, std::vector<EnhancedCandidate> & candidates);
+    void cloudAsyncRequest (const gchar* pinyin);
+    void cloudSyncRequest (const gchar* pinyin, std::vector<EnhancedCandidate> & candidates);
 
-    void delayedCloudAsyncRequest (const gchar* requestStr);
+    void delayedCloudAsyncRequest (const gchar* pinyin);
 
     void updateLookupTable ();
 
@@ -87,7 +87,7 @@ private:
     SoupSession *m_session;
     InputMode m_input_mode;
 
-    CloudInputSource m_input_source;
+    guint m_input_source;
     CloudCandidatesResponseParser *m_parser;
 protected:
     std::vector<EnhancedCandidate> m_candidates;

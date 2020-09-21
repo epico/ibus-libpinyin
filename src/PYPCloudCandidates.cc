@@ -57,13 +57,11 @@ static const std::string CANDIDATE_NO_CANDIDATE_TEXT    = CANDIDATE_CLOUD_PREFIX
 static const std::string CANDIDATE_INVALID_DATA_TEXT    = CANDIDATE_CLOUD_PREFIX + CANDIDATE_INVALID_DATA_TEXT_WITHOUT_PREFIX ;
 static const std::string CANDIDATE_BAD_FORMAT_TEXT      = CANDIDATE_CLOUD_PREFIX + CANDIDATE_BAD_FORMAT_TEXT_WITHOUT_PREFIX;
 
-static const char *BAIDU_URL_TEMPLATE = "http://olime.baidu.com/py?input=%s&inputtype=py&bg=0&ed=%d&result=hanzi&resultcoding=utf-8&ch_en=1&clientinfo=web&version=1";
-static const char *GOOGLE_URL_TEMPLATE = "https://www.google.com/inputtools/request?ime=pinyin&text=%s&num=%d";
 
 typedef struct
 {
     guint event_id;
-    gchar request_str[MAX_PINYIN_LEN + 1];
+    gchar requested_pinyin[MAX_PINYIN_LEN + 1];
     CloudCandidates *cloud_candidates;
 } DelayedCloudAsyncRequestCallbackUserData;
 
@@ -72,6 +70,8 @@ class CloudCandidatesResponseParser
 public:
     CloudCandidatesResponseParser () : m_annotation (NULL) {}
     virtual ~CloudCandidatesResponseParser () {}
+
+    virtual gchar *getRequestString (const gchar *pinyin, gint number) = 0;
 
     virtual guint parse (GInputStream *stream) = 0;
 
@@ -197,6 +197,12 @@ protected:
     }
 
 public:
+    gchar *getRequestString (const gchar *pinyin, gint number) {
+        const char *GOOGLE_URL_TEMPLATE = "https://www.google.com/inputtools/request?ime=pinyin&text=%s&num=%d";
+        return g_strdup_printf (GOOGLE_URL_TEMPLATE, pinyin, number);
+    }
+
+public:
     GoogleCloudCandidatesResponseJsonParser () : CloudCandidatesResponseJsonParser () {}
 };
 
@@ -292,6 +298,13 @@ private:
     }
 
 public:
+    public:
+    gchar *getRequestString (const gchar *pinyin, gint number) {
+        const char *BAIDU_URL_TEMPLATE = "http://olime.baidu.com/py?input=%s&inputtype=py&bg=0&ed=%d&result=hanzi&resultcoding=utf-8&ch_en=1&clientinfo=web&version=1";
+        return g_strdup_printf (BAIDU_URL_TEMPLATE, pinyin, number);
+    }
+
+public:
     BaiduCloudCandidatesResponseJsonParser () : CloudCandidatesResponseJsonParser () {}
     ~BaiduCloudCandidatesResponseJsonParser () { if (m_annotation) g_free ((gpointer)m_annotation); }
 };
@@ -313,7 +326,7 @@ CloudCandidates::delayedCloudAsyncRequestCallBack (gpointer user_data)
     /* only send with a latest timer */
     if (data->event_id == cloudCandidates->m_source_event_id) {
         cloudCandidates->m_source_event_id = 0;
-        cloudCandidates->cloudAsyncRequest (data->request_str);
+        cloudCandidates->cloudAsyncRequest (data->requested_pinyin);
     }
 
     return FALSE;
@@ -366,7 +379,7 @@ CloudCandidates::~CloudCandidates ()
 void
 CloudCandidates::resetCloudResponseParser ()
 {
-    CloudInputSource input_source = m_editor->m_config.cloudInputSource ();
+    guint input_source = m_editor->m_config.cloudInputSource ();
 
     if (m_input_source == input_source)
         return;
@@ -471,7 +484,7 @@ CloudCandidates::selectCandidate (EnhancedCandidate & enhanced)
 }
 
 void
-CloudCandidates::delayedCloudAsyncRequest (const gchar* request_str)
+CloudCandidates::delayedCloudAsyncRequest (const gchar* pinyin)
 {
     gpointer user_data;
     DelayedCloudAsyncRequestCallbackUserData *data;
@@ -484,8 +497,8 @@ CloudCandidates::delayedCloudAsyncRequest (const gchar* request_str)
     user_data = g_malloc (sizeof(DelayedCloudAsyncRequestCallbackUserData));
     data = static_cast<DelayedCloudAsyncRequestCallbackUserData *> (user_data);
 
-    strncpy (data->request_str, request_str, MAX_PINYIN_LEN);
-    data->request_str[MAX_PINYIN_LEN] = '\0';
+    strncpy (data->requested_pinyin, pinyin, MAX_PINYIN_LEN);
+    data->requested_pinyin[MAX_PINYIN_LEN] = '\0';
     data->cloud_candidates = this;
 
     /* record the latest timer */
@@ -498,17 +511,12 @@ CloudCandidates::delayedCloudAsyncRequest (const gchar* request_str)
 }
 
 void
-CloudCandidates::cloudAsyncRequest (const gchar* request_str)
+CloudCandidates::cloudAsyncRequest (const gchar* pinyin)
 {
     GError **error = NULL;
-    gchar *query_request;
-    guint cloud_source = m_editor->m_config.cloudInputSource ();
-    guint cloud_candidates_number = m_editor->m_config.cloudCandidatesNumber ();
+    guint number = m_editor->m_config.cloudCandidatesNumber ();
 
-    if (cloud_source == BAIDU)
-        query_request= g_strdup_printf (BAIDU_URL_TEMPLATE, request_str, cloud_candidates_number);
-    else if (cloud_source == GOOGLE)
-        query_request= g_strdup_printf (GOOGLE_URL_TEMPLATE, request_str, cloud_candidates_number);
+    gchar *query_request = m_parser->getRequestString (pinyin, number);
 
     /* cancel message if there is a pending one */
     if (m_message)
@@ -519,7 +527,7 @@ CloudCandidates::cloudAsyncRequest (const gchar* request_str)
     m_message = msg;
 
     /* cache the last request string */
-    m_last_requested_pinyin = request_str;
+    m_last_requested_pinyin = pinyin;
 
     /* update loading text to replace pending text */
     for (std::vector<EnhancedCandidate>::iterator pos = m_candidates.begin (); pos != m_candidates.end (); ++pos) {
@@ -556,22 +564,21 @@ CloudCandidates::cloudResponseCallBack (GObject *source_object, GAsyncResult *re
 }
 
 void
-CloudCandidates::cloudSyncRequest (const gchar* request_str, std::vector<EnhancedCandidate> & candidates)
+CloudCandidates::cloudSyncRequest (const gchar* pinyin, std::vector<EnhancedCandidate> & candidates)
 {
     GError **error = NULL;
-    gchar *queryRequest;
-    guint cloud_source = m_editor->m_config.cloudInputSource ();
-    guint cloud_candidates_number = m_editor->m_config.cloudCandidatesNumber ();
+    guint number = m_editor->m_config.cloudCandidatesNumber ();
 
-    if (cloud_source == CLOUD_INPUT_SOURCE_BAIDU)
-        query_request= g_strdup_printf (BAIDU_URL_TEMPLATE, request_str, cloud_candidates_number);
-    else if (cloud_source == CLOUD_INPUT_SOURCE_GOOGLE)
-        query_request= g_strdup_printf (GOOGLE_URL_TEMPLATE, request_str, cloud_candidates_number);
+    gchar *query_request = m_parser->getRequestString (pinyin, number);
     SoupMessage *msg = soup_message_new ("GET", query_request);
 
     GInputStream *stream = soup_session_send (m_session, msg, NULL, error);
 
     processCloudResponse (stream, candidates);
+
+    /* free url string */
+    if (query_request)
+        g_free(query_request);
 }
 
 void
