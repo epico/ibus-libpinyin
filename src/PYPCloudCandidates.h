@@ -61,7 +61,7 @@ public:
 
     int selectCandidate (EnhancedCandidate & enhanced);
 
-    void cloudAsyncRequest (const gchar* pinyin);
+    void cloudAsyncRequest (gpointer user_data);
     void cloudSyncRequest (const gchar* pinyin, std::vector<EnhancedCandidate> & candidates);
 
     void delayedCloudAsyncRequest (const gchar* pinyin);
@@ -77,7 +77,7 @@ private:
     static void delayedCloudAsyncRequestDestroyCallBack (gpointer user_data);
     static void cloudResponseCallBack (GObject *object, GAsyncResult *result, gpointer user_data);
 
-    void processCloudResponse (GInputStream *stream, std::vector<EnhancedCandidate> & candidates);
+    void processCloudResponse (GInputStream *stream, std::vector<EnhancedCandidate> & candidates, const gchar *pinyin);
 
     /* get internal full pinyin representation */
     String getFullPinyin ();

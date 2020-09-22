@@ -63,7 +63,7 @@ typedef struct
     guint event_id;
     gchar requested_pinyin[MAX_PINYIN_LEN + 1];
     CloudCandidates *cloud_candidates;
-} DelayedCloudAsyncRequestCallbackUserData;
+} CloudAsyncRequestUserData;
 
 class CloudCandidatesResponseParser
 {
@@ -312,21 +312,20 @@ public:
 gboolean
 CloudCandidates::delayedCloudAsyncRequestCallBack (gpointer user_data)
 {
-    DelayedCloudAsyncRequestCallbackUserData *data = static_cast<DelayedCloudAsyncRequestCallbackUserData *> (user_data);
-    CloudCandidates *cloudCandidates;
+    CloudAsyncRequestUserData *data = static_cast<CloudAsyncRequestUserData *> (user_data);
 
     if (!data)
         return FALSE;
 
-    cloudCandidates = data->cloud_candidates;
+    CloudCandidates *cloud_candidates = data->cloud_candidates;
 
-    if (!cloudCandidates)
+    if (!cloud_candidates)
         return FALSE;
 
     /* only send with a latest timer */
-    if (data->event_id == cloudCandidates->m_source_event_id) {
-        cloudCandidates->m_source_event_id = 0;
-        cloudCandidates->cloudAsyncRequest (data->requested_pinyin);
+    if (data->event_id == cloud_candidates->m_source_event_id) {
+        cloud_candidates->m_source_event_id = 0;
+        cloud_candidates->cloudAsyncRequest (user_data);
     }
 
     return FALSE;
@@ -487,15 +486,15 @@ void
 CloudCandidates::delayedCloudAsyncRequest (const gchar* pinyin)
 {
     gpointer user_data;
-    DelayedCloudAsyncRequestCallbackUserData *data;
+    CloudAsyncRequestUserData *data;
 
     /* cancel the latest timer, if applied */
     if (m_source_event_id != 0)
         g_source_remove (m_source_event_id);
 
-    /* allocate memory for a DelayedCloudAsyncRequestCallbackUserData instance to take more callback user data */
-    user_data = g_malloc (sizeof(DelayedCloudAsyncRequestCallbackUserData));
-    data = static_cast<DelayedCloudAsyncRequestCallbackUserData *> (user_data);
+    /* allocate memory for a CloudAsyncRequestUserData instance to take more callback user data */
+    user_data = g_malloc (sizeof(CloudAsyncRequestUserData));
+    data = static_cast<CloudAsyncRequestUserData *> (user_data);
 
     strncpy (data->requested_pinyin, pinyin, MAX_PINYIN_LEN);
     data->requested_pinyin[MAX_PINYIN_LEN] = '\0';
@@ -511,32 +510,31 @@ CloudCandidates::delayedCloudAsyncRequest (const gchar* pinyin)
 }
 
 void
-CloudCandidates::cloudAsyncRequest (const gchar* pinyin)
+CloudCandidates::cloudAsyncRequest (gpointer user_data)
 {
-    GError **error = NULL;
     guint number = m_editor->m_config.cloudCandidatesNumber ();
 
-    gchar *query_request = m_parser->getRequestString (pinyin, number);
+    CloudAsyncRequestUserData *data = static_cast<CloudAsyncRequestUserData *> (user_data);
+
+    gchar *query_request = m_parser->getRequestString (data->requested_pinyin, number);
 
     /* cancel message if there is a pending one */
     if (m_message)
         soup_session_cancel_message (m_session, m_message, SOUP_STATUS_CANCELLED);
 
     SoupMessage *msg = soup_message_new ("GET", query_request);
-    soup_session_send_async (m_session, msg, NULL, cloudResponseCallBack, static_cast<gpointer> (this));
+    soup_session_send_async (m_session, msg, NULL, cloudResponseCallBack, user_data);
     m_message = msg;
 
     /* cache the last request string */
-    m_last_requested_pinyin = pinyin;
+    m_last_requested_pinyin = data->requested_pinyin;
 
     /* update loading text to replace pending text */
     for (std::vector<EnhancedCandidate>::iterator pos = m_candidates.begin (); pos != m_candidates.end (); ++pos) {
         pos->m_display_string = CANDIDATE_LOADING_TEXT_WITHOUT_PREFIX;
     }
 
-    /* only update lookup table when there is still pinyin text */
-    if (m_editor->m_text.utf8Length () >= CLOUD_MINIMUM_UTF8_TRIGGER_LENGTH)
-        updateLookupTable ();
+    updateLookupTable ();
 
     /* free url string */
     if (query_request)
@@ -546,35 +544,33 @@ CloudCandidates::cloudAsyncRequest (const gchar* pinyin)
 void
 CloudCandidates::cloudResponseCallBack (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-    GError **error = NULL;
-    GInputStream *stream = soup_session_send_finish (SOUP_SESSION (source_object), result, error);
-    CloudCandidates *cloudCandidates = static_cast<CloudCandidates *> (user_data);
+    GInputStream *stream = soup_session_send_finish (SOUP_SESSION (source_object), result, NULL);
+    CloudAsyncRequestUserData *data = static_cast<CloudAsyncRequestUserData *> (user_data);
+
+    CloudCandidates *cloud_candidates = data->cloud_candidates;
 
     /* process results */
-    cloudCandidates->processCloudResponse (stream, cloudCandidates->m_editor->m_candidates);
+    cloud_candidates->processCloudResponse (stream, cloud_candidates->m_editor->m_candidates, data->requested_pinyin);
 
-    /* only update lookup table when there is still pinyin text */
-    if (cloudCandidates->m_editor->m_text.utf8Length () >=
-        CLOUD_MINIMUM_UTF8_TRIGGER_LENGTH) {
-        cloudCandidates->updateLookupTable ();
+    cloud_candidates->updateLookupTable ();
 
-        /* clean up message */
-        cloudCandidates->m_message = NULL;
-    }
+    /* clean up message */
+    cloud_candidates->m_message = NULL;
+
+    g_free (user_data);
 }
 
 void
 CloudCandidates::cloudSyncRequest (const gchar* pinyin, std::vector<EnhancedCandidate> & candidates)
 {
-    GError **error = NULL;
     guint number = m_editor->m_config.cloudCandidatesNumber ();
 
     gchar *query_request = m_parser->getRequestString (pinyin, number);
     SoupMessage *msg = soup_message_new ("GET", query_request);
 
-    GInputStream *stream = soup_session_send (m_session, msg, NULL, error);
+    GInputStream *stream = soup_session_send (m_session, msg, NULL, NULL);
 
-    processCloudResponse (stream, candidates);
+    processCloudResponse (stream, candidates, pinyin);
 
     /* free url string */
     if (query_request)
@@ -582,7 +578,7 @@ CloudCandidates::cloudSyncRequest (const gchar* pinyin, std::vector<EnhancedCand
 }
 
 void
-CloudCandidates::processCloudResponse (GInputStream *stream, std::vector<EnhancedCandidate> & candidates)
+CloudCandidates::processCloudResponse (GInputStream *stream, std::vector<EnhancedCandidate> & candidates, const gchar * requested_pinyin)
 {
     guint retval;
     String text;
@@ -611,8 +607,7 @@ CloudCandidates::processCloudResponse (GInputStream *stream, std::vector<Enhance
         text = getFullPinyin ();
     }
 
-    /* ignore annotation match while using Baidu source */
-    if (!g_strcmp0 (annotation, text)) {
+    if (!g_strcmp0 (requested_pinyin, text)) {
         if (retval == PARSER_NOERR) {
             /* update to the cached candidates list */
             std::vector<std::string> &updated = m_parser->getStringCandidates ();
