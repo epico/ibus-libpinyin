@@ -23,6 +23,7 @@
 #include <string.h>
 #include <time.h>
 #include <pinyin.h>
+#include "PYString.h"
 #include "PYPConfig.h"
 
 #define LIBPINYIN_SAVE_TIMEOUT   (5 * 60)
@@ -81,7 +82,7 @@ LibPinyinBackEnd::initPinyinContext (Config *config)
     config->networkDictionaryEndTimestamp (end);
 
     /* load addon dictionaries */
-    const char *dicts = config->dictionaries ().c_str ();
+    String dicts = config->dictionaries ();
     gchar ** indices = g_strsplit_set (dicts, ";", -1);
     for (size_t i = 0; i < g_strv_length(indices); ++i) {
         int index = atoi (indices [i]);
