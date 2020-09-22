@@ -74,7 +74,6 @@ public:
 
 private:
     static gboolean delayedCloudAsyncRequestCallBack (gpointer user_data);
-    static void delayedCloudAsyncRequestDestroyCallBack (gpointer user_data);
     static void cloudResponseCallBack (GObject *object, GAsyncResult *result, gpointer user_data);
 
     void processCloudResponse (GInputStream *stream, std::vector<EnhancedCandidate> & candidates, const gchar *pinyin);

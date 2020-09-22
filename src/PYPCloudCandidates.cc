@@ -298,7 +298,6 @@ private:
     }
 
 public:
-    public:
     gchar *getRequestString (const gchar *pinyin, gint number) {
         const char *BAIDU_URL_TEMPLATE = "http://olime.baidu.com/py?input=%s&inputtype=py&bg=0&ed=%d&result=hanzi&resultcoding=utf-8&ch_en=1&clientinfo=web&version=1";
         return g_strdup_printf (BAIDU_URL_TEMPLATE, pinyin, number);
@@ -306,7 +305,6 @@ public:
 
 public:
     BaiduCloudCandidatesResponseJsonParser () : CloudCandidatesResponseJsonParser () {}
-    ~BaiduCloudCandidatesResponseJsonParser () { if (m_annotation) g_free ((gpointer)m_annotation); }
 };
 
 gboolean
@@ -329,14 +327,6 @@ CloudCandidates::delayedCloudAsyncRequestCallBack (gpointer user_data)
     }
 
     return FALSE;
-}
-
-void
-CloudCandidates::delayedCloudAsyncRequestDestroyCallBack (gpointer user_data)
-{
-    /* clean up */
-    if (user_data)
-        g_free (user_data);
 }
 
 CloudCandidates::CloudCandidates (PhoneticEditor * editor) : m_input_mode(FullPinyin)
@@ -415,6 +405,8 @@ CloudCandidates::processCandidates (std::vector<EnhancedCandidate> & candidates)
         m_last_requested_pinyin = "";
         return FALSE;   /* do not request because there is only one character */
     }
+
+    resetCloudResponseParser ();
 
     /* search the first non-ngram candidate */
     for (first_pos = candidates.begin (); first_pos != candidates.end (); ++first_pos) {
@@ -505,7 +497,7 @@ CloudCandidates::delayedCloudAsyncRequest (const gchar* pinyin)
                                             m_editor->m_config.cloudRequestDelayTime (),
                                             delayedCloudAsyncRequestCallBack,
                                             user_data,
-                                            delayedCloudAsyncRequestDestroyCallBack);
+                                            NULL);
     data->event_id = m_source_event_id;
 }
 
@@ -515,6 +507,8 @@ CloudCandidates::cloudAsyncRequest (gpointer user_data)
     guint number = m_editor->m_config.cloudCandidatesNumber ();
 
     CloudAsyncRequestUserData *data = static_cast<CloudAsyncRequestUserData *> (user_data);
+    /* cache the last request string */
+    m_last_requested_pinyin = data->requested_pinyin;
 
     gchar *query_request = m_parser->getRequestString (data->requested_pinyin, number);
 
@@ -525,9 +519,6 @@ CloudCandidates::cloudAsyncRequest (gpointer user_data)
     SoupMessage *msg = soup_message_new ("GET", query_request);
     soup_session_send_async (m_session, msg, NULL, cloudResponseCallBack, user_data);
     m_message = msg;
-
-    /* cache the last request string */
-    m_last_requested_pinyin = data->requested_pinyin;
 
     /* update loading text to replace pending text */
     for (std::vector<EnhancedCandidate>::iterator pos = m_candidates.begin (); pos != m_candidates.end (); ++pos) {
@@ -584,7 +575,6 @@ CloudCandidates::processCloudResponse (GInputStream *stream, std::vector<Enhance
     String text;
     gchar annotation[MAX_PINYIN_LEN + 1];
 
-    resetCloudResponseParser ();
     retval = m_parser->parse (stream);
 
     /* no annotation if there is NETWORK_ERROR, process before detecting parsed annotation */
@@ -594,20 +584,7 @@ CloudCandidates::processCloudResponse (GInputStream *stream, std::vector<Enhance
         }
     }
 
-    if (m_parser->getAnnotation ())
-        strncpy (annotation, m_parser->getAnnotation (), MAX_PINYIN_LEN);
-    else /* the request might have been cancelled */
-        return;
-
-    if (m_input_mode == FullPinyin) {
-        /* get current text in editor */
-        text = m_editor->m_text;
-    } else {
-        /* get current text */
-        text = getFullPinyin ();
-    }
-
-    if (!g_strcmp0 (requested_pinyin, text)) {
+    if (m_last_requested_pinyin == requested_pinyin) {
         if (retval == PARSER_NOERR) {
             /* update to the cached candidates list */
             std::vector<std::string> &updated = m_parser->getStringCandidates ();
