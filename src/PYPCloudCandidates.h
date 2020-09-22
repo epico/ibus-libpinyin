@@ -26,7 +26,9 @@
 #include "PYString.h"
 #include "PYPointer.h"
 #include "PYPEnhancedCandidates.h"
+#include <string>
 #include <vector>
+#include <set>
 #include <libsoup/soup.h>
 #include <json-glib/json-glib.h>
 #include "PYConfig.h"
@@ -76,20 +78,24 @@ private:
     static gboolean delayedCloudAsyncRequestCallBack (gpointer user_data);
     static void cloudResponseCallBack (GObject *object, GAsyncResult *result, gpointer user_data);
 
-    void processCloudResponse (GInputStream *stream, std::vector<EnhancedCandidate> & candidates, const gchar *pinyin);
+    gboolean processCloudResponse (GInputStream *stream, std::vector<EnhancedCandidate> & candidates, const gchar *pinyin);
 
     /* get internal full pinyin representation */
     String getFullPinyin ();
 
     void resetCloudResponseParser ();
+
 private:
     SoupSession *m_session;
     InputMode m_input_mode;
 
     guint m_input_source;
     CloudCandidatesResponseParser *m_parser;
+
 protected:
     std::vector<EnhancedCandidate> m_candidates;
+
+    std::set<std::string> m_sentence_candidate_cache;
 };
 
 };
