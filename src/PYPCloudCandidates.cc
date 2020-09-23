@@ -58,7 +58,7 @@ typedef struct
 class CloudCandidatesResponseParser
 {
 public:
-    CloudCandidatesResponseParser () : m_annotation (NULL) {}
+    CloudCandidatesResponseParser () {}
     virtual ~CloudCandidatesResponseParser () {}
 
     virtual gchar *getRequestString (const gchar *pinyin, gint number) = 0;
@@ -66,11 +66,9 @@ public:
     virtual guint parse (GInputStream *stream) = 0;
 
     virtual std::vector<std::string> &getStringCandidates () { return m_candidates; }
-    virtual const gchar *getAnnotation () { return m_annotation; }
 
 protected:
     std::vector<std::string> m_candidates;
-    const gchar *m_annotation;
 };
 
 class CloudCandidatesResponseJsonParser : public CloudCandidatesResponseParser
@@ -166,9 +164,6 @@ protected:
         if (!google_candidate_annotation)
             return PARSER_INVALID_DATA;
 
-        /* update annotation with the parsed annotation */
-        m_annotation = google_candidate_annotation;
-
         /* get google_candidate_array */
         google_candidate_array = json_array_get_array_element (google_result_array, 1);
 
@@ -254,15 +249,13 @@ private:
         /* get baidu_candidate_array and baidu_candidate_annotation */
         if (json_array_get_length (baidu_result_array) < 2)
             return PARSER_INVALID_DATA;
+
         baidu_candidate_array = json_array_get_array_element (baidu_result_array, 0);
         baidu_candidate_annotation = json_array_get_string_element (baidu_result_array, 1);
 
         /* validate baidu_candidate_annotation */
         if (!baidu_candidate_annotation)
             return PARSER_INVALID_DATA;
-
-        /* update annotation with the returned annotation */
-        m_annotation = baidu_candidate_annotation;
 
         /* there should be at least one candidate */
         result_counter = json_array_get_length (baidu_candidate_array);
