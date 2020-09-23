@@ -322,6 +322,8 @@ CloudCandidates::CloudCandidates (PhoneticEditor * editor) : m_input_mode(FullPi
 
     m_input_source = CLOUD_INPUT_SOURCE_UNKNOWN;
     m_parser = NULL;
+    resetCloudResponseParser ();
+
     m_timer = g_timer_new ();
 }
 
@@ -578,21 +580,26 @@ CloudCandidates::processCloudResponse (GInputStream *stream, std::vector<Enhance
 void
 CloudCandidates::updateLookupTable ()
 {
+    LookupTable & lookup_table = m_editor->m_lookup_table;
     /* retrieve cursor position in lookup table */
-    guint cursor = m_editor->m_lookup_table.cursorPos ();
+    guint cursor = lookup_table.cursorPos ();
 
     /* update cached cloud input candidates */
     m_editor->updateCandidates ();
 
     /* regenerate lookup table */
-    m_editor->m_lookup_table.clear ();
+    lookup_table.clear ();
     m_editor->fillLookupTable ();
 
     /* recover cursor position in lookup table */
-    m_editor->m_lookup_table.setCursorPos (cursor);
+    if (cursor < lookup_table.size ())
+        lookup_table.setCursorPos (cursor);
 
     /* notify ibus */
-    m_editor->updateLookupTableFast ();
+    if (lookup_table.size ())
+        m_editor->updateLookupTableFast ();
+    else
+        m_editor->hideLookupTable ();
 }
 
 String
