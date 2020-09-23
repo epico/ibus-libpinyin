@@ -389,7 +389,7 @@ CloudCandidates::processCandidates (std::vector<EnhancedCandidate> & candidates)
     String full_pinyin_text;
 
     /* find the first position after n-gram candidates */
-    std::vector<EnhancedCandidate>::iterator first_pos;
+    std::vector<EnhancedCandidate>::iterator pos;
 
     /* check the length of candidates */
     if (0 == candidates.size ())
@@ -405,10 +405,10 @@ CloudCandidates::processCandidates (std::vector<EnhancedCandidate> & candidates)
 
     /* search the first non-ngram candidate */
     m_sentence_candidate_cache.clear ();
-    for (first_pos = candidates.begin (); first_pos != candidates.end (); ++first_pos) {
-        if (CANDIDATE_NBEST_MATCH != first_pos->m_candidate_type)
+    for (pos = candidates.begin (); pos != candidates.end (); ++pos) {
+        if (CANDIDATE_NBEST_MATCH != pos->m_candidate_type)
             break;
-        m_sentence_candidate_cache.insert (first_pos->m_display_string);
+        m_sentence_candidate_cache.insert (pos->m_display_string);
     }
 
     /* neither double pinyin mode nor bopomofo mode */
@@ -433,7 +433,8 @@ CloudCandidates::processCandidates (std::vector<EnhancedCandidate> & candidates)
 
             /* insert cloud prefix */
             candidate.m_display_string = CANDIDATE_CLOUD_PREFIX + display_string;
-            candidates.insert (first_pos + i, candidate);
+            candidates.insert (pos, candidate);
+            ++pos;
         }
 
         /* enable to choose cloud candidate after short period */
