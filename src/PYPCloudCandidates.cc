@@ -34,6 +34,9 @@
 
 using namespace PY;
 
+/* enable to choose the cloud candidate after 100ms. */
+#define CANDIDATE_SENSITIVE_TIMEWAIT 0.1
+
 enum CandidateResponseParserError {
     PARSER_NOERR,
     PARSER_INVALID_DATA,
@@ -325,12 +328,17 @@ CloudCandidates::CloudCandidates (PhoneticEditor * editor) : m_input_mode(FullPi
     m_message = NULL;
 
     m_input_source = CLOUD_INPUT_SOURCE_UNKNOWN;
-
     m_parser = NULL;
+    m_timer = g_timer_new ();
 }
 
 CloudCandidates::~CloudCandidates ()
 {
+    if (m_timer) {
+        g_timer_destroy (m_timer);
+        m_timer = NULL;
+    }
+
     if (m_source_event_id != 0) {
         g_source_remove (m_source_event_id);
         m_source_event_id = 0;
@@ -427,9 +435,11 @@ CloudCandidates::processCandidates (std::vector<EnhancedCandidate> & candidates)
             candidate.m_display_string = CANDIDATE_CLOUD_PREFIX + display_string;
             candidates.insert (first_pos + i, candidate);
         }
+
+        /* enable to choose cloud candidate after short period */
+        g_timer_start (m_timer);
         return TRUE;
     }
-
 
     m_candidates.clear ();
     delayedCloudAsyncRequest (full_pinyin_text);
@@ -441,6 +451,11 @@ int
 CloudCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
     assert (CANDIDATE_CLOUD_INPUT == enhanced.m_candidate_type);
+
+    if (g_timer_elapsed (m_timer, NULL) < CANDIDATE_SENSITIVE_TIMEWAIT)
+        return SELECT_CANDIDATE_ALREADY_HANDLED;
+
+    g_timer_stop (m_timer);
 
     if (enhanced.m_candidate_id < m_candidates.size ()) {
         enhanced.m_display_string =
@@ -472,11 +487,9 @@ CloudCandidates::delayedCloudAsyncRequest (const gchar* pinyin)
     data->cloud_candidates = this;
 
     /* record the latest timer */
-    m_source_event_id = g_timeout_add_full (G_PRIORITY_DEFAULT,
-                                            m_editor->m_config.cloudRequestDelayTime (),
-                                            delayedCloudAsyncRequestCallBack,
-                                            user_data,
-                                            NULL);
+    m_source_event_id = g_timeout_add (m_editor->m_config.cloudRequestDelayTime (),
+                                       delayedCloudAsyncRequestCallBack,
+                                       user_data);
     data->event_id = m_source_event_id;
 }
 

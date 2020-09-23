@@ -29,6 +29,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <glib.h>
 #include <libsoup/soup.h>
 #include <json-glib/json-glib.h>
 #include "PYConfig.h"
@@ -91,6 +92,7 @@ private:
 
     guint m_input_source;
     CloudCandidatesResponseParser *m_parser;
+    GTimer *m_timer;
 
 protected:
     std::vector<EnhancedCandidate> m_candidates;
@@ -101,5 +103,3 @@ protected:
 };
 
 #endif
-
-
