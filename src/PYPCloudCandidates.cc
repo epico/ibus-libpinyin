@@ -58,7 +58,9 @@ typedef struct
 class CloudCandidatesResponseParser
 {
 public:
-    CloudCandidatesResponseParser () {}
+    CloudCandidatesResponseParser (guint input_source) :
+        m_input_source (input_source) {}
+
     virtual ~CloudCandidatesResponseParser () {}
 
     virtual gchar *getRequestString (const gchar *pinyin, gint number) = 0;
@@ -69,13 +71,25 @@ public:
 
 protected:
     std::vector<std::string> m_candidates;
+    const guint m_input_source;
 };
 
 class CloudCandidatesResponseJsonParser : public CloudCandidatesResponseParser
 {
 public:
-    CloudCandidatesResponseJsonParser ();
-    virtual ~CloudCandidatesResponseJsonParser ();
+    CloudCandidatesResponseJsonParser (guint input_source) :
+        CloudCandidatesResponseParser (input_source)
+    {
+        m_parser = json_parser_new ();
+    }
+
+    virtual ~CloudCandidatesResponseJsonParser () {
+        /* free json parser object if necessary */
+        if (m_parser) {
+            g_object_unref (m_parser);
+            m_parser = NULL;
+        }
+    }
 
     guint parse (GInputStream *stream)
     {
@@ -183,12 +197,21 @@ protected:
 
 public:
     gchar *getRequestString (const gchar *pinyin, gint number) {
-        const char *GOOGLE_URL_TEMPLATE = "https://www.google.com/inputtools/request?ime=pinyin&text=%s&num=%d";
+        assert (m_input_source == CLOUD_INPUT_SOURCE_GOOGLE ||
+                m_input_source == CLOUD_INPUT_SOURCE_GOOGLE_CN);
+
+        const char *GOOGLE_URL_TEMPLATE = NULL;
+
+        if (m_input_source == CLOUD_INPUT_SOURCE_GOOGLE)
+            GOOGLE_URL_TEMPLATE = "https://www.google.com/inputtools/request?ime=pinyin&text=%s&num=%d";
+        else if (m_input_source == CLOUD_INPUT_SOURCE_GOOGLE_CN)
+            GOOGLE_URL_TEMPLATE = "https://www.google.cn/inputtools/request?ime=pinyin&text=%s&num=%d";
+
         return g_strdup_printf (GOOGLE_URL_TEMPLATE, pinyin, number);
     }
 
 public:
-    GoogleCloudCandidatesResponseJsonParser () : CloudCandidatesResponseJsonParser () {}
+    GoogleCloudCandidatesResponseJsonParser (guint input_source) : CloudCandidatesResponseJsonParser (input_source) {}
 };
 
 class BaiduCloudCandidatesResponseJsonParser : public CloudCandidatesResponseJsonParser
@@ -282,12 +305,15 @@ private:
 
 public:
     gchar *getRequestString (const gchar *pinyin, gint number) {
+        assert (m_input_source == CLOUD_INPUT_SOURCE_BAIDU);
+
         const char *BAIDU_URL_TEMPLATE = "http://olime.baidu.com/py?input=%s&inputtype=py&bg=0&ed=%d&result=hanzi&resultcoding=utf-8&ch_en=1&clientinfo=web&version=1";
+
         return g_strdup_printf (BAIDU_URL_TEMPLATE, pinyin, number);
     }
 
 public:
-    BaiduCloudCandidatesResponseJsonParser () : CloudCandidatesResponseJsonParser () {}
+    BaiduCloudCandidatesResponseJsonParser (guint input_source) : CloudCandidatesResponseJsonParser (input_source) {}
 };
 
 gboolean
@@ -372,9 +398,10 @@ CloudCandidates::resetCloudResponseParser ()
     m_input_source = input_source;
 
     if (input_source == CLOUD_INPUT_SOURCE_BAIDU)
-        m_parser = new BaiduCloudCandidatesResponseJsonParser;
-    else if (input_source == CLOUD_INPUT_SOURCE_GOOGLE)
-        m_parser = new GoogleCloudCandidatesResponseJsonParser;
+        m_parser = new BaiduCloudCandidatesResponseJsonParser (input_source);
+    else if (input_source == CLOUD_INPUT_SOURCE_GOOGLE ||
+             input_source == CLOUD_INPUT_SOURCE_GOOGLE_CN)
+        m_parser = new GoogleCloudCandidatesResponseJsonParser (input_source);
 }
 
 gboolean
@@ -635,16 +662,4 @@ CloudCandidates::getFullPinyin ()
     g_free(pinyin_text_with_quote);
 
     return buffer;
-}
-
-CloudCandidatesResponseJsonParser::CloudCandidatesResponseJsonParser () : m_parser (NULL)
-{
-    m_parser = json_parser_new ();
-}
-
-CloudCandidatesResponseJsonParser::~CloudCandidatesResponseJsonParser ()
-{
-    /* free json parser object if necessary */
-    if (m_parser)
-        g_object_unref (m_parser);
 }
