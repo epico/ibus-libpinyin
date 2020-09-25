@@ -316,28 +316,6 @@ public:
     BaiduCloudCandidatesResponseJsonParser (CloudInputSource input_source) : CloudCandidatesResponseJsonParser (input_source) {}
 };
 
-gboolean
-CloudCandidates::delayedCloudAsyncRequestCallBack (gpointer user_data)
-{
-    CloudAsyncRequestUserData *data = static_cast<CloudAsyncRequestUserData *> (user_data);
-
-    if (!data)
-        return FALSE;
-
-    CloudCandidates *cloud_candidates = data->cloud_candidates;
-
-    if (!cloud_candidates)
-        return FALSE;
-
-    /* only send with a latest timer */
-    if (data->event_id == cloud_candidates->m_source_event_id) {
-        cloud_candidates->m_source_event_id = 0;
-        cloud_candidates->cloudAsyncRequest (user_data);
-    }
-
-    return FALSE;
-}
-
 CloudCandidates::CloudCandidates (PhoneticEditor * editor) : m_input_mode(FullPinyin)
 {
     m_session = soup_session_new ();
@@ -515,6 +493,28 @@ CloudCandidates::delayedCloudAsyncRequest (const gchar* pinyin)
                                        delayedCloudAsyncRequestCallBack,
                                        user_data);
     data->event_id = m_source_event_id;
+}
+
+gboolean
+CloudCandidates::delayedCloudAsyncRequestCallBack (gpointer user_data)
+{
+    CloudAsyncRequestUserData *data = static_cast<CloudAsyncRequestUserData *> (user_data);
+
+    if (!data)
+        return FALSE;
+
+    CloudCandidates *cloud_candidates = data->cloud_candidates;
+
+    if (!cloud_candidates)
+        return FALSE;
+
+    /* only send with a latest timer */
+    if (data->event_id == cloud_candidates->m_source_event_id) {
+        cloud_candidates->m_source_event_id = 0;
+        cloud_candidates->cloudAsyncRequest (user_data);
+    }
+
+    return FALSE;
 }
 
 void
