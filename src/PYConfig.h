@@ -39,10 +39,9 @@ typedef enum {
 } DisplayStyle;
 
 enum CloudInputSource{
-    CLOUD_INPUT_SOURCE_BAIDU = 0,
+    CLOUD_INPUT_SOURCE_BAIDU,
     CLOUD_INPUT_SOURCE_GOOGLE,
-    CLOUD_INPUT_SOURCE_GOOGLE_CN,
-    CLOUD_INPUT_SOURCE_UNKNOWN
+    CLOUD_INPUT_SOURCE_GOOGLE_CN
 };
 
 class Config {
@@ -97,8 +96,10 @@ public:
     virtual gboolean networkDictionaryEndTimestamp (gint64 timestamp)
     { return FALSE; }
 
+public:
+    /* cloud option */
     gboolean enableCloudInput (void) const      { return m_enable_cloud_input; }
-    guint cloudInputSource (void) const         { return m_cloud_input_source; }
+    CloudInputSource cloudInputSource (void) const { return m_cloud_input_source; }
     guint cloudCandidatesNumber (void) const    { return m_cloud_candidates_number; }
     guint cloudRequestDelayTime (void) const    { return m_cloud_request_delay_time; }
 
@@ -171,7 +172,7 @@ protected:
     gint64 m_network_dictionary_end_timestamp;
 
     gboolean m_enable_cloud_input;
-    guint m_cloud_input_source;
+    CloudInputSource m_cloud_input_source;
     guint m_cloud_candidates_number;
     guint m_cloud_request_delay_time;
 };

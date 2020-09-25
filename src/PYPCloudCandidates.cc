@@ -58,7 +58,7 @@ typedef struct
 class CloudCandidatesResponseParser
 {
 public:
-    CloudCandidatesResponseParser (guint input_source) :
+    CloudCandidatesResponseParser (CloudInputSource input_source) :
         m_input_source (input_source) {}
 
     virtual ~CloudCandidatesResponseParser () {}
@@ -71,13 +71,13 @@ public:
 
 protected:
     std::vector<std::string> m_candidates;
-    const guint m_input_source;
+    const CloudInputSource m_input_source;
 };
 
 class CloudCandidatesResponseJsonParser : public CloudCandidatesResponseParser
 {
 public:
-    CloudCandidatesResponseJsonParser (guint input_source) :
+    CloudCandidatesResponseJsonParser (CloudInputSource input_source) :
         CloudCandidatesResponseParser (input_source)
     {
         m_parser = json_parser_new ();
@@ -211,7 +211,7 @@ public:
     }
 
 public:
-    GoogleCloudCandidatesResponseJsonParser (guint input_source) : CloudCandidatesResponseJsonParser (input_source) {}
+    GoogleCloudCandidatesResponseJsonParser (CloudInputSource input_source) : CloudCandidatesResponseJsonParser (input_source) {}
 };
 
 class BaiduCloudCandidatesResponseJsonParser : public CloudCandidatesResponseJsonParser
@@ -313,7 +313,7 @@ public:
     }
 
 public:
-    BaiduCloudCandidatesResponseJsonParser (guint input_source) : CloudCandidatesResponseJsonParser (input_source) {}
+    BaiduCloudCandidatesResponseJsonParser (CloudInputSource input_source) : CloudCandidatesResponseJsonParser (input_source) {}
 };
 
 gboolean
@@ -346,7 +346,7 @@ CloudCandidates::CloudCandidates (PhoneticEditor * editor) : m_input_mode(FullPi
     m_source_event_id = 0;
     m_message = NULL;
 
-    m_input_source = CLOUD_INPUT_SOURCE_UNKNOWN;
+    m_input_source = CLOUD_INPUT_SOURCE_BAIDU;
     m_parser = NULL;
     resetCloudResponseParser ();
 
@@ -384,9 +384,10 @@ CloudCandidates::~CloudCandidates ()
 void
 CloudCandidates::resetCloudResponseParser ()
 {
-    guint input_source = m_editor->m_config.cloudInputSource ();
+    CloudInputSource input_source = m_editor->m_config.cloudInputSource ();
 
-    if (m_input_source == input_source)
+    /* m_parser is initialized and not changed */
+    if (m_parser && m_input_source == input_source)
         return;
 
     /* cloud input option is changed */

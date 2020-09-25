@@ -90,7 +90,7 @@ private:
     SoupSession *m_session;
     InputMode m_input_mode;
 
-    guint m_input_source;
+    CloudInputSource m_input_source;
     CloudCandidatesResponseParser *m_parser;
     GTimer *m_timer;
 

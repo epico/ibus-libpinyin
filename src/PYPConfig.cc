@@ -196,6 +196,15 @@ static const struct{
     {1, DISPLAY_STYLE_COMPACT}
 };
 
+static const struct{
+    gint cloud_input_source_index;
+    CloudInputSource cloud_input_source;
+} cloud_input_source_options [] = {
+    {0, CLOUD_INPUT_SOURCE_BAIDU},
+    {1, CLOUD_INPUT_SOURCE_GOOGLE},
+    {2, CLOUD_INPUT_SOURCE_GOOGLE_CN}
+};
+
 void
 LibPinyinConfig::readDefaultValues (void)
 {
@@ -293,6 +302,27 @@ LibPinyinConfig::readDefaultValues (void)
     }
 
     m_enable_cloud_input = read (CONFIG_INIT_ENABLE_CLOUD_INPUT, false);
+
+    /* set cloud input source option. */
+    index = read (CONFIG_CLOUD_INPUT_SOURCE, 0);
+    m_cloud_input_source = CLOUD_INPUT_SOURCE_BAIDU;
+    for (guint i = 0; i < G_N_ELEMENTS (cloud_input_source_options); i++) {
+        if (index == cloud_input_source_options[i].cloud_input_source_index) {
+            m_cloud_input_source = cloud_input_source_options[i].cloud_input_source;
+        }
+    }
+
+    m_cloud_candidates_number = read (CONFIG_CLOUD_CANDIDATES_NUMBER, 1);
+    if (m_cloud_candidates_number > 10 || m_cloud_candidates_number < 1) {
+        m_cloud_candidates_number = 1;
+        g_warn_if_reached ();
+    }
+
+    m_cloud_request_delay_time = read (CONFIG_CLOUD_REQUEST_DELAY_TIME, 600);
+    if (m_cloud_request_delay_time > 2000 || m_cloud_request_delay_time < 200) {
+        m_cloud_request_delay_time = 600;
+        g_warn_if_reached ();
+    }
 #endif
 }
 
@@ -366,6 +396,31 @@ LibPinyinConfig::valueChanged (const std::string &schema_id,
     /*cloud input*/
     else if (CONFIG_INIT_ENABLE_CLOUD_INPUT == name) {
         m_enable_cloud_input = normalizeGVariant (value, false);
+    }
+    else if (CONFIG_CLOUD_INPUT_SOURCE == name) {
+        const gint index = normalizeGVariant (value, 0);
+        m_cloud_input_source = CLOUD_INPUT_SOURCE_BAIDU;
+
+        /* set cloud input source option. */
+        for (guint i = 0; i < G_N_ELEMENTS (cloud_input_source_options); i++) {
+            if (index == cloud_input_source_options[i].cloud_input_source_index) {
+                m_cloud_input_source = cloud_input_source_options[i].cloud_input_source;
+            }
+        }
+    }
+    else if (CONFIG_CLOUD_CANDIDATES_NUMBER == name) {
+        m_cloud_candidates_number = normalizeGVariant (value, 1);
+        if (m_cloud_candidates_number > 10 || m_cloud_candidates_number < 1) {
+            m_cloud_candidates_number = 1;
+            g_warn_if_reached ();
+        }
+    }
+    else if (CONFIG_CLOUD_REQUEST_DELAY_TIME == name) {
+        m_cloud_request_delay_time = read (CONFIG_CLOUD_REQUEST_DELAY_TIME, 600);
+        if (m_cloud_request_delay_time > 2000 || m_cloud_request_delay_time < 200) {
+            m_cloud_request_delay_time = 600;
+            g_warn_if_reached ();
+        }
     }
     /* fuzzy pinyin */
     else if (CONFIG_FUZZY_PINYIN == name) {
@@ -503,22 +558,6 @@ PinyinConfig::readDefaultValues (void)
         else
             m_option &= ~pinyin_options[i].option;
     }
-    m_cloud_candidates_number = read (CONFIG_CLOUD_CANDIDATES_NUMBER, 1);
-    if (m_cloud_candidates_number > 10 || m_cloud_candidates_number < 1) {
-        m_cloud_candidates_number = 1;
-        g_warn_if_reached ();
-    }
-    m_cloud_input_source = read (CONFIG_CLOUD_INPUT_SOURCE, 0);
-    if (m_cloud_input_source < CLOUD_INPUT_SOURCE_BAIDU ||
-        m_cloud_input_source >= CLOUD_INPUT_SOURCE_UNKNOWN) {
-        m_cloud_input_source = CLOUD_INPUT_SOURCE_BAIDU;
-        g_warn_if_reached ();
-    }
-    m_cloud_request_delay_time = read (CONFIG_CLOUD_REQUEST_DELAY_TIME, 600);
-    if (m_cloud_request_delay_time > 2000 || m_cloud_request_delay_time < 200) {
-        m_cloud_request_delay_time = 600;
-        g_warn_if_reached ();
-    }
 #endif
 }
 
@@ -584,28 +623,6 @@ PinyinConfig::valueChanged (const std::string &schema_id,
             m_option_mask |= PINYIN_CORRECT_ALL;
         else
             m_option_mask &= ~PINYIN_CORRECT_ALL;
-    }
-    else if (CONFIG_CLOUD_CANDIDATES_NUMBER == name) {
-        m_cloud_candidates_number = normalizeGVariant (value, 1);
-        if (m_cloud_candidates_number > 10 || m_cloud_candidates_number < 1) {
-            m_cloud_candidates_number = 1;
-            g_warn_if_reached ();
-        }
-    }
-    else if (CONFIG_CLOUD_INPUT_SOURCE == name) {
-        m_cloud_input_source = normalizeGVariant (value, CLOUD_INPUT_SOURCE_BAIDU);
-        if (m_cloud_input_source < CLOUD_INPUT_SOURCE_BAIDU ||
-            m_cloud_input_source >= CLOUD_INPUT_SOURCE_UNKNOWN) {
-            m_cloud_input_source = CLOUD_INPUT_SOURCE_BAIDU;
-            g_warn_if_reached ();
-        }
-    }
-    else if (CONFIG_CLOUD_REQUEST_DELAY_TIME == name) {
-        m_cloud_request_delay_time = read (CONFIG_CLOUD_REQUEST_DELAY_TIME, 600);
-        if (m_cloud_request_delay_time > 2000 || m_cloud_request_delay_time < 200) {
-            m_cloud_request_delay_time = 600;
-            g_warn_if_reached ();
-        }
     }
     else {
         for (guint i = 0; i < G_N_ELEMENTS (pinyin_options); i++) {
