@@ -273,7 +273,7 @@ LibPinyinBackEnd::importPinyinDictionary (const char *filename)
     pinyin_end_add_phrases (iter);
     fclose (dictfile);
 
-    modified ();
+    pinyin_save (m_pinyin_context);
     return TRUE;
 }
 
