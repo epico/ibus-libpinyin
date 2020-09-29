@@ -435,10 +435,11 @@ class PreferencesDialog:
 
     def __import_dictionary_cb(self, widget):
         dialog = Gtk.FileChooserDialog \
-            (_("Please choose a file"), self.__dialog,
-             Gtk.FileChooserAction.OPEN,
-             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-              Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+            (title = _("Please choose a file"), parent = self.__dialog,
+             action = Gtk.FileChooserAction.OPEN)
+
+        dialog.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                           Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
 
         filter_text = Gtk.FileFilter()
         filter_text.set_name("Text files")
@@ -453,10 +454,12 @@ class PreferencesDialog:
 
     def __export_dictionary_cb(self, widget):
         dialog = Gtk.FileChooserDialog \
-                 (_("Please save a file"), self.__dialog,
-                  Gtk.FileChooserAction.SAVE,
-                  (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                   Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
+                 (title = _("Please save a file"), parent = self.__dialog,
+                  action = Gtk.FileChooserAction.SAVE)
+
+        dialog.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                           Gtk.STOCK_SAVE, Gtk.ResponseType.OK)
+
         dialog.set_do_overwrite_confirmation(True)
 
         filter_text = Gtk.FileFilter()
