@@ -321,8 +321,6 @@ LibPinyinBackEnd::clearPinyinUserData (const char *target)
 
     if (0 == strcmp ("all", target)) {
         pinyin_mask_out (m_pinyin_context, 0x0, 0x0);
-        PinyinConfig::instance ().networkDictionaryStartTimestamp (0);
-        PinyinConfig::instance ().networkDictionaryEndTimestamp (0);
     } else if (0 == strcmp ("user", target)) {
         /* clear addon dictionary. */
         pinyin_mask_out (m_pinyin_context, PHRASE_INDEX_LIBRARY_MASK,
@@ -333,6 +331,10 @@ LibPinyinBackEnd::clearPinyinUserData (const char *target)
     } else {
         g_warning ("unknown clear target: %s.\n", target);
     }
+
+    /* clear network dictionary */
+    PinyinConfig::instance ().networkDictionaryStartTimestamp (0);
+    PinyinConfig::instance ().networkDictionaryEndTimestamp (0);
 
     modified ();
     return TRUE;
