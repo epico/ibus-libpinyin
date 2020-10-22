@@ -1,3 +1,7 @@
+version 1.11.94
+* support cloud input
+* bug fixes
+
 version 1.11.93
 * switch to use GPLv3+ license
 * support network dictionary
