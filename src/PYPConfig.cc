@@ -608,11 +608,13 @@ PinyinConfig::valueChanged (const std::string &schema_id,
         m_auto_commit = normalizeGVariant (value, false);
     else if (CONFIG_IMPORT_DICTIONARY == name) {
         std::string filename = normalizeGVariant (value, std::string(""));
-        LibPinyinBackEnd::instance ().importPinyinDictionary (filename.c_str ());
+        if (!filename.empty ())
+            LibPinyinBackEnd::instance ().importPinyinDictionary (filename.c_str ());
     }
     else if (CONFIG_EXPORT_DICTIONARY == name) {
         std::string filename = normalizeGVariant (value, std::string(""));
-        LibPinyinBackEnd::instance ().exportPinyinDictionary (filename.c_str ());
+        if (!filename.empty ())
+            LibPinyinBackEnd::instance ().exportPinyinDictionary (filename.c_str ());
     }
     else if (CONFIG_CLEAR_USER_DATA == name) {
         std::string target = normalizeGVariant (value, std::string(""));

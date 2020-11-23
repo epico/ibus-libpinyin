@@ -448,6 +448,7 @@ class PreferencesDialog:
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
+            self.__set_value("import-dictionary", "")
             self.__set_value("import-dictionary", dialog.get_filename())
 
         dialog.destroy()
@@ -469,6 +470,7 @@ class PreferencesDialog:
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
+            self.__set_value("export-dictionary", "")
             self.__set_value("export-dictionary", dialog.get_filename())
 
         dialog.destroy()
