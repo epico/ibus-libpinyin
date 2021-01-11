@@ -299,6 +299,9 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
                     // for double pinyin
                     if (!PinyinConfig::instance ().doublePinyin ())
                         break;
+                    // for Caps Lock
+                    if (modifiers & IBUS_LOCK_MASK)
+                        break;
                     m_input_mode = MODE_EXTENSION;
                     break;
 #endif
@@ -313,6 +316,9 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
                     // for double pinyin
                     if (!PinyinConfig::instance ().doublePinyin ())
                         break;
+                    // for Caps Lock
+                    if (modifiers & IBUS_LOCK_MASK)
+                        break;
                     m_input_mode = MODE_ENGLISH;
                     break;
 #endif
@@ -326,6 +332,9 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
                 case IBUS_U:
                     // for double pinyin
                     if (!PinyinConfig::instance ().doublePinyin ())
+                        break;
+                    // for Caps Lock
+                    if (modifiers & IBUS_LOCK_MASK)
                         break;
                     m_input_mode = MODE_STROKE;
                     break;
