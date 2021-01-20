@@ -50,6 +50,11 @@ FullPinyinEditor::insert (gint ch)
     if (G_UNLIKELY (m_text.length () >= MAX_PINYIN_LEN))
         return TRUE;
 
+    /* for i/u/v mode */
+    if (m_text.empty () &&
+	(ch == 'i' || ch == 'u' || ch == 'v'))
+      return FALSE;
+
     m_text.insert (m_cursor++, ch);
 
     updatePinyin ();
