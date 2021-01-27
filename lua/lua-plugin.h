@@ -175,9 +175,19 @@ const lua_command_t * ibus_engine_plugin_lookup_command(IBusEnginePlugin * plugi
 int ibus_engine_plugin_call(IBusEnginePlugin * plugin, const char * lua_function_name, const char * argument /*optional, maybe NULL.*/);
 
 /**
- * retrieve the first string value. (value has been copied.)
+ * retrieve the number of string values.
  */
-gchar * ibus_engine_plugin_get_first_result(IBusEnginePlugin * plugin);
+gint ibus_engine_plugin_get_n_result(IBusEnginePlugin * plugin);
+
+/**
+ * retrieve the nth string value. (value has been copied.)
+ */
+gchar * ibus_engine_plugin_get_nth_result(IBusEnginePlugin * plugin, gint index);
+
+/**
+ * clear the string values from the stack.
+ */
+void ibus_engine_plugin_clear_results(IBusEnginePlugin * plugin);
 
 /**
  * retrieve the retval string value. (value has been copied.)

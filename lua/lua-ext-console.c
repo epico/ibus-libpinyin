@@ -102,8 +102,14 @@ int do_lua_call(IBusEnginePlugin * plugin, const char * command_name, const char
 }
 
 int do_simple_lua_call(IBusEnginePlugin * plugin, const char * lua_function_name, const char * string){
+  int i;
   int num = ibus_engine_plugin_call(plugin, lua_function_name, string);
-  printf("result: %s.\n", ibus_engine_plugin_get_first_result(plugin));
+  g_assert(num == ibus_engine_plugin_get_n_result(plugin));
+  for (i = 0; i < num ; ++i){
+    printf("%d.%s >\t", i, ibus_engine_plugin_get_nth_result(plugin, i));
+  }
+  printf("\n");
+  ibus_engine_plugin_clear_results(plugin);
   return 0;
 }
 
