@@ -59,6 +59,9 @@
       <row>
         <col id="0" translatable="yes">Compact</col>
       </row>
+      <row>
+        <col id="0" translatable="yes">Compatibility</col>
+      </row>
     </data>
   </object>
   <object class="GtkListStore" id="liststoreDoublePinyin">
