@@ -193,7 +193,8 @@ static const struct{
     DisplayStyle display_style;
 } display_style_options [] = {
     {0, DISPLAY_STYLE_TRADITIONAL},
-    {1, DISPLAY_STYLE_COMPACT}
+    {1, DISPLAY_STYLE_COMPACT},
+    {2, DISPLAY_STYLE_COMPATIBILITY}
 };
 
 static const struct{

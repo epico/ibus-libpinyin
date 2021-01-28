@@ -35,7 +35,8 @@ namespace PY {
 
 typedef enum {
     DISPLAY_STYLE_TRADITIONAL,
-    DISPLAY_STYLE_COMPACT
+    DISPLAY_STYLE_COMPACT,
+    DISPLAY_STYLE_COMPATIBILITY
 } DisplayStyle;
 
 enum CloudInputSource{

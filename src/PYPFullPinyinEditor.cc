@@ -91,7 +91,8 @@ void
 FullPinyinEditor::updateAuxiliaryText (void)
 {
     if (G_UNLIKELY (m_text.empty ())) {
-        if (DISPLAY_STYLE_TRADITIONAL == m_config.displayStyle ())
+        if (DISPLAY_STYLE_TRADITIONAL == m_config.displayStyle () ||
+            DISPLAY_STYLE_COMPATIBILITY == m_config.displayStyle ())
             hideAuxiliaryText ();
         if (DISPLAY_STYLE_COMPACT == m_config.displayStyle ())
             hidePreeditText ();
@@ -110,7 +111,8 @@ FullPinyinEditor::updateAuxiliaryText (void)
     m_buffer << p;
 
     StaticText text (m_buffer);
-    if (DISPLAY_STYLE_TRADITIONAL == m_config.displayStyle ())
+    if (DISPLAY_STYLE_TRADITIONAL == m_config.displayStyle () ||
+        DISPLAY_STYLE_COMPATIBILITY == m_config.displayStyle ())
         Editor::updateAuxiliaryText (text, TRUE);
     if (DISPLAY_STYLE_COMPACT == m_config.displayStyle ())
         Editor::updatePreeditText (text, 0, TRUE);

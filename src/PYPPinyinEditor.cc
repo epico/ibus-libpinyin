@@ -227,7 +227,8 @@ PinyinEditor::commit (const gchar *str)
 void
 PinyinEditor::updatePreeditText ()
 {
-    if (DISPLAY_STYLE_COMPACT == m_config.displayStyle ())
+    if (DISPLAY_STYLE_COMPACT == m_config.displayStyle () ||
+        DISPLAY_STYLE_COMPATIBILITY == m_config.displayStyle ())
         return;
 
     guint num = 0;
