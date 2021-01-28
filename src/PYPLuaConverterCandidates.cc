@@ -65,11 +65,14 @@ LuaConverterCandidates::processCandidates (std::vector<EnhancedCandidate> & cand
         enhanced.m_candidate_type = CANDIDATE_LUA_CONVERTER;
         enhanced.m_candidate_id = i;
 
-        ibus_engine_plugin_call (m_lua_plugin, converter,
-                                enhanced.m_display_string.c_str ());
-        gchar * string = ibus_engine_plugin_get_first_result (m_lua_plugin);
-        enhanced.m_display_string = string;
-        g_free (string);
+        int num = ibus_engine_plugin_call (m_lua_plugin, converter,
+                                           enhanced.m_display_string.c_str ());
+        if (1 == num) {
+            gchar * string = ibus_engine_plugin_get_nth_result (m_lua_plugin, 0);
+            enhanced.m_display_string = string;
+            g_free (string);
+        }
+        ibus_engine_plugin_clear_results (m_lua_plugin);
     }
 
     return TRUE;
@@ -90,11 +93,14 @@ LuaConverterCandidates::selectCandidate (EnhancedCandidate & enhanced)
     int action = m_editor->selectCandidateInternal (m_candidates[id]);
 
     if (action & SELECT_CANDIDATE_MODIFY_IN_PLACE) {
-        ibus_engine_plugin_call (m_lua_plugin, converter,
-                                 enhanced.m_display_string.c_str ());
-        gchar * string = ibus_engine_plugin_get_first_result (m_lua_plugin);
-        enhanced.m_display_string = string;
-        g_free (string);
+        int num = ibus_engine_plugin_call (m_lua_plugin, converter,
+                                           enhanced.m_display_string.c_str ());
+        if (1 == num) {
+            gchar * string = ibus_engine_plugin_get_nth_result (m_lua_plugin, 0);
+            enhanced.m_display_string = string;
+            g_free (string);
+        }
+        ibus_engine_plugin_clear_results (m_lua_plugin);
     }
 
     return action;

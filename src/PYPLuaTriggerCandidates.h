@@ -43,6 +43,8 @@ public:
     gboolean removeCandidate (EnhancedCandidate & enhanced);
 
 protected:
+    std::vector<EnhancedCandidate> m_candidates;
+
     Pointer<IBusEnginePlugin> m_lua_plugin;
 };
 

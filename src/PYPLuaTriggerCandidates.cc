@@ -26,6 +26,8 @@
 
 using namespace PY;
 
+static const int MAXIMUM_NUM = 10;
+
 LuaTriggerCandidates::LuaTriggerCandidates (Editor *editor)
 {
     m_editor = editor;
@@ -44,9 +46,7 @@ LuaTriggerCandidates::processCandidates (std::vector<EnhancedCandidate> & candid
     if (!m_lua_plugin)
         return FALSE;
 
-    EnhancedCandidate enhanced;
-    enhanced.m_candidate_type = CANDIDATE_LUA_TRIGGER;
-    enhanced.m_candidate_id = 0;
+    m_candidates.clear ();
 
     std::vector<EnhancedCandidate>::iterator pos;
     for (pos = candidates.begin (); pos != candidates.end (); ++pos) {
@@ -58,30 +58,49 @@ LuaTriggerCandidates::processCandidates (std::vector<EnhancedCandidate> & candid
     const char * text = m_editor->m_text;
     gchar * string = NULL;
 
+    EnhancedCandidate enhanced;
+    enhanced.m_candidate_type = CANDIDATE_LUA_TRIGGER;
+
     if (ibus_engine_plugin_match_input
         (m_lua_plugin, text, &lua_function_name)) {
-        ibus_engine_plugin_call (m_lua_plugin, lua_function_name, text);
+        int num = ibus_engine_plugin_call (m_lua_plugin, lua_function_name, text);
 
-        string = ibus_engine_plugin_get_first_result (m_lua_plugin);
-        enhanced.m_display_string = string;
-        g_free (string);
+        num = std::min (num, MAXIMUM_NUM);
+        for (int i = 0; i < num; ++i) {
+            string = ibus_engine_plugin_get_nth_result (m_lua_plugin, i);
+            enhanced.m_display_string = string;
+            enhanced.m_candidate_id = i;
+            g_free (string);
 
-        candidates.insert (pos, enhanced);
+            candidates.insert (pos, enhanced);
+            m_candidates.push_back (enhanced);
+        }
+
+        ibus_engine_plugin_clear_results (m_lua_plugin);
+
         return TRUE;
     } else {
-        int num = std::min
+        int num_in_page = std::min
             (m_editor->m_config.pageSize (), (guint)candidates.size ());
-        for (int i = 0; i < num; ++i) {
-            text = candidates[i].m_display_string.c_str ();
+        for (int j = 0; j < num_in_page; ++j) {
+            text = candidates[j].m_display_string.c_str ();
             if (ibus_engine_plugin_match_candidate
                 (m_lua_plugin, text, &lua_function_name)) {
-                ibus_engine_plugin_call (m_lua_plugin, lua_function_name, text);
+                int num = ibus_engine_plugin_call (m_lua_plugin, lua_function_name, text);
 
-                string = ibus_engine_plugin_get_first_result (m_lua_plugin);
-                enhanced.m_display_string = string;
-                g_free (string);
+                num = std::min (num, MAXIMUM_NUM);
+                for (int i = 0; i < num; ++i) {
+                    string = ibus_engine_plugin_get_nth_result (m_lua_plugin, i);
+                    enhanced.m_display_string = string;
+                    enhanced.m_candidate_id = i;
+                    g_free (string);
 
-                candidates.insert (pos, enhanced);
+                    candidates.insert (pos, enhanced);
+                    m_candidates.push_back (enhanced);
+                }
+
+                ibus_engine_plugin_clear_results (m_lua_plugin);
+
                 return TRUE;
             }
         }
@@ -94,7 +113,7 @@ int
 LuaTriggerCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
     assert (CANDIDATE_LUA_TRIGGER == enhanced.m_candidate_type);
-    assert (0 == enhanced.m_candidate_id);
+    assert (enhanced.m_candidate_id < m_candidates.size ());
 
     return SELECT_CANDIDATE_COMMIT;
 }
@@ -103,7 +122,7 @@ gboolean
 LuaTriggerCandidates::removeCandidate (EnhancedCandidate & enhanced)
 {
     assert (CANDIDATE_LUA_TRIGGER == enhanced.m_candidate_type);
-    assert (0 == enhanced.m_candidate_id);
+    assert (enhanced.m_candidate_id < m_candidates.size ());
 
     return FALSE;
 }
