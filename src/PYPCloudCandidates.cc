@@ -390,7 +390,7 @@ CloudCandidates::processCandidates (std::vector<EnhancedCandidate> & candidates)
     String full_pinyin_text;
 
     /* find the first position after n-gram candidates */
-    std::vector<EnhancedCandidate>::iterator pos;
+    std::vector<EnhancedCandidate>::iterator pos, iter;
 
     /* check the length of candidates */
     if (0 == candidates.size ())
@@ -404,12 +404,26 @@ CloudCandidates::processCandidates (std::vector<EnhancedCandidate> & candidates)
 
     resetCloudResponseParser ();
 
-    /* search the first non-ngram candidate */
-    m_sentence_candidate_cache.clear ();
+    /* cache the candidates in the first page */
+    m_candidate_cache.clear ();
+
+    /* search the first non-ngram candidate position */
     for (pos = candidates.begin (); pos != candidates.end (); ++pos) {
         if (CANDIDATE_NBEST_MATCH != pos->m_candidate_type)
             break;
-        m_sentence_candidate_cache.insert (pos->m_display_string);
+        m_candidate_cache.insert (pos->m_display_string);
+    }
+
+    for (iter = pos; iter != candidates.end (); ++iter) {
+        /* only check the duplicated candidates in the first page */
+        if (m_editor->m_config.pageSize () == m_candidate_cache.size ())
+            break;
+
+        /* skip the cloud candidate */
+        if (CANDIDATE_CLOUD_INPUT == iter->m_candidate_type)
+            continue;
+
+        m_candidate_cache.insert (iter->m_display_string);
     }
 
     /* neither double pinyin mode nor bopomofo mode */
@@ -426,10 +440,10 @@ CloudCandidates::processCandidates (std::vector<EnhancedCandidate> & candidates)
             std::string & display_string = candidate.m_display_string;
 
             std::set<std::string>::iterator iter =
-                m_sentence_candidate_cache.find (display_string);
+                m_candidate_cache.find (display_string);
 
             /* skip the already existed candidate */
-            if (iter != m_sentence_candidate_cache.end ())
+            if (iter != m_candidate_cache.end ())
                 continue;
 
             /* insert cloud prefix */

@@ -97,7 +97,9 @@ private:
 protected:
     std::vector<EnhancedCandidate> m_candidates;
 
-    std::set<std::string> m_sentence_candidate_cache;
+    /* The candidate cache contains some candidates from libpinyin,
+       use this cache to remove duplicated cloud candidates. */
+    std::set<std::string> m_candidate_cache;
 };
 
 };
