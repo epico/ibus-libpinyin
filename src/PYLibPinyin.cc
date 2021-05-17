@@ -354,6 +354,16 @@ LibPinyinBackEnd::rememberUserInput (pinyin_instance_t *instance,
 }
 
 gboolean
+LibPinyinBackEnd::rememberCloudInput (pinyin_instance_t *instance,
+                                      const gchar *pinyin,
+                                      const gchar *phrase)
+{
+    pinyin_parse_more_full_pinyins (instance, pinyin);
+    pinyin_remember_user_input (instance, phrase, -1);
+    return TRUE;
+}
+
+gboolean
 LibPinyinBackEnd::timeoutCallback (gpointer data)
 {
     LibPinyinBackEnd *self = static_cast<LibPinyinBackEnd *> (data);

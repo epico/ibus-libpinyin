@@ -25,6 +25,7 @@
 #include "PYConfig.h"
 #include "PYPPhoneticEditor.h"
 #include "PYPPinyinEditor.h"
+#include "PYLibPinyin.h"
 
 #include <assert.h>
 #include <pinyin.h>
@@ -476,6 +477,11 @@ CloudCandidates::selectCandidate (EnhancedCandidate & enhanced)
     if (enhanced.m_candidate_id < m_candidates.size ()) {
         enhanced.m_display_string =
             m_candidates[enhanced.m_candidate_id].m_display_string;
+
+        /* remember the cloud input */
+        if (m_editor->m_config.rememberEveryInput ())
+            LibPinyinBackEnd::instance ().rememberCloudInput (m_editor->m_instance, m_last_requested_pinyin.c_str (), enhanced.m_display_string.c_str ());
+        LibPinyinBackEnd::instance ().modified ();
 
         /* modify in-place and commit */
         return SELECT_CANDIDATE_COMMIT | SELECT_CANDIDATE_MODIFY_IN_PLACE;

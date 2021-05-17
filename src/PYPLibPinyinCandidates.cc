@@ -109,7 +109,7 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
         pinyin_get_sentence (instance, index, &str);
         if (m_editor->m_config.rememberEveryInput ())
             LibPinyinBackEnd::instance ().rememberUserInput (instance, str);
-        LibPinyinBackEnd::instance ().modified();
+        LibPinyinBackEnd::instance ().modified ();
         g_free (str);
 
         return SELECT_CANDIDATE_COMMIT;
