@@ -154,7 +154,7 @@ PhoneticEditor::processFunctionKey (guint keyval, guint keycode, guint modifiers
             reset ();
             return TRUE;
         default:
-            return TRUE;
+            return FALSE;
         }
     } else { /* ctrl key pressed. */
         switch (keyval) {
@@ -189,10 +189,10 @@ PhoneticEditor::processFunctionKey (guint keyval, guint keycode, guint modifiers
                 return TRUE;
             }
         default:
-            return TRUE;
+            return FALSE;
         }
     }
-    return TRUE;
+    return FALSE;
 }
 
 gboolean
