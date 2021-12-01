@@ -209,6 +209,18 @@
       <default>0</default>
       <summary>End Timestamp for Network Dictionary</summary>
     </key>
+    <key name="lua-extension" type="b">
+      <default>true</default>
+      <summary>Enable Lua Extension</summary>
+    </key>
+    <key name="english-input-mode" type="b">
+      <default>true</default>
+      <summary>Enable English Input</summary>
+    </key>
+    <key name="stroke-input-mode" type="b">
+      <default>true</default>
+      <summary>Enable Stroke Input</summary>
+    </key>
     <key name="enable-cloud-input" type="b">
       <default>false</default>
       <summary>Enable Cloud Input</summary>
