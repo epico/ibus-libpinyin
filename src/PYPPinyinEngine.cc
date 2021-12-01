@@ -290,12 +290,16 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
                     break;
 #ifdef IBUS_BUILD_LUA_EXTENSION
                 case IBUS_i:
+                    if (!PinyinConfig::instance ().luaExtension ())
+                        break;
                     // for full pinyin
                     if (PinyinConfig::instance ().doublePinyin ())
                         break;
                     m_input_mode = MODE_EXTENSION;
                     break;
                 case IBUS_I:
+                    if (!PinyinConfig::instance ().luaExtension ())
+                        break;
                     // for double pinyin
                     if (!PinyinConfig::instance ().doublePinyin ())
                         break;
@@ -307,12 +311,16 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 #endif
 #ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
                 case IBUS_v:
+                    if (!PinyinConfig::instance ().englishInputMode ())
+                        break;
                     // for full pinyin
                     if (PinyinConfig::instance ().doublePinyin ())
                         break;
                     m_input_mode = MODE_ENGLISH;
                     break;
                 case IBUS_V:
+                    if (!PinyinConfig::instance ().englishInputMode ())
+                        break;
                     // for double pinyin
                     if (!PinyinConfig::instance ().doublePinyin ())
                         break;
@@ -324,12 +332,16 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 #endif
 #ifdef IBUS_BUILD_STROKE_INPUT_MODE
                 case IBUS_u:
+                    if (!PinyinConfig::instance ().strokeInputMode ())
+                        break;
                     // for full pinyin
                     if (PinyinConfig::instance ().doublePinyin ())
                         break;
                     m_input_mode = MODE_STROKE;
                     break;
                 case IBUS_U:
+                    if (!PinyinConfig::instance ().strokeInputMode ())
+                        break;
                     // for double pinyin
                     if (!PinyinConfig::instance ().doublePinyin ())
                         break;

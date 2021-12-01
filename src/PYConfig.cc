@@ -70,6 +70,12 @@ Config::initDefaultValues (void)
     m_both_switch = "";
     m_trad_switch = "<Control><Shift>f";
 
+    m_enter_key = TRUE;
+
+    m_lua_extension = TRUE;
+    m_english_input_mode = TRUE;
+    m_stroke_input_mode = TRUE;
+
     m_network_dictionary_start_timestamp = 0;
     m_network_dictionary_end_timestamp = 0;
 

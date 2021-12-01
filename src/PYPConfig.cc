@@ -56,6 +56,9 @@ const gchar * const CONFIG_GUIDE_KEY                 = "guide-key";
 const gchar * const CONFIG_AUXILIARY_SELECT_KEY_F    = "auxiliary-select-key-f";
 const gchar * const CONFIG_AUXILIARY_SELECT_KEY_KP   = "auxiliary-select-key-kp";
 const gchar * const CONFIG_ENTER_KEY                 = "enter-key";
+const gchar * const CONFIG_LUA_EXTENSION             = "lua-extension";
+const gchar * const CONFIG_ENGLISH_INPUT_MODE        = "english-input-mode";
+const gchar * const CONFIG_STROKE_INPUT_MODE         = "stroke-input-mode";
 const gchar * const CONFIG_IMPORT_DICTIONARY         = "import-dictionary";
 const gchar * const CONFIG_EXPORT_DICTIONARY         = "export-dictionary";
 const gchar * const CONFIG_CLEAR_USER_DATA           = "clear-user-data";
@@ -150,6 +153,12 @@ LibPinyinConfig::initDefaultValues (void)
     m_punct_switch = "<Control>period";
     m_both_switch = "";
     m_trad_switch = "<Control><Shift>f";
+
+    m_enter_key = TRUE;
+
+    m_lua_extension = TRUE;
+    m_english_input_mode = TRUE;
+    m_stroke_input_mode = TRUE;
 
     m_network_dictionary_start_timestamp = 0;
     m_network_dictionary_end_timestamp = 0;
@@ -542,6 +551,10 @@ PinyinConfig::readDefaultValues (void)
     m_comma_period_page = read (CONFIG_COMMA_PERIOD_PAGE, true);
     m_auto_commit = read (CONFIG_AUTO_COMMIT, false);
 
+    m_lua_extension = read (CONFIG_LUA_EXTENSION, true);
+    m_english_input_mode = read (CONFIG_ENGLISH_INPUT_MODE, true);
+    m_stroke_input_mode = read (CONFIG_STROKE_INPUT_MODE, true);
+
     /* lua */
     m_lua_converter = read (CONFIG_LUA_CONVERTER, "");
 
@@ -607,6 +620,12 @@ PinyinConfig::valueChanged (const std::string &schema_id,
         m_lua_converter = normalizeGVariant (value, std::string (""));
     else if (CONFIG_AUTO_COMMIT == name)
         m_auto_commit = normalizeGVariant (value, false);
+    else if (CONFIG_LUA_EXTENSION == name)
+        m_lua_extension = normalizeGVariant (value, true);
+    else if (CONFIG_ENGLISH_INPUT_MODE == name)
+        m_english_input_mode = normalizeGVariant (value, true);
+    else if (CONFIG_STROKE_INPUT_MODE == name)
+        m_stroke_input_mode = normalizeGVariant (value, true);
     else if (CONFIG_IMPORT_DICTIONARY == name) {
         std::string filename = normalizeGVariant (value, std::string(""));
         if (!filename.empty ())
