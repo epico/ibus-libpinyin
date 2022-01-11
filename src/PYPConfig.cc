@@ -131,7 +131,7 @@ LibPinyinConfig::initDefaultValues (void)
 
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
-    m_comma_period_page = TRUE;
+    m_comma_period_page = FALSE;
     m_auto_commit = FALSE;
 
     m_double_pinyin = FALSE;
@@ -548,7 +548,7 @@ PinyinConfig::readDefaultValues (void)
     /* other */
     m_shift_select_candidate = read (CONFIG_SHIFT_SELECT_CANDIDATE, false);
     m_minus_equal_page = read (CONFIG_MINUS_EQUAL_PAGE, true);
-    m_comma_period_page = read (CONFIG_COMMA_PERIOD_PAGE, true);
+    m_comma_period_page = read (CONFIG_COMMA_PERIOD_PAGE, false);
     m_auto_commit = read (CONFIG_AUTO_COMMIT, false);
 
     m_lua_extension = read (CONFIG_LUA_EXTENSION, true);
@@ -615,7 +615,7 @@ PinyinConfig::valueChanged (const std::string &schema_id,
     else if (CONFIG_MINUS_EQUAL_PAGE == name)
         m_minus_equal_page = normalizeGVariant (value, true);
     else if (CONFIG_COMMA_PERIOD_PAGE == name)
-        m_comma_period_page = normalizeGVariant (value, true);
+        m_comma_period_page = normalizeGVariant (value, false);
     else if (CONFIG_LUA_CONVERTER == name)
         m_lua_converter = normalizeGVariant (value, std::string (""));
     else if (CONFIG_AUTO_COMMIT == name)

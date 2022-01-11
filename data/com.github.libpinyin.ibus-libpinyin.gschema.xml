@@ -6,7 +6,7 @@
       <summary>Auto commit</summary>
     </key>
     <key name="comma-period-page" type="b">
-      <default>true</default>
+      <default>false</default>
       <summary>Use comma and period to flip page</summary>
     </key>
     <key name="correct-pinyin" type="b">
