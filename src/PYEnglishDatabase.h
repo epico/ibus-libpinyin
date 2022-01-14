@@ -40,6 +40,14 @@ private:
     gboolean saveUserDB (void);
     void modified (void);
     static gboolean timeoutCallback (gpointer data);
+
+private:
+    sqlite3 *m_sqlite;
+    String m_sql;
+    const char *m_user_db;
+
+    guint m_timeout_id;
+    GTimer *m_timer;
 };
 
 #endif
