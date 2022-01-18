@@ -23,6 +23,7 @@
 
 #include "PYEditor.h"
 #include "PYLookupTable.h"
+#include "PYEnglishDatabase.h"
 
 namespace PY {
 

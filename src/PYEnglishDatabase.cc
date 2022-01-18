@@ -19,10 +19,24 @@
  */
 
 #include "PYEnglishDatabase.h"
+#include <glib.h>
+#include <glib/gstdio.h>
 
 namespace PY{
 
 #define DB_BACKUP_TIMEOUT   (60)
+
+std::unique_ptr<EnglishDatabase> EnglishDatabase::m_instance;
+
+void
+EnglishDatabase::init ()
+{
+    if (m_instance.get () == NULL) {
+        m_instance.reset (new EnglishDatabase ());
+    }
+}
+
+
 
 EnglishDatabase::EnglishDatabase(){
     m_sqlite = NULL;
@@ -332,7 +346,7 @@ EnglishDatabase::modified (void){
                                           static_cast<gpointer> (this));
 }
 
-static gboolean
+gboolean
 EnglishDatabase::timeoutCallback (gpointer data){
     EnglishDatabase *self = static_cast<EnglishDatabase *> (data);
 

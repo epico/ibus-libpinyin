@@ -21,7 +21,18 @@
 #ifndef __PY_ENGLISH_DATABASE_
 #define __PY_ENGLISH_DATABASE_
 
+#include <sqlite3.h>
+#include <vector>
+#include <memory>
+#include "PYString.h"
+
+namespace PY{
+
 class EnglishDatabase{
+public:
+    static void init ();
+    static EnglishDatabase & instance (void) { return *m_instance; }
+
 public:
     EnglishDatabase();
     ~EnglishDatabase();
@@ -33,6 +44,7 @@ public:
     gboolean listWords(const char *prefix, std::vector<std::string> & words);
     gboolean getWordInfo(const char *word, float & freq);
     gboolean insertWord(const char *word, float freq);
+    gboolean updateWord(const char *word, float freq);
 
 private:
     gboolean executeSQL(sqlite3 *sqlite);
@@ -48,6 +60,11 @@ private:
 
     guint m_timeout_id;
     GTimer *m_timer;
+
+private:
+    static std::unique_ptr<EnglishDatabase> m_instance;
+};
+
 };
 
 #endif

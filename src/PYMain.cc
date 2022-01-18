@@ -31,6 +31,9 @@
 #include "PYConfig.h"
 #include "PYPConfig.h"
 #include "PYLibPinyin.h"
+#ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
+#include "PYEnglishDatabase.h"
+#endif
 
 using namespace PY;
 
@@ -90,6 +93,10 @@ start_component (void)
 
     PinyinConfig::init ();
     BopomofoConfig::init ();
+
+#ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
+    EnglishDatabase::init ();
+#endif
 
     g_signal_connect ((IBusBus *)bus, "disconnected", G_CALLBACK (ibus_disconnected_cb), NULL);
 

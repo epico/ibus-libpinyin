@@ -58,6 +58,7 @@ ibus_engine_libpinyin_h_sources = \
 	PYTypes.h \
 	PYUtil.h \
 	PYStrokeEditor.h \
+	PYEnglishDatabase.h \
 	PYEnglishEditor.h \
 	PYLibPinyin.h \
 	PYPPhoneticEditor.h \
@@ -119,7 +120,7 @@ ibus_engine_libpinyin_c_sources += PYStrokeEditor.cc
 endif
 
 if IBUS_BUILD_ENGLISH_INPUT_MODE
-ibus_engine_libpinyin_c_sources += PYEnglishEditor.cc
+ibus_engine_libpinyin_c_sources += PYEnglishDatabase.cc PYEnglishEditor.cc
 endif
 
 ibus_engine_libpinyin_SOURCES = \

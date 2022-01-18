@@ -21,14 +21,9 @@
 #include "PYEnglishEditor.h"
 #include <string.h>
 #include <string>
-#include <vector>
 #include <stdio.h>
 #include <libintl.h>
-#include <sqlite3.h>
-#include <glib.h>
-#include <glib/gstdio.h>
 #include "PYConfig.h"
-#include "PYString.h"
 
 #define _(text) (gettext(text))
 
@@ -37,7 +32,7 @@ namespace PY {
 EnglishEditor::EnglishEditor (PinyinProperties & props, Config &config)
     : Editor (props, config), m_train_factor (0.1)
 {
-    m_english_database = new EnglishDatabase;
+    m_english_database = & EnglishDatabase::instance ();
 
     gchar *path = g_build_filename (g_get_user_cache_dir (),
                                      "ibus", "libpinyin", "english-user.db", NULL);
@@ -53,7 +48,6 @@ EnglishEditor::EnglishEditor (PinyinProperties & props, Config &config)
 
 EnglishEditor::~EnglishEditor ()
 {
-    delete m_english_database;
     m_english_database = NULL;
 }
 
