@@ -206,7 +206,7 @@ EnglishEditor::processEnter (guint keyval)
 
     Text text(word);
     commitText (text);
-    train (word.c_str (), m_train_factor);
+    m_english_database->train (word.c_str (), m_train_factor);
     reset ();
     return TRUE;
 }
@@ -254,7 +254,7 @@ EnglishEditor::selectCandidate (guint index)
     IBusText *candidate = m_lookup_table.getCandidate (index);
     Text text (candidate);
     commitText (text);
-    train (candidate->text, m_train_factor);
+    m_english_database->train (candidate->text, m_train_factor);
     reset ();
     return TRUE;
 }
@@ -441,44 +441,4 @@ EnglishEditor::removeCharAfter (void)
     return TRUE;
 }
 
-gboolean
-EnglishEditor::train (const char *word, float delta)
-{
-    float freq = 0;
-    gboolean retval = m_english_database->getWordInfo (word, freq);
-    if (retval) {
-        freq += delta;
-        m_english_database->updateWord (word, freq);
-    } else {
-        m_english_database->insertWord (word, delta);
-    }
-    return TRUE;
-}
-
-#if 0
-
-/* using static initializor to test english database here. */
-static class TestEnglishDatabase{
-public:
-    TestEnglishDatabase (){
-        EnglishDatabase *db = new EnglishDatabase ();
-        bool retval = db->isDatabaseExisted ("/tmp/english-user.db");
-        g_assert (!retval);
-        retval = db->createDatabase ("english-user.db");
-        g_assert (retval);
-        retval = db->openDatabase ("english.db", "english-user.db");
-        g_assert (retval);
-        float freq = 0;
-        retval = db->getWordInfo ("hello", freq);
-        printf ("word hello:%d, %f.\n", retval, freq);
-        if (retval) {
-            db->updateWord ("hello", 0.1);
-        } else {
-            db->insertWord ("hello", 0.1);
-        }
-        printf ("english database test ok.\n");
-    }
-} test_english_database;
-
-#endif
 };

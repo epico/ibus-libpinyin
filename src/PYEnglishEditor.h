@@ -66,8 +66,6 @@ private:
     gboolean processEditKey(guint keyval);
     gboolean processPageKey(guint keyval);
 
-    gboolean train(const char *word, float delta);
-
 private:
     /* variables */
     LookupTable m_lookup_table;

@@ -41,10 +41,13 @@ public:
     gboolean createDatabase(const char *filename);
 
     gboolean openDatabase(const char *system_db, const char *user_db);
+    gboolean hasWord(const char *word);
     gboolean listWords(const char *prefix, std::vector<std::string> & words);
-    gboolean getWordInfo(const char *word, float & freq);
-    gboolean insertWord(const char *word, float freq);
-    gboolean updateWord(const char *word, float freq);
+    gboolean getUserWordInfo(const char *word, float & freq);
+    gboolean insertUserWord(const char *word, float freq);
+    gboolean updateUserWord(const char *word, float freq);
+    gboolean deleteUserWord(const char *word);
+    gboolean train(const char *word, float delta);
 
 private:
     gboolean executeSQL(sqlite3 *sqlite);

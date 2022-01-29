@@ -175,6 +175,41 @@ EnglishDatabase::openDatabase(const char *system_db, const char *user_db){
     return loadUserDB();
 }
 
+gboolean
+EnglishDatabase::hasWord(const char *word){
+    sqlite3_stmt *stmt = NULL;
+    const char *tail = NULL;
+
+    /* match word */
+    const char *SQL_DB_MATCH =
+        "SELECT word FROM english WHERE word = \"%s\" UNION ALL "
+        "SELECT word FROM userdb.english WHERE word = \"%s\";";
+    m_sql.printf (SQL_DB_MATCH, word, word);
+    int result = sqlite3_prepare_v2 (m_sqlite, m_sql.c_str(), -1, &stmt, &tail);
+    if (result != SQLITE_OK)
+        return FALSE;
+
+    int count = 0;
+    result = sqlite3_step (stmt);
+    while (result == SQLITE_ROW) {
+        /* count the match */
+        result = sqlite3_column_type (stmt, 0);
+        if (result != SQLITE_TEXT)
+            return FALSE;
+
+        const char *text = (const char *)sqlite3_column_text (stmt, 0);
+        g_assert (0 == strcmp (word, text));
+        ++count;
+        result = sqlite3_step (stmt);
+    }
+
+    sqlite3_finalize (stmt);
+    if (result != SQLITE_DONE)
+        return FALSE;
+
+    return count > 0;
+}
+
 /* List the words in freq order. */
 gboolean
 EnglishDatabase::listWords(const char *prefix, std::vector<std::string> & words){
@@ -212,7 +247,7 @@ EnglishDatabase::listWords(const char *prefix, std::vector<std::string> & words)
 
 /* Get the freq of user sqlite db. */
 gboolean
-EnglishDatabase::getWordInfo(const char *word, float & freq){
+EnglishDatabase::getUserWordInfo(const char *word, float & freq){
     sqlite3_stmt *stmt = NULL;
     const char *tail = NULL;
     /* get word info. */
@@ -235,7 +270,7 @@ EnglishDatabase::getWordInfo(const char *word, float & freq){
 
 /* Update the freq with delta value. */
 gboolean
-EnglishDatabase::updateWord(const char *word, float freq){
+EnglishDatabase::updateUserWord(const char *word, float freq){
     const char *SQL_DB_UPDATE =
         "UPDATE userdb.english SET freq = \"%f\" WHERE word = \"%s\";";
     m_sql.printf (SQL_DB_UPDATE, freq, word);
@@ -246,10 +281,20 @@ EnglishDatabase::updateWord(const char *word, float freq){
 
 /* Insert the word into user db with the initial freq. */
 gboolean
-EnglishDatabase::insertWord(const char *word, float freq){
+EnglishDatabase::insertUserWord(const char *word, float freq){
     const char *SQL_DB_INSERT =
         "INSERT INTO userdb.english (word, freq) VALUES (\"%s\", \"%f\");";
     m_sql.printf (SQL_DB_INSERT, word, freq);
+    gboolean retval = executeSQL (m_sqlite);
+    modified ();
+    return retval;
+}
+
+gboolean
+EnglishDatabase::deleteUserWord(const char *word){
+    const char *SQL_DB_DELETE =
+        "DELETE FROM userdb.english WHERE word = \"%s\";";
+    m_sql.printf (SQL_DB_DELETE, word);
     gboolean retval = executeSQL (m_sqlite);
     modified ();
     return retval;
@@ -361,5 +406,58 @@ EnglishDatabase::timeoutCallback (gpointer data){
 
     return TRUE;
 }
+
+gboolean
+EnglishDatabase::train (const char *word, float delta)
+{
+    float freq = 0;
+    gboolean retval = getUserWordInfo (word, freq);
+    if (retval) {
+        freq += delta;
+        updateUserWord (word, freq);
+    } else {
+        insertUserWord (word, delta);
+    }
+    return TRUE;
+}
+
+#if 0
+
+/* using static initializor to test english database here. */
+static class TestEnglishDatabase{
+public:
+    TestEnglishDatabase (){
+        EnglishDatabase *db = new EnglishDatabase ();
+        bool retval = db->isDatabaseExisted ("/tmp/english-user.db");
+        g_assert (!retval);
+        retval = db->createDatabase ("english-user.db");
+        g_assert (retval);
+        retval = db->openDatabase ("english.db", "english-user.db");
+        g_assert (retval);
+        retval = db->hasWord ("hello");
+        printf ("has word hello:%d\n", retval);
+        float freq = 0;
+        retval = db->getUserWordInfo ("hello", freq);
+        printf ("word hello:%d, %f.\n", retval, freq);
+        if (retval) {
+            db->updateUserWord ("hello", 0.1);
+        } else {
+            db->insertUserWord ("hello", 0.1);
+        }
+        retval = db->hasWord ("hello");
+        printf ("has word hello:%d\n", retval);
+        retval = db->getUserWordInfo ("hello", freq);
+        printf ("word hello:%d, %f.\n", retval, freq);
+        db->deleteUserWord ("hello");
+        freq = 0;
+        retval = db->getUserWordInfo ("hello", freq);
+        printf ("word hello:%d, %f.\n", retval, freq);
+        retval = db->hasWord ("hello");
+        printf ("has word hello:%d\n", retval);
+        printf ("english database test ok.\n");
+    }
+} test_english_database;
+
+#endif
 
 };
