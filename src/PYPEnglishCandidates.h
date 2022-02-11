@@ -23,6 +23,7 @@
 
 #include "PYPointer.h"
 #include "PYPEnhancedCandidates.h"
+#include "PYEnglishDatabase.h"
 
 namespace PY{
 
@@ -33,18 +34,16 @@ public:
     EnglishCandidates (Editor *editor);
 
 public:
-    gboolean setPreviousKey (guint keyval, guint keycode, guint modifiers);
-
     gboolean processCandidates (std::vector<EnhancedCandidate> & candidates);
 
     int selectCandidate (EnhancedCandidate & enhanced);
     gboolean removeCandidate (EnhancedCandidate & enhanced);
 
 protected:
-    EnhancedCandidate m_candidate;
+    EnglishDatabase *m_english_database;
 
-    /* The string will be committed when select the candidate. */
-    std::string m_commit_string;
+private:
+    const float m_train_factor;
 };
 
 };
