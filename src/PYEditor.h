@@ -40,6 +40,7 @@ class TraditionalCandidates;
 class LuaTriggerCandidates;
 class LuaConverterCandidates;
 class EmojiCandidates;
+class EnglishCandidates;
 
 class Editor {
     friend class TraditionalCandidates;
@@ -50,6 +51,7 @@ class Editor {
 #endif
 
     friend class EmojiCandidates;
+    friend class EnglishCandidates;
 
 public:
     Editor (PinyinProperties & prop, Config & config);

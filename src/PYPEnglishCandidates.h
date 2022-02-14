@@ -22,6 +22,7 @@
 #define __PY_LIB_PINYIN_ENGLISH_CANDIDATES_H_
 
 #include "PYPointer.h"
+#include "PYEditor.h"
 #include "PYPEnhancedCandidates.h"
 #include "PYEnglishDatabase.h"
 

@@ -19,6 +19,8 @@
  */
 
 #include "PYPEnglishCandidates.h"
+#include <algorithm>
+#include <assert.h>
 
 using namespace PY;
 
@@ -51,6 +53,7 @@ EnglishCandidates::processCandidates (std::vector<EnhancedCandidate> & candidate
     enhanced.m_candidate_type = CANDIDATE_ENGLISH;
 
     int count = 0;
+    auto pos = candidates.begin ();
     if (m_english_database->listWords (prefix, words)) {
         // sort the words by length and frequency
         std::stable_sort (words.begin (), words.end (), compare_string_length);
@@ -62,9 +65,9 @@ EnglishCandidates::processCandidates (std::vector<EnhancedCandidate> & candidate
 
             enhanced.m_candidate_id = count;
             enhanced.m_display_string = *iter;
-            candidates.insert (count, enhanced);
+            candidates.insert (pos, enhanced);
 
-            ++count;
+            ++count; ++pos;
         }
 
         return TRUE;
@@ -79,7 +82,7 @@ EnglishCandidates::selectCandidate (EnhancedCandidate & enhanced)
     assert (CANDIDATE_ENGLISH == enhanced.m_candidate_type);
     assert (enhanced.m_candidate_id < MAXIMAL_ENGLISH_CANDIDATES);
 
-    m_english_database->train (enhanced.m_display_string, m_train_factor);
+    m_english_database->train (enhanced.m_display_string.c_str (), m_train_factor);
 
     return SELECT_CANDIDATE_COMMIT;
 }
@@ -90,5 +93,5 @@ EnglishCandidates::removeCandidate (EnhancedCandidate & enhanced)
     assert (CANDIDATE_ENGLISH == enhanced.m_candidate_type);
     assert (enhanced.m_candidate_id < MAXIMAL_ENGLISH_CANDIDATES);
 
-    return m_english_database->deleteUserWord (enhanced.m_display_string);
+    return m_english_database->deleteUserWord (enhanced.m_display_string.c_str ());
 }
