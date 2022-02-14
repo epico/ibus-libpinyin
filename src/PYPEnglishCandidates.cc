@@ -24,7 +24,7 @@
 
 using namespace PY;
 
-static const int MINIMAL_ENGLISH_CHARACTERS = 3;
+static const int MINIMAL_ENGLISH_CHARACTERS = 4;
 static const int MAXIMAL_ENGLISH_CANDIDATES = 2;
 
 EnglishCandidates::EnglishCandidates (Editor *editor)

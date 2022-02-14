@@ -32,6 +32,10 @@
 #include "PYPLibPinyinCandidates.h"
 #include "PYPTradCandidates.h"
 
+#ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
+#include "PYPEnglishCandidates.h"
+#endif
+
 #ifdef IBUS_BUILD_LUA_EXTENSION
 #include "PYPLuaTriggerCandidates.h"
 #include "PYPLuaConverterCandidates.h"
@@ -130,6 +134,10 @@ protected:
     EmojiCandidates m_emoji_candidates;
 
     TraditionalCandidates m_traditional_candidates;
+
+#ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
+    EnglishCandidates m_english_candidates;
+#endif
 
 #ifdef ENABLE_CLOUD_INPUT_MODE
     CloudCandidates m_cloud_candidates;
