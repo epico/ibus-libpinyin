@@ -221,7 +221,7 @@ EnglishDatabase::listWords(const char *prefix, std::vector<std::string> & words)
     const char *SQL_DB_LIST =
         "SELECT word FROM ( "
         "SELECT * FROM english UNION ALL SELECT * FROM userdb.english) "
-        " WHERE word LIKE \"%s%\" GROUP BY word ORDER BY SUM(freq) DESC;";
+        " WHERE word GLOB \"%s*\" GROUP BY word ORDER BY SUM(freq) DESC;";
     m_sql.printf (SQL_DB_LIST, prefix);
     int result = sqlite3_prepare_v2 (m_sqlite, m_sql.c_str(), -1, &stmt, &tail);
     if (result != SQLITE_OK)

@@ -352,6 +352,17 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
                     break;
 #endif
                 }
+
+#ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
+                // for full pinyin
+                if ((IBUS_A <= keyval && keyval<= IBUS_Z) &&
+                    PinyinConfig::instance ().englishInputMode () &&
+                    !PinyinConfig::instance ().doublePinyin ()) {
+                    m_input_mode = MODE_ENGLISH;
+                    m_editors[m_input_mode]->setText ("v", 1);
+                }
+#endif
+
             } else {
                 /* TODO: Unknown */
             }
