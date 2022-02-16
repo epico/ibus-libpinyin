@@ -215,15 +215,15 @@ AC_ARG_ENABLE(english-input-mode,
 
 AM_CONDITIONAL(IBUS_BUILD_ENGLISH_INPUT_MODE, [test x"$enable_english_input_mode" = x"yes"])
 
-# --disable-stroke-input-mode
-AC_ARG_ENABLE(stroke-input-mode,
-        AS_HELP_STRING([--disable-stroke-input-mode],
-        [do not build stroke input mode]),
-        [enable_stroke_input_mode=$enableval],
-        [enable_stroke_input_mode=yes]
+# --disable-table-input-mode
+AC_ARG_ENABLE(table-input-mode,
+        AS_HELP_STRING([--disable-table-input-mode],
+        [do not build table input mode]),
+        [enable_table_input_mode=$enableval],
+        [enable_table_input_mode=yes]
 )
 
-AM_CONDITIONAL(IBUS_BUILD_STROKE_INPUT_MODE, [test x"$enable_stroke_input_mode" = x"yes"])
+AM_CONDITIONAL(IBUS_BUILD_TABLE_INPUT_MODE, [test x"$enable_table_input_mode" = x"yes"])
 
 # OUTPUT files
 AC_CONFIG_FILES([ po/Makefile.in
@@ -251,7 +251,7 @@ Build options:
     Use libpinyin               $enable_libpinyin
     Build lua extension         $enable_lua_extension
     Build cloud input mode      $enable_cloud_input_mode
-    Build stroke input mode     $enable_stroke_input_mode
+    Build table input mode      $enable_table_input_mode
     Build english input mode    $enable_english_input_mode
 ])
 

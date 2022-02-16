@@ -217,9 +217,9 @@
       <default>true</default>
       <summary>Enable English Input</summary>
     </key>
-    <key name="stroke-input-mode" type="b">
+    <key name="table-input-mode" type="b">
       <default>true</default>
-      <summary>Enable Stroke Input</summary>
+      <summary>Enable Table Input</summary>
     </key>
     <key name="enable-cloud-input" type="b">
       <default>false</default>

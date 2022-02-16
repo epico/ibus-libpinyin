@@ -79,7 +79,7 @@ public:
     gboolean enterKey (void) const              { return m_enter_key; }
     gboolean luaExtension (void) const          { return m_lua_extension; }
     gboolean englishInputMode (void) const      { return m_english_input_mode; }
-    gboolean strokeInputMode (void) const       { return m_stroke_input_mode; }
+    gboolean tableInputMode (void) const        { return m_table_input_mode; }
 
     std::string mainSwitch (void) const         { return m_main_switch; }
     std::string letterSwitch (void) const       { return m_letter_switch; }
@@ -168,7 +168,7 @@ protected:
 
     gboolean m_lua_extension;
     gboolean m_english_input_mode;
-    gboolean m_stroke_input_mode;
+    gboolean m_table_input_mode;
 
     std::string m_main_switch;
     std::string m_letter_switch;

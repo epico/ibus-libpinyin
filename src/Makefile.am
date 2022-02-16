@@ -57,7 +57,7 @@ ibus_engine_libpinyin_h_sources = \
 	PYText.h \
 	PYTypes.h \
 	PYUtil.h \
-	PYStrokeEditor.h \
+	PYTableEditor.h \
 	PYEnglishDatabase.h \
 	PYEnglishEditor.h \
 	PYPEnglishCandidates.h \
@@ -116,8 +116,8 @@ ibus_engine_libpinyin_c_sources += \
 	$(NULL)
 endif
 
-if IBUS_BUILD_STROKE_INPUT_MODE
-ibus_engine_libpinyin_c_sources += PYStrokeEditor.cc
+if IBUS_BUILD_TABLE_INPUT_MODE
+ibus_engine_libpinyin_c_sources += PYTableEditor.cc
 endif
 
 if IBUS_BUILD_ENGLISH_INPUT_MODE
@@ -205,9 +205,9 @@ if IBUS_BUILD_ENGLISH_INPUT_MODE
 	$(NULL)
 endif
 
-if IBUS_BUILD_STROKE_INPUT_MODE
+if IBUS_BUILD_TABLE_INPUT_MODE
    ibus_engine_libpinyin_CXXFLAGS += \
-	-DIBUS_BUILD_STROKE_INPUT_MODE \
+	-DIBUS_BUILD_TABLE_INPUT_MODE \
 	$(NULL)
 endif
 

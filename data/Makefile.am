@@ -21,9 +21,9 @@ WORDLIST = wordlist
 ENGLISH_AWK = english.awk
 ENGLISH_DB = english.db
 
-STROKES = strokes
-STROKES_AWK = strokes.awk
-STROKES_DB = strokes.db
+TABLE = strokes
+TABLE_AWK = table.awk
+TABLE_DB = table.db
 
 network_DATA = network.txt
 
@@ -41,7 +41,7 @@ SUBDIRS = \
 
 auxiliary_db_DATA = \
         $(ENGLISH_DB) \
-        $(STROKES_DB) \
+        $(TABLE_DB) \
         $(NULL)
 auxiliary_dbdir = $(pkgdatadir)/db
 
@@ -51,10 +51,10 @@ $(ENGLISH_DB): $(WORDLIST) $(ENGLISH_AWK)
 	$(AWK) -f $(srcdir)/$(ENGLISH_AWK) $(srcdir)/$(WORDLIST) | @SQLITE3@ $@ || \
 		( $(RM) $@ ; exit 1 )
 
-$(STROKES_DB): $(STROKES) $(STROKES_AWK)
+$(TABLE_DB): $(TABLE) $(TABLE_AWK)
 	$(AM_V_GEN) \
 	$(RM) $@; \
-	$(AWK) -f $(srcdir)/$(STROKES_AWK) $(srcdir)/$(STROKES) | @SQLITE3@ $@ || \
+	$(AWK) -f $(srcdir)/$(TABLE_AWK) $(srcdir)/$(TABLE) | @SQLITE3@ $@ || \
 		( $(RM) $@ ; exit 1 )
 
 appdatadir = @datadir@/metainfo
@@ -81,8 +81,8 @@ EXTRA_DIST = \
 	$(desktop_in_files) \
 	$(WORDLIST) \
 	$(ENGLISH_AWK) \
-	$(STROKES) \
-	$(STROKES_AWK) \
+	$(TABLE) \
+	$(TABLE_AWK) \
 	$(network_DATA) \
 	$(APPDATA_XML) \
 	$(gsettings_SCHEMAS) \
@@ -90,6 +90,6 @@ EXTRA_DIST = \
 
 CLEANFILES = \
 	$(ENGLISH_DB) \
-	$(STROKES_DB) \
+	$(TABLE_DB) \
 	$(desktop_DATA) \
 	$(NULL)

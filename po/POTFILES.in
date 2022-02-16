@@ -12,7 +12,7 @@ src/PYPPinyinEngine.cc
 src/PYPinyinProperties.cc
 src/PYSimpTradConverter.cc
 src/PYEnglishEditor.cc
-src/PYStrokeEditor.cc
+src/PYTableEditor.cc
 setup/main2.py
 setup/config.py
 setup/dicttreeview.py

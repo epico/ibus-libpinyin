@@ -73,7 +73,7 @@ private:
         MODE_PUNCT,             // punct mode
         MODE_RAW,               // raw mode
         MODE_ENGLISH,           // press v into English input mode
-        MODE_STROKE,            // press u into stroke input mode
+        MODE_TABLE,             // press u into table input mode
         MODE_EXTENSION,         // press i into extension input mode
         MODE_SUGGESTION,        // suggestion mode
         MODE_LAST,

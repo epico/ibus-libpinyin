@@ -74,7 +74,7 @@ Config::initDefaultValues (void)
 
     m_lua_extension = TRUE;
     m_english_input_mode = TRUE;
-    m_stroke_input_mode = TRUE;
+    m_table_input_mode = TRUE;
 
     m_network_dictionary_start_timestamp = 0;
     m_network_dictionary_end_timestamp = 0;
