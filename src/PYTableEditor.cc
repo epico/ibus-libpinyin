@@ -19,7 +19,7 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "PYStrokeEditor.h"
+#include "PYTableEditor.h"
 #include <string.h>
 #include <string>
 #include <vector>
@@ -33,14 +33,14 @@
 
 namespace PY {
 
-class StrokeDatabase{
+class TableDatabase{
 public:
-    StrokeDatabase(){
+    TableDatabase(){
         m_sqlite = NULL;
         m_sql = "";
     }
 
-    ~StrokeDatabase(){
+    ~TableDatabase(){
         if (m_sqlite){
             sqlite3_close (m_sqlite);
             m_sqlite = NULL;
@@ -139,28 +139,28 @@ private:
     String m_sql;
 };
 
-StrokeEditor::StrokeEditor (PinyinProperties &props, Config &config)
+TableEditor::TableEditor (PinyinProperties &props, Config &config)
     : Editor (props, config)
 {
-    m_stroke_database = new StrokeDatabase;
+    m_table_database = new TableDatabase;
 
-    gboolean result = m_stroke_database->openDatabase
-        (".." G_DIR_SEPARATOR_S "data" G_DIR_SEPARATOR_S "strokes.db") ||
-        m_stroke_database->openDatabase
-        (PKGDATADIR G_DIR_SEPARATOR_S "db" G_DIR_SEPARATOR_S "strokes.db");
+    gboolean result = m_table_database->openDatabase
+        (".." G_DIR_SEPARATOR_S "data" G_DIR_SEPARATOR_S "table.db") ||
+        m_table_database->openDatabase
+        (PKGDATADIR G_DIR_SEPARATOR_S "db" G_DIR_SEPARATOR_S "table.db");
 
     if (!result)
-        g_warning ("can't open strokes database.\n");
+        g_warning ("can't open table database.\n");
 }
 
-StrokeEditor::~StrokeEditor ()
+TableEditor::~TableEditor ()
 {
-    delete m_stroke_database;
-    m_stroke_database = NULL;
+    delete m_table_database;
+    m_table_database = NULL;
 }
 
 gboolean
-StrokeEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
+TableEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 {
     //IBUS_SHIFT_MASK is removed.
     modifiers &= (IBUS_CONTROL_MASK |
@@ -213,7 +213,7 @@ StrokeEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 }
 
 gboolean
-StrokeEditor::processEditKey (guint keyval)
+TableEditor::processEditKey (guint keyval)
 {
     switch (keyval) {
     case IBUS_Delete:
@@ -232,7 +232,7 @@ StrokeEditor::processEditKey (guint keyval)
 }
 
 gboolean
-StrokeEditor::processPageKey (guint keyval)
+TableEditor::processPageKey (guint keyval)
 {
     switch (keyval) {
     case IBUS_comma:
@@ -288,7 +288,7 @@ StrokeEditor::processPageKey (guint keyval)
 }
 
 gboolean
-StrokeEditor::processLabelKey (guint keyval)
+TableEditor::processLabelKey (guint keyval)
 {
     switch (keyval) {
     case '1' ... '9':
@@ -302,7 +302,7 @@ StrokeEditor::processLabelKey (guint keyval)
 }
 
 gboolean
-StrokeEditor::processEnter (guint keyval)
+TableEditor::processEnter (guint keyval)
 {
     if (keyval != IBUS_Return)
         return FALSE;
@@ -317,7 +317,7 @@ StrokeEditor::processEnter (guint keyval)
 }
 
 gboolean
-StrokeEditor::processSpace (guint keyval)
+TableEditor::processSpace (guint keyval)
 {
     if (!(keyval == IBUS_space || keyval == IBUS_KP_Space))
         return FALSE;
@@ -327,13 +327,13 @@ StrokeEditor::processSpace (guint keyval)
 }
 
 void
-StrokeEditor::candidateClicked (guint index, guint button, guint state)
+TableEditor::candidateClicked (guint index, guint button, guint state)
 {
     selectCandidateInPage (index);
 }
 
 gboolean
-StrokeEditor::selectCandidateInPage (guint index)
+TableEditor::selectCandidateInPage (guint index)
 {
     guint page_size = m_lookup_table.pageSize ();
     guint cursor_pos = m_lookup_table.cursorPos ();
@@ -346,7 +346,7 @@ StrokeEditor::selectCandidateInPage (guint index)
 }
 
 gboolean
-StrokeEditor::selectCandidate (guint index)
+TableEditor::selectCandidate (guint index)
 {
     if (index >= m_lookup_table.size ())
         return FALSE;
@@ -359,7 +359,7 @@ StrokeEditor::selectCandidate (guint index)
 }
 
 gboolean
-StrokeEditor::updateStateFromInput (void)
+TableEditor::updateStateFromInput (void)
 {
     /* Do parse and candidates update here. */
     /* prefix u double check here. */
@@ -400,7 +400,7 @@ StrokeEditor::updateStateFromInput (void)
 
     /* lookup table candidate fill here. */
     std::vector<std::string> characters;
-    gboolean retval = m_stroke_database->listCharacters
+    gboolean retval = m_table_database->listCharacters
         (prefix.c_str (), characters);
     if (!retval)
         return FALSE;
@@ -417,7 +417,7 @@ StrokeEditor::updateStateFromInput (void)
 /* Auxiliary Functions */
 
 void
-StrokeEditor::pageUp (void)
+TableEditor::pageUp (void)
 {
     if (G_LIKELY (m_lookup_table.pageUp ())) {
         update ();
@@ -425,7 +425,7 @@ StrokeEditor::pageUp (void)
 }
 
 void
-StrokeEditor::pageDown (void)
+TableEditor::pageDown (void)
 {
     if (G_LIKELY (m_lookup_table.pageDown ())) {
         update ();
@@ -433,7 +433,7 @@ StrokeEditor::pageDown (void)
 }
 
 void
-StrokeEditor::cursorUp (void)
+TableEditor::cursorUp (void)
 {
     if (G_LIKELY (m_lookup_table.cursorUp ())) {
         update ();
@@ -441,7 +441,7 @@ StrokeEditor::cursorUp (void)
 }
 
 void
-StrokeEditor::cursorDown (void)
+TableEditor::cursorDown (void)
 {
     if (G_LIKELY (m_lookup_table.cursorDown ())) {
         update ();
@@ -449,7 +449,7 @@ StrokeEditor::cursorDown (void)
 }
 
 void
-StrokeEditor::update (void)
+TableEditor::update (void)
 {
     updateLookupTable ();
     updatePreeditText ();
@@ -457,7 +457,7 @@ StrokeEditor::update (void)
 }
 
 void
-StrokeEditor::reset (void)
+TableEditor::reset (void)
 {
     m_text = "";
     updateStateFromInput ();
@@ -465,7 +465,7 @@ StrokeEditor::reset (void)
 }
 
 void
-StrokeEditor::clearLookupTable (void)
+TableEditor::clearLookupTable (void)
 {
     m_lookup_table.clear ();
     m_lookup_table.setPageSize (m_config.pageSize ());
@@ -473,7 +473,7 @@ StrokeEditor::clearLookupTable (void)
 }
 
 void
-StrokeEditor::updateLookupTable (void)
+TableEditor::updateLookupTable (void)
 {
     if (m_lookup_table.size ()){
         Editor::updateLookupTableFast (m_lookup_table, TRUE);
@@ -483,7 +483,7 @@ StrokeEditor::updateLookupTable (void)
 }
 
 void
-StrokeEditor::updatePreeditText (void)
+TableEditor::updatePreeditText (void)
 {
     if (G_UNLIKELY (m_preedit_text.empty ())) {
         hidePreeditText ();
@@ -495,7 +495,7 @@ StrokeEditor::updatePreeditText (void)
 }
 
 void
-StrokeEditor::updateAuxiliaryText (void)
+TableEditor::updateAuxiliaryText (void)
 {
     if (G_UNLIKELY (m_auxiliary_text.empty ())) {
         hideAuxiliaryText ();
@@ -507,7 +507,7 @@ StrokeEditor::updateAuxiliaryText (void)
 }
 
 gboolean
-StrokeEditor::removeCharBefore (void)
+TableEditor::removeCharBefore (void)
 {
     if (G_UNLIKELY (m_cursor <= 0)) {
         m_cursor = 0;
@@ -525,7 +525,7 @@ StrokeEditor::removeCharBefore (void)
 }
 
 gboolean
-StrokeEditor::removeCharAfter (void)
+TableEditor::removeCharAfter (void)
 {
     if (G_UNLIKELY (m_cursor < 0)) {
         m_cursor = 0;
@@ -545,14 +545,14 @@ StrokeEditor::removeCharAfter (void)
 
 #if 0
 
-/* using static initializor to test stroke database here. */
-static class TestStrokeDatabase{
+/* using static initializor to test table database here. */
+static class TestTableDatabase{
 public:
-    TestStrokeDatabase (){
-        StrokeDatabase *db = new StrokeDatabase ();
-        bool retval = db->isDatabaseExisted ("../data/strokes.db");
+    TestTableDatabase (){
+        TableDatabase *db = new TableDatabase ();
+        bool retval = db->isDatabaseExisted ("../data/table.db");
         g_assert (retval);
-        retval = db->openDatabase ("../data/strokes.db");
+        retval = db->openDatabase ("../data/table.db");
         g_assert (retval);
         std::vector<std::string> chars;
         std::vector<std::string>::iterator iter;
@@ -561,9 +561,9 @@ public:
         for (iter = chars.begin(); iter != chars.end(); ++iter)
             printf ("%s ", iter->c_str());
         printf ("\n");
-        printf ("stroke database test ok.\n");
+        printf ("table database test ok.\n");
     }
-} test_stroke_database;
+} test_table_database;
 
 #endif
 };
