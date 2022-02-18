@@ -109,8 +109,8 @@ public:
 
         /* list characters */
         const char *SQL_DB_LIST =
-            "SELECT \"character\", \"token\" FROM \"strokes\""
-            "WHERE \"strokes\" LIKE \"%s%\" ORDER BY \"sequence\" ASC;";
+            "SELECT phrase FROM phrases "
+            "WHERE tabkeys LIKE \"%s%\" ORDER BY freq DESC, id ASC;";
         m_sql.printf (SQL_DB_LIST, prefix);
         int result = sqlite3_prepare_v2 (m_sqlite, m_sql.c_str(), -1, &stmt, &tail);
         if (result != SQLITE_OK)
