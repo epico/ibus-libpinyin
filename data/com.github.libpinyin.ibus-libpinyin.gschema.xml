@@ -221,6 +221,22 @@
       <default>true</default>
       <summary>Enable Table Input</summary>
     </key>
+    <key name="use-custom-table" type="b">
+      <default>false</default>
+      <summary>Use Custom Table</summary>
+    </key>
+    <key name="import-custom-table" type="s">
+      <default>''</default>
+      <summary>Import Custom Table</summary>
+    </key>
+    <key name="export-custom-table" type="s">
+      <default>''</default>
+      <summary>Export Custom Table</summary>
+    </key>
+    <key name="clear-custom-table" type="s">
+      <default>''</default>
+      <summary>Clean Custom Table</summary>
+    </key>
     <key name="enable-cloud-input" type="b">
       <default>false</default>
       <summary>Enable Cloud Input</summary>
