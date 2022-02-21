@@ -59,6 +59,10 @@ const gchar * const CONFIG_ENTER_KEY                 = "enter-key";
 const gchar * const CONFIG_LUA_EXTENSION             = "lua-extension";
 const gchar * const CONFIG_ENGLISH_INPUT_MODE        = "english-input-mode";
 const gchar * const CONFIG_TABLE_INPUT_MODE          = "table-input-mode";
+const gchar * const CONFIG_USE_CUSTOM_TABLE          = "use-custom-table";
+const gchar * const CONFIG_IMPORT_CUSTOM_TABLE       = "import-custom-table";
+const gchar * const CONFIG_EXPORT_CUSTOM_TABLE       = "export-custom-table";
+const gchar * const CONFIG_CLEAR_CUSTOM_TABLE        = "clear-custom-table";
 const gchar * const CONFIG_IMPORT_DICTIONARY         = "import-dictionary";
 const gchar * const CONFIG_EXPORT_DICTIONARY         = "export-dictionary";
 const gchar * const CONFIG_CLEAR_USER_DATA           = "clear-user-data";
@@ -159,6 +163,7 @@ LibPinyinConfig::initDefaultValues (void)
     m_lua_extension = TRUE;
     m_english_input_mode = TRUE;
     m_table_input_mode = TRUE;
+    m_use_custom_table = FALSE;
 
     m_network_dictionary_start_timestamp = 0;
     m_network_dictionary_end_timestamp = 0;
@@ -228,6 +233,15 @@ LibPinyinConfig::readDefaultValues (void)
         gchar *name = *iter;
 
         /* skip signals here. */
+        if (0 == strcmp(CONFIG_IMPORT_CUSTOM_TABLE, name))
+            continue;
+
+        if (0 == strcmp(CONFIG_EXPORT_CUSTOM_TABLE, name))
+            continue;
+
+        if (0 == strcmp(CONFIG_CLEAR_CUSTOM_TABLE, name))
+            continue;
+
         if (0 == strcmp(CONFIG_IMPORT_DICTIONARY, name))
             continue;
 
@@ -554,6 +568,7 @@ PinyinConfig::readDefaultValues (void)
     m_lua_extension = read (CONFIG_LUA_EXTENSION, true);
     m_english_input_mode = read (CONFIG_ENGLISH_INPUT_MODE, true);
     m_table_input_mode = read (CONFIG_TABLE_INPUT_MODE, true);
+    m_use_custom_table = read (CONFIG_USE_CUSTOM_TABLE, false);
 
     /* lua */
     m_lua_converter = read (CONFIG_LUA_CONVERTER, "");
@@ -626,6 +641,8 @@ PinyinConfig::valueChanged (const std::string &schema_id,
         m_english_input_mode = normalizeGVariant (value, true);
     else if (CONFIG_TABLE_INPUT_MODE == name)
         m_table_input_mode = normalizeGVariant (value, true);
+    else if (CONFIG_USE_CUSTOM_TABLE == name)
+        m_use_custom_table = normalizeGVariant (value, false);
     else if (CONFIG_IMPORT_DICTIONARY == name) {
         std::string filename = normalizeGVariant (value, std::string(""));
         if (!filename.empty ())
