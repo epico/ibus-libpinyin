@@ -33,111 +33,108 @@
 
 namespace PY {
 
-class TableDatabase{
-public:
-    TableDatabase(){
+TableDatabase::TableDatabase(){
+    m_sqlite = NULL;
+    m_sql = "";
+}
+
+TableDatabase::~TableDatabase(){
+    if (m_sqlite){
+        sqlite3_close (m_sqlite);
         m_sqlite = NULL;
-        m_sql = "";
+    }
+    m_sql = "";
+}
+
+gboolean
+TableDatabase::isDatabaseExisted(const char *filename) {
+    gboolean result = g_file_test(filename, G_FILE_TEST_IS_REGULAR);
+    if (!result)
+        return FALSE;
+
+    sqlite3 *tmp_db = NULL;
+    if (sqlite3_open_v2 (filename, &tmp_db,
+                         SQLITE_OPEN_READONLY, NULL) != SQLITE_OK){
+        return FALSE;
     }
 
-    ~TableDatabase(){
-        if (m_sqlite){
-            sqlite3_close (m_sqlite);
-            m_sqlite = NULL;
-        }
-        m_sql = "";
+    /* Check the desc table */
+    sqlite3_stmt *stmt = NULL;
+    const char *tail = NULL;
+    m_sql = "SELECT value FROM desc WHERE name = 'version';";
+    result = sqlite3_prepare_v2 (tmp_db, m_sql.c_str(), -1, &stmt, &tail);
+    if (result != SQLITE_OK)
+        return FALSE;
+
+    result = sqlite3_step (stmt);
+    if (result != SQLITE_ROW)
+        return FALSE;
+
+    result = sqlite3_column_type (stmt, 0);
+    if (result != SQLITE_TEXT)
+        return FALSE;
+
+    const char *version = (const char *) sqlite3_column_text (stmt, 0);
+    if (strcmp("1.2.0", version) != 0)
+        return FALSE;
+
+    result = sqlite3_finalize (stmt);
+    g_assert (result == SQLITE_OK);
+    sqlite3_close (tmp_db);
+    return TRUE;
+}
+
+/* No self-learning here, and no user database file. */
+gboolean
+TableDatabase::openDatabase(const char *system_db) {
+    if (!isDatabaseExisted (system_db))
+        return FALSE;
+
+    /* open system database. */
+    if (sqlite3_open_v2 (system_db, &m_sqlite,
+                         SQLITE_OPEN_READONLY, NULL) != SQLITE_OK) {
+        m_sqlite = NULL;
+        return FALSE;
     }
 
-    gboolean isDatabaseExisted(const char *filename) {
-        gboolean result = g_file_test(filename, G_FILE_TEST_IS_REGULAR);
-        if (!result)
-            return FALSE;
+    return TRUE;
+}
 
-        sqlite3 *tmp_db = NULL;
-        if (sqlite3_open_v2 (filename, &tmp_db,
-                             SQLITE_OPEN_READONLY, NULL) != SQLITE_OK){
-            return FALSE;
-        }
+/* List the characters in sequence order. */
+gboolean
+TableDatabase::listCharacters(const char *prefix,
+                              std::vector<std::string> & characters){
+    sqlite3_stmt *stmt = NULL;
+    const char *tail = NULL;
+    characters.clear ();
 
-        /* Check the desc table */
-        sqlite3_stmt *stmt = NULL;
-        const char *tail = NULL;
-        m_sql = "SELECT value FROM desc WHERE name = 'version';";
-        result = sqlite3_prepare_v2 (tmp_db, m_sql.c_str(), -1, &stmt, &tail);
-        if (result != SQLITE_OK)
-            return FALSE;
+    /* list characters */
+    const char *SQL_DB_LIST =
+        "SELECT phrase FROM phrases "
+        "WHERE tabkeys LIKE \"%s%\" ORDER BY freq DESC, id ASC;";
+    m_sql.printf (SQL_DB_LIST, prefix);
+    int result = sqlite3_prepare_v2 (m_sqlite, m_sql.c_str(), -1, &stmt, &tail);
+    if (result != SQLITE_OK)
+        return FALSE;
 
-        result = sqlite3_step (stmt);
-        if (result != SQLITE_ROW)
-            return FALSE;
-
+    result = sqlite3_step (stmt);
+    while (result == SQLITE_ROW){
+        /* get the characters. */
         result = sqlite3_column_type (stmt, 0);
         if (result != SQLITE_TEXT)
             return FALSE;
 
-        const char *version = (const char *) sqlite3_column_text (stmt, 0);
-        if (strcmp("1.2.0", version) != 0)
-            return FALSE;
-
-        result = sqlite3_finalize (stmt);
-        g_assert (result == SQLITE_OK);
-        sqlite3_close (tmp_db);
-        return TRUE;
-    }
-
-    /* No self-learning here, and no user database file. */
-    gboolean openDatabase(const char *system_db) {
-        if (!isDatabaseExisted (system_db))
-            return FALSE;
-
-        /* open system database. */
-        if (sqlite3_open_v2 (system_db, &m_sqlite,
-                             SQLITE_OPEN_READONLY, NULL) != SQLITE_OK) {
-            m_sqlite = NULL;
-            return FALSE;
-        }
-
-        return TRUE;
-    }
-
-    /* List the characters in sequence order. */
-    gboolean listCharacters(const char *prefix,
-                            std::vector<std::string> & characters){
-        sqlite3_stmt *stmt = NULL;
-        const char *tail = NULL;
-        characters.clear ();
-
-        /* list characters */
-        const char *SQL_DB_LIST =
-            "SELECT phrase FROM phrases "
-            "WHERE tabkeys LIKE \"%s%\" ORDER BY freq DESC, id ASC;";
-        m_sql.printf (SQL_DB_LIST, prefix);
-        int result = sqlite3_prepare_v2 (m_sqlite, m_sql.c_str(), -1, &stmt, &tail);
-        if (result != SQLITE_OK)
-            return FALSE;
+        const char *character = (const char *)sqlite3_column_text (stmt, 0);
+        characters.push_back (character);
 
         result = sqlite3_step (stmt);
-        while (result == SQLITE_ROW){
-            /* get the characters. */
-            result = sqlite3_column_type (stmt, 0);
-            if (result != SQLITE_TEXT)
-                return FALSE;
-
-            const char *character = (const char *)sqlite3_column_text (stmt, 0);
-            characters.push_back (character);
-
-            result = sqlite3_step (stmt);
-        }
-
-        sqlite3_finalize (stmt);
-        if (result != SQLITE_DONE)
-            return FALSE;
-        return TRUE;
     }
-private:
-    sqlite3 *m_sqlite;
-    String m_sql;
-};
+
+    sqlite3_finalize (stmt);
+    if (result != SQLITE_DONE)
+        return FALSE;
+    return TRUE;
+}
 
 TableEditor::TableEditor (PinyinProperties &props, Config &config)
     : Editor (props, config)

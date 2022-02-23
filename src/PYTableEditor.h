@@ -27,7 +27,39 @@
 
 namespace PY {
 
-class TableDatabase;
+class TableDatabase{
+public:
+    static void init ();
+    static EnglishDatabase & systemInstance (void) { return *m_system_instance; }
+    static EnglishDatabase & userInstance (void)   { return *m_user_instance; }
+
+public:
+    TableDatabase();
+    ~TableDatabase();
+
+public:
+    gboolean isDatabaseExisted(const char *filename);
+    gboolean createDatabase(const char *filename);
+
+    gboolean openDatabase(const char *filename, const char *mode);
+    gboolean listPhrases(const char *prefix,
+                         std::vector<std::string> & phrases);
+
+    gboolean getPhraseInfo(const char *word, int & freq);
+    gboolean updatePhrase(const char *word, int freq);
+
+    gboolean importTable (const char *filename);
+    gboolean exportTable (const char *filename);
+    gboolean clearTable ();
+
+private:
+    sqlite3 *m_sqlite;
+    String m_sql;
+
+private:
+    static std::unique_ptr<TableDatabase> m_system_instance;
+    static std::unique_ptr<TableDatabase> m_user_instance;
+};
 
 class TableEditor : public Editor {
 public:
