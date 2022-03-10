@@ -25,7 +25,6 @@
 #include <vector>
 #include <libintl.h>
 #include <glib.h>
-#include <sqlite3.h>
 #include "PYString.h"
 #include "PYConfig.h"
 
@@ -75,7 +74,7 @@ TableDatabase::isDatabaseExisted(const char *filename) {
         return FALSE;
 
     const char *version = (const char *) sqlite3_column_text (stmt, 0);
-    if (strcmp("1.2.0", version) != 0)
+    if (strcmp("1.12.0", version) != 0)
         return FALSE;
 
     result = sqlite3_finalize (stmt);
@@ -84,15 +83,63 @@ TableDatabase::isDatabaseExisted(const char *filename) {
     return TRUE;
 }
 
+gboolean
+TableDatabase::createDatabase(const char *filename) {
+    /* unlink the old database. */
+    gboolean retval = g_file_test (filename, G_FILE_TEST_IS_REGULAR);
+    if (retval) {
+        int result = g_unlink (filename);
+        if (result == -1)
+            return FALSE;
+    }
+
+    char *dirname = g_path_get_dirname (filename);
+    g_mkdir_with_parents (dirname, 0700);
+    g_free (dirname);
+
+    sqlite3 *tmp_db = NULL;
+    if (sqlite3_open_v2 (filename, &tmp_db,
+                         SQLITE_OPEN_READWRITE |
+                         SQLITE_OPEN_CREATE, NULL) != SQLITE_OK) {
+        return FALSE;
+    }
+
+    /* Create DESCription table */
+    m_sql = "BEGIN TRANSACTION;\n";
+    m_sql << "CREATE TABLE IF NOT EXISTS desc (name TEXT PRIMARY KEY, value TEXT);\n";
+    m_sql << "INSERT OR IGNORE INTO desc VALUES ('version', '1.12.0');";
+    m_sql << "COMMIT;\n";
+
+    if (!executeSQL (tmp_db)) {
+        sqlite3_close (tmp_db);
+        return FALSE;
+    }
+
+    /* Create Schema */
+    m_sql = "CREATE TABLE IF NOT EXISTS phrases ( "
+        "id INTEGER PRIMARY KEY NOT NULL,"
+        "tabkeys TEXT NOT NULL,"
+        "phrase TEXT NOT NULL UNIQUE,"
+        "freq INTEGER NOT NULL DEFAULT (0)"
+        ");";
+    if (!executeSQL (tmp_db)) {
+        sqlite3_close (tmp_db);
+        return FALSE;
+    }
+    return TRUE;
+}
+
 /* No self-learning here, and no user database file. */
 gboolean
-TableDatabase::openDatabase(const char *system_db) {
-    if (!isDatabaseExisted (system_db))
-        return FALSE;
+TableDatabase::openDatabase(const char *filename, gboolean writable) {
+    int flags = SQLITE_OPEN_READONLY;
+
+    if (writable)
+        flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
 
     /* open system database. */
     if (sqlite3_open_v2 (system_db, &m_sqlite,
-                         SQLITE_OPEN_READONLY, NULL) != SQLITE_OK) {
+                         flags, NULL) != SQLITE_OK) {
         m_sqlite = NULL;
         return FALSE;
     }
@@ -100,15 +147,15 @@ TableDatabase::openDatabase(const char *system_db) {
     return TRUE;
 }
 
-/* List the characters in sequence order. */
+/* List the phrases in frequency and id order. */
 gboolean
-TableDatabase::listCharacters(const char *prefix,
-                              std::vector<std::string> & characters){
+TableDatabase::listPhrases(const char *prefix,
+                           std::vector<std::string> & phrases){
     sqlite3_stmt *stmt = NULL;
     const char *tail = NULL;
-    characters.clear ();
+    phrases.clear ();
 
-    /* list characters */
+    /* list phrases */
     const char *SQL_DB_LIST =
         "SELECT phrase FROM phrases "
         "WHERE tabkeys LIKE \"%s%\" ORDER BY freq DESC, id ASC;";
@@ -119,13 +166,13 @@ TableDatabase::listCharacters(const char *prefix,
 
     result = sqlite3_step (stmt);
     while (result == SQLITE_ROW){
-        /* get the characters. */
+        /* get the phrases. */
         result = sqlite3_column_type (stmt, 0);
         if (result != SQLITE_TEXT)
             return FALSE;
 
-        const char *character = (const char *)sqlite3_column_text (stmt, 0);
-        characters.push_back (character);
+        const char *phrase = (const char *)sqlite3_column_text (stmt, 0);
+        phrases.push_back (phrase);
 
         result = sqlite3_step (stmt);
     }
@@ -133,6 +180,69 @@ TableDatabase::listCharacters(const char *prefix,
     sqlite3_finalize (stmt);
     if (result != SQLITE_DONE)
         return FALSE;
+    return TRUE;
+}
+
+gboolean
+TableDatabase::getPhraseInfo(const char *phrase, int & freq){
+    sqlite3_stmt *stmt = NULL;
+    const char *tail = NULL;
+
+    /* get phrase info */
+    const char *SQL_DB_SELECT =
+        "SELECT freq FROM phrases WHERE phrase = \"%s\";";
+    m_sql.printf (SQL_DB_SELECT, phrase);
+    int result = sqlite3_prepare_v2 (m_sqlite, m_sql.c_str (), -1, &stmt, &tail);
+    g_assert (result == SQLITE_OK);
+    result = sqlite3_step (stmt);
+    if (result != SQLITE_ROW)
+        return FALSE;
+    result = sqlite3_column_type (stmt, 0);
+    if (result != SQLITE_INTEGER)
+        return FALSE;
+    freq = sqlite3_column_int (stmt, 0);
+    result = sqlite3_finalize (stmt);
+    g_assert (result == SQLITE_OK);
+    return TRUE;
+}
+
+gboolean
+TableDatabase::updatePhrase(const char *phrase, int freq){
+    const char *SQL_DB_UPDATE =
+        "UPDATE phrases SET freq = \"%d\" WHERE phrase = \"%s\";";
+    m_sql.printf (SQL_DB_UPDATE, freq, phrase);
+    gboolean retval = executeSQL (m_sqlite);
+    return retval;
+}
+
+gboolean
+TableDatabase::deletePhrase(const char *phrase, int freq){
+    const char *SQL_DB_DELETE =
+        "DELETE FROM phrases WHERE phrase = \"%s\";";
+    m_sql.printf (SQL_DB_DELETE, phrase);
+    gboolean retval = executeSQL (m_sqlite);
+    return retval;
+}
+
+gboolean
+TableDatabase::clearTable (){
+    const char *SQL_DB_DELETE =
+        "DELETE FROM phrases;";
+    m_sql = SQL_DB_DELETE;
+    gboolean retval = executeSQL (m_sqlite);
+    return retval;
+}
+
+gboolean
+TableDatabase::executeSQL(sqlite3 *sqlite){
+    gchar *errmsg = NULL;
+    if (sqlite3_exec (sqlite, m_sql.c_str (), NULL, NULL, &errmsg)
+        != SQLITE_OK) {
+        g_warning ("%s: %s", errmsg, m_sql.c_str());
+        sqlite3_free (errmsg);
+        return FALSE;
+    }
+    m_sql.clear ();
     return TRUE;
 }
 
@@ -397,7 +507,7 @@ TableEditor::updateStateFromInput (void)
 
     /* lookup table candidate fill here. */
     std::vector<std::string> characters;
-    gboolean retval = m_table_database->listCharacters
+    gboolean retval = m_table_database->listPhrases
         (prefix.c_str (), characters);
     if (!retval)
         return FALSE;
