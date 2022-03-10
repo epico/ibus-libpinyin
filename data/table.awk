@@ -14,7 +14,7 @@ BEGIN {
 
     # Create desc table
     print "CREATE TABLE IF NOT EXISTS desc (name TEXT PRIMARY KEY, value TEXT);";
-    print "INSERT OR IGNORE INTO desc VALUES ('version', '1.2.0');";
+    print "INSERT OR IGNORE INTO desc VALUES ('version', '1.12.0');";
 
     id = 1;
 }
