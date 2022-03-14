@@ -25,6 +25,7 @@
 #include <vector>
 #include <libintl.h>
 #include <glib.h>
+#include <glib/gstdio.h>
 #include "PYString.h"
 #include "PYConfig.h"
 
@@ -120,7 +121,7 @@ TableDatabase::createDatabase(const char *filename) {
         "id INTEGER PRIMARY KEY NOT NULL,"
         "tabkeys TEXT NOT NULL,"
         "phrase TEXT NOT NULL UNIQUE,"
-        "freq INTEGER NOT NULL DEFAULT (0)"
+        "freq INTEGER NOT NULL DEFAULT (10)"
         ");";
     if (!executeSQL (tmp_db)) {
         sqlite3_close (tmp_db);
@@ -138,7 +139,7 @@ TableDatabase::openDatabase(const char *filename, gboolean writable) {
         flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
 
     /* open system database. */
-    if (sqlite3_open_v2 (system_db, &m_sqlite,
+    if (sqlite3_open_v2 (filename, &m_sqlite,
                          flags, NULL) != SQLITE_OK) {
         m_sqlite = NULL;
         return FALSE;
@@ -222,6 +223,109 @@ TableDatabase::deletePhrase(const char *phrase, int freq){
     m_sql.printf (SQL_DB_DELETE, phrase);
     gboolean retval = executeSQL (m_sqlite);
     return retval;
+}
+
+gboolean
+TableDatabase::importTable (const char *filename){
+    /* Import the table into user database. */
+    sqlite3_stmt *stmt = NULL;
+    const char *tail = NULL;
+
+    FILE *input = fopen (filename, "r");
+    if (input == NULL)
+        return FALSE;
+
+    /* Get the next id, which is "MAX(id) + 1". */
+    const char *SQL_DB_SELECT =
+        "SELECT MAX(id) FROM phrases;";
+    m_sql = SQL_DB_SELECT;
+    int result = sqlite3_prepare_v2 (m_sqlite, m_sql.c_str (), -1, &stmt, &tail);
+    if (result != SQLITE_OK)
+        return FALSE;
+
+    result = sqlite3_step (stmt);
+    if (result != SQLITE_ROW)
+        return FALSE;
+
+    result = sqlite3_column_type (stmt, 0);
+    if (result != SQLITE_INTEGER)
+        return FALSE;
+    int id = sqlite3_column_int (stmt, 0);
+    /* Open the table file with format:
+       "tabkeys phrase freq". */
+
+    while (!feof (input)) {
+        ++id;
+        char tabkeys[256], phrase[256];
+        int freq = 10;
+        fscanf (input, "%255s %255s %d\n", tabkeys, phrase, &freq);
+        if (feof(input))
+            break;
+
+        const char *SQL_DB_REPLACE =
+            "INSERT OR REPLACE INTO phrases (id, tabkeys, phrase, freq) "
+            "VALUES (%d, \"%s\", \"%s\", %d);";
+
+        m_sql.printf (SQL_DB_REPLACE, id, tabkeys, phrase, freq);
+        gboolean retval = executeSQL (m_sqlite);
+        if (!retval)
+            break;
+    }
+
+    fclose (input);
+    return TRUE;
+}
+
+gboolean
+TableDatabase::exportTable (const char *filename){
+    /* Export the content of user database. */
+    sqlite3_stmt *stmt = NULL;
+    const char *tail = NULL;
+
+    /* Get the content of phrases table by "id" order. */
+    const char *SQL_DB_SELECT =
+        "SELECT tabkeys, phrase, freq FROM phrases "
+        "ORDER BY id ASC;";
+    m_sql = SQL_DB_SELECT;
+    int result = sqlite3_prepare_v2 (m_sqlite, m_sql.c_str (), -1, &stmt, &tail);
+    if (result != SQLITE_OK)
+        return FALSE;
+
+    /* Write the table file with format:
+       "tabkeys phrase freq". */
+    FILE *output = fopen (filename, "w");
+    if (output == NULL)
+        return FALSE;
+
+    result = sqlite3_step (stmt);
+    while (result == SQLITE_ROW){
+        /* write one line. */
+        result = sqlite3_column_type (stmt, 0);
+        if (result != SQLITE_TEXT)
+            return FALSE;
+        const char *tabkeys = (const char *)sqlite3_column_text (stmt, 0);
+
+        result = sqlite3_column_type (stmt, 1);
+        if (result != SQLITE_TEXT)
+            return FALSE;
+        const char *phrase = (const char *)sqlite3_column_text (stmt, 1);
+
+        result = sqlite3_column_type (stmt, 2);
+        if (result != SQLITE_INTEGER)
+            return FALSE;
+        const int freq = sqlite3_column_int (stmt, 2);
+
+        fprintf (output, "%s\t%s\t%d\n", tabkeys, phrase, freq);
+
+        result = sqlite3_step (stmt);
+    }
+
+    fclose (output);
+
+    sqlite3_finalize (stmt);
+    if (result != SQLITE_DONE)
+        return FALSE;
+    return TRUE;
 }
 
 gboolean
