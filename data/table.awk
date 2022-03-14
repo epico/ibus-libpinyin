@@ -5,11 +5,11 @@ BEGIN {
     print "BEGIN TRANSACTION;"
 
     # Create english table
-    print "CREATE TABLE IF NOT EXISTS \"phrases\" ( "  \
+    print "CREATE TABLE IF NOT EXISTS phrases ( "      \
         "id INTEGER PRIMARY KEY NOT NULL,"             \
         "tabkeys TEXT NOT NULL,"                       \
         "phrase TEXT NOT NULL,"                        \
-        "freq INTEGER NOT NULL DEFAULT (0)"            \
+        "freq INTEGER NOT NULL DEFAULT (10)"           \
         ");";
 
     # Create desc table
