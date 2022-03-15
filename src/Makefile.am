@@ -57,6 +57,7 @@ ibus_engine_libpinyin_h_sources = \
 	PYText.h \
 	PYTypes.h \
 	PYUtil.h \
+	PYTableDatabase.h \
 	PYTableEditor.h \
 	PYEnglishDatabase.h \
 	PYEnglishEditor.h \
@@ -117,7 +118,10 @@ ibus_engine_libpinyin_c_sources += \
 endif
 
 if IBUS_BUILD_TABLE_INPUT_MODE
-ibus_engine_libpinyin_c_sources += PYTableEditor.cc
+ibus_engine_libpinyin_c_sources += \
+	PYTableDatabase.cc \
+	PYTableEditor.cc \
+	$(NULL)
 endif
 
 if IBUS_BUILD_ENGLISH_INPUT_MODE
