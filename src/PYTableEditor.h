@@ -22,49 +22,11 @@
 #ifndef __PY_TABLE_EDITOR_
 #define __PY_TABLE_EDITOR_
 
-#include <sqlite3.h>
 #include "PYEditor.h"
 #include "PYLookupTable.h"
+#include "PYTableDatabase.h"
 
 namespace PY {
-
-class TableDatabase{
-public:
-    static void init ();
-    static TableDatabase & systemInstance (void) { return *m_system_instance; }
-    static TableDatabase & userInstance (void)   { return *m_user_instance; }
-
-public:
-    TableDatabase();
-    ~TableDatabase();
-
-public:
-    gboolean isDatabaseExisted(const char *filename);
-    gboolean createDatabase(const char *filename);
-
-    gboolean openDatabase(const char *filename, gboolean writable);
-    gboolean listPhrases(const char *prefix,
-                         std::vector<std::string> & phrases);
-
-    gboolean getPhraseInfo(const char *phrase, int & freq);
-    gboolean updatePhrase(const char *phrase, int freq);
-    gboolean deletePhrase(const char *phrase, int freq);
-
-    gboolean importTable (const char *filename);
-    gboolean exportTable (const char *filename);
-    gboolean clearTable ();
-
-private:
-    gboolean executeSQL(sqlite3 *sqlite);
-
-private:
-    sqlite3 *m_sqlite;
-    String m_sql;
-
-private:
-    static std::unique_ptr<TableDatabase> m_system_instance;
-    static std::unique_ptr<TableDatabase> m_user_instance;
-};
 
 class TableEditor : public Editor {
 public:
