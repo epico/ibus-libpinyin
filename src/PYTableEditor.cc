@@ -36,21 +36,10 @@ namespace PY {
 TableEditor::TableEditor (PinyinProperties &props, Config &config)
     : Editor (props, config)
 {
-    m_table_database = new TableDatabase;
-
-    gboolean result = m_table_database->openDatabase
-        (".." G_DIR_SEPARATOR_S "data" G_DIR_SEPARATOR_S "table.db") ||
-        m_table_database->openDatabase
-        (PKGDATADIR G_DIR_SEPARATOR_S "db" G_DIR_SEPARATOR_S "table.db");
-
-    if (!result)
-        g_warning ("can't open table database.\n");
 }
 
 TableEditor::~TableEditor ()
 {
-    delete m_table_database;
-    m_table_database = NULL;
 }
 
 gboolean
@@ -252,6 +241,16 @@ TableEditor::selectCandidate (guint index)
     return TRUE;
 }
 
+TableDatabase *
+TableEditor::getTableDatabase (void)
+{
+    if (!m_config.useCustomTable ())
+        return &TableDatabase::systemInstance ();
+    else
+        return &TableDatabase::userInstance ();
+    return NULL;
+}
+
 gboolean
 TableEditor::updateStateFromInput (void)
 {
@@ -279,6 +278,9 @@ TableEditor::updateStateFromInput (void)
 
         const char * help_string =
             _("Please use \"hspnz\" to input.");
+        if (m_config.useCustomTable ())
+            help_string =
+                _("Please use table code to input.");
         int space_len = std::max ( 0, m_aux_text_len
                                    - (int) g_utf8_strlen (help_string, -1));
         m_auxiliary_text.append(space_len, ' ');
@@ -293,8 +295,9 @@ TableEditor::updateStateFromInput (void)
     m_auxiliary_text += prefix;
 
     /* lookup table candidate fill here. */
+    TableDatabase *table_database = getTableDatabase ();
     std::vector<std::string> characters;
-    gboolean retval = m_table_database->listPhrases
+    gboolean retval = table_database->listPhrases
         (prefix.c_str (), characters);
     if (!retval)
         return FALSE;

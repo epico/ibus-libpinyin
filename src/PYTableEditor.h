@@ -43,6 +43,7 @@ public:
     virtual void candidateClicked (guint index, guint button, guint state);
 
 private:
+    TableDatabase *getTableDatabase (void);
     gboolean updateStateFromInput (void);
 
     void clearLookupTable (void);
@@ -69,8 +70,6 @@ private:
 
     String m_preedit_text;
     String m_auxiliary_text;
-
-    TableDatabase *m_table_database;
 
     const static int m_aux_text_len = 50;
 };

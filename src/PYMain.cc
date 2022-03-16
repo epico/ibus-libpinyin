@@ -34,6 +34,9 @@
 #ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
 #include "PYEnglishDatabase.h"
 #endif
+#ifdef IBUS_BUILD_TABLE_INPUT_MODE
+#include "PYTableDatabase.h"
+#endif
 
 using namespace PY;
 
@@ -96,6 +99,10 @@ start_component (void)
 
 #ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
     EnglishDatabase::init ();
+#endif
+
+#ifdef IBUS_BUILD_TABLE_INPUT_MODE
+    TableDatabase::init ();
 #endif
 
     g_signal_connect ((IBusBus *)bus, "disconnected", G_CALLBACK (ibus_disconnected_cb), NULL);

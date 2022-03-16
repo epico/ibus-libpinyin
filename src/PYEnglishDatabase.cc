@@ -34,6 +34,17 @@ EnglishDatabase::init ()
     if (m_instance.get () == NULL) {
         m_instance.reset (new EnglishDatabase ());
     }
+
+    gchar *path = g_build_filename (g_get_user_cache_dir (),
+                                     "ibus", "libpinyin", "english-user.db", NULL);
+
+    gboolean result = m_instance->openDatabase
+        (".." G_DIR_SEPARATOR_S "data" G_DIR_SEPARATOR_S "english.db",
+         "english-user.db") ||
+        m_instance->openDatabase
+        (PKGDATADIR G_DIR_SEPARATOR_S "db" G_DIR_SEPARATOR_S "english.db", path);
+    if (!result)
+        g_warning ("can't open English word list database.\n");
 }
 
 

@@ -23,6 +23,42 @@
 
 namespace PY {
 
+std::unique_ptr<TableDatabase> TableDatabase::m_system_instance;
+std::unique_ptr<TableDatabase> TableDatabase::m_user_instance;
+
+void
+TableDatabase::init ()
+{
+    /* system table database */
+    if (m_system_instance.get () == NULL) {
+        m_system_instance.reset (new TableDatabase ());
+    }
+
+    gboolean result = m_system_instance->openDatabase
+        (".." G_DIR_SEPARATOR_S "data" G_DIR_SEPARATOR_S "table.db", FALSE) ||
+        m_system_instance->openDatabase
+        (PKGDATADIR G_DIR_SEPARATOR_S "db" G_DIR_SEPARATOR_S "table.db", FALSE);
+
+    if (!result)
+        g_warning ("can't open system table database.\n");
+
+    /* user table database */
+    if (m_user_instance.get () == NULL) {
+        m_user_instance.reset (new TableDatabase ());
+    }
+
+    gchar *path = g_build_filename (g_get_user_cache_dir (),
+                                    "ibus", "libpinyin", "table-user.db", NULL);
+
+    if (m_user_instance->isDatabaseExisted (path))
+        result = m_user_instance->openDatabase (path, TRUE);
+    else
+        result = m_user_instance->createDatabase (path);
+
+    if (!result)
+        g_warning ("can't open user table database.\n");
+}
+
 TableDatabase::TableDatabase(){
     m_sqlite = NULL;
     m_sql = "";
