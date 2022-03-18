@@ -31,6 +31,8 @@
 
 #define _(text) (gettext (text))
 
+#define TABLE_DATABASE_ADD_FREQUENCY 10
+
 namespace PY {
 
 TableEditor::TableEditor (PinyinProperties &props, Config &config)
@@ -236,6 +238,15 @@ TableEditor::selectCandidate (guint index)
 
     IBusText *candidate = m_lookup_table.getCandidate (index);
     Text text (candidate);
+
+    if (m_config.useCustomTable ()) {
+        TableDatabase *table_database = &TableDatabase::userInstance ();
+        int freq = 0;
+        table_database->getPhraseInfo (text.text (), freq);
+        freq += TABLE_DATABASE_ADD_FREQUENCY;
+        table_database->updatePhrase (text.text (), freq);
+    }
+
     commitText (text);
     reset ();
     return TRUE;

@@ -50,10 +50,10 @@ TableDatabase::init ()
     gchar *path = g_build_filename (g_get_user_cache_dir (),
                                     "ibus", "libpinyin", "table-user.db", NULL);
 
-    if (m_user_instance->isDatabaseExisted (path))
-        result = m_user_instance->openDatabase (path, TRUE);
-    else
+    if (!m_user_instance->isDatabaseExisted (path))
         result = m_user_instance->createDatabase (path);
+
+    result = m_user_instance->openDatabase (path, TRUE);
 
     if (!result)
         g_warning ("can't open user table database.\n");
@@ -146,17 +146,19 @@ TableDatabase::createDatabase(const char *filename) {
     m_sql = "CREATE TABLE IF NOT EXISTS phrases ( "
         "id INTEGER PRIMARY KEY NOT NULL,"
         "tabkeys TEXT NOT NULL,"
-        "phrase TEXT NOT NULL UNIQUE,"
+        "phrase TEXT NOT NULL,"
         "freq INTEGER NOT NULL DEFAULT (10)"
         ");";
     if (!executeSQL (tmp_db)) {
         sqlite3_close (tmp_db);
         return FALSE;
     }
+
+    sqlite3_close (tmp_db);
     return TRUE;
 }
 
-/* No self-learning here, and no user database file. */
+/* Self-learning is only in user table database file. */
 gboolean
 TableDatabase::openDatabase(const char *filename, gboolean writable) {
     int flags = SQLITE_OPEN_READONLY;
@@ -185,7 +187,8 @@ TableDatabase::listPhrases(const char *prefix,
     /* list phrases */
     const char *SQL_DB_LIST =
         "SELECT phrase FROM phrases "
-        "WHERE tabkeys LIKE \"%s%\" ORDER BY freq DESC, id ASC;";
+        "WHERE tabkeys LIKE \"%s%\" "
+        "ORDER BY LENGTH(phrase) ASC, freq DESC, id ASC;";
     m_sql.printf (SQL_DB_LIST, prefix);
     int result = sqlite3_prepare_v2 (m_sqlite, m_sql.c_str(), -1, &stmt, &tail);
     if (result != SQLITE_OK)
@@ -273,19 +276,27 @@ TableDatabase::importTable (const char *filename){
     if (result != SQLITE_ROW)
         return FALSE;
 
+    int id = 0;
     result = sqlite3_column_type (stmt, 0);
-    if (result != SQLITE_INTEGER)
-        return FALSE;
-    int id = sqlite3_column_int (stmt, 0);
+    if (result == SQLITE_INTEGER)
+        id = sqlite3_column_int (stmt, 0);
+    else if (result == SQLITE_NULL)
+        id = 0;
+    else
+        g_warning ("Can't find id for user table database.");
+
+    m_sql = "BEGIN TRANSACTION;";
+    result = executeSQL (m_sqlite);
+
     /* Open the table file with format:
        "tabkeys phrase freq". */
-
     while (!feof (input)) {
         ++id;
         char tabkeys[256], phrase[256];
         int freq = 10;
         fscanf (input, "%255s %255s %d\n", tabkeys, phrase, &freq);
-        if (feof(input))
+
+        if (tabkeys[0] == '\0' || phrase[0] == '\0')
             break;
 
         const char *SQL_DB_REPLACE =
@@ -297,6 +308,9 @@ TableDatabase::importTable (const char *filename){
         if (!retval)
             break;
     }
+
+    m_sql = "COMMIT;";
+    result = executeSQL (m_sqlite);
 
     fclose (input);
     return TRUE;
@@ -385,13 +399,28 @@ public:
         TableDatabase *db = new TableDatabase ();
         bool retval = db->isDatabaseExisted ("../data/table.db");
         g_assert (retval);
-        retval = db->openDatabase ("../data/table.db");
+        retval = db->openDatabase ("../data/table.db", FALSE);
         g_assert (retval);
-        std::vector<std::string> chars;
+        std::vector<std::string> phrases;
         std::vector<std::string>::iterator iter;
-        db->listCharacters("hshshhh", chars);
+        db->listPhrases("hshshhh", phrases);
         printf ("characters:\t");
-        for (iter = chars.begin(); iter != chars.end(); ++iter)
+        for (iter = phrases.begin(); iter != phrases.end(); ++iter)
+            printf ("%s ", iter->c_str());
+        printf ("\n");
+        phrases.clear ();
+        delete db;
+
+        db = new TableDatabase ();
+        if (!db->isDatabaseExisted ("table.db"))
+            db->createDatabase ("table.db");
+        db->openDatabase ("table.db", TRUE);
+
+        db->importTable ("table.txt");
+        db->exportTable ("export.txt");
+        db->listPhrases("a", phrases);
+        printf ("characters:\t");
+        for (iter = phrases.begin(); iter != phrases.end(); ++iter)
             printf ("%s ", iter->c_str());
         printf ("\n");
         printf ("table database test ok.\n");
