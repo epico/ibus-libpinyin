@@ -187,8 +187,8 @@ TableDatabase::listPhrases(const char *prefix,
     /* list phrases */
     const char *SQL_DB_LIST =
         "SELECT phrase FROM phrases "
-        "WHERE tabkeys LIKE \"%s%\" "
-        "ORDER BY LENGTH(phrase) ASC, freq DESC, id ASC;";
+        "WHERE tabkeys LIKE \"%s%\" GROUP by phrase "
+        "ORDER BY LENGTH(phrase) ASC, SUM(freq) DESC, id ASC;";
     m_sql.printf (SQL_DB_LIST, prefix);
     int result = sqlite3_prepare_v2 (m_sqlite, m_sql.c_str(), -1, &stmt, &tail);
     if (result != SQLITE_OK)
@@ -286,7 +286,8 @@ TableDatabase::importTable (const char *filename){
         g_warning ("Can't find id for user table database.");
 
     m_sql = "BEGIN TRANSACTION;";
-    result = executeSQL (m_sqlite);
+    if (!executeSQL (m_sqlite))
+        return FALSE;
 
     /* Open the table file with format:
        "tabkeys phrase freq". */
@@ -310,7 +311,8 @@ TableDatabase::importTable (const char *filename){
     }
 
     m_sql = "COMMIT;";
-    result = executeSQL (m_sqlite);
+    if (!executeSQL (m_sqlite))
+        return FALSE;
 
     fclose (input);
     return TRUE;

@@ -23,6 +23,7 @@
 #include <pinyin.h>
 #include "PYBus.h"
 #include "PYLibPinyin.h"
+#include "PYTableDatabase.h"
 
 #define USE_G_SETTINGS_LIST_KEYS 0
 
@@ -643,6 +644,21 @@ PinyinConfig::valueChanged (const std::string &schema_id,
         m_table_input_mode = normalizeGVariant (value, true);
     else if (CONFIG_USE_CUSTOM_TABLE == name)
         m_use_custom_table = normalizeGVariant (value, false);
+    else if (CONFIG_IMPORT_CUSTOM_TABLE == name) {
+        std::string filename = normalizeGVariant (value, std::string(""));
+        if (!filename.empty ())
+            TableDatabase::userInstance ().importTable (filename.c_str ());
+    }
+    else if (CONFIG_EXPORT_CUSTOM_TABLE == name) {
+        std::string filename = normalizeGVariant (value, std::string(""));
+        if (!filename.empty ())
+            TableDatabase::userInstance ().exportTable (filename.c_str ());
+    }
+    else if (CONFIG_CLEAR_CUSTOM_TABLE == name) {
+        std::string target = normalizeGVariant (value, std::string(""));
+        if (target == "user")
+            TableDatabase::userInstance ().clearTable ();
+    }
     else if (CONFIG_IMPORT_DICTIONARY == name) {
         std::string filename = normalizeGVariant (value, std::string(""));
         if (!filename.empty ())
