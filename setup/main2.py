@@ -408,20 +408,54 @@ class PreferencesDialog:
         path = os.path.join(pkgdatadir, 'user.lua')
         if not os.access(path, os.R_OK):
             self.__frame_lua_script.hide()
+        self.__frame_lua_script.set_sensitive(self.__get_value("lua-extension"))
+
+        self.__frame_user_table = self.__builder.get_object("frameUserTable")
+        self.__frame_user_table.set_sensitive(self.__get_value("table-input-mode"))
+
+        self.__lua_extension = self.__builder.get_object("LuaExtension")
+        self.__lua_extension.set_active(self.__get_value("lua-extension"))
+        self.__lua_extension.connect("toggled", self.__lua_extension_cb)
+        self.__table_mode = self.__builder.get_object("TableMode")
+        self.__table_mode.set_active(self.__get_value("table-input-mode"))
+        self.__table_mode.connect("toggled", self.__table_mode_cb)
+        self.__english_mode = self.__builder.get_object("EnglishMode")
+        self.__english_mode.set_active(self.__get_value("english-input-mode"))
+        self.__english_mode.connect("toggled", self.__english_mode_cb)
 
         self.__edit_lua = self.__builder.get_object("EditLua")
         self.__edit_lua.connect("clicked", self.__edit_lua_cb)
 
         self.__import_dictionary = self.__builder.get_object("ImportDictionary")
-        self.__import_dictionary.connect("clicked", self.__import_dictionary_cb)
+        self.__import_dictionary.connect("clicked", self.__import_dictionary_cb, "import-dictionary")
 
         self.__export_dictionary = self.__builder.get_object("ExportDictionary")
-        self.__export_dictionary.connect("clicked", self.__export_dictionary_cb)
+        self.__export_dictionary.connect("clicked", self.__export_dictionary_cb, "export-dictionary")
 
-        self.__clear_user_data = self.__builder.get_object("ClearUserData")
+        self.__clear_user_data = self.__builder.get_object("ClearUserDictionary")
         self.__clear_user_data.connect("clicked", self.__clear_user_data_cb, "user")
-        self.__clear_all_data = self.__builder.get_object("ClearAllData")
+        self.__clear_all_data = self.__builder.get_object("ClearAllDictionary")
         self.__clear_all_data.connect("clicked", self.__clear_user_data_cb, "all")
+
+        self.__import_table = self.__builder.get_object("ImportTable")
+        self.__import_table.connect("clicked", self.__import_table_cb, "import-custom-table")
+
+        self.__export_table = self.__builder.get_object("ExportTable")
+        self.__export_table.connect("clicked", self.__export_table_cb, "export-custom-table")
+
+        self.__clear_user_table = self.__builder.get_object("ClearUserTable")
+        self.__clear_user_table.connect("clicked", self.__clear_user_table_cb, "clear-custom-table", "user")
+
+    def __lua_extension_cb(self, widget):
+        self.__set_value("lua-extension", widget.get_active())
+        self.__frame_lua_script.set_sensitive(widget.get_active())
+
+    def __table_mode_cb(self, widget):
+        self.__set_value("table-input-mode", widget.get_active())
+        self.__frame_user_table.set_sensitive(widget.get_active())
+
+    def __english_mode_cb(self, widget):
+        self.__set_value("english-input-mode", widget.get_active())
 
     def __edit_lua_cb(self, widget):
         import shutil
@@ -433,7 +467,7 @@ class PreferencesDialog:
             shutil.copyfile(src, path)
         os.system("xdg-open %s" % path)
 
-    def __import_dictionary_cb(self, widget):
+    def __get_import_filename(self):
         dialog = Gtk.FileChooserDialog \
             (title = _("Please choose a file"), parent = self.__dialog,
              action = Gtk.FileChooserAction.OPEN)
@@ -446,14 +480,15 @@ class PreferencesDialog:
         filter_text.add_mime_type("text/plain")
         dialog.add_filter(filter_text)
 
+        filename = None
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            self.__set_value("import-dictionary", "")
-            self.__set_value("import-dictionary", dialog.get_filename())
-
+            filename = dialog.get_filename()
         dialog.destroy()
 
-    def __export_dictionary_cb(self, widget):
+        return filename
+
+    def __get_export_filename(self):
         dialog = Gtk.FileChooserDialog \
                  (title = _("Please save a file"), parent = self.__dialog,
                   action = Gtk.FileChooserAction.SAVE)
@@ -468,15 +503,45 @@ class PreferencesDialog:
         filter_text.add_mime_type("text/plain")
         dialog.add_filter(filter_text)
 
+        filename = None
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            self.__set_value("export-dictionary", "")
-            self.__set_value("export-dictionary", dialog.get_filename())
-
+            filename = dialog.get_filename()
         dialog.destroy()
+
+        return filename
+
+    def __import_dictionary_cb(self, widget, name):
+        filename = self.__get_import_filename()
+        if filename:
+            self.__set_value(name, "")
+            self.__set_value(name, dialog.get_filename())
+
+    def __export_dictionary_cb(self, widget, name):
+        filename = self.__get_export_filename()
+        if filename:
+            self.__set_value(name, "")
+            self.__set_value(name, dialog.get_filename())
 
     def __clear_user_data_cb(self, widget, name):
         self.__set_value("clear-user-data", name)
+
+    def __import_table_cb(self, widget, name):
+        filename = self.__get_import_filename()
+        if filename:
+            self.__set_value(name, "")
+            self.__set_value(name, dialog.get_filename())
+            self.__set_value("use-custom-table", True)
+
+    def __export_table_cb(self, widget, name):
+        filename = self.__get_export_filename()
+        if filename:
+            self.__set_value(name, "")
+            self.__set_value(name, dialog.get_filename())
+
+    def __clear_user_table_cb(self, widget, name, value):
+        self.__set_value(name, value)
+        self.__set_value("use-custom-table", False)
 
     def __init_shortcut(self):
         # page Shortcut
