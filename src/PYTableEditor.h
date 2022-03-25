@@ -28,7 +28,10 @@
 
 namespace PY {
 
+class PinyinEngine;
+
 class TableEditor : public Editor {
+    friend class PinyinEngine;
 public:
     TableEditor (PinyinProperties &props, Config & config);
     virtual ~TableEditor ();

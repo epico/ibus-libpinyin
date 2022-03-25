@@ -364,7 +364,27 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 #endif
 
             } else {
-                /* TODO: Unknown */
+#ifdef IBUS_BUILD_TABLE_INPUT_MODE
+                // for table mode switch with tab key
+                if (keyval == IBUS_Tab &&
+                    m_input_mode == MODE_INIT &&
+                    PinyinConfig::instance ().tableInputMode ()) {
+                    String text;
+                    if (!PinyinConfig::instance ().doublePinyin ())
+                        text = "u"; // full pinyin
+                    else
+                        text = "U"; // double pinyin
+                    text += m_editors[m_input_mode]->text ();
+                    m_editors[m_input_mode]->setText ("", 0);
+
+                    m_input_mode = MODE_TABLE;
+                    m_editors[m_input_mode]->setText (text, text.length ());
+                    Editor * editor = m_editors[m_input_mode].get ();
+                    ((TableEditor *)editor)->updateStateFromInput ();
+                    m_editors[m_input_mode]->update ();
+                    return TRUE;
+                }
+#endif
             }
         }
         retval = m_editors[m_input_mode]->processKeyEvent (keyval, keycode, modifiers);
