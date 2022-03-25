@@ -1,3 +1,8 @@
+version 1.12.91
+* enhance English input mode
+* enhance Table input mode
+* update setup dialog
+
 version 1.12.1
 * support compatibility display style
 * remember cloud input
