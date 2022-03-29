@@ -53,7 +53,6 @@ EnglishCandidates::processCandidates (std::vector<EnhancedCandidate> & candidate
     enhanced.m_candidate_type = CANDIDATE_ENGLISH;
 
     int count = 0;
-    auto pos = candidates.begin ();
     if (m_english_database->listWords (prefix, words)) {
         // sort the words by length and frequency
         std::stable_sort (words.begin (), words.end (), compare_string_length);
@@ -65,9 +64,9 @@ EnglishCandidates::processCandidates (std::vector<EnhancedCandidate> & candidate
 
             enhanced.m_candidate_id = count;
             enhanced.m_display_string = *iter;
-            candidates.insert (pos, enhanced);
+            candidates.insert (candidates.begin () + count, enhanced);
 
-            ++count; ++pos;
+            ++count;
         }
 
         return TRUE;

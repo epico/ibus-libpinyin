@@ -380,7 +380,8 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
                     m_input_mode = MODE_TABLE;
                     m_editors[m_input_mode]->setText (text, text.length ());
                     Editor * editor = m_editors[m_input_mode].get ();
-                    ((TableEditor *)editor)->updateStateFromInput ();
+                    /* Note: consider to remove the updateStateFromInput method call here. */
+                    dynamic_cast<TableEditor *>(editor)->updateStateFromInput ();
                     m_editors[m_input_mode]->update ();
                     return TRUE;
                 }
