@@ -507,6 +507,9 @@ PhoneticEditor::selectCandidate (guint index)
     if (action & SELECT_CANDIDATE_UPDATE)
         update ();
 
+    if (action & SELECT_CANDIDATE_DIRECT_COMMIT)
+        directCommit (candidate.m_display_string.c_str ());
+
     return TRUE;
 }
 
@@ -521,6 +524,18 @@ PhoneticEditor::selectCandidateInPage (guint i)
     i += (cursor_pos / page_size) * page_size;
 
     return selectCandidate (i);
+}
+
+void
+PhoneticEditor::directCommit (const gchar *str)
+{
+    if (G_UNLIKELY (m_text.empty ()))
+        return;
+
+    Text text (str);
+    commitText (text);
+
+    reset();
 }
 
 gboolean

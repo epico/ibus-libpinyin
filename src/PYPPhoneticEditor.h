@@ -84,6 +84,7 @@ protected:
     virtual gboolean removeCandidateInternal (EnhancedCandidate & candidate);
     gboolean selectCandidate (guint i);
     gboolean selectCandidateInPage (guint i);
+    void directCommit (const gchar *str);
 
     void commit () { selectCandidate (0); }
 

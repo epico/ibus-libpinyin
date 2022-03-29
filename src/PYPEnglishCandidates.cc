@@ -83,7 +83,7 @@ EnglishCandidates::selectCandidate (EnhancedCandidate & enhanced)
 
     m_english_database->train (enhanced.m_display_string.c_str (), m_train_factor);
 
-    return SELECT_CANDIDATE_COMMIT;
+    return SELECT_CANDIDATE_DIRECT_COMMIT;
 }
 
 gboolean
