@@ -2577,7 +2577,7 @@
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="label" translatable="yes">&lt;b&gt;Table File Format:&lt;/b&gt;
-  Each line contains the following line:
+  Each line contains the following:
     "table_code phrase frequency" like "a 啊 100".</property>
                                         <property name="use-markup">True</property>
                                       </object>
