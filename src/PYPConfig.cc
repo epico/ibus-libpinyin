@@ -37,7 +37,6 @@ const gchar * const CONFIG_DISPLAY_STYLE             = "display-style";
 const gchar * const CONFIG_REMEMBER_EVERY_INPUT      = "remember-every-input";
 const gchar * const CONFIG_SORT_OPTION               = "sort-candidate-option";
 const gchar * const CONFIG_SHOW_SUGGESTION           = "show-suggestion";
-const gchar * const CONFIG_EMOJI_CANDIDATE           = "emoji-candidate";
 const gchar * const CONFIG_SHIFT_SELECT_CANDIDATE    = "shift-select-candidate";
 const gchar * const CONFIG_MINUS_EQUAL_PAGE          = "minus-equal-page";
 const gchar * const CONFIG_COMMA_PERIOD_PAGE         = "comma-period-page";
@@ -61,6 +60,8 @@ const gchar * const CONFIG_LUA_EXTENSION             = "lua-extension";
 const gchar * const CONFIG_ENGLISH_INPUT_MODE        = "english-input-mode";
 const gchar * const CONFIG_TABLE_INPUT_MODE          = "table-input-mode";
 const gchar * const CONFIG_USE_CUSTOM_TABLE          = "use-custom-table";
+const gchar * const CONFIG_EMOJI_CANDIDATE           = "emoji-candidate";
+const gchar * const CONFIG_ENGLISH_CANDIDATE         = "english-candidate";
 const gchar * const CONFIG_IMPORT_CUSTOM_TABLE       = "import-custom-table";
 const gchar * const CONFIG_EXPORT_CUSTOM_TABLE       = "export-custom-table";
 const gchar * const CONFIG_CLEAR_CUSTOM_TABLE        = "clear-custom-table";
@@ -132,7 +133,9 @@ LibPinyinConfig::initDefaultValues (void)
     m_remember_every_input = FALSE;
     m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
     m_show_suggestion = FALSE;
+
     m_emoji_candidate = TRUE;
+    m_english_candidate = TRUE;
 
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
@@ -295,7 +298,9 @@ LibPinyinConfig::readDefaultValues (void)
     }
 
     m_show_suggestion = read (CONFIG_SHOW_SUGGESTION, false);
+
     m_emoji_candidate = read (CONFIG_EMOJI_CANDIDATE, true);
+    m_english_candidate = read (CONFIG_ENGLISH_CANDIDATE, true);
 
     m_dictionaries = read (CONFIG_DICTIONARIES, "");
     m_opencc_config = read (CONFIG_OPENCC_CONFIG, "s2t.json");
@@ -399,6 +404,8 @@ LibPinyinConfig::valueChanged (const std::string &schema_id,
         m_show_suggestion = normalizeGVariant (value, false);
     } else if (CONFIG_EMOJI_CANDIDATE == name) {
         m_emoji_candidate = normalizeGVariant (value, true);
+    } else if (CONFIG_ENGLISH_CANDIDATE == name) {
+        m_english_candidate = normalizeGVariant (value, true);
     } else if (CONFIG_DICTIONARIES == name) {
         m_dictionaries = normalizeGVariant (value, std::string (""));
     } else if (CONFIG_OPENCC_CONFIG == name) {

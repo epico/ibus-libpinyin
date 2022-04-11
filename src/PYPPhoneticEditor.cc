@@ -255,7 +255,7 @@ PhoneticEditor::updateCandidates (void)
         m_traditional_candidates.processCandidates (m_candidates);
 
 #ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
-    if (!m_config.doublePinyin () && m_config.englishInputMode ())
+    if (m_config.englishCandidate ())
         m_english_candidates.processCandidates (m_candidates);
 #endif
 

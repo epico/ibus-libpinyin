@@ -45,7 +45,6 @@ Config::initDefaultValues (void)
     m_remember_every_input = FALSE;
     m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
     m_show_suggestion = FALSE;
-    m_emoji_candidate = TRUE;
 
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
@@ -76,6 +75,8 @@ Config::initDefaultValues (void)
     m_english_input_mode = TRUE;
     m_table_input_mode = TRUE;
     m_use_custom_table = FALSE;
+    m_emoji_candidate = TRUE;
+    m_english_candidate = TRUE;
 
     m_network_dictionary_start_timestamp = 0;
     m_network_dictionary_end_timestamp = 0;
