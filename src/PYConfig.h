@@ -59,7 +59,6 @@ public:
     DisplayStyle displayStyle (void) const      { return m_display_style; }
     gboolean rememberEveryInput (void) const    { return m_remember_every_input; }
     sort_option_t sortOption (void) const       { return m_sort_option; }
-    gboolean showSuggestion (void) const        { return m_show_suggestion; }
     gboolean shiftSelectCandidate (void) const  { return m_shift_select_candidate; }
     gboolean minusEqualPage (void) const        { return m_minus_equal_page; }
     gboolean commaPeriodPage (void) const       { return m_comma_period_page; }
@@ -82,6 +81,7 @@ public:
     gboolean useCustomTable (void) const        { return m_use_custom_table; }
     gboolean emojiCandidate (void) const        { return m_emoji_candidate; }
     gboolean englishCandidate (void) const      { return m_english_candidate; }
+    gboolean suggestionCandidate (void) const   { return m_suggestion_candidate; }
 
     std::string mainSwitch (void) const         { return m_main_switch; }
     std::string letterSwitch (void) const       { return m_letter_switch; }
@@ -144,7 +144,6 @@ protected:
     DisplayStyle m_display_style;
     gboolean m_remember_every_input;
     sort_option_t m_sort_option;
-    gboolean m_show_suggestion;
 
     gboolean m_shift_select_candidate;
     gboolean m_minus_equal_page;
@@ -173,6 +172,7 @@ protected:
     gboolean m_use_custom_table;
     gboolean m_emoji_candidate;
     gboolean m_english_candidate;
+    gboolean m_suggestion_candidate;
 
     std::string m_main_switch;
     std::string m_letter_switch;
