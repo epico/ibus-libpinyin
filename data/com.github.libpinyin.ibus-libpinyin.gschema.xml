@@ -201,6 +201,10 @@
       <default>true</default>
       <summary>Show Emoji Candidates</summary>
     </key>
+    <key name="english-candidate" type="b">
+      <default>true</default>
+      <summary>Show English Candidates</summary>
+    </key>
     <key name="network-dictionary-start-timestamp" type="x">
       <default>0</default>
       <summary>Start Timestamp for Network Dictionary</summary>
@@ -403,6 +407,10 @@
     <key name="emoji-candidate" type="b">
       <default>true</default>
       <summary>Show Emoji Candidates</summary>
+    </key>
+    <key name="english-candidate" type="b">
+      <default>true</default>
+      <summary>Show English Candidates</summary>
     </key>
     <key name="network-dictionary-start-timestamp" type="x">
       <default>0</default>
