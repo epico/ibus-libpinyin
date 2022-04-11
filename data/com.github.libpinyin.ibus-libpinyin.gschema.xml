@@ -189,10 +189,6 @@
       <default>''</default>
       <summary>Use Lua Converter</summary>
     </key>
-    <key name="show-suggestion" type="b">
-      <default>false</default>
-      <summary>Show Suggestions</summary>
-    </key>
     <key name="opencc-config" type="s">
       <default>'s2t.json'</default>
       <summary>The config file which should be used by OpenCC for traditional input. Please consult the OpenCC documentation for more information</summary>
@@ -204,6 +200,10 @@
     <key name="english-candidate" type="b">
       <default>true</default>
       <summary>Show English Candidates</summary>
+    </key>
+    <key name="suggestion-candidate" type="b">
+      <default>false</default>
+      <summary>Suggestion Candidate</summary>
     </key>
     <key name="network-dictionary-start-timestamp" type="x">
       <default>0</default>
@@ -396,10 +396,6 @@
       <default>1</default>
       <summary>Sort candidate option</summary>
     </key>
-    <key name="show-suggestion" type="b">
-      <default>false</default>
-      <summary>Show Suggestions</summary>
-    </key>
     <key name="opencc-config" type="s">
       <default>'s2t.json'</default>
       <summary>The config file which should be used by OpenCC for traditional input. Please consult the OpenCC documentation for more information</summary>
@@ -411,6 +407,10 @@
     <key name="english-candidate" type="b">
       <default>true</default>
       <summary>Show English Candidates</summary>
+    </key>
+    <key name="suggestion-candidate" type="b">
+      <default>false</default>
+      <summary>Suggestion Candidate</summary>
     </key>
     <key name="network-dictionary-start-timestamp" type="x">
       <default>0</default>
