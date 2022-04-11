@@ -148,7 +148,6 @@ class PreferencesDialog:
 
         self.__dynamic_adjust = self.__builder.get_object("DynamicAdjust")
         self.__remember_every_input = self.__builder.get_object("RememberEveryInput")
-        self.__show_suggestion = self.__builder.get_object("ShowSuggestion")
         self.__sort_candidate_option = self.__builder.get_object("SortCandidateOption")
 
         # read values
@@ -163,7 +162,6 @@ class PreferencesDialog:
 
         self.__dynamic_adjust.set_active(self.__get_value("dynamic-adjust"))
         self.__remember_every_input.set_active(self.__get_value("remember-every-input"))
-        self.__show_suggestion.set_active(self.__get_value("show-suggestion"))
         self.__sort_candidate_option.set_active(self.__get_value("sort-candidate-option"))
         # connect signals
         self.__init_chinese.connect("toggled", self.__toggled_cb, "init-chinese")
@@ -172,7 +170,6 @@ class PreferencesDialog:
         self.__init_simp.connect("toggled", self.__toggled_cb, "init-simplified-chinese")
         self.__dynamic_adjust.connect("toggled", self.__toggled_cb, "dynamic-adjust")
         self.__remember_every_input.connect("toggled", self.__toggled_cb, "remember-every-input")
-        self.__show_suggestion.connect("toggled", self.__toggled_cb, "show-suggestion")
 
         def __display_size_changed_cb(widget):
             self.__set_value("display-style", widget.get_active())
@@ -412,6 +409,7 @@ class PreferencesDialog:
         self.__english_mode = self.__builder.get_object("EnglishMode")
         self.__emoji_candidate = self.__builder.get_object("EmojiCandidate")
         self.__english_candidate = self.__builder.get_object("EnglishCandidate")
+        self.__suggestion_candidate = self.__builder.get_object("SuggestionCandidate")
         self.__import_table = self.__builder.get_object("ImportTable")
         self.__export_table = self.__builder.get_object("ExportTable")
         self.__clear_user_table = self.__builder.get_object("ClearUserTable")
@@ -429,6 +427,7 @@ class PreferencesDialog:
         self.__english_mode.set_active(self.__get_value("english-input-mode"))
         self.__emoji_candidate.set_active(self.__get_value("emoji-candidate"))
         self.__english_candidate.set_active(self.__get_value("english-candidate"))
+        self.__suggestion_candidate.set_active(self.__get_value("suggestion-candidate"))
 
         # connect signals
         self.__lua_extension.connect("toggled", self.__lua_extension_cb)
@@ -436,6 +435,7 @@ class PreferencesDialog:
         self.__english_mode.connect("toggled", self.__english_mode_cb)
         self.__emoji_candidate.connect("toggled", self.__toggled_cb, "emoji-candidate")
         self.__english_candidate.connect("toggled", self.__toggled_cb, "english-candidate")
+        self.__suggestion_candidate.connect("toggled", self.__toggled_cb, "suggestion-candidate")
         self.__edit_lua.connect("clicked", self.__edit_lua_cb)
         self.__import_dictionary.connect("clicked", self.__import_dictionary_cb, "import-dictionary")
         self.__export_dictionary.connect("clicked", self.__export_dictionary_cb, "export-dictionary")
