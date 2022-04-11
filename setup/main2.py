@@ -149,7 +149,6 @@ class PreferencesDialog:
         self.__dynamic_adjust = self.__builder.get_object("DynamicAdjust")
         self.__remember_every_input = self.__builder.get_object("RememberEveryInput")
         self.__show_suggestion = self.__builder.get_object("ShowSuggestion")
-        self.__emoji_candidate = self.__builder.get_object("EmojiCandidate")
         self.__sort_candidate_option = self.__builder.get_object("SortCandidateOption")
 
         # read values
@@ -165,7 +164,6 @@ class PreferencesDialog:
         self.__dynamic_adjust.set_active(self.__get_value("dynamic-adjust"))
         self.__remember_every_input.set_active(self.__get_value("remember-every-input"))
         self.__show_suggestion.set_active(self.__get_value("show-suggestion"))
-        self.__emoji_candidate.set_active(self.__get_value("emoji-candidate"))
         self.__sort_candidate_option.set_active(self.__get_value("sort-candidate-option"))
         # connect signals
         self.__init_chinese.connect("toggled", self.__toggled_cb, "init-chinese")
@@ -175,7 +173,6 @@ class PreferencesDialog:
         self.__dynamic_adjust.connect("toggled", self.__toggled_cb, "dynamic-adjust")
         self.__remember_every_input.connect("toggled", self.__toggled_cb, "remember-every-input")
         self.__show_suggestion.connect("toggled", self.__toggled_cb, "show-suggestion")
-        self.__emoji_candidate.connect("toggled", self.__toggled_cb, "emoji-candidate")
 
         def __display_size_changed_cb(widget):
             self.__set_value("display-style", widget.get_active())
@@ -356,12 +353,13 @@ class PreferencesDialog:
                 self.__builder.get_object(w[0]).set_sensitive(val)
         self.__fuzzy_pinyin.connect("toggled", __fuzzy_pinyin_toggled_cb)
 
-        # init value
+        # read values
         self.__fuzzy_pinyin.set_active(self.__get_value("fuzzy-pinyin"))
         for name, keyname in self.__fuzzy_pinyin_widgets:
             widget = self.__builder.get_object(name)
             widget.set_active(self.__get_value(keyname))
 
+        # connect signals
         self.__fuzzy_pinyin.connect("toggled", self.__toggled_cb, "fuzzy-pinyin")
         for name, keyname in self.__fuzzy_pinyin_widgets:
             widget = self.__builder.get_object(name)
@@ -408,42 +406,43 @@ class PreferencesDialog:
         path = os.path.join(pkgdatadir, 'user.lua')
         if not os.access(path, os.R_OK):
             self.__frame_lua_script.hide()
-        self.__frame_lua_script.set_sensitive(self.__get_value("lua-extension"))
-
         self.__frame_user_table = self.__builder.get_object("frameUserTable")
-        self.__frame_user_table.set_sensitive(self.__get_value("table-input-mode"))
-
         self.__lua_extension = self.__builder.get_object("LuaExtension")
-        self.__lua_extension.set_active(self.__get_value("lua-extension"))
-        self.__lua_extension.connect("toggled", self.__lua_extension_cb)
         self.__table_mode = self.__builder.get_object("TableMode")
-        self.__table_mode.set_active(self.__get_value("table-input-mode"))
-        self.__table_mode.connect("toggled", self.__table_mode_cb)
         self.__english_mode = self.__builder.get_object("EnglishMode")
-        self.__english_mode.set_active(self.__get_value("english-input-mode"))
-        self.__english_mode.connect("toggled", self.__english_mode_cb)
-
-        self.__edit_lua = self.__builder.get_object("EditLua")
-        self.__edit_lua.connect("clicked", self.__edit_lua_cb)
-
-        self.__import_dictionary = self.__builder.get_object("ImportDictionary")
-        self.__import_dictionary.connect("clicked", self.__import_dictionary_cb, "import-dictionary")
-
-        self.__export_dictionary = self.__builder.get_object("ExportDictionary")
-        self.__export_dictionary.connect("clicked", self.__export_dictionary_cb, "export-dictionary")
-
-        self.__clear_user_data = self.__builder.get_object("ClearUserDictionary")
-        self.__clear_user_data.connect("clicked", self.__clear_user_data_cb, "user")
-        self.__clear_all_data = self.__builder.get_object("ClearAllDictionary")
-        self.__clear_all_data.connect("clicked", self.__clear_user_data_cb, "all")
-
+        self.__emoji_candidate = self.__builder.get_object("EmojiCandidate")
+        self.__english_candidate = self.__builder.get_object("EnglishCandidate")
         self.__import_table = self.__builder.get_object("ImportTable")
-        self.__import_table.connect("clicked", self.__import_table_cb, "import-custom-table")
-
         self.__export_table = self.__builder.get_object("ExportTable")
-        self.__export_table.connect("clicked", self.__export_table_cb, "export-custom-table")
-
         self.__clear_user_table = self.__builder.get_object("ClearUserTable")
+        self.__edit_lua = self.__builder.get_object("EditLua")
+        self.__import_dictionary = self.__builder.get_object("ImportDictionary")
+        self.__export_dictionary = self.__builder.get_object("ExportDictionary")
+        self.__clear_user_data = self.__builder.get_object("ClearUserDictionary")
+        self.__clear_all_data = self.__builder.get_object("ClearAllDictionary")
+
+        # read values
+        self.__frame_lua_script.set_sensitive(self.__get_value("lua-extension"))
+        self.__frame_user_table.set_sensitive(self.__get_value("table-input-mode"))
+        self.__lua_extension.set_active(self.__get_value("lua-extension"))
+        self.__table_mode.set_active(self.__get_value("table-input-mode"))
+        self.__english_mode.set_active(self.__get_value("english-input-mode"))
+        self.__emoji_candidate.set_active(self.__get_value("emoji-candidate"))
+        self.__english_candidate.set_active(self.__get_value("english-candidate"))
+
+        # connect signals
+        self.__lua_extension.connect("toggled", self.__lua_extension_cb)
+        self.__table_mode.connect("toggled", self.__table_mode_cb)
+        self.__english_mode.connect("toggled", self.__english_mode_cb)
+        self.__emoji_candidate.connect("toggled", self.__toggled_cb, "emoji-candidate")
+        self.__english_candidate.connect("toggled", self.__toggled_cb, "english-candidate")
+        self.__edit_lua.connect("clicked", self.__edit_lua_cb)
+        self.__import_dictionary.connect("clicked", self.__import_dictionary_cb, "import-dictionary")
+        self.__export_dictionary.connect("clicked", self.__export_dictionary_cb, "export-dictionary")
+        self.__clear_user_data.connect("clicked", self.__clear_user_data_cb, "user")
+        self.__clear_all_data.connect("clicked", self.__clear_user_data_cb, "all")
+        self.__import_table.connect("clicked", self.__import_table_cb, "import-custom-table")
+        self.__export_table.connect("clicked", self.__export_table_cb, "export-custom-table")
         self.__clear_user_table.connect("clicked", self.__clear_user_table_cb, "clear-custom-table", "user")
 
     def __lua_extension_cb(self, widget):
