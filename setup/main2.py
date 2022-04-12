@@ -199,12 +199,12 @@ class PreferencesDialog:
         self.__double_pinyin_schema = self.__builder.get_object("DoublePinyinSchema")
         # self.__double_pinyin_schema_label = self.__builder.get_object("labelDoublePinyinSchema")
         self.__double_pinyin_show_raw = self.__builder.get_object("DoublePinyinShowRaw")
-        self.__double_pinyin_show_raw.hide()
 
         # read value
         self.__incomplete_pinyin.set_active(self.__get_value("incomplete-pinyin"))
         self.__full_pinyin.set_active(not self.__get_value("double-pinyin"))
         self.__double_pinyin_schema.set_active(self.__get_value("double-pinyin-schema"))
+        self.__double_pinyin_show_raw.set_active(self.__get_value("double-pinyin-show-raw"))
         if self.__full_pinyin.get_active():
             # self.__incomplete_pinyin.set_sensitive(True)
             self.__double_pinyin_schema.set_sensitive(False)
