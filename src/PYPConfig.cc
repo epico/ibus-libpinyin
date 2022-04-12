@@ -42,6 +42,7 @@ const gchar * const CONFIG_COMMA_PERIOD_PAGE         = "comma-period-page";
 const gchar * const CONFIG_AUTO_COMMIT               = "auto-commit";
 const gchar * const CONFIG_DOUBLE_PINYIN             = "double-pinyin";
 const gchar * const CONFIG_DOUBLE_PINYIN_SCHEMA      = "double-pinyin-schema";
+const gchar * const CONFIG_DOUBLE_PINYIN_SHOW_RAW    = "double-pinyin-show-raw";
 const gchar * const CONFIG_INIT_CHINESE              = "init-chinese";
 const gchar * const CONFIG_INIT_FULL                 = "init-full";
 const gchar * const CONFIG_INIT_FULL_PUNCT           = "init-full-punct";
@@ -144,6 +145,7 @@ LibPinyinConfig::initDefaultValues (void)
 
     m_double_pinyin = FALSE;
     m_double_pinyin_schema = DOUBLE_PINYIN_DEFAULT;
+    m_double_pinyin_show_raw = FALSE;
 
     m_init_chinese = TRUE;
     m_init_full = FALSE;
@@ -560,6 +562,8 @@ PinyinConfig::readDefaultValues (void)
         }
     }
 
+    m_double_pinyin_show_raw = read (CONFIG_DOUBLE_PINYIN_SHOW_RAW, false);
+
     /* init states */
     m_init_chinese = read (CONFIG_INIT_CHINESE, true);
     m_init_full = read (CONFIG_INIT_FULL, false);
@@ -622,6 +626,8 @@ PinyinConfig::valueChanged (const std::string &schema_id,
             }
         }
     }
+    else if (CONFIG_DOUBLE_PINYIN_SHOW_RAW == name)
+        m_double_pinyin_show_raw = normalizeGVariant (value, false);
     /* init states */
     else if (CONFIG_INIT_CHINESE == name)
         m_init_chinese = normalizeGVariant (value, true);

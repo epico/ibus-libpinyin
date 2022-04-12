@@ -52,6 +52,7 @@ Config::initDefaultValues (void)
 
     m_double_pinyin = FALSE;
     m_double_pinyin_schema = DOUBLE_PINYIN_DEFAULT;
+    m_double_pinyin_show_raw = FALSE;
 
     m_init_chinese = TRUE;
     m_init_full = FALSE;

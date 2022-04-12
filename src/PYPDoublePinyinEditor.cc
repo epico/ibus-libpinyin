@@ -134,14 +134,18 @@ DoublePinyinEditor::updateAuxiliaryText (void)
 
     m_buffer.clear ();
 
-    gchar * aux_text = NULL;
-    pinyin_get_double_pinyin_auxiliary_text (m_instance, m_cursor, &aux_text);
-    m_buffer << aux_text;
-    g_free(aux_text);
+    if (m_config.doublePinyinShowRaw ()) {
+        m_buffer << m_text;
+    } else {
+        gchar * aux_text = NULL;
+        pinyin_get_double_pinyin_auxiliary_text (m_instance, m_cursor, &aux_text);
+        m_buffer << aux_text;
+        g_free(aux_text);
 
-    /* append rest text */
-    const gchar * p = m_text.c_str() + m_pinyin_len;
-    m_buffer << p;
+        /* append rest text */
+        const gchar * p = m_text.c_str() + m_pinyin_len;
+        m_buffer << p;
+    }
 
     StaticText text (m_buffer);
     if (DISPLAY_STYLE_TRADITIONAL == m_config.displayStyle () ||
