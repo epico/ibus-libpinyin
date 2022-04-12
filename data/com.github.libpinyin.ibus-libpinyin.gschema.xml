@@ -57,6 +57,10 @@
       <default>0</default>
       <summary>Double pinyin schema</summary>
     </key>
+    <key name="double-pinyin-show-raw" type="b">
+      <default>false</default>
+      <summary>Show raw input in the double pinyin auxiliary text</summary>
+    </key>
     <key name="dynamic-adjust" type="b">
       <default>true</default>
       <summary>Dynamic adjust the candidates order</summary>
