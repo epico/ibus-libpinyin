@@ -750,26 +750,43 @@
                             <property name="top-padding">6</property>
                             <property name="left-padding">12</property>
                             <child>
-                              <object class="GtkVBox" id="vbox9">
+                              <!-- n-columns=2 n-rows=2 -->
+                              <object class="GtkGrid">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="spacing">6</property>
+                                <property name="row-homogeneous">True</property>
+                                <property name="column-homogeneous">True</property>
                                 <child>
-                                  <object class="GtkHBox" id="hbox6">
+                                  <object class="GtkRadioButton" id="FullPinyin">
+                                    <property name="label" translatable="yes">Full pinyin</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="receives-default">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="xalign">0</property>
+                                    <property name="draw-indicator">True</property>
+                                    <property name="group">DoublePinyin</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkHBox" id="hbox7">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="spacing">6</property>
-                                    <property name="homogeneous">True</property>
                                     <child>
-                                      <object class="GtkRadioButton" id="FullPinyin">
-                                        <property name="label" translatable="yes">Full pinyin</property>
+                                      <object class="GtkRadioButton" id="DoublePinyin">
+                                        <property name="label" translatable="yes">Double pinyin</property>
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="receives-default">False</property>
                                         <property name="halign">start</property>
-                                        <property name="xalign">0.5</property>
+                                        <property name="xalign">0</property>
+                                        <property name="active">True</property>
                                         <property name="draw-indicator">True</property>
-                                        <property name="group">DoublePinyin</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -778,59 +795,29 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkHBox" id="hbox7">
+                                      <object class="GtkComboBox" id="DoublePinyinSchema">
                                         <property name="visible">True</property>
+                                        <property name="sensitive">False</property>
                                         <property name="can-focus">False</property>
-                                        <property name="spacing">6</property>
+                                        <property name="model">liststoreDoublePinyin</property>
+                                        <property name="button-sensitivity">on</property>
                                         <child>
-                                          <object class="GtkRadioButton" id="DoublePinyin">
-                                            <property name="label" translatable="yes">Double pinyin</property>
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">True</property>
-                                            <property name="receives-default">False</property>
-                                            <property name="halign">start</property>
-                                            <property name="xalign">0.5</property>
-                                            <property name="active">True</property>
-                                            <property name="draw-indicator">True</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkComboBox" id="DoublePinyinSchema">
-                                            <property name="visible">True</property>
-                                            <property name="sensitive">False</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="model">liststoreDoublePinyin</property>
-                                            <property name="button-sensitivity">on</property>
-                                            <child>
-                                              <object class="GtkCellRendererText" id="renderer2"/>
-                                              <attributes>
-                                                <attribute name="text">0</attribute>
-                                              </attributes>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
+                                          <object class="GtkCellRendererText" id="renderer2"/>
+                                          <attributes>
+                                            <attribute name="text">0</attribute>
+                                          </attributes>
                                         </child>
                                       </object>
                                       <packing>
-                                        <property name="expand">False</property>
+                                        <property name="expand">True</property>
                                         <property name="fill">True</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
                                   </object>
                                   <packing>
-                                    <property name="expand">True</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
+                                    <property name="left-attach">1</property>
+                                    <property name="top-attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -840,13 +827,12 @@
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
                                     <property name="halign">start</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="draw-indicator">True</property>
                                   </object>
                                   <packing>
-                                    <property name="expand">True</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">1</property>
+                                    <property name="left-attach">1</property>
+                                    <property name="top-attach">1</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -856,14 +842,13 @@
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
                                     <property name="halign">start</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                   </object>
                                   <packing>
-                                    <property name="expand">True</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">2</property>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">1</property>
                                   </packing>
                                 </child>
                               </object>
