@@ -256,7 +256,7 @@ PunctEditor::cursorUp (void)
 void
 PunctEditor::cursorDown (void)
 {
-    if (G_LIKELY (m_lookup_table.cursorDown ())) {
+    if (G_LIKELY (m_lookup_table.size () && m_lookup_table.cursorDown ())) {
         m_selected_puncts[m_cursor - 1] = m_punct_candidates[m_lookup_table.cursorPos ()];
         updateLookupTableFast (m_lookup_table, TRUE);
         updatePreeditText ();
@@ -301,8 +301,8 @@ PunctEditor::moveCursorRight (void)
     it = std::find (m_punct_candidates.begin (),
                     m_punct_candidates.end (),
                     m_selected_puncts[m_cursor - 1]);
-    g_assert (it != m_punct_candidates.end ());
-    m_lookup_table.setCursorPos (it - m_punct_candidates.begin ());
+    if (it != m_punct_candidates.end ())
+        m_lookup_table.setCursorPos (it - m_punct_candidates.begin ());
 
     update();
     return TRUE;
@@ -314,7 +314,7 @@ PunctEditor::moveCursorToBegin (void)
     if (G_UNLIKELY (m_cursor == 0))
         return FALSE;
 
-    g_assert (m_punct_mode == MODE_NORMAL);
+    g_assert (m_punct_mode == MODE_INIT || m_punct_mode == MODE_NORMAL);
     m_cursor = 0;
     m_punct_candidates.clear ();
     fillLookupTable ();
