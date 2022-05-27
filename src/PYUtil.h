@@ -45,6 +45,12 @@ namespace std {
 
 #endif
 
+#if defined(NDEBUG) || defined(G_DISABLE_ASSERT)
+#define check_result(expr) expr
+#else
+#define check_result(expr) assert(expr)
+#endif
+
 #include <ibus.h>
 
 namespace PY {
