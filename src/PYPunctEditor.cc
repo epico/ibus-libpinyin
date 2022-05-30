@@ -281,8 +281,8 @@ PunctEditor::moveCursorLeft (void)
         it = std::find (m_punct_candidates.begin (),
                         m_punct_candidates.end (),
                         m_selected_puncts[m_cursor - 1]);
-        g_assert (it != m_punct_candidates.end ());
-        m_lookup_table.setCursorPos (it - m_punct_candidates.begin ());
+        if (it != m_punct_candidates.end ())
+            m_lookup_table.setCursorPos (it - m_punct_candidates.begin ());
     }
     update();
     return TRUE;
@@ -338,8 +338,8 @@ PunctEditor::moveCursorToEnd (void)
     it = std::find (m_punct_candidates.begin (),
                     m_punct_candidates.end (),
                     m_selected_puncts[m_cursor - 1]);
-    g_assert (it != m_punct_candidates.end ());
-    m_lookup_table.setCursorPos (it - m_punct_candidates.begin ());
+    if (it != m_punct_candidates.end ())
+        m_lookup_table.setCursorPos (it - m_punct_candidates.begin ());
 
     update();
     return TRUE;
@@ -366,8 +366,8 @@ PunctEditor::removeCharBefore (void)
             it = std::find (m_punct_candidates.begin (),
                             m_punct_candidates.end (),
                             m_selected_puncts[m_cursor - 1]);
-            g_assert (it != m_punct_candidates.end ());
-            m_lookup_table.setCursorPos (it - m_punct_candidates.begin ());
+            if (it != m_punct_candidates.end ())
+                m_lookup_table.setCursorPos (it - m_punct_candidates.begin ());
         }
         else {
             m_punct_candidates.clear ();

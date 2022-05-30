@@ -298,7 +298,7 @@ LibPinyinBackEnd::exportPinyinDictionary (const char *filename)
         gchar * phrase = NULL; gchar * pinyin = NULL;
         gint count = -1;
 
-        g_assert (pinyin_iterator_get_next_phrase (iter, &phrase, &pinyin, &count));
+        check_result (pinyin_iterator_get_next_phrase (iter, &phrase, &pinyin, &count));
 
         if (-1 == count) /* skip output the default count. */
             fprintf (dictfile, "%s %s\n", phrase, pinyin);

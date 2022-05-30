@@ -154,7 +154,7 @@ LibPinyinCandidates::removeCandidate (EnhancedCandidate & enhanced)
     lookup_candidate_t * candidate = NULL;
     guint index = enhanced.m_candidate_id;
     pinyin_get_candidate (instance, index, &candidate);
-    assert (pinyin_is_user_candidate (instance, candidate));
+    check_result (pinyin_is_user_candidate (instance, candidate));
     pinyin_remove_user_candidate (instance, candidate);
 
     return TRUE;
