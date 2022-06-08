@@ -254,7 +254,7 @@ gboolean
 ExtEditor::processPageKey (guint keyval)
 {
     switch (keyval) {
-    //For 2000-10-10 16:30 input.
+    //For "2000-10-10" and "16:30" input.
     case IBUS_comma:
         if (m_config.commaPeriodPage ()) {
             pageUp ();
@@ -268,13 +268,14 @@ ExtEditor::processPageKey (guint keyval)
             return TRUE;
         }
         break;
-#endif
+    //For "2.5" input.
     case IBUS_period:
         if (m_config.commaPeriodPage ()) {
             pageDown ();
             return TRUE;
         }
         break;
+#endif
     case IBUS_equal:
         if (m_config.minusEqualPage ()) {
             pageDown ();
