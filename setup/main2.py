@@ -60,8 +60,13 @@ try:
 except AttributeError:
     pass
 
-gettext.bindtextdomain(DOMAINNAME, localedir)
-gettext.bind_textdomain_codeset(DOMAINNAME, 'UTF-8')
+# Python's gettext module doesn't provide all methods in
+# new Python version
+try:
+    gettext.bindtextdomain(DOMAINNAME, localedir)
+    gettext.bind_textdomain_codeset(DOMAINNAME, 'UTF-8')
+except AttributeError:
+    pass
 
 gettext.install(DOMAINNAME, localedir)
 
