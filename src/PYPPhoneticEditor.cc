@@ -377,6 +377,8 @@ PhoneticEditor::selectCandidateInternal (EnhancedCandidate & candidate)
 {
     switch (candidate.m_candidate_type) {
     case CANDIDATE_NBEST_MATCH:
+    case CANDIDATE_LONGER:
+    case CANDIDATE_LONGER_USER:
     case CANDIDATE_NORMAL:
     case CANDIDATE_USER:
         return m_libpinyin_candidates.selectCandidate (candidate);
@@ -415,6 +417,8 @@ PhoneticEditor::removeCandidateInternal (EnhancedCandidate & candidate)
 {
     switch (candidate.m_candidate_type) {
     case CANDIDATE_NBEST_MATCH:
+    case CANDIDATE_LONGER:
+    case CANDIDATE_LONGER_USER:
     case CANDIDATE_NORMAL:
     case CANDIDATE_USER:
         return m_libpinyin_candidates.removeCandidate (candidate);

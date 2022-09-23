@@ -53,6 +53,14 @@ LibPinyinCandidates::processCandidates (std::vector<EnhancedCandidate> & candida
             enhanced.m_candidate_type = CANDIDATE_NBEST_MATCH;
             break;
 
+        case LONGER_CANDIDATE:
+            enhanced.m_candidate_type = CANDIDATE_LONGER;
+
+            if (pinyin_is_user_candidate (instance, candidate))
+                enhanced.m_candidate_type = CANDIDATE_LONGER_USER;
+
+            break;
+
         case NORMAL_CANDIDATE:
         case ADDON_CANDIDATE:
             enhanced.m_candidate_type = CANDIDATE_NORMAL;
@@ -80,6 +88,8 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
     pinyin_instance_t * instance = m_editor->m_instance;
     assert (CANDIDATE_NBEST_MATCH == enhanced.m_candidate_type ||
+            CANDIDATE_LONGER == enhanced.m_candidate_type ||
+            CANDIDATE_LONGER_USER == enhanced.m_candidate_type ||
             CANDIDATE_NORMAL == enhanced.m_candidate_type ||
             CANDIDATE_USER == enhanced.m_candidate_type);
 
@@ -111,6 +121,16 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
             LibPinyinBackEnd::instance ().rememberUserInput (instance, str);
         LibPinyinBackEnd::instance ().modified ();
         g_free (str);
+
+        return SELECT_CANDIDATE_COMMIT;
+    }
+
+    if (CANDIDATE_LONGER == enhanced.m_candidate_type) {
+        /* because longer candidate
+           starts from the beginning of user input. */
+        pinyin_choose_candidate (instance, 0, candidate);
+
+        LibPinyinBackEnd::instance ().modified ();
 
         return SELECT_CANDIDATE_COMMIT;
     }
@@ -148,7 +168,8 @@ LibPinyinCandidates::removeCandidate (EnhancedCandidate & enhanced)
 {
     pinyin_instance_t * instance = m_editor->m_instance;
 
-    if (enhanced.m_candidate_type != CANDIDATE_USER)
+    if (enhanced.m_candidate_type != CANDIDATE_USER &&
+        enhanced.m_candidate_type != CANDIDATE_LONGER_USER)
         return FALSE;
 
     lookup_candidate_t * candidate = NULL;

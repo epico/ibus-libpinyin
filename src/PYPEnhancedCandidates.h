@@ -29,6 +29,8 @@ namespace PY {
 
 enum CandidateType {
     CANDIDATE_NBEST_MATCH = 1,
+    CANDIDATE_LONGER,
+    CANDIDATE_LONGER_USER,
     /* not included with user candidate */
     CANDIDATE_NORMAL,
     /* both normal candidate and user candidate */
