@@ -49,6 +49,12 @@ EnglishCandidates::processCandidates (std::vector<EnhancedCandidate> & candidate
     const char *prefix = m_editor->m_text.c_str ();
     std::vector<std::string> words;
 
+    std::vector<EnhancedCandidate>::iterator pos;
+    for (pos = candidates.begin (); pos != candidates.end (); ++pos) {
+        if (CANDIDATE_NBEST_MATCH != pos->m_candidate_type)
+            break;
+    }
+
     EnhancedCandidate enhanced;
     enhanced.m_candidate_type = CANDIDATE_ENGLISH;
 
@@ -64,7 +70,7 @@ EnglishCandidates::processCandidates (std::vector<EnhancedCandidate> & candidate
 
             enhanced.m_candidate_id = count;
             enhanced.m_display_string = *iter;
-            candidates.insert (candidates.begin () + count, enhanced);
+            candidates.insert (pos + count, enhanced);
 
             ++count;
         }
