@@ -58,7 +58,7 @@ public:
     guint pageSize (void) const                 { return m_page_size; }
     DisplayStyle displayStyle (void) const      { return m_display_style; }
     gboolean rememberEveryInput (void) const    { return m_remember_every_input; }
-    sort_option_t sortOption (void) const       { return m_sort_option; }
+    guint sortOption (void) const               { return m_sort_option; }
     gboolean shiftSelectCandidate (void) const  { return m_shift_select_candidate; }
     gboolean minusEqualPage (void) const        { return m_minus_equal_page; }
     gboolean commaPeriodPage (void) const       { return m_comma_period_page; }
@@ -144,7 +144,7 @@ protected:
     guint m_page_size;
     DisplayStyle m_display_style;
     gboolean m_remember_every_input;
-    sort_option_t m_sort_option;
+    guint m_sort_option;
 
     gboolean m_shift_select_candidate;
     gboolean m_minus_equal_page;

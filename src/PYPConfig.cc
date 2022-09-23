@@ -132,7 +132,7 @@ LibPinyinConfig::initDefaultValues (void)
     m_page_size = 5;
     m_display_style = DISPLAY_STYLE_TRADITIONAL;
     m_remember_every_input = FALSE;
-    m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
+    m_sort_option = SORT_BY_PHRASE_LENGTH | SORT_BY_PINYIN_LENGTH | SORT_BY_FREQUENCY;
 
     m_emoji_candidate = TRUE;
     m_english_candidate = TRUE;
@@ -202,10 +202,10 @@ static const struct {
 
 static const struct{
     gint sort_option_index;
-    sort_option_t sort_option;
+    guint sort_option;
 } sort_options [] = {
-    {0, SORT_BY_PHRASE_LENGTH_AND_FREQUENCY},
-    {1, SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY}
+    {0, SORT_BY_PHRASE_LENGTH | SORT_BY_FREQUENCY},
+    {1, SORT_BY_PHRASE_LENGTH | SORT_BY_PINYIN_LENGTH | SORT_BY_FREQUENCY}
 };
 
 static const struct{
@@ -290,7 +290,7 @@ LibPinyinConfig::readDefaultValues (void)
     m_remember_every_input = read (CONFIG_REMEMBER_EVERY_INPUT, false);
 
     index = read (CONFIG_SORT_OPTION, 0);
-    m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
+    m_sort_option = SORT_BY_PHRASE_LENGTH | SORT_BY_PINYIN_LENGTH | SORT_BY_FREQUENCY;
 
     for (guint i = 0; i < G_N_ELEMENTS (sort_options); i++) {
         if (index == sort_options[i].sort_option_index) {
@@ -393,7 +393,7 @@ LibPinyinConfig::valueChanged (const std::string &schema_id,
         m_remember_every_input = normalizeGVariant (value, false);
     } else if (CONFIG_SORT_OPTION == name) {
         const gint index = normalizeGVariant (value, 0);
-        m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
+        m_sort_option = SORT_BY_PHRASE_LENGTH | SORT_BY_PINYIN_LENGTH | SORT_BY_FREQUENCY;
 
         for (guint i = 0; i < G_N_ELEMENTS (sort_options); i++) {
             if (index == sort_options[i].sort_option_index) {

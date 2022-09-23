@@ -43,7 +43,7 @@ Config::initDefaultValues (void)
     m_page_size = 5;
     m_display_style = DISPLAY_STYLE_TRADITIONAL;
     m_remember_every_input = FALSE;
-    m_sort_option = SORT_BY_PHRASE_LENGTH_AND_PINYIN_LENGTH_AND_FREQUENCY;
+    m_sort_option = SORT_BY_PHRASE_LENGTH | SORT_BY_PINYIN_LENGTH | SORT_BY_FREQUENCY;
 
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
