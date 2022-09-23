@@ -39,13 +39,23 @@ SuggestionCandidates::processCandidates (std::vector<EnhancedCandidate> & candid
 
         lookup_candidate_type_t type;
         pinyin_get_candidate_type (instance, candidate, &type);
-        assert (PREDICTED_CANDIDATE == type);
+        CandidateType candidate_type;
+        switch (type) {
+        case PREDICTED_BIGRAM_CANDIDATE:
+            candidate_type = CANDIDATE_PREDICTED_BIGRAM;
+            break;
+        case PREDICTED_PREFIX_CANDIDATE:
+            candidate_type = CANDIDATE_PREDICTED_PREFIX;
+            break;
+        default:
+            assert(FALSE);
+        }
 
         const gchar * phrase_string = NULL;
         pinyin_get_candidate_string (instance, candidate, &phrase_string);
 
         EnhancedCandidate enhanced;
-        enhanced.m_candidate_type = CANDIDATE_SUGGESTION;
+        enhanced.m_candidate_type = candidate_type;
         enhanced.m_candidate_id = i;
         enhanced.m_display_string = phrase_string;
 
@@ -59,7 +69,8 @@ int
 SuggestionCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
     pinyin_instance_t * instance = m_editor->m_instance;
-    assert (CANDIDATE_SUGGESTION == enhanced.m_candidate_type);
+    assert (CANDIDATE_PREDICTED_BIGRAM == enhanced.m_candidate_type ||
+            CANDIDATE_PREDICTED_PREFIX == enhanced.m_candidate_type);
 
     guint len = 0;
     pinyin_get_n_candidate (instance, &len);
