@@ -136,6 +136,14 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
         return SELECT_CANDIDATE_COMMIT;
     }
 
+    if (m_editor->m_config.sortOption () & SORT_WITHOUT_SENTENCE_CANDIDATE) {
+        pinyin_choose_candidate (instance, 0, candidate);
+
+        LibPinyinBackEnd::instance ().modified ();
+
+        return SELECT_CANDIDATE_COMMIT;
+    }
+
     lookup_cursor = pinyin_choose_candidate
         (instance, lookup_cursor, candidate);
 

@@ -343,6 +343,11 @@ void
 PhoneticEditor::update (void)
 {
     guint lookup_cursor = getLookupCursor ();
+
+    /* The lookup cursor is not moved here. */
+    if (m_config.sortOption () & SORT_WITHOUT_SENTENCE_CANDIDATE)
+        lookup_cursor = 0;
+
     pinyin_guess_candidates (m_instance, lookup_cursor,
                              m_config.sortOption ());
 
