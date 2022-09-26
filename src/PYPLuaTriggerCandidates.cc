@@ -50,7 +50,9 @@ LuaTriggerCandidates::processCandidates (std::vector<EnhancedCandidate> & candid
 
     std::vector<EnhancedCandidate>::iterator pos;
     for (pos = candidates.begin (); pos != candidates.end (); ++pos) {
-        if (CANDIDATE_NBEST_MATCH != pos->m_candidate_type)
+        if (CANDIDATE_NBEST_MATCH != pos->m_candidate_type &&
+            CANDIDATE_LONGER != pos->m_candidate_type &&
+            CANDIDATE_LONGER_USER != pos->m_candidate_type)
             break;
     }
 

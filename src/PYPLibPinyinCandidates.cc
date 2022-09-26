@@ -125,7 +125,8 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
         return SELECT_CANDIDATE_COMMIT;
     }
 
-    if (CANDIDATE_LONGER == enhanced.m_candidate_type) {
+    if (CANDIDATE_LONGER == enhanced.m_candidate_type ||
+        CANDIDATE_LONGER_USER == enhanced.m_candidate_type) {
         /* because longer candidate
            starts from the beginning of user input. */
         pinyin_choose_candidate (instance, 0, candidate);
