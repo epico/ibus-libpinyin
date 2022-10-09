@@ -365,6 +365,13 @@ TableEditor::update (void)
 }
 
 void
+TableEditor::updateAll (void)
+{
+    updateStateFromInput ();
+    update ();
+}
+
+void
 TableEditor::reset (void)
 {
     m_text = "";

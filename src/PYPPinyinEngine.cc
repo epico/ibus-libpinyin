@@ -21,6 +21,7 @@
 #include "PYPPinyinEngine.h"
 #include <string>
 #include <assert.h>
+#include <limits>
 #include "PYConfig.h"
 #include "PYPConfig.h"
 #include "PYPunctEditor.h"
@@ -364,6 +365,33 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 #endif
 
             } else {
+#ifdef IBUS_BUILD_ENGLISH_INPUT_MODE
+                // for english mode switch with symbol key
+                if (keyval <= std::numeric_limits<char>::max() &&
+                    g_unichar_ispunct (keyval) &&
+                    EnglishSymbols.find(keyval) != std::string::npos &&
+                    m_input_mode == MODE_INIT &&
+                    PinyinConfig::instance ().englishInputMode ()) {
+                    String text;
+                    if (!PinyinConfig::instance ().doublePinyin ())
+                        text = "v"; // full pinyin
+                    else
+                        text = "V"; // double pinyin
+                    text += m_editors[m_input_mode]->text ();
+                    guint cursor = m_editors[m_input_mode]->cursor () + 1;
+
+                    /* insert the new symbol char here. */
+                    text.insert(cursor, keyval);
+                    cursor += 1;
+
+                    m_editors[m_input_mode]->setText ("", 0);
+                    m_input_mode = MODE_ENGLISH;
+                    m_editors[m_input_mode]->setText (text, cursor);
+                    Editor * editor = m_editors[m_input_mode].get ();
+                    m_editors[m_input_mode]->updateAll ();
+                    return TRUE;
+                }
+#endif
 #ifdef IBUS_BUILD_TABLE_INPUT_MODE
                 // for table mode switch with tab key
                 if (keyval == IBUS_Tab &&
@@ -375,14 +403,13 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
                     else
                         text = "U"; // double pinyin
                     text += m_editors[m_input_mode]->text ();
-                    m_editors[m_input_mode]->setText ("", 0);
+                    guint cursor = m_editors[m_input_mode]->cursor () + 1;
 
+                    m_editors[m_input_mode]->setText ("", 0);
                     m_input_mode = MODE_TABLE;
-                    m_editors[m_input_mode]->setText (text, text.length ());
+                    m_editors[m_input_mode]->setText (text, cursor);
                     Editor * editor = m_editors[m_input_mode].get ();
-                    /* Note: consider to remove the updateStateFromInput method call here. */
-                    dynamic_cast<TableEditor *>(editor)->updateStateFromInput ();
-                    m_editors[m_input_mode]->update ();
+                    m_editors[m_input_mode]->updateAll ();
                     return TRUE;
                 }
 #endif

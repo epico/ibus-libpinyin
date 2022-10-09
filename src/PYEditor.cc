@@ -152,6 +152,12 @@ Editor::update (void)
     }
 }
 
+void
+Editor::updateAll (void)
+{
+    update ();
+}
+
 int
 Editor::selectCandidateInternal (EnhancedCandidate & candidate)
 {

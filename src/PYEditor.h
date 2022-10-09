@@ -63,12 +63,18 @@ public:
     virtual void cursorUp (void);
     virtual void cursorDown (void);
     virtual void update (void);
+    virtual void updateAll (void);
     virtual void reset (void);
     virtual void candidateClicked (guint index, guint button, guint state);
 
     const String & text (void) const
     {
         return m_text;
+    }
+
+    const guint cursor (void) const
+    {
+        return m_cursor;
     }
 
     void setText (const String & text, guint cursor)

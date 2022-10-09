@@ -461,6 +461,13 @@ ExtEditor::update (void)
 }
 
 void
+ExtEditor::updateAll (void)
+{
+    updateStateFromInput ();
+    update ();
+}
+
+void
 ExtEditor::reset (void)
 {
     m_text = "";

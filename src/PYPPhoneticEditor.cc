@@ -356,6 +356,13 @@ PhoneticEditor::update (void)
     updateAuxiliaryText ();
 }
 
+void
+PhoneticEditor::updateAll (void)
+{
+    updatePinyin ();
+    update ();
+}
+
 guint
 PhoneticEditor::getPinyinCursor ()
 {

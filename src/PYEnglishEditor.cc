@@ -22,6 +22,7 @@
 #include <string.h>
 #include <string>
 #include <stdio.h>
+#include <limits>
 #include <libintl.h>
 #include "PYConfig.h"
 
@@ -80,8 +81,16 @@ EnglishEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
         m_cursor ++;
     } else {
         g_return_val_if_fail ('v' == m_text[0] || 'V' == m_text[0], FALSE);
+
         if ((keyval >= 'a' && keyval <= 'z') ||
             (keyval >= 'A' && keyval <= 'Z')) {
+            m_text.insert (m_cursor, keyval);
+            m_cursor ++;
+        }
+
+        if (keyval <= std::numeric_limits<char>::max() &&
+            g_unichar_ispunct (keyval) &&
+            EnglishSymbols.find(keyval) != std::string::npos) {
             m_text.insert (m_cursor, keyval);
             m_cursor ++;
         }
@@ -342,6 +351,13 @@ EnglishEditor::update (void)
     updateLookupTable ();
     updatePreeditText ();
     updateAuxiliaryText ();
+}
+
+void
+EnglishEditor::updateAll (void)
+{
+    updateStateFromInput ();
+    update ();
 }
 
 void

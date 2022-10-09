@@ -34,6 +34,7 @@ public:
     virtual void cursorUp (void);
     virtual void cursorDown (void);
     virtual void update (void);
+    virtual void updateAll (void);
     virtual void reset (void);
     virtual void candidateClicked (guint index, guint button, guint state);
 

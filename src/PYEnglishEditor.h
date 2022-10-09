@@ -29,6 +29,8 @@ namespace PY {
 
 class EnglishDatabase;
 
+static const std::string EnglishSymbols = "`~!@*()+[]{}\\|;':\"/<>?";
+
 class EnglishEditor : public Editor {
 private:
     const float m_train_factor;
@@ -42,6 +44,7 @@ public:
     virtual void cursorUp (void);
     virtual void cursorDown (void);
     virtual void update (void);
+    virtual void updateAll (void);
     virtual void reset (void);
     virtual void candidateClicked (guint index, guint button, guint state);
 
