@@ -1,3 +1,10 @@
+version 1.14.91
+* require libpinyin 2.7.91
+* improve suggestion candidates
+* improve English candidates
+* support longer candidates
+* support Legacy mode
+
 version 1.13.1
 * fix setup dialog
 
