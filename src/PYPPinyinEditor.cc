@@ -242,6 +242,12 @@ PinyinEditor::updatePreeditText ()
 
     m_buffer.clear ();
 
+    /* for Legacy mode */
+    if (m_config.sortOption () & SORT_WITHOUT_SENTENCE_CANDIDATE) {
+        hidePreeditText ();
+        return;
+    }
+
     /* probe nbest match candidate */
     lookup_candidate_type_t type;
     lookup_candidate_t * candidate = NULL;
