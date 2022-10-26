@@ -178,6 +178,7 @@ void
 SuggestionEditor::candidateClicked (guint index, guint button, guint state)
 {
     selectCandidateInPage (index);
+    reset ();
 }
 
 gboolean
