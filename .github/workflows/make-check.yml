@@ -11,10 +11,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    container:
+      image: fedora:rawhide
+
     steps:
     - uses: actions/checkout@v2
     - name: install build dependency
-      run: sudo apt-get install -y gettext gnome-common libibus-1.0-dev liblua5.3-dev libpinyin13-dev libsqlite3-dev libtool python3 python3-gi sqlite3 uuid-dev
+      run: sudo dnf install -y gettext python3-gobject gcc-c++ gettext-devel libtool pkgconfig sqlite-devel libuuid-devel lua-devel python3-devel desktop-file-utils ibus-devel libpinyin-devel make gnome-common which
     - name: autoconf
       run: ./autogen.sh
     - name: configure
