@@ -369,7 +369,10 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
                 // for english mode switch with symbol key
                 if (keyval <= std::numeric_limits<char>::max() &&
                     g_unichar_ispunct (keyval) &&
-                    EnglishSymbols.find(keyval) != std::string::npos &&
+                    (EnglishSymbols.find(keyval) != std::string::npos ||
+                     /* For double pinyin, ";" is used. */
+                     (!PinyinConfig::instance ().doublePinyin () &&
+                      IBUS_semicolon == keyval)) &&
                     m_input_mode == MODE_INIT &&
                     PinyinConfig::instance ().englishInputMode ()) {
                     String text;
