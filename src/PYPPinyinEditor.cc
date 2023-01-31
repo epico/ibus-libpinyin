@@ -60,6 +60,8 @@ PinyinEditor::processNumber (guint keyval, guint keycode,
     if (m_text.empty ())
         return FALSE;
 
+    modifiers = cmshm_filter (modifiers);
+
     switch (keyval) {
     case IBUS_0:
     case IBUS_KP_0:
