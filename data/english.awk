@@ -5,9 +5,9 @@ BEGIN {
     print "BEGIN TRANSACTION;"
 
     # Create english table
-    print "CREATE TABLE IF NOT EXISTS 'english' ( "   \
-        "'word' TEXT NOT NULL PRIMARY KEY,"           \
-        "'freq' FLOAT NOT NULL DEFAULT(0)"            \
+    print "CREATE TABLE IF NOT EXISTS english ( "     \
+        "word TEXT NOT NULL PRIMARY KEY,"             \
+        "freq FLOAT NOT NULL DEFAULT(0)"              \
         ");";
 
     # Create desc table
