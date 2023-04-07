@@ -29,7 +29,7 @@ namespace PY {
 
 class EnglishDatabase;
 
-static const std::string EnglishSymbols = "`~!@*()+[]{}\\|':\"/<>?";
+static const std::string EnglishSymbols = "`~!@*()+[]{}\\|:\"/<>?";
 
 class EnglishEditor : public Editor {
 private:

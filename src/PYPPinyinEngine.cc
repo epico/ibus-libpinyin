@@ -370,6 +370,9 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
                 if (keyval <= std::numeric_limits<char>::max() &&
                     g_unichar_ispunct (keyval) &&
                     (EnglishSymbols.find(keyval) != std::string::npos ||
+                     /* For full pinyin, "'" is used. */
+                     (PinyinConfig::instance ().doublePinyin () &&
+                      IBUS_apostrophe == keyval) ||
                      /* For double pinyin, ";" is used. */
                      (!PinyinConfig::instance ().doublePinyin () &&
                       IBUS_semicolon == keyval)) &&
