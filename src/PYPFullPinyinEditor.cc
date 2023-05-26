@@ -50,10 +50,12 @@ FullPinyinEditor::insert (gint ch)
     if (G_UNLIKELY (m_text.length () >= MAX_PINYIN_LEN))
         return TRUE;
 
+#if 0
     /* for i/u/v mode */
     if (m_text.empty () &&
 	(ch == 'i' || ch == 'u' || ch == 'v'))
       return FALSE;
+#endif
 
     m_text.insert (m_cursor++, ch);
 
@@ -68,6 +70,18 @@ FullPinyinEditor::processKeyEvent (guint keyval,
                                             guint keycode,
                                             guint modifiers)
 {
+    /* handle 'A' - 'Z' key */
+    if (G_UNLIKELY (IBUS_A <= keyval && keyval <= IBUS_Z)) {
+        if (cmshm_filter (modifiers) == 0) {
+
+            if (m_text.empty ())
+                return FALSE;
+
+            if (insert (keyval))
+                return TRUE;
+        }
+    }
+
     return PinyinEditor::processKeyEvent (keyval, keycode, modifiers);
 }
 
