@@ -22,7 +22,7 @@
 m4_define([ibus_released], [1])
 m4_define([ibus_major_version], [1])
 m4_define([ibus_minor_version], [15])
-m4_define([ibus_micro_version], [3])
+m4_define([ibus_micro_version], [4])
 m4_define(ibus_maybe_datestamp,
     m4_esyscmd([if test x]ibus_released[ != x1; then date +.%Y%m%d | tr -d '\n\r'; fi]))
 
@@ -186,7 +186,7 @@ AC_ARG_ENABLE(cloud-input-mode,
 )
 if test x"$enable_cloud_input_mode" = x"yes"; then
     # check soup
-    PKG_CHECK_MODULES(LIBSOUP, [libsoup-2.4 >= 2.26])
+    PKG_CHECK_MODULES(LIBSOUP, [libsoup-3.0 >= 3.0])
     AC_SUBST(LIBSOUP_CFLAGS)
     AC_SUBST(LIBSOUP_LIBS)
 
