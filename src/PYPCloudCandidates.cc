@@ -52,6 +52,8 @@ static const std::string CANDIDATE_CLOUD_PREFIX = "☁";
 typedef struct
 {
     guint event_id;
+    SoupMessage *message;
+    GCancellable *cancel_message;
     gchar requested_pinyin[MAX_PINYIN_LEN + 1];
     CloudCandidates *cloud_candidates;
 } CloudAsyncRequestUserData;
@@ -101,10 +103,10 @@ public:
 
         /* parse Json from input steam */
         if (!json_parser_load_from_stream (m_parser, stream, NULL, error) || error != NULL) {
-            g_input_stream_close (stream, NULL, error);  /* Close stream to release libsoup connexion */
+            g_input_stream_close (stream, NULL, error);  /* Close stream to release libsoup connection */
             return PARSER_BAD_FORMAT;
         }
-        g_input_stream_close (stream, NULL, error);  /* Close stream to release libsoup connexion */
+        g_input_stream_close (stream, NULL, error);  /* Close stream to release libsoup connection */
 
         return parseJsonResponse (json_parser_get_root (m_parser));
     }
@@ -324,6 +326,7 @@ CloudCandidates::CloudCandidates (PhoneticEditor * editor) : m_input_mode(FullPi
 
     m_source_event_id = 0;
     m_message = NULL;
+    m_cancel_message = NULL;
 
     m_input_source = CLOUD_INPUT_SOURCE_BAIDU;
     m_parser = NULL;
@@ -345,7 +348,7 @@ CloudCandidates::~CloudCandidates ()
     }
 
     if (m_message) {
-        soup_session_cancel_message (m_session, m_message, SOUP_STATUS_CANCELLED);
+        g_cancellable_cancel (m_cancel_message);
         m_message = NULL;
     }
 
@@ -515,6 +518,8 @@ CloudCandidates::delayedCloudAsyncRequest (const gchar* pinyin)
                                        delayedCloudAsyncRequestCallBack,
                                        user_data);
     data->event_id = m_source_event_id;
+    data->message = NULL;
+    data->cancel_message = NULL;
 }
 
 gboolean
@@ -551,12 +556,17 @@ CloudCandidates::cloudAsyncRequest (gpointer user_data)
     gchar *query_request = m_parser->getRequestString (data->requested_pinyin, number);
 
     /* cancel message if there is a pending one */
-    if (m_message)
-        soup_session_cancel_message (m_session, m_message, SOUP_STATUS_CANCELLED);
+    if (m_message) {
+        g_cancellable_cancel (m_cancel_message);
+        m_message = NULL;
+    }
 
-    SoupMessage *msg = soup_message_new ("GET", query_request);
-    soup_session_send_async (m_session, msg, NULL, cloudResponseCallBack, user_data);
-    m_message = msg;
+    m_cancel_message = g_cancellable_new ();
+    data->cancel_message = m_cancel_message;
+
+    SoupMessage *m_message = soup_message_new ("GET", query_request);
+    soup_session_send_async (m_session, m_message, SOUP_MESSAGE_PRIORITY_NORMAL, m_cancel_message, cloudResponseCallBack, user_data);
+    data->message = m_message;
 
     /* free url string */
     if (query_request)
@@ -577,7 +587,12 @@ CloudCandidates::cloudResponseCallBack (GObject *source_object, GAsyncResult *re
     cloud_candidates->updateLookupTable ();
 
     /* clean up message */
+    g_object_unref (data->message);
     cloud_candidates->m_message = NULL;
+
+    /* clean up cancellable */
+    g_object_unref (data->cancel_message);
+    cloud_candidates->m_cancel_message = NULL;
 
     g_free (user_data);
 }
@@ -586,14 +601,14 @@ void
 CloudCandidates::cloudSyncRequest (const gchar* pinyin, std::vector<EnhancedCandidate> & candidates)
 {
     guint number = m_editor->m_config.cloudCandidatesNumber ();
-
     gchar *query_request = m_parser->getRequestString (pinyin, number);
     SoupMessage *msg = soup_message_new ("GET", query_request);
 
     GInputStream *stream = soup_session_send (m_session, msg, NULL, NULL);
-
     processCloudResponse (stream, candidates, pinyin);
 
+    /* free msg */
+    g_object_unref (msg);
     /* free url string */
     if (query_request)
         g_free(query_request);

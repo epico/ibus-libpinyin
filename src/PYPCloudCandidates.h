@@ -73,6 +73,7 @@ public:
 
     guint m_source_event_id;
     SoupMessage *m_message;
+    GCancellable *m_cancel_message;
     std::string m_last_requested_pinyin;
 
 private:
