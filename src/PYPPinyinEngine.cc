@@ -359,8 +359,11 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
                 if ((IBUS_A <= keyval && keyval<= IBUS_Z) &&
                     PinyinConfig::instance ().englishInputMode () &&
                     !PinyinConfig::instance ().doublePinyin ()) {
-                    m_input_mode = MODE_ENGLISH;
-                    m_editors[m_input_mode]->setText ("v", 1);
+                    // for Caps Lock
+                    if (!(modifiers & IBUS_LOCK_MASK)) {
+                        m_input_mode = MODE_ENGLISH;
+                        m_editors[m_input_mode]->setText ("v", 1);
+                    }
                 }
 #endif
 
