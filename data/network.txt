@@ -312,6 +312,7 @@
 𫇭 wei 1
 𬀩 wei 1
 𬱟 wei 1
+𮧵 wei 1
 𫘜 wen 1
 𬭩 weng 1
 𣲘 wu 1
@@ -353,6 +354,7 @@
 𬘡 yin 1
 𬤇 yin 1
 𬮱 yin 1
+𬎆 ying 1
 𬨎 you 1
 喁 yu 1
 𫘪 yuan 1
