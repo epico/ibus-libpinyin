@@ -1,3 +1,8 @@
+version 1.15.4
+* Use libsoup3
+* Update network dictionary
+* Fix Caps Lock for English mode
+
 version 1.15.3
 * bug fixes
 
