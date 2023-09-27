@@ -44,7 +44,6 @@ LibPinyinBackEnd::LibPinyinBackEnd () {
 LibPinyinBackEnd::~LibPinyinBackEnd () {
     g_timer_destroy (m_timer);
     if (m_timeout_id != 0) {
-        saveUserDB ();
         g_source_remove (m_timeout_id);
     }
 
