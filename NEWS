@@ -1,3 +1,6 @@
+version 1.15.5
+* bug fixes
+
 version 1.15.4
 * Use libsoup3
 * Update network dictionary
