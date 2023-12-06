@@ -106,7 +106,8 @@ BopomofoEngine::processAccelKeyEvent (guint keyval, guint keycode,
              * we will let client applications to handle release key event */
             return FALSE;
         } else {
-            return TRUE;
+            /* Always return FALSE for the IBUS_RELEASE_MASK. */
+            return FALSE;
         }
     }
 
