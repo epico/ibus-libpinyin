@@ -201,6 +201,9 @@ PhoneticEditor::processFunctionKey (guint keyval, guint keycode, guint modifiers
 gboolean
 PhoneticEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 {
+    if (modifiers & IBUS_MOD4_MASK)
+        return FALSE;
+
     return FALSE;
 }
 

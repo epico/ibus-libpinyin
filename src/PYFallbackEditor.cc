@@ -216,6 +216,9 @@ FallbackEditor::processPunct (guint keyval, guint keycode, guint modifiers)
 gboolean
 FallbackEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 {
+    if (modifiers & IBUS_MOD4_MASK)
+        return FALSE;
+
     gboolean retval = FALSE;
 
     modifiers &= (IBUS_CONTROL_MASK |

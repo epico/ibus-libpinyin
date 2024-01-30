@@ -88,6 +88,9 @@ gboolean
 DoublePinyinEditor::processKeyEvent (guint keyval, guint keycode,
                                               guint modifiers)
 {
+    if (modifiers & IBUS_MOD4_MASK)
+        return FALSE;
+
     /* handle ';' key */
     if (G_UNLIKELY (keyval == IBUS_semicolon)) {
         if (cmshm_filter (modifiers) == 0) {

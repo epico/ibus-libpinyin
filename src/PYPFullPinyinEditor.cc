@@ -70,6 +70,9 @@ FullPinyinEditor::processKeyEvent (guint keyval,
                                             guint keycode,
                                             guint modifiers)
 {
+    if (modifiers & IBUS_MOD4_MASK)
+        return FALSE;
+
     /* handle 'A' - 'Z' key */
     if (G_UNLIKELY (IBUS_A <= keyval && keyval <= IBUS_Z)) {
         if (cmshm_filter (modifiers) == 0) {

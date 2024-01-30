@@ -165,6 +165,9 @@ ExtEditor::setLuaPlugin (IBusEnginePlugin *plugin)
 gboolean
 ExtEditor::processKeyEvent (guint keyval, guint keycode, guint modifiers)
 {
+    if (modifiers & IBUS_MOD4_MASK)
+        return FALSE;
+
     //IBUS_SHIFT_MASK is removed.
     modifiers &= (IBUS_CONTROL_MASK |
                   IBUS_MOD1_MASK |
