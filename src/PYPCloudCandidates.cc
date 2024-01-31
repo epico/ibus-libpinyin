@@ -310,7 +310,7 @@ public:
     gchar *getRequestString (const gchar *pinyin, gint number) {
         assert (m_input_source == CLOUD_INPUT_SOURCE_BAIDU);
 
-        const char *BAIDU_URL_TEMPLATE = "http://olime.baidu.com/py?input=%s&inputtype=py&bg=0&ed=%d&result=hanzi&resultcoding=utf-8&ch_en=1&clientinfo=web&version=1";
+        const char *BAIDU_URL_TEMPLATE = "https://olime.baidu.com/py?input=%s&inputtype=py&bg=0&ed=%d&result=hanzi&resultcoding=utf-8&ch_en=1&clientinfo=web&version=1";
 
         return g_strdup_printf (BAIDU_URL_TEMPLATE, pinyin, number);
     }
