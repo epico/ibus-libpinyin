@@ -131,7 +131,7 @@ static int ime_join_string(lua_State* L){
   for ( i = 1; i < vec_len; ++i){
     lua_pushinteger(L, i);
     lua_gettable(L, 1);
-    str = luaL_checklstring(L, 3, NULL);
+    str = luaL_checklstring(L, -1, NULL);
     luaL_addstring(&buf, str);
     lua_pop(L, 1);
     luaL_addstring(&buf, sep);
@@ -140,7 +140,7 @@ static int ime_join_string(lua_State* L){
   /* add tail of string list */
   lua_pushinteger(L, i);
   lua_gettable(L, 1);
-  str = luaL_checklstring(L, 3, NULL);
+  str = luaL_checklstring(L, -1, NULL);
   luaL_addstring(&buf, str);
   lua_pop(L, 1);
   /* remove the args. */
