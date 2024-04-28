@@ -5,7 +5,7 @@
 #
 # Copyright (c) 2008-2010 Peng Huang <shawn.p.huang@gmail.com>
 # Copyright (c) 2010 BYVoid <byvoid1@gmail.com>
-# Copyright (c) 2011-2012 Peng Wu <alexepico@gmail.com>
+# Copyright (c) 2011-2024 Peng Wu <alexepico@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
