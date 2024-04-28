@@ -700,8 +700,8 @@ msgid "Intelligent Pinyin input method for IBus"
 msgstr "IBus 智能拼音輸入法"
 
 #: setup/ibus-libpinyin-preferences.ui:2722
-msgid "<small>Copyright (c) 2011-2012 Peng Wu</small>"
-msgstr "<small>版權所有 (c) 2011-2012 吳鵬</small>"
+msgid "<small>Copyright (c) 2011-2024 Peng Wu</small>"
+msgstr "<small>版權所有 (c) 2011-2024 吳鵬</small>"
 
 #: setup/ibus-libpinyin-preferences.ui:2735
 msgid "https://github.com/libpinyin/ibus-libpinyin"
