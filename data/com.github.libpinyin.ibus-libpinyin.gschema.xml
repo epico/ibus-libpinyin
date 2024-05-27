@@ -194,7 +194,7 @@
       <summary>Use Lua Converter</summary>
     </key>
     <key name="opencc-config" type="s">
-      <default>'s2t.json'</default>
+      <default>'s2tw.json'</default>
       <summary>The config file which should be used by OpenCC for traditional input. Please consult the OpenCC documentation for more information</summary>
     </key>
     <key name="emoji-candidate" type="b">
@@ -401,7 +401,7 @@
       <summary>Sort candidate option</summary>
     </key>
     <key name="opencc-config" type="s">
-      <default>'s2t.json'</default>
+      <default>'s2tw.json'</default>
       <summary>The config file which should be used by OpenCC for traditional input. Please consult the OpenCC documentation for more information</summary>
     </key>
     <key name="emoji-candidate" type="b">
