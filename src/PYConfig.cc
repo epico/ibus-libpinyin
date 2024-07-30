@@ -79,6 +79,9 @@ Config::initDefaultValues (void)
     m_english_candidate = TRUE;
     m_suggestion_candidate = FALSE;
 
+    m_export_user_phrase = TRUE;
+    m_export_bigram_phrase = TRUE;
+
     m_network_dictionary_start_timestamp = 0;
     m_network_dictionary_end_timestamp = 0;
 

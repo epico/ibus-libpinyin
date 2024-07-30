@@ -63,6 +63,8 @@ const gchar * const CONFIG_USE_CUSTOM_TABLE          = "use-custom-table";
 const gchar * const CONFIG_EMOJI_CANDIDATE           = "emoji-candidate";
 const gchar * const CONFIG_ENGLISH_CANDIDATE         = "english-candidate";
 const gchar * const CONFIG_SUGGESTION_CANDIDATE      = "suggestion-candidate";
+const gchar * const CONFIG_EXPORT_USER_PHRASE        = "export-user-phrase";
+const gchar * const CONFIG_EXPORT_BIGRAM_PHRASE      = "export-bigram-phrase";
 const gchar * const CONFIG_IMPORT_CUSTOM_TABLE       = "import-custom-table";
 const gchar * const CONFIG_EXPORT_CUSTOM_TABLE       = "export-custom-table";
 const gchar * const CONFIG_CLEAR_CUSTOM_TABLE        = "clear-custom-table";
@@ -137,6 +139,9 @@ LibPinyinConfig::initDefaultValues (void)
     m_emoji_candidate = TRUE;
     m_english_candidate = TRUE;
     m_suggestion_candidate = FALSE;
+
+    m_export_user_phrase = TRUE;
+    m_export_bigram_phrase = TRUE;
 
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
@@ -583,6 +588,10 @@ PinyinConfig::readDefaultValues (void)
     m_table_input_mode = read (CONFIG_TABLE_INPUT_MODE, true);
     m_use_custom_table = read (CONFIG_USE_CUSTOM_TABLE, false);
 
+    /* export phrases */
+    m_export_user_phrase = read (CONFIG_EXPORT_USER_PHRASE, true);
+    m_export_bigram_phrase = read (CONFIG_EXPORT_BIGRAM_PHRASE, true);
+
     /* lua */
     m_lua_converter = read (CONFIG_LUA_CONVERTER, "");
 
@@ -658,6 +667,10 @@ PinyinConfig::valueChanged (const std::string &schema_id,
         m_table_input_mode = normalizeGVariant (value, true);
     else if (CONFIG_USE_CUSTOM_TABLE == name)
         m_use_custom_table = normalizeGVariant (value, false);
+    else if (CONFIG_EXPORT_USER_PHRASE == name)
+        m_export_user_phrase = normalizeGVariant (value, true);
+    else if (CONFIG_EXPORT_BIGRAM_PHRASE == name)
+        m_export_bigram_phrase = normalizeGVariant (value, true);
     else if (CONFIG_IMPORT_CUSTOM_TABLE == name) {
         std::string filename = normalizeGVariant (value, std::string(""));
         if (!filename.empty ())

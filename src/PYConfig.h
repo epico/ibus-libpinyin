@@ -84,6 +84,9 @@ public:
     gboolean englishCandidate (void) const      { return m_english_candidate; }
     gboolean suggestionCandidate (void) const   { return m_suggestion_candidate; }
 
+    gboolean exportUserPhrase (void) const      { return m_export_user_phrase; }
+    gboolean exportBigramPhrase (void) const    { return m_export_bigram_phrase; }
+
     std::string mainSwitch (void) const         { return m_main_switch; }
     std::string letterSwitch (void) const       { return m_letter_switch; }
     std::string punctSwitch (void) const        { return m_punct_switch; }
@@ -175,6 +178,9 @@ protected:
     gboolean m_emoji_candidate;
     gboolean m_english_candidate;
     gboolean m_suggestion_candidate;
+
+    gboolean m_export_user_phrase;
+    gboolean m_export_bigram_phrase;
 
     std::string m_main_switch;
     std::string m_letter_switch;
