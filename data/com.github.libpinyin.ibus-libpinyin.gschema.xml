@@ -262,6 +262,14 @@
       <default>600</default>
       <summary>Sending Cloud request with delay</summary>
     </key>
+    <key name="export-user-phrase" type="b">
+      <default>true</default>
+      <summary>Export user phrases</summary>
+    </key>
+    <key name="export-bigram-phrase" type="b">
+      <default>true</default>
+      <summary>Export bigram phrases</summary>
+    </key>
   </schema>
   <schema path="/com/github/libpinyin/ibus-libpinyin/libbopomofo/" id="com.github.libpinyin.ibus-libpinyin.libbopomofo">
     <key name="auxiliary-select-key-f" type="i">
