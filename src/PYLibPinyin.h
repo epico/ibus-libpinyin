@@ -50,6 +50,9 @@ public:
     void freeChewingInstance (pinyin_instance_t *instance);
     void modified (void);
 
+    gboolean exportUserPhrase (FILE *dictfile);
+    gboolean exportBigramPhrase (FILE *dictfile);
+
     gboolean importPinyinDictionary (const char *filename);
     gboolean exportPinyinDictionary (const char *filename);
     gboolean clearPinyinUserData (const char *target);
