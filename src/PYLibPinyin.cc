@@ -335,6 +335,9 @@ LibPinyinBackEnd::exportBigramPhrase (FILE *dictfile)
 gboolean
 LibPinyinBackEnd::exportPinyinDictionary (const char *filename)
 {
+    if (NULL == m_pinyin_context)
+        return FALSE;
+
     /* user phrase library should be already loaded here. */
     FILE * dictfile = fopen (filename, "w");
     if (NULL == dictfile)
