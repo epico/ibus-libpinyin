@@ -57,6 +57,8 @@ TableDatabase::init ()
 
     if (!result)
         g_warning ("can't open user table database.\n");
+
+    g_free (path);
 }
 
 TableDatabase::TableDatabase(){
@@ -269,12 +271,16 @@ TableDatabase::importTable (const char *filename){
         "SELECT MAX(id) FROM phrases;";
     m_sql = SQL_DB_SELECT;
     int result = sqlite3_prepare_v2 (m_sqlite, m_sql.c_str (), -1, &stmt, &tail);
-    if (result != SQLITE_OK)
+    if (result != SQLITE_OK) {
+        fclose (input);
         return FALSE;
+    }
 
     result = sqlite3_step (stmt);
-    if (result != SQLITE_ROW)
+    if (result != SQLITE_ROW) {
+        fclose (input);
         return FALSE;
+    }
 
     int id = 0;
     result = sqlite3_column_type (stmt, 0);
@@ -286,8 +292,10 @@ TableDatabase::importTable (const char *filename){
         g_warning ("Can't find id for user table database.");
 
     m_sql = "BEGIN TRANSACTION;";
-    if (!executeSQL (m_sqlite))
+    if (!executeSQL (m_sqlite)) {
+        fclose (input);
         return FALSE;
+    }
 
     /* Open the table file with format:
        "tabkeys phrase freq". */
@@ -343,18 +351,24 @@ TableDatabase::exportTable (const char *filename){
     while (result == SQLITE_ROW){
         /* write one line. */
         result = sqlite3_column_type (stmt, 0);
-        if (result != SQLITE_TEXT)
+        if (result != SQLITE_TEXT) {
+            fclose (output);
             return FALSE;
+        }
         const char *tabkeys = (const char *)sqlite3_column_text (stmt, 0);
 
         result = sqlite3_column_type (stmt, 1);
-        if (result != SQLITE_TEXT)
+        if (result != SQLITE_TEXT) {
+            fclose (output);
             return FALSE;
+        }
         const char *phrase = (const char *)sqlite3_column_text (stmt, 1);
 
         result = sqlite3_column_type (stmt, 2);
-        if (result != SQLITE_INTEGER)
+        if (result != SQLITE_INTEGER) {
+            fclose (output);
             return FALSE;
+        }
         const int freq = sqlite3_column_int (stmt, 2);
 
         fprintf (output, "%s\t%s\t%d\n", tabkeys, phrase, freq);
