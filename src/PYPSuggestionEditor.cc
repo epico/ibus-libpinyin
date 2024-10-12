@@ -262,7 +262,7 @@ SuggestionEditor::cursorDown (void)
 void
 SuggestionEditor::update (void)
 {
-    pinyin_guess_predicted_candidates (m_instance, m_text);
+    pinyin_guess_predicted_candidates_with_punctuations (m_instance, m_text);
 
     updateLookupTable ();
     updatePreeditText ();
@@ -347,6 +347,7 @@ SuggestionEditor::selectCandidateInternal (EnhancedCandidate & candidate)
     switch (candidate.m_candidate_type) {
     case CANDIDATE_PREDICTED_BIGRAM:
     case CANDIDATE_PREDICTED_PREFIX:
+    case CANDIDATE_PREDICTED_PUNCTUATION:
         return m_suggestion_candidates.selectCandidate (candidate);
 
     case CANDIDATE_TRADITIONAL_CHINESE:

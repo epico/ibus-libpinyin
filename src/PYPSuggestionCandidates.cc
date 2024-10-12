@@ -47,6 +47,9 @@ SuggestionCandidates::processCandidates (std::vector<EnhancedCandidate> & candid
         case PREDICTED_PREFIX_CANDIDATE:
             candidate_type = CANDIDATE_PREDICTED_PREFIX;
             break;
+        case PREDICTED_PUNCTUATION_CANDIDATE:
+            candidate_type = CANDIDATE_PREDICTED_PUNCTUATION;
+            break;
         default:
             assert(FALSE);
         }
@@ -70,7 +73,8 @@ SuggestionCandidates::selectCandidate (EnhancedCandidate & enhanced)
 {
     pinyin_instance_t * instance = m_editor->m_instance;
     assert (CANDIDATE_PREDICTED_BIGRAM == enhanced.m_candidate_type ||
-            CANDIDATE_PREDICTED_PREFIX == enhanced.m_candidate_type);
+            CANDIDATE_PREDICTED_PREFIX == enhanced.m_candidate_type ||
+            CANDIDATE_PREDICTED_PUNCTUATION == enhanced.m_candidate_type);
 
     guint len = 0;
     pinyin_get_n_candidate (instance, &len);
