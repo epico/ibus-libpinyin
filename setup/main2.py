@@ -635,6 +635,10 @@ class PreferencesDialog:
         # page About
         self.__page_about.show()
 
+        self.__about_icon = self.__builder.get_object("AboutIcon")
+        icon_path = os.path.join(pkgdatadir, 'icons', 'ibus-pinyin.svg')
+        self.__about_icon.set_from_file(icon_path)
+
         self.__name_version = self.__builder.get_object("NameVersion")
         self.__name_version.set_markup(_("<big><b>Intelligent Pinyin %s</b></big>") % config.get_version())
 
