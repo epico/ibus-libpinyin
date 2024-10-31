@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- filename: pinyin.xml -->
+<component>
+	<name>org.freedesktop.IBus.Libpinyin</name>
+	<description>Libpinyin Component</description>
+	<exec>@LIBEXECDIR@/ibus-engine-libpinyin --ibus</exec>
+	<version>@VERSION@</version>
+	<author>Peng Wu &lt;alexepico@gmail.com&gt;</author>
+	<license>GPL</license>
+	<homepage>https://github.com/libpinyin/ibus-libpinyin</homepage>
+	<textdomain>ibus-libpinyin</textdomain>
+
+	<!-- for engines -->
+	<observed-paths>
+		<path>~/.config/ibus/libpinyin/engines.xml</path>
+		<path>@PKGDATADIR@/default.xml</path>
+	</observed-paths>
+    <engines exec="@LIBEXECDIR@/ibus-engine-libpinyin --xml" />
+</component>

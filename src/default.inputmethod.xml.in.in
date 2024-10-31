@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- filename: default.xml -->
+<engines>
+  <engine>
+	<name>libpinyin</name>
+	<language>zh_CN</language>
+	<license>GPL</license>
+	<author>
+	Peng Wu &lt;alexepico@gmail.com&gt;
+	Peng Huang &lt;shawn.p.huang@gmail.com&gt;
+	BYVoid &lt;byvoid1@gmail.com&gt;
+	</author>
+	<icon>@PKGDATADIR@/icons/ibus-pinyin.svg</icon>
+	<layout>default</layout>
+	<longname>Intelligent Pinyin</longname>
+	<description>Intelligent Pinyin input method</description>
+	<rank>99</rank>
+	<symbol>&#x62FC;</symbol>
+	@ICON_PROP_KEY_XML@
+	<setup>@LIBEXECDIR@/ibus-setup-libpinyin libpinyin</setup>
+	<version>@VERSION@</version>
+	<textdomain>ibus-libpinyin</textdomain>
+  </engine>
+  <engine>
+	<name>libbopomofo</name>
+	<language>zh_TW</language>
+	<license>GPL</license>
+	<author>
+	Peng Wu &lt;alexepico@gmail.com&gt;
+	Peng Huang &lt;shawn.p.huang@gmail.com&gt;
+	BYVoid &lt;byvoid1@gmail.com&gt;
+	</author>
+	<icon>@PKGDATADIR@/icons/ibus-bopomofo.svg</icon>
+	<layout>default</layout>
+	<longname>Bopomofo</longname>
+	<description>Bopomofo input method</description>
+	<rank>98</rank>
+	<symbol>&#x3109;</symbol>
+	@ICON_PROP_KEY_XML@
+	<setup>@LIBEXECDIR@/ibus-setup-libpinyin libbopomofo</setup>
+	<version>@VERSION@</version>
+	<textdomain>ibus-libpinyin</textdomain>
+  </engine>
+</engines>
