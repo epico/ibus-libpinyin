@@ -270,6 +270,10 @@
       <default>true</default>
       <summary>Export bigram phrases</summary>
     </key>
+    <key name="keyboard-layout" type="s">
+      <default>'default'</default>
+      <summary>The keyboard layout used with ibus-libpinyin</summary>
+    </key>
   </schema>
   <schema path="/com/github/libpinyin/ibus-libpinyin/libbopomofo/" id="com.github.libpinyin.ibus-libpinyin.libbopomofo">
     <key name="auxiliary-select-key-f" type="i">
@@ -448,6 +452,10 @@
       <range min="200" max="2000"/>
       <default>600</default>
       <summary>Sending Cloud request with delay</summary>
+    </key>
+    <key name="keyboard-layout" type="s">
+      <default>'default'</default>
+      <summary>The keyboard layout used with ibus-libpinyin</summary>
     </key>
   </schema>
 </schemalist>
