@@ -90,6 +90,28 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="liststoreKeyboardLayout">
+    <columns>
+      <!-- column-name keyboardlayout -->
+      <column type="gchararray"/>
+      <!-- column-name layoutdisplayname -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">default</col>
+        <col id="1" translatable="yes">Default</col>
+      </row>
+      <row>
+        <col id="0">us</col>
+        <col id="1" translatable="yes">English</col>
+      </row>
+      <row>
+        <col id="0">cn</col>
+        <col id="1" translatable="yes">Chinese</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkListStore" id="liststoreLookupTableOrientation">
     <columns>
       <!-- column-name orientation -->
@@ -711,6 +733,85 @@
                         <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFrame">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label-xalign">0</property>
+                        <property name="shadow-type">none</property>
+                        <child>
+                          <object class="GtkAlignment">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="left-padding">12</property>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="homogeneous">True</property>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">Keyboard Layout:</property>
+                                        <property name="xalign">0</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkComboBox" id="KeyboardLayout">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="model">liststoreKeyboardLayout</property>
+                                        <property name="id-column">0</property>
+                                        <child>
+                                          <object class="GtkCellRendererText" id="render7"/>
+                                          <attributes>
+                                            <attribute name="text">1</attribute>
+                                          </attributes>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label">
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Keyboard&lt;/b&gt;</property>
+                            <property name="use-markup">True</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                   </object>
