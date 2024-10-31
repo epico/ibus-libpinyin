@@ -225,12 +225,19 @@ component_DATA = \
 	$(NULL)
 componentdir = @datadir@/ibus/component
 
+engine_DATA = \
+	default.xml \
+	$(NULL)
+enginedir = @pkgdatadir@
+
 EXTRA_DIST = \
-	libpinyin.xml.in \
+	libpinyin.inputmethod.xml.in \
+	default.inputmethod.xml.in \
 	$(NULL)
 
 CLEANFILES = \
 	libpinyin.xml \
+	default.xml \
 	$(NULL)
 
 PYPunctTable.h:
@@ -248,7 +255,7 @@ update-simptrad-table:
 	$(MAKE) -C $(top_srcdir)/scripts ZhConversion.py
 	$(MAKE) PYSimpTradConverterTable.h
 
-libpinyin.xml: libpinyin.xml.in
+%.xml: %.inputmethod.xml.in
 	$(AM_V_GEN) \
 	( \
 		libexecdir=${libexecdir}; \

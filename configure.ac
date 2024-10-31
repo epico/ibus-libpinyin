@@ -233,7 +233,8 @@ ibus-libpinyin.spec
 lua/Makefile
 scripts/Makefile
 src/Makefile
-src/libpinyin.xml.in
+src/libpinyin.inputmethod.xml.in
+src/default.inputmethod.xml.in
 setup/Makefile
 setup/ibus-setup-libpinyin
 setup/config.py
