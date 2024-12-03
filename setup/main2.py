@@ -22,6 +22,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import gettext
+from enginefile import resync_engine_file, save_layout
 
 import locale
 import os
@@ -153,6 +154,9 @@ class PreferencesDialog:
         self.__remember_every_input = self.__builder.get_object("RememberEveryInput")
         self.__sort_candidate_option = self.__builder.get_object("SortCandidateOption")
 
+        self.__keyboard_layout = self.__builder.get_object("KeyboardLayout")
+        self.__keyboard_layout_information = self.__builder.get_object("KeyboardLayoutInformation")
+
         # read values
         self.__init_chinese.set_active(self.__get_value("init-chinese"))
         self.__init_full.set_active(self.__get_value("init-full"))
@@ -166,6 +170,9 @@ class PreferencesDialog:
         self.__dynamic_adjust.set_active(self.__get_value("dynamic-adjust"))
         self.__remember_every_input.set_active(self.__get_value("remember-every-input"))
         self.__sort_candidate_option.set_active(self.__get_value("sort-candidate-option"))
+
+        self.__keyboard_layout.set_active_id(self.__get_value("keyboard-layout"))
+
         # connect signals
         self.__init_chinese.connect("toggled", self.__toggled_cb, "init-chinese")
         self.__init_full.connect("toggled", self.__toggled_cb, "init-full")
@@ -186,10 +193,16 @@ class PreferencesDialog:
         def __sort_candidate_option_changed_cb(widget):
             self.__set_value("sort-candidate-option", widget.get_active())
 
+        def __keyboard_layout_changed_cb(widget):
+            self.__set_value("keyboard-layout", widget.get_active_id())
+            save_layout()
+            self.__keyboard_layout_information.show()
+
         self.__display_style.connect("changed", __display_size_changed_cb)
         self.__lookup_table_orientation.connect("changed", __lookup_table_orientation_changed_cb)
         self.__lookup_table_page_size.connect("value-changed", __lookup_table_page_size_changed_cb)
         self.__sort_candidate_option.connect("changed", __sort_candidate_option_changed_cb)
+        self.__keyboard_layout.connect("changed", __keyboard_layout_changed_cb)
 
     def __init_pinyin(self):
         # page
@@ -392,8 +405,11 @@ class PreferencesDialog:
         self.__dict_treeview.show()
         self.__dict_treeview.set_dictionaries(self.__get_value("dictionaries"))
 
+        self.__dictionary_information = self.__builder.get_object("DictionaryInformation")
+
         def __notified_dicts_cb(self, param, dialog):
             dialog.__set_value("dictionaries", self.get_dictionaries())
+            dialog.__dictionary_information.show()
 
         # connect notify signal
         self.__dict_treeview.connect("notify::dictionaries", __notified_dicts_cb, self)
@@ -679,12 +695,18 @@ class PreferencesDialog:
         return self.__dialog.run()
 
 def main():
-    name = "libpinyin"
+    command_name = "libpinyin"
     if len(sys.argv) == 2:
-        name = sys.argv[1]
-    if name not in ("libpinyin", "libbopomofo"):
-        name = "libpinyin"
-    PreferencesDialog(name).run()
+        command_name = sys.argv[1]
+
+    resync_engine_file()
+    if command_name == "resync-engine":
+        return
+
+    if command_name not in ("libpinyin", "libbopomofo"):
+        command_name = "libpinyin"
+
+    PreferencesDialog(command_name).run()
 
 
 if __name__ == "__main__":
