@@ -795,6 +795,42 @@
                                     <property name="position">0</property>
                                   </packing>
                                 </child>
+                                <child>
+                                  <object class="GtkBox" id="KeyboardLayoutInformation">
+                                    <property name="can-focus">False</property>
+                                    <property name="valign">end</property>
+                                    <child>
+                                      <object class="GtkImage" id="image1">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="stock">gtk-dialog-info</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label35">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="valign">end</property>
+                                        <property name="label" translatable="yes">Tips: Changes may not take effect until ime restarts.</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
                               </object>
                             </child>
                           </object>
@@ -2124,8 +2160,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkBox" id="hbox31">
-                                    <property name="visible">True</property>
+                                  <object class="GtkBox" id="DictionaryInformation">
                                     <property name="can-focus">False</property>
                                     <property name="valign">end</property>
                                     <child>
