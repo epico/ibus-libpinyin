@@ -80,6 +80,7 @@ ibus_engine_libpinyin_h_sources = \
 	PYPSuggestionCandidates.h \
 	PYPEmojiTable.h \
 	PYPEmojiCandidates.h \
+	PYXMLUtil.h \
 	$(NULL)
 
 ibus_engine_libpinyin_c_sources += \
@@ -97,6 +98,7 @@ ibus_engine_libpinyin_c_sources += \
 	PYPSuggestionEditor.cc \
 	PYPSuggestionCandidates.cc \
 	PYPEmojiCandidates.cc \
+	PYXMLUtil.cc \
 	$(NULL)
 
 
@@ -228,7 +230,7 @@ componentdir = @datadir@/ibus/component
 engine_DATA = \
 	default.xml \
 	$(NULL)
-enginedir = @pkgdatadir@
+enginedir = ${pkgdatadir}
 
 EXTRA_DIST = \
 	libpinyin.inputmethod.xml.in \
@@ -256,13 +258,9 @@ update-simptrad-table:
 	$(MAKE) PYSimpTradConverterTable.h
 
 %.xml: %.inputmethod.xml.in
-	$(AM_V_GEN) \
-	( \
-		libexecdir=${libexecdir}; \
-		pkgdatadir=${pkgdatadir}; \
-		s=`cat $<`; \
-		eval "echo \"$${s}\""; \
-	) > $@
+	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|g" \
+	    -e "s|\@PKGDATADIR\@|$(pkgdatadir)|g" \
+	$< > $@
 
 test: ibus-engine-libpinyin
 	$(ENV) \
