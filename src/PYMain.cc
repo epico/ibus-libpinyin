@@ -37,6 +37,7 @@
 #ifdef IBUS_BUILD_TABLE_INPUT_MODE
 #include "PYTableDatabase.h"
 #endif
+#include "PYXMLUtil.h"
 
 using namespace PY;
 
@@ -46,6 +47,7 @@ static Pointer<IBusFactory> factory;
 
 /* options */
 static gboolean ibus = FALSE;
+static gboolean xml = FALSE;
 static gboolean verbose = FALSE;
 
 static void
@@ -60,6 +62,7 @@ static const GOptionEntry entries[] =
     { "version", 'V', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK,
         (gpointer) show_version_and_quit, "Show the application's version.", NULL },
     { "ibus",    'i', 0, G_OPTION_ARG_NONE, &ibus, "component is executed by ibus", NULL },
+    { "xml",     'x', 0, G_OPTION_ARG_NONE, &xml, "list engines", NULL },
     { "verbose", 'v', 0, G_OPTION_ARG_NONE, &verbose, "verbose", NULL },
     { NULL },
 };
@@ -171,6 +174,65 @@ atexit_cb (void)
     LibPinyinBackEnd::finalize ();
 }
 
+static void
+print_engine_xml (void)
+{
+    gboolean success = FALSE;
+    gchar * content = NULL;
+
+    /* check the user engines.xml first. */
+    gchar * user_config = g_build_filename (g_get_user_config_dir (),
+                                            "ibus", "libpinyin", "engines.xml", NULL);
+    gchar * system_config = g_build_filename (PKGDATADIR, "default.xml", NULL);
+
+    /* if not, print the default.xml and exit. */
+    if (!g_file_test (user_config, G_FILE_TEST_IS_REGULAR)) {
+        if (!g_file_test (system_config, G_FILE_TEST_IS_REGULAR)) {
+            g_free (system_config);
+            g_free (user_config);
+            return;
+        }
+        content = load_file_content (system_config);
+        printf ("%s", content);
+        g_free (content);
+        g_free (system_config);
+        g_free (user_config);
+
+        return;
+    }
+
+    /* if the engines.xml exists, compare the version of two xml files. */
+    gchar * system_version = NULL;
+    success = parse_engine_version (system_config, &system_version);
+    gchar * user_version = NULL;
+    success = success && parse_engine_version (user_config, &user_version);
+    success = success && 0 == g_strcmp0 (system_version, user_version);
+    g_free (system_version);
+    g_free (user_version);
+    if (success) {
+        content = load_file_content (user_config);
+        printf ("%s", content);
+        g_free (content);
+        g_free (system_config);
+        g_free (user_config);
+        return;
+    }
+
+    /* if the version mis-match, create the new engines.xml by ibus-setup-libpinyin. */
+    g_spawn_command_line_sync (LIBEXECDIR"/ibus-setup-libpinyin resync-engine",
+                               NULL, NULL, NULL, NULL);
+
+    /* print the user engines.xml. */
+    if (g_file_test (user_config, G_FILE_TEST_IS_REGULAR)) {
+        content = load_file_content (user_config);
+        printf ("%s", content);
+        g_free (content);
+        g_free (system_config);
+        g_free (user_config);
+        return;
+    }
+}
+
 int
 main (gint argc, gchar **argv)
 {
@@ -190,6 +252,11 @@ main (gint argc, gchar **argv)
     if (!g_option_context_parse (context, &argc, &argv, &error)) {
         g_print ("Option parsing failed: %s\n", error->message);
         exit (-1);
+    }
+
+    if (xml) {
+      print_engine_xml ();
+      return 0;
     }
 
     ::signal (SIGTERM, sigterm_cb);
