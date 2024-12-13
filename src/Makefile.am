@@ -206,14 +206,25 @@ ibus_engine_libpinyin_LDADD += \
 endif
 
 if IBUS_BUILD_ENGLISH_INPUT_MODE
-   ibus_engine_libpinyin_CXXFLAGS += \
+ibus_engine_libpinyin_CXXFLAGS += \
 	-DIBUS_BUILD_ENGLISH_INPUT_MODE \
 	$(NULL)
 endif
 
 if IBUS_BUILD_TABLE_INPUT_MODE
-   ibus_engine_libpinyin_CXXFLAGS += \
+ibus_engine_libpinyin_CXXFLAGS += \
 	-DIBUS_BUILD_TABLE_INPUT_MODE \
+	$(NULL)
+endif
+
+if ENABLE_LIBNOTIFY
+ibus_engine_libpinyin_CXXFLAGS += \
+	@LIBNOTIFY_CFLAGS@ \
+	-DENABLE_LIBNOTIFY \
+	$(NULL)
+
+ibus_engine_libpinyin_LDADD += \
+	@LIBNOTIFY_LIBS@ \
 	$(NULL)
 endif
 
