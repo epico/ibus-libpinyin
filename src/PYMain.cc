@@ -168,6 +168,10 @@ sigterm_cb (int sig)
 {
     LibPinyinBackEnd::finalize ();
 
+#ifdef ENABLE_LIBNOTIFY
+    notify_uninit();
+#endif
+
     ::exit (EXIT_FAILURE);
 }
 
@@ -175,6 +179,10 @@ static void
 atexit_cb (void)
 {
     LibPinyinBackEnd::finalize ();
+
+#ifdef ENABLE_LIBNOTIFY
+    notify_uninit();
+#endif
 }
 
 static void
@@ -274,10 +282,6 @@ main (gint argc, gchar **argv)
 #endif
 
     start_component ();
-
-#ifdef ENABLE_LIBNOTIFY
-    notify_uninit();
-#endif
 
     return 0;
 }
