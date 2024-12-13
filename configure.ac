@@ -226,6 +226,21 @@ AC_ARG_ENABLE(table-input-mode,
 
 AM_CONDITIONAL(IBUS_BUILD_TABLE_INPUT_MODE, [test x"$enable_table_input_mode" = x"yes"])
 
+# --disable-libnotify
+AC_ARG_ENABLE(libnotify,
+    AS_HELP_STRING([--disable-libnotify],
+                   [Disable to link libnotify]),
+    [enable_libnotify=$enableval],
+    [enable_libnotify=yes]
+)
+AM_CONDITIONAL([ENABLE_LIBNOTIFY], [test x"$enable_libnotify" = x"yes"])
+if test x"$enable_libnotify" = x"yes"; then
+    PKG_CHECK_MODULES(LIBNOTIFY, [
+        libnotify >= 0.7
+    ])
+    enable_libnotify="yes"
+fi
+
 # OUTPUT files
 AC_CONFIG_FILES([ po/Makefile.in
 Makefile
@@ -251,6 +266,7 @@ Build options:
     Install prefix              $prefix
     Use boost                   $enable_boost
     Use opencc                  $enable_opencc
+    Enable libnotify            $enable_libnotify
     Use libpinyin               $enable_libpinyin
     Build lua extension         $enable_lua_extension
     Build cloud input mode      $enable_cloud_input_mode
