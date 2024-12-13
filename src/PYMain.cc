@@ -38,6 +38,9 @@
 #include "PYTableDatabase.h"
 #endif
 #include "PYXMLUtil.h"
+#ifdef ENABLE_LIBNOTIFY
+#include <libnotify/notify.h>
+#endif
 
 using namespace PY;
 
@@ -263,6 +266,18 @@ main (gint argc, gchar **argv)
     ::signal (SIGINT, sigterm_cb);
     atexit (atexit_cb);
 
+#ifdef ENABLE_LIBNOTIFY
+    if (!notify_init("ibus-libpinyin")) {
+        g_error("notify_init failed");
+        exit(1);
+    }
+#endif
+
     start_component ();
+
+#ifdef ENABLE_LIBNOTIFY
+    notify_uninit();
+#endif
+
     return 0;
 }
