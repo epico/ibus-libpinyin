@@ -27,9 +27,17 @@
 
 #include <glib.h>
 
-gchar * load_file_content(const gchar * filename);
+namespace PY {
 
-gboolean parse_engine_version(const char * filename, gchar ** version);
+gchar *
+load_file_content(const gchar * filename);
 
+gboolean
+parse_engine_version(const char * filename, gchar ** version);
+
+void
+show_message(const char* summary, const char* details);
+
+};
 
 #endif

@@ -21,7 +21,11 @@
 #include "PYXMLUtil.h"
 #include <glib.h>
 #include <gio/gio.h>
+#ifdef ENABLE_LIBNOTIFY
+#include <libnotify/notify.h>
+#endif
 
+namespace PY {
 
 struct EngineXMLVersion{
     gboolean in_version_tag;
@@ -165,3 +169,20 @@ parse_engine_version(const char * filename, gchar ** version)
     *version = xmlfile.first_version;
     return TRUE;
 }
+
+void
+show_message(const char* summary, const char* details)
+{
+#ifdef ENABLE_LIBNOTIFY
+    NotifyNotification* notice = notify_notification_new (summary, details, NULL);
+    notify_notification_show (notice, NULL);
+    g_object_unref (notice);
+#else
+    if (details == NULL)
+        g_message ("%s\n", summary);
+    else
+        g_message ("%s\n%s\n", summary, details);
+#endif
+}
+
+};
