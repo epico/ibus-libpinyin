@@ -678,15 +678,17 @@ PinyinConfig::valueChanged (const std::string &schema_id,
         m_export_bigram_phrase = normalizeGVariant (value, true);
     else if (CONFIG_IMPORT_CUSTOM_TABLE == name) {
         std::string filename = normalizeGVariant (value, std::string(""));
-        if (!filename.empty ())
+        if (!filename.empty ()) {
             TableDatabase::userInstance ().importTable (filename.c_str ());
-        show_message (_("The table file is imported."), NULL);
+            show_message (_("The table file is imported."), NULL);
+        }
     }
     else if (CONFIG_EXPORT_CUSTOM_TABLE == name) {
         std::string filename = normalizeGVariant (value, std::string(""));
-        if (!filename.empty ())
+        if (!filename.empty ()) {
             TableDatabase::userInstance ().exportTable (filename.c_str ());
-        show_message (_("The table file is exported."), NULL);
+            show_message (_("The table file is exported."), NULL);
+        }
     }
     else if (CONFIG_CLEAR_CUSTOM_TABLE == name) {
         std::string target = normalizeGVariant (value, std::string(""));
@@ -695,15 +697,17 @@ PinyinConfig::valueChanged (const std::string &schema_id,
     }
     else if (CONFIG_IMPORT_DICTIONARY == name) {
         std::string filename = normalizeGVariant (value, std::string(""));
-        if (!filename.empty ())
+        if (!filename.empty ()) {
             LibPinyinBackEnd::instance ().importPinyinDictionary (filename.c_str ());
-        show_message (_("The pinyin dictionary file is imported."), NULL);
+            show_message (_("The pinyin dictionary file is imported."), NULL);
+        }
     }
     else if (CONFIG_EXPORT_DICTIONARY == name) {
         std::string filename = normalizeGVariant (value, std::string(""));
-        if (!filename.empty ())
+        if (!filename.empty ()) {
             LibPinyinBackEnd::instance ().exportPinyinDictionary (filename.c_str ());
-        show_message (_("The pinyin dictionary file is exported."), NULL);
+            show_message (_("The pinyin dictionary file is exported."), NULL);
+        }
     }
     else if (CONFIG_CLEAR_USER_DATA == name) {
         std::string target = normalizeGVariant (value, std::string(""));
