@@ -20,14 +20,19 @@
 #include "PYPConfig.h"
 
 #include <string.h>
+#include <libintl.h>
 #include <pinyin.h>
 #include "PYBus.h"
+#include "PYXMLUtil.h"
 #include "PYLibPinyin.h"
 #include "PYTableDatabase.h"
 
 #define USE_G_SETTINGS_LIST_KEYS 0
 
 namespace PY {
+
+#define _(text) (dgettext (GETTEXT_PACKAGE, text))
+#define N_(text) text
 
 const gchar * const CONFIG_CORRECT_PINYIN            = "correct-pinyin";
 const gchar * const CONFIG_FUZZY_PINYIN              = "fuzzy-pinyin";
@@ -675,11 +680,13 @@ PinyinConfig::valueChanged (const std::string &schema_id,
         std::string filename = normalizeGVariant (value, std::string(""));
         if (!filename.empty ())
             TableDatabase::userInstance ().importTable (filename.c_str ());
+        show_message (_("The table file is imported."), NULL);
     }
     else if (CONFIG_EXPORT_CUSTOM_TABLE == name) {
         std::string filename = normalizeGVariant (value, std::string(""));
         if (!filename.empty ())
             TableDatabase::userInstance ().exportTable (filename.c_str ());
+        show_message (_("The table file is exported."), NULL);
     }
     else if (CONFIG_CLEAR_CUSTOM_TABLE == name) {
         std::string target = normalizeGVariant (value, std::string(""));
@@ -690,11 +697,13 @@ PinyinConfig::valueChanged (const std::string &schema_id,
         std::string filename = normalizeGVariant (value, std::string(""));
         if (!filename.empty ())
             LibPinyinBackEnd::instance ().importPinyinDictionary (filename.c_str ());
+        show_message (_("The pinyin dictionary file is imported."), NULL);
     }
     else if (CONFIG_EXPORT_DICTIONARY == name) {
         std::string filename = normalizeGVariant (value, std::string(""));
         if (!filename.empty ())
             LibPinyinBackEnd::instance ().exportPinyinDictionary (filename.c_str ());
+        show_message (_("The pinyin dictionary file is exported."), NULL);
     }
     else if (CONFIG_CLEAR_USER_DATA == name) {
         std::string target = normalizeGVariant (value, std::string(""));
