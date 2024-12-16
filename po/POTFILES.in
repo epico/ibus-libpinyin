@@ -1,4 +1,5 @@
 src/PYConfig.cc
+src/PYPConfig.cc
 src/PYPDoublePinyinEditor.cc
 src/PYEditor.cc
 src/PYEngine.cc
