@@ -22,6 +22,12 @@
 
 #include "PYSignal.h"
 #include "PYProperty.h"
+#include <vector>
+#include <glib.h>
+
+G_BEGIN_DECLS
+typedef struct _IBusEnginePlugin IBusEnginePlugin;
+G_END_DECLS
 
 namespace PY {
 
@@ -30,6 +36,7 @@ class Config;
 class PinyinProperties {
 public:
     PinyinProperties (Config & config);
+    virtual ~PinyinProperties (void);
 
     void toggleModeChinese   (void);
     void toggleModeFull      (void);
@@ -74,6 +81,19 @@ private:
     Property    m_prop_simp;
     Property    m_prop_setup;
     PropList    m_props;
+
+#ifdef IBUS_BUILD_LUA_EXTENSION
+    Pointer<IBusEnginePlugin> m_lua_plugin;
+    Property    *m_prop_lua_converter;
+    std::vector<Property *>   m_props_lua_converter_vec;
+    std::vector<gchar *> m_lua_converter_names;
+    PropList    m_props_lua_converter_list;
+
+public:
+    gboolean setLuaPlugin (IBusEnginePlugin *plugin);
+
+    gboolean appendLuaConverter (void);
+#endif
 };
 
 };

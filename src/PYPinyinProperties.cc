@@ -21,6 +21,7 @@
 #include <libintl.h>
 #include "PYText.h"
 #include "PYConfig.h"
+#include "lua-plugin.h"
 
 namespace PY {
 
@@ -94,6 +95,29 @@ PinyinProperties::PinyinProperties (Config & config)
     m_props.append (m_prop_simp);
     m_props.append (m_prop_setup);
 
+#ifdef IBUS_BUILD_LUA_EXTENSION
+    m_prop_lua_converter = NULL;
+#endif
+}
+
+PinyinProperties::~PinyinProperties (void)
+{
+#ifdef IBUS_BUILD_LUA_EXTENSION
+    if (m_prop_lua_converter) {
+        delete m_prop_lua_converter;
+        m_prop_lua_converter = NULL;
+    }
+
+    for (auto iter = m_props_lua_converter_vec.begin ();
+         iter != m_props_lua_converter_vec.end (); ++iter) {
+        delete *iter;
+    }
+
+    for (auto iter = m_lua_converter_names.begin ();
+         iter != m_lua_converter_names.end (); ++iter) {
+        delete *iter;
+    }
+#endif
 }
 
 void
@@ -209,8 +233,84 @@ PinyinProperties::propertyActivate (const gchar *prop_name, guint prop_state) {
         toggleModeSimp ();
         return TRUE;
     }
+
+    const int len = strlen("LuaConverter.");
+    if (0 == strncmp (prop_name, "LuaConverter.", len) &&
+        prop_state == PROP_STATE_CHECKED) {
+        std::string name = prop_name + len;
+        if (name == "None")
+            m_config.luaConverter ("");
+        else
+            m_config.luaConverter (name);
+        return TRUE;
+    }
+
     return FALSE;
 }
 
+#ifdef IBUS_BUILD_LUA_EXTENSION
+gboolean
+PinyinProperties::setLuaPlugin (IBusEnginePlugin *plugin) {
+    m_lua_plugin = plugin;
+    return TRUE;
+}
+
+gboolean
+PinyinProperties::appendLuaConverter (void) {
+    if (!m_lua_plugin)
+        return FALSE;
+
+    const GArray * converters =
+        ibus_engine_plugin_get_available_converters (m_lua_plugin);
+    if (converters->len == 0)
+        return FALSE;
+
+    m_prop_lua_converter = new Property ("LuaConverter",
+                                         PROP_TYPE_MENU,
+                                         StaticText (_("Lua Converter")),
+                                         PKGDATADIR"/icons/lua-converter.svg",
+                                         StaticText (_("Use the Lua Convertor")));
+
+    Property * prop = NULL;
+
+    /* Add the None converter. */
+    prop = new Property ("LuaConverter.None",
+                         PROP_TYPE_RADIO,
+                         StaticText (_("None")));
+
+    if (m_config.luaConverter ().empty ())
+        prop->setState (PROP_STATE_CHECKED);
+
+    m_props_lua_converter_vec.push_back (prop);
+    m_props_lua_converter_list.append (*prop);
+
+    /* Add the User Lua Converters. */
+    for (int i = 0; i < converters->len; i++) {
+        lua_converter_t *converter = &g_array_index
+            (converters, lua_converter_t, i);
+
+        const gchar *name = converter->lua_function_name;
+        gchar *key = g_strdup_printf ("LuaConverter.%s", name);
+        m_lua_converter_names.push_back (key);
+
+        prop = new Property (key,
+                             PROP_TYPE_RADIO,
+                             Text (converter->description));
+
+        if (!m_config.luaConverter ().empty () &&
+            m_config.luaConverter () == name)
+            prop->setState (PROP_STATE_CHECKED);
+
+        m_props_lua_converter_vec.push_back (prop);
+        m_props_lua_converter_list.append (*prop);
+    }
+
+    m_prop_lua_converter->setSubProps (m_props_lua_converter_list);
+    m_props.append (*m_prop_lua_converter);
+
+    return TRUE;
+}
+
+#endif
 
 };
