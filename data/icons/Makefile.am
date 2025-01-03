@@ -30,6 +30,7 @@ icons_DATA = \
 	half-punct.svg \
 	simp-chinese.svg \
 	trad-chinese.svg \
+	lua-converter.svg \
 	$(NULL)
 
 iconsdir = $(pkgdatadir)/icons
