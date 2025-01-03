@@ -75,6 +75,11 @@ PinyinEngine::PinyinEngine (IBusEngine *engine)
 #endif
     }
 
+#ifdef IBUS_BUILD_LUA_EXTENSION
+    m_props.setLuaPlugin (m_lua_plugin);
+    m_props.appendLuaConverter ();
+#endif
+
     m_editors[MODE_PUNCT].reset
         (new PunctEditor (m_props, PinyinConfig::instance ()));
     m_editors[MODE_RAW].reset
