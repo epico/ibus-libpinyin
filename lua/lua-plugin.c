@@ -331,6 +331,16 @@ gboolean ibus_engine_plugin_set_converter(IBusEnginePlugin * plugin, const char 
   IBusEnginePluginPrivate * priv = IBUS_ENGINE_PLUGIN_GET_PRIVATE(plugin);
   GArray * lua_converters = priv->lua_converters;
 
+  if (lua_function_name == NULL || *lua_function_name == '\0') {
+      g_free(priv->use_converter);
+      priv->use_converter = NULL;
+      return TRUE;
+  }
+
+  /* The Lua converter is not changed. */
+  if (g_strcmp0 (priv->use_converter, lua_function_name) == 0)
+      return TRUE;
+
   gint i;
   for (i = 0; i < lua_converters->len; ++i) {
     lua_converter_t * converter = &g_array_index
