@@ -79,6 +79,16 @@ public:
         setTooltip (Text (text));
     }
 
+    void setState (IBusPropState state)
+    {
+        ibus_property_set_state (get<IBusProperty> (), state);
+    }
+
+    void setSubProps (IBusPropList *props)
+    {
+        ibus_property_set_sub_props (get<IBusProperty> (), props);
+    }
+
     operator IBusProperty * (void) const
     {
         return get<IBusProperty> ();
