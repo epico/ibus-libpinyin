@@ -101,6 +101,9 @@ public:
 
 public:
     /* write option */
+    virtual gboolean luaConverter (std::string converter)
+    { return FALSE; }
+
     virtual gboolean networkDictionaryStartTimestamp (gint64 timestamp)
     { return FALSE; }
     virtual gboolean networkDictionaryEndTimestamp (gint64 timestamp)

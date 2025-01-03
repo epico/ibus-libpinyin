@@ -39,6 +39,7 @@ protected:
     virtual ~LibPinyinConfig (void);
 
 public:
+    virtual gboolean luaConverter (std::string converter);
     virtual gboolean networkDictionaryStartTimestamp (gint64 timestamp);
     virtual gboolean networkDictionaryEndTimestamp (gint64 timestamp);
 

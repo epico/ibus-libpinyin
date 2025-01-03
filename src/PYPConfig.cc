@@ -116,6 +116,14 @@ LibPinyinConfig::~LibPinyinConfig (void)
 }
 
 gboolean
+LibPinyinConfig::luaConverter (std::string converter)
+{
+    m_lua_converter = converter;
+    return write (CONFIG_LUA_CONVERTER, converter.c_str ());
+}
+
+
+gboolean
 LibPinyinConfig::networkDictionaryStartTimestamp (gint64 timestamp)
 {
     m_network_dictionary_start_timestamp = timestamp;
