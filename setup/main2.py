@@ -296,18 +296,21 @@ class PreferencesDialog:
         self.__shift_select_candidate = self.__builder.get_object("ShiftSelectCandidate")
         self.__minus_equal_page = self.__builder.get_object("MinusEqualPage")
         self.__comma_period_page = self.__builder.get_object("CommaPeriodPage")
+        self.__square_bracket_page = self.__builder.get_object("SquareBracketPage")
         self.__auto_commit = self.__builder.get_object("AutoCommit")
 
         # read values
         self.__shift_select_candidate.set_active(self.__get_value("shift-select-candidate"))
         self.__minus_equal_page.set_active(self.__get_value("minus-equal-page"))
         self.__comma_period_page.set_active(self.__get_value("comma-period-page"))
+        self.__square_bracket_page.set_active(self.__get_value("square-bracket-page"))
         self.__auto_commit.set_active(self.__get_value("auto-commit"))
 
         # connect signals
         self.__shift_select_candidate.connect("toggled", self.__toggled_cb, "shift-select-candidate")
         self.__minus_equal_page.connect("toggled", self.__toggled_cb, "minus-equal-page")
         self.__comma_period_page.connect("toggled", self.__toggled_cb, "comma-period-page")
+        self.__square_bracket_page.connect("toggled", self.__toggled_cb, "square-bracket-page")
         self.__auto_commit.connect("toggled", self.__toggled_cb, "auto-commit")
 
     def __init_correct_pinyin(self):
