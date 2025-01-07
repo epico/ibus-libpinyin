@@ -48,6 +48,7 @@ Config::initDefaultValues (void)
     m_shift_select_candidate = FALSE;
     m_minus_equal_page = TRUE;
     m_comma_period_page = FALSE;
+    m_square_bracket_page = FALSE;
     m_auto_commit = FALSE;
 
     m_double_pinyin = FALSE;

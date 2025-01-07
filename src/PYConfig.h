@@ -62,6 +62,7 @@ public:
     gboolean shiftSelectCandidate (void) const  { return m_shift_select_candidate; }
     gboolean minusEqualPage (void) const        { return m_minus_equal_page; }
     gboolean commaPeriodPage (void) const       { return m_comma_period_page; }
+    gboolean squareBracketPage (void) const     { return m_square_bracket_page; }
     gboolean autoCommit (void) const            { return m_auto_commit; }
     gboolean doublePinyin (void) const          { return m_double_pinyin; }
     DoublePinyinScheme doublePinyinSchema (void) const { return m_double_pinyin_schema; }
@@ -155,6 +156,7 @@ protected:
     gboolean m_shift_select_candidate;
     gboolean m_minus_equal_page;
     gboolean m_comma_period_page;
+    gboolean m_square_bracket_page;
     gboolean m_auto_commit;
 
     gboolean m_double_pinyin;

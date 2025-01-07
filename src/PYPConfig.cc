@@ -44,6 +44,7 @@ const gchar * const CONFIG_SORT_OPTION               = "sort-candidate-option";
 const gchar * const CONFIG_SHIFT_SELECT_CANDIDATE    = "shift-select-candidate";
 const gchar * const CONFIG_MINUS_EQUAL_PAGE          = "minus-equal-page";
 const gchar * const CONFIG_COMMA_PERIOD_PAGE         = "comma-period-page";
+const gchar * const CONFIG_SQUARE_BRACKET_PAGE       = "square-bracket-page";
 const gchar * const CONFIG_AUTO_COMMIT               = "auto-commit";
 const gchar * const CONFIG_DOUBLE_PINYIN             = "double-pinyin";
 const gchar * const CONFIG_DOUBLE_PINYIN_SCHEMA      = "double-pinyin-schema";
@@ -594,6 +595,7 @@ PinyinConfig::readDefaultValues (void)
     m_shift_select_candidate = read (CONFIG_SHIFT_SELECT_CANDIDATE, false);
     m_minus_equal_page = read (CONFIG_MINUS_EQUAL_PAGE, true);
     m_comma_period_page = read (CONFIG_COMMA_PERIOD_PAGE, false);
+    m_square_bracket_page = read (CONFIG_SQUARE_BRACKET_PAGE, false);
     m_auto_commit = read (CONFIG_AUTO_COMMIT, false);
 
     m_lua_extension = read (CONFIG_LUA_EXTENSION, true);
@@ -668,6 +670,8 @@ PinyinConfig::valueChanged (const std::string &schema_id,
         m_minus_equal_page = normalizeGVariant (value, true);
     else if (CONFIG_COMMA_PERIOD_PAGE == name)
         m_comma_period_page = normalizeGVariant (value, false);
+    else if (CONFIG_SQUARE_BRACKET_PAGE == name)
+        m_square_bracket_page = normalizeGVariant (value, false);
     else if (CONFIG_LUA_CONVERTER == name)
         m_lua_converter = normalizeGVariant (value, std::string (""));
     else if (CONFIG_AUTO_COMMIT == name)
