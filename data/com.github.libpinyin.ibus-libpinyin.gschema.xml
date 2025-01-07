@@ -9,6 +9,10 @@
       <default>false</default>
       <summary>Use comma and period to flip page</summary>
     </key>
+    <key name="square-bracket-page" type="b">
+      <default>false</default>
+      <summary>Use square brackets to flip page</summary>
+    </key>
     <key name="correct-pinyin" type="b">
       <default>true</default>
       <summary>Enable correct pinyin</summary>
