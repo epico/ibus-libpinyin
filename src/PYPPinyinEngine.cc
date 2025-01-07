@@ -382,6 +382,9 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
                      /* For full pinyin, "'" is used. */
                      (PinyinConfig::instance ().doublePinyin () &&
                       IBUS_apostrophe == keyval) ||
+                     /* Use square brackets to flip page */
+                     (!PinyinConfig::instance ().squareBracketPage () &&
+                      (IBUS_bracketleft == keyval || IBUS_bracketright == keyval)) ||
                      /* For double pinyin, ";" is used. */
                      (!PinyinConfig::instance ().doublePinyin () &&
                       IBUS_semicolon == keyval)) &&

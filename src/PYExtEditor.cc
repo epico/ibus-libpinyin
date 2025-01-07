@@ -271,6 +271,14 @@ ExtEditor::processPageKey (guint keyval)
             return TRUE;
         }
         break;
+#endif
+    case IBUS_bracketleft:
+        if (m_config.squareBracketPage ()) {
+            pageUp ();
+            return TRUE;
+        }
+        break;
+#if 0
     //For "2.5" input.
     case IBUS_period:
         if (m_config.commaPeriodPage ()) {
@@ -285,6 +293,13 @@ ExtEditor::processPageKey (guint keyval)
             return TRUE;
         }
         break;
+    case IBUS_bracketright:
+        if (m_config.squareBracketPage ()) {
+            pageDown ();
+            return TRUE;
+        }
+        break;
+
     case IBUS_Up:
     case IBUS_KP_Up:
         cursorUp ();

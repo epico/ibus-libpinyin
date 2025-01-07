@@ -135,6 +135,12 @@ TableEditor::processPageKey (guint keyval)
             return TRUE;
         }
         break;
+    case IBUS_bracketleft:
+        if (m_config.squareBracketPage ()) {
+            pageUp ();
+            return TRUE;
+        }
+        break;
     case IBUS_period:
         if (m_config.commaPeriodPage ()) {
             pageDown ();
@@ -143,6 +149,12 @@ TableEditor::processPageKey (guint keyval)
         break;
     case IBUS_equal:
         if (m_config.minusEqualPage ()) {
+            pageDown ();
+            return TRUE;
+        }
+        break;
+    case IBUS_bracketright:
+        if (m_config.squareBracketPage ()) {
             pageDown ();
             return TRUE;
         }
