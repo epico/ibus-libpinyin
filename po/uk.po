@@ -5,11 +5,11 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/libpinyin/ibus-libpinyin/issues/"
 "new\n"
-"POT-Creation-Date: 2024-12-16 11:32+0800\n"
+"POT-Creation-Date: 2025-01-08 11:58+0800\n"
 "PO-Revision-Date: 2024-12-17 08:38+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <https://translate.fedoraproject.org/projects/"
-"ibus-libpinyin/main/uk/>\n"
+"Language-Team: Ukrainian <https://translate.fedoraproject.org/projects/ibus-"
+"libpinyin/main/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,19 +18,19 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.9.1\n"
 
-#: src/PYPConfig.cc:683
+#: src/PYPConfig.cc:695
 msgid "The table file is imported."
 msgstr "Файл таблиці імпортовано."
 
-#: src/PYPConfig.cc:690
+#: src/PYPConfig.cc:702
 msgid "The table file is exported."
 msgstr "Файл таблиці експортовано."
 
-#: src/PYPConfig.cc:702
+#: src/PYPConfig.cc:714
 msgid "The pinyin dictionary file is imported."
 msgstr "Файл словника піньїн імпортовано."
 
-#: src/PYPConfig.cc:709
+#: src/PYPConfig.cc:721
 msgid "The pinyin dictionary file is exported."
 msgstr "Файл словника піньїн експортовано."
 
@@ -54,108 +54,120 @@ msgstr "Бопомофо (діагностика)"
 msgid "Bopomofo input method (debug)"
 msgstr "Спосіб введення бопомофо (діагностика)"
 
-#: src/PYPinyinProperties.cc:39 src/PYPinyinProperties.cc:104
+#: src/PYPinyinProperties.cc:40 src/PYPinyinProperties.cc:128
 #: setup/ibus-libpinyin-preferences.ui:111
 #: setup/ibus-libpinyin-preferences.ui:298
 msgid "Chinese"
 msgstr "Китайська"
 
-#: src/PYPinyinProperties.cc:40 src/PYPinyinProperties.cc:105
+#: src/PYPinyinProperties.cc:41 src/PYPinyinProperties.cc:129
 #: setup/ibus-libpinyin-preferences.ui:107
 #: setup/ibus-libpinyin-preferences.ui:313
 msgid "English"
 msgstr "Англійська"
 
-#: src/PYPinyinProperties.cc:45 src/PYPinyinProperties.cc:116
+#: src/PYPinyinProperties.cc:46 src/PYPinyinProperties.cc:140
 msgid "Switch to English Mode"
 msgstr "Перемкнутися на режим англійської"
 
-#: src/PYPinyinProperties.cc:46 src/PYPinyinProperties.cc:117
+#: src/PYPinyinProperties.cc:47 src/PYPinyinProperties.cc:141
 msgid "Switch to Chinese Mode"
 msgstr "Перемкнутися на режим китайської"
 
-#: src/PYPinyinProperties.cc:50 src/PYPinyinProperties.cc:129
+#: src/PYPinyinProperties.cc:51 src/PYPinyinProperties.cc:153
 msgid "Full Width Letter"
 msgstr "Повноширинна літера"
 
-#: src/PYPinyinProperties.cc:51 src/PYPinyinProperties.cc:130
+#: src/PYPinyinProperties.cc:52 src/PYPinyinProperties.cc:154
 msgid "Half Width Letter"
 msgstr "Півширинна літера"
 
-#: src/PYPinyinProperties.cc:56 src/PYPinyinProperties.cc:135
+#: src/PYPinyinProperties.cc:57 src/PYPinyinProperties.cc:159
 msgid "Switch to Half Width Letter Mode"
 msgstr "Перемкнутися на режим півширинних літер"
 
-#: src/PYPinyinProperties.cc:57 src/PYPinyinProperties.cc:136
+#: src/PYPinyinProperties.cc:58 src/PYPinyinProperties.cc:160
 msgid "Switch to Full Width Letter Mode"
 msgstr "Перемкнутися на режим повноширинних літер"
 
-#: src/PYPinyinProperties.cc:61 src/PYPinyinProperties.cc:145
+#: src/PYPinyinProperties.cc:62 src/PYPinyinProperties.cc:169
 msgid "Full Width Punct"
 msgstr "Повноширинна пунктуація"
 
-#: src/PYPinyinProperties.cc:62 src/PYPinyinProperties.cc:146
+#: src/PYPinyinProperties.cc:63 src/PYPinyinProperties.cc:170
 msgid "Half Width Punct"
 msgstr "Півширинна пунктуація"
 
-#: src/PYPinyinProperties.cc:67 src/PYPinyinProperties.cc:151
+#: src/PYPinyinProperties.cc:68 src/PYPinyinProperties.cc:175
 msgid "Switch to Half Width Punctuation Mode"
 msgstr "Перемкнутися на режим півширинної пунктуації"
 
-#: src/PYPinyinProperties.cc:68 src/PYPinyinProperties.cc:152
+#: src/PYPinyinProperties.cc:69 src/PYPinyinProperties.cc:176
 msgid "Switch to Full Width Punctuation Mode"
 msgstr "Перемкнутися на режим повноширинної пунктуації"
 
-#: src/PYPinyinProperties.cc:72 src/PYPinyinProperties.cc:161
+#: src/PYPinyinProperties.cc:73 src/PYPinyinProperties.cc:185
 msgid "Simplified Chinese"
 msgstr "Спрощена китайська"
 
-#: src/PYPinyinProperties.cc:73 src/PYPinyinProperties.cc:162
+#: src/PYPinyinProperties.cc:74 src/PYPinyinProperties.cc:186
 msgid "Traditional Chinese"
 msgstr "Традиційна китайська"
 
-#: src/PYPinyinProperties.cc:78 src/PYPinyinProperties.cc:167
+#: src/PYPinyinProperties.cc:79 src/PYPinyinProperties.cc:191
 msgid "Switch to Traditional Chinese Mode"
 msgstr "Перемкнутися на режим традиційної китайської"
 
-#: src/PYPinyinProperties.cc:79 src/PYPinyinProperties.cc:168
+#: src/PYPinyinProperties.cc:80 src/PYPinyinProperties.cc:192
 msgid "Switch to Simplfied Chinese Mode"
 msgstr "Перемкнутися на режим спрощеної китайської"
 
-#: src/PYPinyinProperties.cc:82 src/PYPinyinProperties.cc:84
+#: src/PYPinyinProperties.cc:83 src/PYPinyinProperties.cc:85
 #: setup/ibus-libpinyin-preferences.ui:185
 msgid "Preferences"
 msgstr "Параметри"
 
-#: src/PYPinyinProperties.cc:87 src/PYPinyinProperties.cc:108
+#: src/PYPinyinProperties.cc:88 src/PYPinyinProperties.cc:132
 msgid "中"
 msgstr "中"
 
-#: src/PYPinyinProperties.cc:89 src/PYPinyinProperties.cc:110
+#: src/PYPinyinProperties.cc:90 src/PYPinyinProperties.cc:134
 msgid "英"
 msgstr "英"
 
-#: src/PYEnglishEditor.cc:288
+#: src/PYPinyinProperties.cc:270
+msgid "Lua Converter"
+msgstr ""
+
+#: src/PYPinyinProperties.cc:272
+msgid "Use the Lua Convertor"
+msgstr ""
+
+#: src/PYPinyinProperties.cc:279
+msgid "None"
+msgstr ""
+
+#: src/PYEnglishEditor.cc:307
 msgid "Please input the English word."
 msgstr "Будь ласка, введіть слово англійською."
 
-#: src/PYTableEditor.cc:294
+#: src/PYTableEditor.cc:306
 msgid "Please use \"hspnz\" to input."
 msgstr "Будь ласка, використовуйте «hspnz» для введення."
 
-#: src/PYTableEditor.cc:297
+#: src/PYTableEditor.cc:309
 msgid "Please use table code to input."
 msgstr "Будь ласка, скористайтеся кодом таблиці для введення."
 
-#: setup/main2.py:490
+#: setup/main2.py:493
 msgid "Please choose a file"
 msgstr "Будь ласка, виберіть файл"
 
-#: setup/main2.py:511
+#: setup/main2.py:514
 msgid "Please save a file"
 msgstr "Будь ласка, збережіть файл"
 
-#: setup/main2.py:659 setup/ibus-libpinyin-preferences.ui:2834
+#: setup/main2.py:662 setup/ibus-libpinyin-preferences.ui:2850
 #, python-format
 msgid "<big><b>Intelligent Pinyin %s</b></big>"
 msgstr "<big><b>Кмітливий піньїн, %s</b></big>"
@@ -460,7 +472,7 @@ msgid "Keyboard Layout:"
 msgstr "Розкладка клавіатури:"
 
 #: setup/ibus-libpinyin-preferences.ui:819
-#: setup/ibus-libpinyin-preferences.ui:2183
+#: setup/ibus-libpinyin-preferences.ui:2199
 msgid "Tips: Changes may not take effect until ime restarts."
 msgstr "Підказка: зміни набудуть чинності після перезапуску ime."
 
@@ -492,186 +504,191 @@ msgstr "Неповний піньїн"
 msgid "<b>Pinyin mode</b>"
 msgstr "<b>Режим піньїну</b>"
 
-#: setup/ibus-libpinyin-preferences.ui:1041
+#: setup/ibus-libpinyin-preferences.ui:1044
 msgid "[Shift] select candidate"
 msgstr "[Shift] вибрати варіант"
 
-#: setup/ibus-libpinyin-preferences.ui:1051
+#: setup/ibus-libpinyin-preferences.ui:1054
 msgid "[-] [=] flip page"
 msgstr "[-] [=] перегорнути сторінку"
 
-#: setup/ibus-libpinyin-preferences.ui:1066
+#: setup/ibus-libpinyin-preferences.ui:1069
 msgid "[,] [.] flip page"
 msgstr "[,] [.] перегорнути сторінку"
 
-#: setup/ibus-libpinyin-preferences.ui:1081
+#: setup/ibus-libpinyin-preferences.ui:1084
 msgid "Auto commit"
 msgstr "Автонадсилання"
 
-#: setup/ibus-libpinyin-preferences.ui:1110
+#: setup/ibus-libpinyin-preferences.ui:1098
+#, fuzzy
+msgid " [   ]  flip page"
+msgstr "[-] [=] перегорнути сторінку"
+
+#: setup/ibus-libpinyin-preferences.ui:1126
 msgid "<b>Input Custom</b>"
 msgstr "<b>Налаштовування введення</b>"
 
-#: setup/ibus-libpinyin-preferences.ui:1258
+#: setup/ibus-libpinyin-preferences.ui:1274
 msgid "Enable pinyin correction"
 msgstr "Увімкнути виправлення піньїну"
 
-#: setup/ibus-libpinyin-preferences.ui:1294
+#: setup/ibus-libpinyin-preferences.ui:1310
 msgid "<b>Correct pinyin</b>"
 msgstr "<b>Виправлення піньїн</b>"
 
-#: setup/ibus-libpinyin-preferences.ui:1324
-#: setup/ibus-libpinyin-preferences.ui:1763
+#: setup/ibus-libpinyin-preferences.ui:1340
+#: setup/ibus-libpinyin-preferences.ui:1779
 msgid "Enable Cloud Input"
 msgstr "Увімкнути «хмарне» введення"
 
-#: setup/ibus-libpinyin-preferences.ui:1348
-#: setup/ibus-libpinyin-preferences.ui:1787
+#: setup/ibus-libpinyin-preferences.ui:1364
+#: setup/ibus-libpinyin-preferences.ui:1803
 msgid "Source From:"
 msgstr "Джерело:"
 
-#: setup/ibus-libpinyin-preferences.ui:1393
-#: setup/ibus-libpinyin-preferences.ui:1832
+#: setup/ibus-libpinyin-preferences.ui:1409
+#: setup/ibus-libpinyin-preferences.ui:1848
 msgid "<b>Cloud Input Option</b>"
 msgstr "<b>Параметр «хмарного» введення</b>"
 
-#: setup/ibus-libpinyin-preferences.ui:1415
+#: setup/ibus-libpinyin-preferences.ui:1431
 msgid "Pinyin mode"
 msgstr "Режим піньїну"
 
-#: setup/ibus-libpinyin-preferences.ui:1454
+#: setup/ibus-libpinyin-preferences.ui:1470
 msgid "Incomplete Bopomofo"
 msgstr "Неповний бопомофо"
 
-#: setup/ibus-libpinyin-preferences.ui:1477
+#: setup/ibus-libpinyin-preferences.ui:1493
 msgid "Keyboard Mapping:"
 msgstr "Прив’язка клавіатури:"
 
-#: setup/ibus-libpinyin-preferences.ui:1520
+#: setup/ibus-libpinyin-preferences.ui:1536
 msgid "<b>Bopomofo mode</b>"
 msgstr "<b>Режим бопомофо</b>"
 
-#: setup/ibus-libpinyin-preferences.ui:1556
+#: setup/ibus-libpinyin-preferences.ui:1572
 msgid "Selection Keys:"
 msgstr "Клавіші вибору:"
 
-#: setup/ibus-libpinyin-preferences.ui:1593
+#: setup/ibus-libpinyin-preferences.ui:1609
 msgid "Enable Guidekey for Candidates Selection"
 msgstr "Увімкнути напрямну клавішу для вибору варіанта"
 
-#: setup/ibus-libpinyin-preferences.ui:1610
+#: setup/ibus-libpinyin-preferences.ui:1626
 msgid "Enable Auxiliary Select Keys F1 .. F10"
 msgstr "Увімкнути допоміжні клавіші вибору F1 .. F10"
 
-#: setup/ibus-libpinyin-preferences.ui:1627
+#: setup/ibus-libpinyin-preferences.ui:1643
 msgid "Enable Auxiliary Select Keys Numbers on Keypad"
 msgstr ""
 "Увімкнути допоміжні клавіші вибору номерів на цифровій панелі клавіатури"
 
-#: setup/ibus-libpinyin-preferences.ui:1650
+#: setup/ibus-libpinyin-preferences.ui:1666
 msgid "<b>Selection mode</b>"
 msgstr "<b>Режим позначення</b>"
 
-#: setup/ibus-libpinyin-preferences.ui:1682
+#: setup/ibus-libpinyin-preferences.ui:1698
 msgid "Feature of Enter key:"
 msgstr "Робота клавіші Enter:"
 
-#: setup/ibus-libpinyin-preferences.ui:1693
+#: setup/ibus-libpinyin-preferences.ui:1709
 msgid "Commit first candidate"
 msgstr "Надіслати перший варіант"
 
-#: setup/ibus-libpinyin-preferences.ui:1711
+#: setup/ibus-libpinyin-preferences.ui:1727
 msgid "Commit original text"
 msgstr "Надіслати початковий текст"
 
-#: setup/ibus-libpinyin-preferences.ui:1733
+#: setup/ibus-libpinyin-preferences.ui:1749
 msgid "<b>Other</b>"
 msgstr "<b>Інше</b>"
 
-#: setup/ibus-libpinyin-preferences.ui:1854
+#: setup/ibus-libpinyin-preferences.ui:1870
 msgid "Bopomofo mode"
 msgstr "Режим бопомофо"
 
-#: setup/ibus-libpinyin-preferences.ui:2016
+#: setup/ibus-libpinyin-preferences.ui:2032
 msgid "Enable fuzzy syllable"
 msgstr "Увімкнути неточні склади"
 
-#: setup/ibus-libpinyin-preferences.ui:2117
+#: setup/ibus-libpinyin-preferences.ui:2133
 msgid "Fuzzy syllable"
 msgstr "Неточні склади"
 
-#: setup/ibus-libpinyin-preferences.ui:2206
+#: setup/ibus-libpinyin-preferences.ui:2222
 msgid "<b>Dictionary option</b>"
 msgstr "<b>Параметр словника</b>"
 
-#: setup/ibus-libpinyin-preferences.ui:2228
+#: setup/ibus-libpinyin-preferences.ui:2244
 msgid "Dictionary"
 msgstr "Словник"
 
-#: setup/ibus-libpinyin-preferences.ui:2269
+#: setup/ibus-libpinyin-preferences.ui:2285
 msgid "Lua Extension"
 msgstr "Розширення Lua"
 
-#: setup/ibus-libpinyin-preferences.ui:2283
+#: setup/ibus-libpinyin-preferences.ui:2299
 msgid "Table Mode"
 msgstr "Режим таблиці"
 
-#: setup/ibus-libpinyin-preferences.ui:2297
+#: setup/ibus-libpinyin-preferences.ui:2313
 msgid "English Mode"
 msgstr "Режим англійської"
 
-#: setup/ibus-libpinyin-preferences.ui:2311
+#: setup/ibus-libpinyin-preferences.ui:2327
 msgid "English Candidate"
 msgstr "Варіант з англійської"
 
-#: setup/ibus-libpinyin-preferences.ui:2325
+#: setup/ibus-libpinyin-preferences.ui:2341
 msgid "Emoji Candidate"
 msgstr "Варіант з емодзі"
 
-#: setup/ibus-libpinyin-preferences.ui:2339
+#: setup/ibus-libpinyin-preferences.ui:2355
 msgid "Suggestion Candidate"
 msgstr "Варіант з пропозицій"
 
-#: setup/ibus-libpinyin-preferences.ui:2359
+#: setup/ibus-libpinyin-preferences.ui:2375
 msgid "<b>Input Modes</b>"
 msgstr "<b>Режими введення</b>"
 
-#: setup/ibus-libpinyin-preferences.ui:2390
+#: setup/ibus-libpinyin-preferences.ui:2406
 msgid "User Lua Script"
 msgstr "Скрипт користувача мовою Lua"
 
-#: setup/ibus-libpinyin-preferences.ui:2400
+#: setup/ibus-libpinyin-preferences.ui:2416
 msgid "Edit"
 msgstr "Змінити"
 
-#: setup/ibus-libpinyin-preferences.ui:2420
+#: setup/ibus-libpinyin-preferences.ui:2436
 msgid "<b>Customize IME</b>"
 msgstr "<b>Налаштовування IME</b>"
 
-#: setup/ibus-libpinyin-preferences.ui:2455
-#: setup/ibus-libpinyin-preferences.ui:2639
+#: setup/ibus-libpinyin-preferences.ui:2471
+#: setup/ibus-libpinyin-preferences.ui:2655
 msgid "Export"
 msgstr "Експортувати"
 
-#: setup/ibus-libpinyin-preferences.ui:2470
-#: setup/ibus-libpinyin-preferences.ui:2654
+#: setup/ibus-libpinyin-preferences.ui:2486
+#: setup/ibus-libpinyin-preferences.ui:2670
 msgid "Import"
 msgstr "Імпортувати"
 
-#: setup/ibus-libpinyin-preferences.ui:2486
+#: setup/ibus-libpinyin-preferences.ui:2502
 msgid "User Dictionary"
 msgstr "Словник користувача"
 
-#: setup/ibus-libpinyin-preferences.ui:2511
+#: setup/ibus-libpinyin-preferences.ui:2527
 msgid "Clear All Data"
 msgstr "Вилучити усі дані"
 
-#: setup/ibus-libpinyin-preferences.ui:2531
-#: setup/ibus-libpinyin-preferences.ui:2684
+#: setup/ibus-libpinyin-preferences.ui:2547
+#: setup/ibus-libpinyin-preferences.ui:2700
 msgid "Clear"
 msgstr "Спорожнити"
 
-#: setup/ibus-libpinyin-preferences.ui:2559
+#: setup/ibus-libpinyin-preferences.ui:2575
 msgid ""
 "<b>Dictionary File Format:</b>\n"
 "  Each line contains one of the following:\n"
@@ -683,20 +700,20 @@ msgstr ""
 "    «фраза піньїн» або «фраза піньїн частота»\n"
 "  Приклади: «你好 ni'hao» або «你好 ni'hao 5»."
 
-#: setup/ibus-libpinyin-preferences.ui:2572
-#: setup/ibus-libpinyin-preferences.ui:2722
+#: setup/ibus-libpinyin-preferences.ui:2588
+#: setup/ibus-libpinyin-preferences.ui:2738
 msgid "Help"
 msgstr "Довідка"
 
-#: setup/ibus-libpinyin-preferences.ui:2590
+#: setup/ibus-libpinyin-preferences.ui:2606
 msgid "<b>User Dictionary</b>"
 msgstr "<b>Словник користувача</b>"
 
-#: setup/ibus-libpinyin-preferences.ui:2626
+#: setup/ibus-libpinyin-preferences.ui:2642
 msgid "User Table"
 msgstr "Таблиця користувача"
 
-#: setup/ibus-libpinyin-preferences.ui:2712
+#: setup/ibus-libpinyin-preferences.ui:2728
 msgid ""
 "<b>Table File Format:</b>\n"
 "  Each line contains the following:\n"
@@ -706,31 +723,31 @@ msgstr ""
 "  Кожен рядок має містити такі дані:\n"
 "      «код_таблиці фраза частота», приклад: «a 啊 100»."
 
-#: setup/ibus-libpinyin-preferences.ui:2740
+#: setup/ibus-libpinyin-preferences.ui:2756
 msgid "<b>User Table</b>"
 msgstr "<b>Таблиця користувача</b>"
 
-#: setup/ibus-libpinyin-preferences.ui:2762
+#: setup/ibus-libpinyin-preferences.ui:2778
 msgid "User data"
 msgstr "Дані користувача"
 
-#: setup/ibus-libpinyin-preferences.ui:2792
+#: setup/ibus-libpinyin-preferences.ui:2808
 msgid "Shortcuts"
 msgstr "Скорочення"
 
-#: setup/ibus-libpinyin-preferences.ui:2848
+#: setup/ibus-libpinyin-preferences.ui:2864
 msgid "Intelligent Pinyin input method for IBus"
 msgstr "Кмітливий спосіб введення піньїн для IBus"
 
-#: setup/ibus-libpinyin-preferences.ui:2861
+#: setup/ibus-libpinyin-preferences.ui:2877
 msgid "<small>Copyright (c) 2011-2024 Peng Wu</small>"
 msgstr "<small>© Peng Wu, 2011–2012</small>"
 
-#: setup/ibus-libpinyin-preferences.ui:2874
+#: setup/ibus-libpinyin-preferences.ui:2890
 msgid "https://github.com/libpinyin/ibus-libpinyin"
 msgstr "https://github.com/libpinyin/ibus-libpinyin"
 
-#: setup/ibus-libpinyin-preferences.ui:2891
+#: setup/ibus-libpinyin-preferences.ui:2907
 msgid ""
 "<small>\n"
 "<b>Authors:</b>\n"
@@ -758,7 +775,7 @@ msgstr ""
 "koterpilla, Zerng07, Hillwood Yang\n"
 "</small>"
 
-#: setup/ibus-libpinyin-preferences.ui:2931
+#: setup/ibus-libpinyin-preferences.ui:2947
 msgid "About"
 msgstr "Про програму"
 
