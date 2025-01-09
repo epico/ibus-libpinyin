@@ -21,7 +21,9 @@
 #include <libintl.h>
 #include "PYText.h"
 #include "PYConfig.h"
+#ifdef IBUS_BUILD_LUA_EXTENSION
 #include "lua-plugin.h"
+#endif
 
 namespace PY {
 
