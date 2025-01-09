@@ -39,6 +39,11 @@ public:
               IBusPropList  *props = NULL)
         : Object (ibus_property_new (key, type, label, icon, tooltip, sensitive, visible, state, props)) { }
 
+    const gchar * getKey (void)
+    {
+        return ibus_property_get_key (get<IBusProperty> ());
+    }
+
     void setLabel (IBusText *text)
     {
         ibus_property_set_label (get<IBusProperty> (), text);
