@@ -438,6 +438,9 @@ PinyinEngine::processKeyEvent (guint keyval, guint keycode, guint modifiers)
                         m_input_mode != MODE_INIT &&
                         m_editors[m_input_mode]->text ().empty ()))
             m_input_mode = MODE_INIT;
+
+        if (G_UNLIKELY (!retval && m_input_mode == MODE_SUGGESTION))
+            m_input_mode = MODE_INIT;
     }
 
     if (G_UNLIKELY (!retval))
