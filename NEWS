@@ -1,3 +1,12 @@
+version 1.15.94
+* notify user when import file finished
+* display lua converters in ibus panel
+* support square bracket page option
+
+version 1.15.93
+* fix the about icon in setup dialog
+* support custom keyboard layout option
+
 version 1.15.92
 * support punctuation candidate
 
