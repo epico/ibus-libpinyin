@@ -236,6 +236,7 @@ PinyinProperties::propertyActivate (const gchar *prop_name, guint prop_state) {
         return TRUE;
     }
 
+#ifdef IBUS_BUILD_LUA_EXTENSION
     const int len = strlen("LuaConverter.");
     if (0 == strncmp (prop_name, "LuaConverter.", len)) {
         if (prop_state == PROP_STATE_CHECKED) {
@@ -257,6 +258,7 @@ PinyinProperties::propertyActivate (const gchar *prop_name, guint prop_state) {
 
         return TRUE;
     }
+#endif
 
     return FALSE;
 }
