@@ -167,7 +167,12 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
 
     guint16 begin = 0;
     pinyin_get_pinyin_key_rest_positions (instance, pos, &begin, NULL);
-    m_editor->m_cursor = begin;
+
+    /* The cursor is at the end of the text input. */
+    if (m_editor->m_cursor == m_editor->m_text.length ())
+        m_editor->m_lookup_cursor = begin;
+    else
+        m_editor->m_cursor = begin;
 
     return SELECT_CANDIDATE_UPDATE;
 }

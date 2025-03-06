@@ -73,6 +73,8 @@ BopomofoEditor::insert (gint ch)
         return TRUE;
 
     m_text.insert (m_cursor++, ch);
+    m_lookup_cursor = 0;
+
     updatePinyin ();
     update ();
 

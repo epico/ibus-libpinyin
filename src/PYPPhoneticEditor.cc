@@ -31,6 +31,7 @@ PhoneticEditor::PhoneticEditor (PinyinProperties &props,
     : Editor (props, config),
     m_pinyin_len (0),
     m_lookup_table (m_config.pageSize ()),
+    m_lookup_cursor (0),
     m_libpinyin_candidates (this),
 #ifdef IBUS_BUILD_LUA_EXTENSION
     m_lua_trigger_candidates (this),
@@ -379,12 +380,13 @@ PhoneticEditor::getPinyinCursor ()
 guint
 PhoneticEditor::getLookupCursor (void)
 {
-    guint lookup_cursor = getPinyinCursor ();
+    guint pinyin_cursor = getPinyinCursor ();
 
-    /* show candidates when pinyin cursor is at end. */
-    if (lookup_cursor == m_text.length ())
-        lookup_cursor = 0;
-    return lookup_cursor;
+    /* show candidates when pinyin cursor is at the end. */
+    if (m_cursor == m_text.length ())
+        return m_lookup_cursor;
+
+    return pinyin_cursor;
 }
 
 int
@@ -564,6 +566,8 @@ PhoneticEditor::removeCharBefore (void)
         return FALSE;
 
     m_cursor --;
+    m_lookup_cursor = 0;
+
     m_text.erase (m_cursor, 1);
 
     updatePinyin ();
@@ -579,6 +583,7 @@ PhoneticEditor::removeCharAfter (void)
         return FALSE;
 
     m_text.erase (m_cursor, 1);
+    m_lookup_cursor = 0;
 
     updatePinyin ();
     update ();
@@ -593,6 +598,8 @@ PhoneticEditor::moveCursorLeft (void)
         return FALSE;
 
     m_cursor --;
+    m_lookup_cursor = 0;
+
     update ();
     return TRUE;
 }
@@ -604,6 +611,8 @@ PhoneticEditor::moveCursorRight (void)
         return FALSE;
 
     m_cursor ++;
+    m_lookup_cursor = 0;
+
     update ();
     return TRUE;
 }
@@ -615,6 +624,8 @@ PhoneticEditor::moveCursorToBegin (void)
         return FALSE;
 
     m_cursor = 0;
+    m_lookup_cursor = 0;
+
     update ();
     return TRUE;
 }
@@ -626,6 +637,8 @@ PhoneticEditor::moveCursorToEnd (void)
         return FALSE;
 
     m_cursor = m_text.length ();
+    m_lookup_cursor = 0;
+
     update ();
     return TRUE;
 }
@@ -670,6 +683,8 @@ PhoneticEditor::removeWordBefore (void)
     guint cursor = getCursorLeftByWord ();
     m_text.erase (cursor, m_cursor - cursor);
     m_cursor = cursor;
+    m_lookup_cursor = 0;
+
     updatePinyin ();
     update ();
     return TRUE;
@@ -683,6 +698,8 @@ PhoneticEditor::removeWordAfter (void)
 
     guint cursor = getCursorRightByWord ();
     m_text.erase (m_cursor, cursor - m_cursor);
+    m_lookup_cursor = 0;
+
     updatePinyin ();
     update ();
     return TRUE;
@@ -697,6 +714,8 @@ PhoneticEditor::moveCursorLeftByWord (void)
     guint cursor = getCursorLeftByWord ();
 
     m_cursor = cursor;
+    m_lookup_cursor = 0;
+
     update ();
     return TRUE;
 }
@@ -710,6 +729,8 @@ PhoneticEditor::moveCursorRightByWord (void)
     guint cursor = getCursorRightByWord ();
 
     m_cursor = cursor;
+    m_lookup_cursor = 0;
+
     update ();
     return TRUE;
 }

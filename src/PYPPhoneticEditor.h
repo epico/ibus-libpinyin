@@ -117,6 +117,7 @@ protected:
     /* varibles */
     guint                       m_pinyin_len;
     LookupTable                 m_lookup_table;
+    guint                       m_lookup_cursor;
     String                      m_buffer;
 
     /* use LibPinyinBackEnd here. */
