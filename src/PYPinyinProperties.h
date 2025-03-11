@@ -92,6 +92,10 @@ private:
 public:
     gboolean setLuaPlugin (IBusEnginePlugin *plugin);
 
+    void toggleLuaConverter (const int prefix_len,
+                             const gchar *prop_name,
+                             guint prop_state);
+
     gboolean appendLuaConverter (void);
 #endif
 };

@@ -239,23 +239,7 @@ PinyinProperties::propertyActivate (const gchar *prop_name, guint prop_state) {
 #ifdef IBUS_BUILD_LUA_EXTENSION
     const int len = strlen("LuaConverter.");
     if (0 == strncmp (prop_name, "LuaConverter.", len)) {
-        if (prop_state == PROP_STATE_CHECKED) {
-            std::string name = prop_name + len;
-            if (name == "None")
-                m_config.luaConverter ("");
-            else
-                m_config.luaConverter (name);
-        }
-
-        for (auto iter = m_props_lua_converter_vec.begin ();
-             iter != m_props_lua_converter_vec.end (); ++iter) {
-            Property *prop = *iter;
-            if (0 == g_strcmp0 (prop->getKey (), prop_name)) {
-                prop->setState ((IBusPropState) prop_state);
-                updateProperty (*prop);
-            }
-        }
-
+        toggleLuaConverter (len, prop_name, prop_state);
         return TRUE;
     }
 #endif
@@ -268,6 +252,28 @@ gboolean
 PinyinProperties::setLuaPlugin (IBusEnginePlugin *plugin) {
     m_lua_plugin = plugin;
     return TRUE;
+}
+
+void
+PinyinProperties::toggleLuaConverter (const int prefix_len,
+                                      const gchar *prop_name,
+                                      guint prop_state) {
+    if (prop_state == PROP_STATE_CHECKED) {
+        std::string name = prop_name + prefix_len;
+        if (name == "None")
+            m_config.luaConverter ("");
+        else
+            m_config.luaConverter (name);
+    }
+
+    for (auto iter = m_props_lua_converter_vec.begin ();
+         iter != m_props_lua_converter_vec.end (); ++iter) {
+        Property *prop = *iter;
+        if (0 == g_strcmp0 (prop->getKey (), prop_name)) {
+            prop->setState ((IBusPropState) prop_state);
+            updateProperty (*prop);
+        }
+    }
 }
 
 gboolean
