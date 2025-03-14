@@ -319,8 +319,10 @@ TableDatabase::importTable (const char *filename){
     }
 
     m_sql = "COMMIT;";
-    if (!executeSQL (m_sqlite))
+    if (!executeSQL (m_sqlite)) {
+        fclose (input);
         return FALSE;
+    }
 
     fclose (input);
     return TRUE;

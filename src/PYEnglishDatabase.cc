@@ -45,6 +45,8 @@ EnglishDatabase::init ()
         (PKGDATADIR G_DIR_SEPARATOR_S "db" G_DIR_SEPARATOR_S "english.db", path);
     if (!result)
         g_warning ("can't open English word list database.\n");
+
+    g_free (path);
 }
 
 
