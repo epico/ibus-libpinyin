@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: install build dependency
-      run: sudo dnf install -y gettext python3-gobject gcc-c++ gettext-devel libtool pkgconfig sqlite-devel libuuid-devel lua-devel python3-devel json-glib-devel libsoup3-devel desktop-file-utils ibus-devel libpinyin-devel libnotify-devel make gnome-common which
+      run: sudo dnf install -y gettext python3-gobject gcc-c++ gettext-devel libtool pkgconfig sqlite-devel libuuid-devel lua-devel python3-devel json-glib-devel libsoup3-devel desktop-file-utils ibus-devel libpinyin-devel libnotify-devel make gnome-common which awk
     - name: autoconf
       run: ./autogen.sh
     - name: configure
