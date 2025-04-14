@@ -77,7 +77,8 @@ PinyinEngine::PinyinEngine (IBusEngine *engine)
 
 #ifdef IBUS_BUILD_LUA_EXTENSION
     m_props.setLuaPlugin (m_lua_plugin);
-    m_props.appendLuaConverter ();
+    if (PinyinConfig::instance ().luaExtension ())
+        m_props.appendLuaConverter ();
 #endif
 
     m_editors[MODE_PUNCT].reset
