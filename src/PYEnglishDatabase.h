@@ -59,7 +59,7 @@ private:
 private:
     sqlite3 *m_sqlite;
     String m_sql;
-    const char *m_user_db;
+    gchar *m_user_db;
 
     guint m_timeout_id;
     GTimer *m_timer;

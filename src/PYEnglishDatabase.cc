@@ -54,7 +54,7 @@ EnglishDatabase::init ()
 EnglishDatabase::EnglishDatabase(){
     m_sqlite = NULL;
     m_sql = "";
-    m_user_db = "";
+    m_user_db = NULL;
     m_timeout_id = 0;
     m_timer = g_timer_new ();
 }
@@ -71,6 +71,7 @@ EnglishDatabase::~EnglishDatabase(){
         m_sqlite = NULL;
     }
     m_sql = "";
+    g_free (m_user_db);
     m_user_db = NULL;
 }
 
@@ -166,7 +167,7 @@ EnglishDatabase::openDatabase(const char *system_db, const char *user_db){
             return FALSE;
     }
     /* cache the user db name. */
-    m_user_db = user_db;
+    m_user_db = g_strdup (user_db);
 
     /* do database attach here. :) */
     if (sqlite3_open_v2 (system_db, &m_sqlite,
