@@ -19,6 +19,10 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
@@ -87,8 +91,7 @@ static int ime_get_last_commit(lua_State* L){
 }
 
 static int ime_get_version(lua_State* L){
-  /* TODO: replace this with C macros. */
-  lua_pushliteral(L, "ibus-libpinyin 1.4.0");
+  lua_pushliteral(L, PACKAGE_STRING);
   return 1;
 }
 
