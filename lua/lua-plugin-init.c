@@ -99,7 +99,7 @@ static int ime_int_to_hex_string(lua_State* L){
     luaL_Buffer buf;
     luaL_buffinit(L, &buf);
 
-    gchar * str = g_strdup_printf("%0*x", width, val);
+    gchar * str = g_strdup_printf("%0*x", (int)width, (int)val);
     luaL_addstring(&buf, str);
     g_free(str);
 
