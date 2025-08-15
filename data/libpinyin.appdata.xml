@@ -16,7 +16,6 @@
     </p>
   </description>
   <url type="homepage">https://github.com/libpinyin/ibus-libpinyin</url>
-  <compulsory_for_desktop>GNOME</compulsory_for_desktop>
   <project_group>GNOME</project_group>
   <developer_name>The GNOME Project</developer_name>
   <url type="bugtracker">https://code.google.com/p/ibus/issues/list</url>
