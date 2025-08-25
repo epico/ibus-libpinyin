@@ -470,11 +470,9 @@ class PreferencesDialog:
 
         self.__frame_lua_script = self.__builder.get_object("frameLuaScript")
         if lua_visible:
-            if self.__get_value("lua-extension"):
-                self.__edit_lua = self.__builder.get_object("EditLua")
-                self.__edit_lua.connect("clicked", self.__edit_lua_cb)
-            else:
-                self.__frame_lua_script.set_sensitive(False)
+            self.__frame_lua_script.set_sensitive(self.__get_value("lua-extension"))
+            self.__edit_lua = self.__builder.get_object("EditLua")
+            self.__edit_lua.connect("clicked", self.__edit_lua_cb)
         else:
             self.__frame_lua_script.hide()
 
