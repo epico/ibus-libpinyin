@@ -572,12 +572,14 @@ class PreferencesDialog:
         if filename:
             self.__set_value(name, "")
             self.__set_value(name, filename)
+            self.__set_value(name, "")
 
     def __export_dictionary_cb(self, widget, name):
         filename = self.__get_export_filename()
         if filename:
             self.__set_value(name, "")
             self.__set_value(name, filename)
+            self.__set_value(name, "")
 
     def __clear_user_data_cb(self, widget, name):
         self.__set_value("clear-user-data", name)
@@ -587,6 +589,7 @@ class PreferencesDialog:
         if filename:
             self.__set_value(name, "")
             self.__set_value(name, filename)
+            self.__set_value(name, "")
             self.__set_value("use-custom-table", True)
 
     def __export_table_cb(self, widget, name):
@@ -594,6 +597,7 @@ class PreferencesDialog:
         if filename:
             self.__set_value(name, "")
             self.__set_value(name, filename)
+            self.__set_value(name, "")
 
     def __clear_user_table_cb(self, widget, name, value):
         self.__set_value(name, value)
