@@ -36,7 +36,6 @@ libexec_SCRIPTS = \
 CLEANFILES = \
 	*.pyc \
 	config.py \
-	Makefile.in \
 	Makefile \
 	$(NULL)
 
