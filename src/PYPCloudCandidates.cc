@@ -217,6 +217,7 @@ public:
     GoogleCloudCandidatesResponseJsonParser (CloudInputSource input_source) : CloudCandidatesResponseJsonParser (input_source) {}
 };
 
+#if 0
 class BaiduCloudCandidatesResponseJsonParser : public CloudCandidatesResponseJsonParser
 {
 private:
@@ -318,6 +319,7 @@ public:
 public:
     BaiduCloudCandidatesResponseJsonParser (CloudInputSource input_source) : CloudCandidatesResponseJsonParser (input_source) {}
 };
+#endif
 
 CloudCandidates::CloudCandidates (PhoneticEditor * editor) : m_input_mode(FullPinyin)
 {
@@ -328,7 +330,7 @@ CloudCandidates::CloudCandidates (PhoneticEditor * editor) : m_input_mode(FullPi
     m_message = NULL;
     m_cancel_message = NULL;
 
-    m_input_source = CLOUD_INPUT_SOURCE_BAIDU;
+    m_input_source = CLOUD_INPUT_SOURCE_GOOGLE_CN;
     m_parser = NULL;
     resetCloudResponseParser ();
 
@@ -380,10 +382,8 @@ CloudCandidates::resetCloudResponseParser ()
 
     m_input_source = input_source;
 
-    if (input_source == CLOUD_INPUT_SOURCE_BAIDU)
-        m_parser = new BaiduCloudCandidatesResponseJsonParser (input_source);
-    else if (input_source == CLOUD_INPUT_SOURCE_GOOGLE ||
-             input_source == CLOUD_INPUT_SOURCE_GOOGLE_CN)
+    if (input_source == CLOUD_INPUT_SOURCE_GOOGLE ||
+        input_source == CLOUD_INPUT_SOURCE_GOOGLE_CN)
         m_parser = new GoogleCloudCandidatesResponseJsonParser (input_source);
 }
 

@@ -195,7 +195,7 @@ LibPinyinConfig::initDefaultValues (void)
 
     m_enable_cloud_input = FALSE;
     m_cloud_candidates_number = 1;
-    m_cloud_input_source = CLOUD_INPUT_SOURCE_BAIDU;
+    m_cloud_input_source = CLOUD_INPUT_SOURCE_GOOGLE_CN;
     m_cloud_request_delay_time = 600;
 }
 
@@ -242,9 +242,8 @@ static const struct{
     gint cloud_input_source_index;
     CloudInputSource cloud_input_source;
 } cloud_input_source_options [] = {
-    {0, CLOUD_INPUT_SOURCE_BAIDU},
-    {1, CLOUD_INPUT_SOURCE_GOOGLE},
-    {2, CLOUD_INPUT_SOURCE_GOOGLE_CN}
+    {0, CLOUD_INPUT_SOURCE_GOOGLE},
+    {1, CLOUD_INPUT_SOURCE_GOOGLE_CN}
 };
 
 void
@@ -357,7 +356,7 @@ LibPinyinConfig::readDefaultValues (void)
 
     /* set cloud input source option. */
     index = read (CONFIG_CLOUD_INPUT_SOURCE, 0);
-    m_cloud_input_source = CLOUD_INPUT_SOURCE_BAIDU;
+    m_cloud_input_source = CLOUD_INPUT_SOURCE_GOOGLE_CN;
     for (guint i = 0; i < G_N_ELEMENTS (cloud_input_source_options); i++) {
         if (index == cloud_input_source_options[i].cloud_input_source_index) {
             m_cloud_input_source = cloud_input_source_options[i].cloud_input_source;
@@ -453,7 +452,7 @@ LibPinyinConfig::valueChanged (const std::string &schema_id,
     }
     else if (CONFIG_CLOUD_INPUT_SOURCE == name) {
         const gint index = normalizeGVariant (value, 0);
-        m_cloud_input_source = CLOUD_INPUT_SOURCE_BAIDU;
+        m_cloud_input_source = CLOUD_INPUT_SOURCE_GOOGLE_CN;
 
         /* set cloud input source option. */
         for (guint i = 0; i < G_N_ELEMENTS (cloud_input_source_options); i++) {

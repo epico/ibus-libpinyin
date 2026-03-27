@@ -40,7 +40,6 @@ typedef enum {
 } DisplayStyle;
 
 enum CloudInputSource{
-    CLOUD_INPUT_SOURCE_BAIDU,
     CLOUD_INPUT_SOURCE_GOOGLE,
     CLOUD_INPUT_SOURCE_GOOGLE_CN
 };

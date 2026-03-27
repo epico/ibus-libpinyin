@@ -254,7 +254,7 @@
       <summary>Enable Cloud Input</summary>
     </key>
     <key name="cloud-input-source" type="i">
-      <default>0</default>
+      <default>1</default>
       <summary>Cloud Input Source</summary>
     </key>
     <key name="cloud-candidates-number" type="i">
