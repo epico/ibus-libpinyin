@@ -35,8 +35,6 @@ libexec_SCRIPTS = \
 
 CLEANFILES = \
 	*.pyc \
-	config.py \
-	Makefile \
 	$(NULL)
 
 EXTRA_DIST = \
