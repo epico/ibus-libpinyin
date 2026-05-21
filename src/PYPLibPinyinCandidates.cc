@@ -113,8 +113,7 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
         guint8 index = 0;
         pinyin_get_candidate_nbest_index(instance, candidate, &index);
 
-        if (index != 0)
-            pinyin_train (instance, index);
+        pinyin_train (instance, index);
 
         pinyin_get_sentence (instance, index, &str);
         if (m_editor->m_config.rememberEveryInput ())
