@@ -369,7 +369,7 @@
       <summary>Init full punctuation</summary>
     </key>
     <key name="init-simplified-chinese" type="b">
-      <default>true</default>
+      <default>false</default>
       <summary>Init Simplified Chinese</summary>
     </key>
     <key name="main-switch" type="s">
