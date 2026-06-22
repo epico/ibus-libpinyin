@@ -148,7 +148,7 @@ LibPinyinCandidates::selectCandidate (EnhancedCandidate & enhanced)
 
     pinyin_guess_sentence (instance);
 
-    if (lookup_cursor == m_editor->m_text.length ()) {
+    if (lookup_cursor == pinyin_get_parsed_input_length (instance)) {
         pinyin_get_sentence (instance, 0, &str);
         enhanced.m_display_string = str;
         pinyin_train (instance, 0);
